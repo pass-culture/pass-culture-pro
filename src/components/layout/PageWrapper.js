@@ -35,7 +35,8 @@ class PageWrapper extends Component {
       .concat(children)
       .filter(e => e && e.type !== 'header' && e.type !== 'footer')
     return [
-      !noHeader && <Header key='header' {...header} />,
+      whiteHeader && <Header key='header' whiteHeader/>,
+      !noHeader && !whiteHeader && <Header key='header' {...header} />,
       <Tag
         className={classnames({
           page: true,
@@ -43,7 +44,6 @@ class PageWrapper extends Component {
           'with-header': Boolean(header),
           'with-footer': Boolean(footer),
           'red-bg': redBg,
-          'white-bg': whiteBg,
           'no-padding': noPadding,
           container: !noContainer,
           loading,
