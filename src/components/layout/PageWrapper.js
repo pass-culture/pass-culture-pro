@@ -24,19 +24,19 @@ class PageWrapper extends Component {
       noContainer,
       noHeader,
       noPadding,
-      backButton,
       children,
       loading,
       notification,
-      whiteBg
-    } = this.props
+      whiteHeader
+    } = props
     const footer = [].concat(children).find(e => e && e.type === 'footer')
     const content = []
       .concat(children)
       .filter(e => e && e.type !== 'header' && e.type !== 'footer')
     return [
-      whiteHeader && <Header key='header' whiteHeader/>,
-      !noHeader && !whiteHeader && <Header key='header' {...header} />,
+      whiteHeader
+        ? <Header key='header' whiteHeader/>
+        : !noHeader && <Header key='header' {...header} />,
       <Tag
         className={classnames({
           page: true,
