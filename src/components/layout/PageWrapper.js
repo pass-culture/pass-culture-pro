@@ -28,7 +28,7 @@ class PageWrapper extends Component {
       loading,
       notification,
       whiteHeader
-    } = props
+    } = this.props
     const footer = [].concat(children).find(e => e && e.type === 'footer')
     const content = []
       .concat(children)
