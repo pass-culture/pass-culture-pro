@@ -27,10 +27,11 @@ class OccurenceForm extends Component {
     const {
       beginningDatetimeMoment
     } = (occurence || {})
-    const date = moment(
-      beginningDatetimeMoment && beginningDatetimeMoment.format('MM/DD/YYYY')
+    const date = beginningDatetimeMoment && moment(
+       beginningDatetimeMoment.format('MM/DD/YYYY')
     )
-    const time = beginningDatetimeMoment.format('H:mm')
+    const time = beginningDatetimeMoment &&
+      beginningDatetimeMoment.format('H:mm')
     return {
       date,
       time
@@ -63,6 +64,7 @@ class OccurenceForm extends Component {
       date,
       time
     } = this.state
+    console.log('currentOccasion', currentOccasion)
     return (
       <tr className='occurence-form'>
         <td>
@@ -129,6 +131,7 @@ class OccurenceForm extends Component {
             getBody={form => {
               const eo = get(form, `eventOccurencesById.${eventOccurenceIdOrNew}`)
               const endDatetime = beginningDatetime.add(durationMinutes, 'minutes')
+              console.log('EVENTID', id)
               return Object.assign({
                 beginningDatetime,
                 endDatetime,

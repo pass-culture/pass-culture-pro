@@ -30,6 +30,7 @@ class FormTextarea extends Component {
         id={id}
         onChange={this.onChange}
         placeholder={placeholder}
+        readOnly={readOnly}
         ref={_element => (this._element = _element)}
         value={value || defaultValue || ''}
         readOnly={readOnly}

@@ -9,6 +9,7 @@ export default createSelector(
   (state, ownProps) => ownProps.match.params.occasionPath,
   (state, ownProps) => ownProps.match.params.occasionId,
   (occasions, occasionPath, occasionId) => {
+    console.log('ON RESELECTE', occasionPath, occasionId, occasions)
     if (!occasions) { return }
     const currentOccasion = occasions.find(o =>
         occasionPath === modelToPath(o.modelName) &&

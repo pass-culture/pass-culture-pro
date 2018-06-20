@@ -75,15 +75,25 @@ class OfferPage extends Component {
   handleShowOccurencesModal = () => {
     const {
       currentOccasion,
+      match,
       selectedVenueId,
       showModal
     } = this.props
     const {
       occurences
     } = (currentOccasion || {})
+
+
+    console.log(
+      'showModal',
+      'currentOccasion',
+      currentOccasion,
+      match
+    )
+
     showModal(
       selectedVenueId
-        ? <OccurenceManager {...this.props} />
+        ? <OccurenceManager />
         : (
           <div>
             Vous devez déjà avoir sélectionné une structure et un lieu
@@ -171,7 +181,7 @@ class OfferPage extends Component {
   }
 
   componentWillUnmount () {
-    console.log('OUEI')
+    this.props.resetForm()
   }
 
   handleMergeForm = () => {
