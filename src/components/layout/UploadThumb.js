@@ -125,6 +125,7 @@ class UploadThumb extends Component {
       zoom
     } = this.state
 
+    console.log('UOLOAD', 'width', width)
     return (
       <div className='field'>
         <div className={classnames('upload-thumb', className)}>

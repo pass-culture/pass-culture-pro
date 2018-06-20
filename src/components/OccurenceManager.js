@@ -1,11 +1,13 @@
 import get from 'lodash.get'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { compose } from 'redux'
+import { withRouter } from 'react-router'
 
 import OccurenceForm from './OccurenceForm'
 import OccurenceItem from './OccurenceItem'
-import withCurrentOccasion from './hocs/withCurrentOccasion'
 import { mergeForm } from '../reducers/form'
+import selectCurrentMediation from '../selectors/currentMediation'
 import selectCurrentOccurences from '../selectors/currentOccurences'
 import { NEW } from '../utils/config'
 
@@ -64,8 +66,12 @@ class OccurenceManager extends Component {
   }
 }
 
-export default connect(
-  (state, ownProps) => ({
-    currentOccurences: selectCurrentOccurences(state, ownProps)
-  })
+export default compose(
+  withRouter,
+  connect(
+    (state, ownProps) => ({
+      currentOccurences: selectCurrentOccurences(state, ownProps),
+      currentMediation: selectCurrentMediation(state, ownProps)
+    })
+  )
 )(OccurenceManager)
