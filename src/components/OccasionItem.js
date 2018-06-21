@@ -1,6 +1,5 @@
 import classnames from 'classnames'
 import get from 'lodash.get'
-import moment from 'moment'
 import React, { Component } from 'react'
 import Dotdotdot from 'react-dotdotdot'
 import { connect } from 'react-redux'
@@ -56,6 +55,8 @@ class OccasionItem extends Component {
     const {
       event,
       id,
+      isActive,
+      isNew,
       thing
     } = (occasion || {})
     const {
@@ -72,9 +73,15 @@ class OccasionItem extends Component {
       groupSizeMax,
       priceMin,
       priceMax,
-      thumbUrl
+      thumbUrl,
+      type,
     } = (occasionItem || {})
+<<<<<<< HEAD
     const mediationsLength = get(mediations, 'length')
+=======
+    const { path } = this.state
+    const hasMediations = get(mediations, 'length')
+>>>>>>> add isNew attribute to collections
     return (
       <li className={classnames('occasion-item', { active: isActive })}>
         <Thumb alt='offre' src={thumbUrl} />
@@ -83,8 +90,8 @@ class OccasionItem extends Component {
             <Dotdotdot clamp={1}>{name}</Dotdotdot>
           </NavLink>
           <ul className='infos'>
-            {moment(createdAt).isAfter(moment().add(-1, 'days')) && <li><div className='recently-added'></div></li>}
-            <li className='is-uppercase'>{get(eventType, 'label')}</li>
+            {isNew && <li><div className='recently-added'></div></li>}
+            <li className='is-uppercase'>{type}</li>
             <li className='has-text-primary'>{pluralize(get(occurences, 'length'), 'date')}</li>
             <li>{maxDate && `jusqu'au ${maxDate.format('DD/MM/YYYY')}`}</li>
             {groupSizeMin > 0 && <li>{groupSizeMin === groupSizeMax ? groupSizeMin : `entre ${groupSizeMin} et ${groupSizeMax} personnes`}</li>}
@@ -93,7 +100,7 @@ class OccasionItem extends Component {
           </ul>
           <ul className='actions'>
             <li>
-              <NavLink  to={`offres/${id}${mediationsLength ? '' : '/accroches/nouveau'}`} className={`button is-small ${mediationsLength ? 'is-secondary' : 'is-primary is-outlined'}`}>
+              <NavLink  to={`offres/${id}${hasMediations ? '' : '/accroches/nouveau'}`} className={`button is-small ${hasMediations ? 'is-secondary' : 'is-primary is-outlined'}`}>
                 <span className='icon'><Icon svg='ico-stars' /></span>
                 <span>{get(mediations, 'length') ? 'Accroches' : 'Ajouter une Accroche'}</span>
               </NavLink>

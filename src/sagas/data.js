@@ -4,6 +4,7 @@ import { failData, successData } from '../reducers/data'
 import { assignErrors } from '../reducers/errors'
 import { fetchData } from '../utils/request'
 
+import { collectionWithIsNew } from '../utils/time'
 
 function* fromWatchRequestDataActions(action) {
   // UNPACK
@@ -21,6 +22,9 @@ function* fromWatchRequestDataActions(action) {
   // TOKEN
   const token = yield type && select(state => state.data[`${type}Token`])
 
+  // LAST_QUERY
+  const dateLastQuery = yield select(state => state.lastQueryTracker[path])
+
   // DATA
   try {
 
@@ -34,7 +38,7 @@ function* fromWatchRequestDataActions(action) {
 
     // SUCCESS OR FAIL
     if (result.data) {
-      yield put(successData(method, path, result.data, config))
+      yield put(successData(method, path, collectionWithIsNew(result.data, dateLastQuery), config))
 
     } else {
       console.warn(result.errors)

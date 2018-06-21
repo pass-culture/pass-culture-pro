@@ -9,6 +9,7 @@ import modal from './modal'
 import notification from './notification'
 import queries from './queries'
 import splash from './splash'
+import lastQueryTracker from './lastQueryTracker'
 import user from './user'
 
 const rootReducer = combineReducers({
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   notification,
   queries,
   splash,
+  lastQueryTracker,
   user,
 })
 

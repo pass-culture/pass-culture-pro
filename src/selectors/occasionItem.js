@@ -10,9 +10,8 @@ export default (
   selectMediations,
   (state, ownProps) => get(ownProps, 'occasion.thumbPath'),
   (state, ownProps) => get(ownProps, 'occasion.event.occurences'),
+  (state, ownProps) => get(ownProps, 'occasion.thumbPath'),
   (mediations, thumbPath, occurences) => {
-
-    console.log('mediations', mediations)
 
     const occasionItem = {
       thumbUrl: get(mediations, '0')
