@@ -4,7 +4,7 @@ import { failData, successData } from '../reducers/data'
 import { assignErrors } from '../reducers/errors'
 import { fetchData } from '../utils/request'
 
-import { collectionWithIsNew } from '../utils/time'
+import { dataWithIsNew } from '../utils/time'
 
 function* fromWatchRequestDataActions(action) {
   // UNPACK
@@ -38,7 +38,7 @@ function* fromWatchRequestDataActions(action) {
 
     // SUCCESS OR FAIL
     if (result.data) {
-      yield put(successData(method, path, collectionWithIsNew(result.data, dateLastQuery), config))
+      yield put(successData(method, path, dataWithIsNew(result.data, dateLastQuery), config))
 
     } else {
       console.warn(result.errors)

@@ -1,4 +1,3 @@
-import moment from 'moment'
 // ACTIONS
 export const SET_USER = 'SET_USER'
 
