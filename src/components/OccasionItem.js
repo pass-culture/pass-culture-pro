@@ -76,12 +76,7 @@ class OccasionItem extends Component {
       thumbUrl,
       type,
     } = (occasionItem || {})
-<<<<<<< HEAD
-    const mediationsLength = get(mediations, 'length')
-=======
-    const { path } = this.state
     const hasMediations = get(mediations, 'length')
->>>>>>> add isNew attribute to collections
     return (
       <li className={classnames('occasion-item', { active: isActive })}>
         <Thumb alt='offre' src={thumbUrl} />
