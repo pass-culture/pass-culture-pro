@@ -48,7 +48,6 @@ class OccasionItem extends Component {
 
   render() {
     const {
-      isActive,
       occasionItem,
       occasion,
     } = this.props

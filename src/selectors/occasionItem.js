@@ -11,7 +11,7 @@ export default (
   selectTypes,
   (state, ownProps) => get(ownProps, 'occasion.type'),
   selectMediations,
-  (state, ownProps) => get(ownProps, 'occasion.thumbPath')
+  (state, ownProps) => get(ownProps, 'occasion.thumbPath'),
   (state, ownProps) => get(ownProps, 'occasion.thumbPath'),
   (state, ownProps) => get(ownProps, 'occasion.event.occurences'),
   (state, ownProps) => get(ownProps, 'occasion.thumbPath'),
