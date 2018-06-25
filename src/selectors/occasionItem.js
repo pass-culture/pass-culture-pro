@@ -2,19 +2,23 @@ import get from 'lodash.get'
 import moment from 'moment'
 import { createSelector } from 'reselect'
 
+import selectTypes from './types'
 import { API_URL, THUMBS_URL } from '../utils/config'
 
 export default (
   selectMediations
 ) => createSelector(
+  selectTypes,
+  (state, ownProps) => get(ownProps, 'occasion.type'),
   selectMediations,
   (state, ownProps) => get(ownProps, 'occasion.thumbPath'),
+  (state, ownProps) => get(ownProps, 'occasion.thumbPath'),
   (state, ownProps) => get(ownProps, 'occasion.event.occurences'),
-  (mediations, thumbPath, occurences) => {
-
-    console.log('mediations', mediations)
+  (state, ownProps) => get(ownProps, 'occasion.thumbPath'),
+  (types, type, mediations, thumbPath, occurences) => {
 
     const occasionItem = {
+      type: types && get(types.find(({ tag }) => tag === type), 'label'),
       thumbUrl: get(mediations, '0')
         ? `${THUMBS_URL}/mediations/${mediations[0].id}`
         : `${API_URL}${thumbPath}`

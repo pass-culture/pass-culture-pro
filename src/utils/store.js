@@ -1,5 +1,6 @@
 import { applyMiddleware, compose, createStore } from 'redux'
 import createSagaMiddleware from 'redux-saga'
+import persistState from 'redux-localstorage'
 
 import init from './init'
 import rootReducer from '../reducers'
@@ -18,7 +19,10 @@ const composeEnhancers =
 
 const storeEnhancer = composeEnhancers(
   ...enhancers,
-  applyMiddleware(...middlewares)
+  applyMiddleware(...middlewares),
+  persistState('lastQueryTracker', {
+    key: 'PassCulturePro'
+  }),
 )
 
 // STORE

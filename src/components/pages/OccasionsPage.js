@@ -21,7 +21,11 @@ class OccasionsPage extends Component {
       requestData,
       user
     } = this.props
-    user && requestData(
+    if (!user) {
+      return
+    }
+    requestData('GET', 'types') // TODO: consider adding type label to `occasion` serialization
+    requestData(
       'GET',
       'occasions',
       {
