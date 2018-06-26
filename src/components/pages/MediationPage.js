@@ -12,10 +12,10 @@ import SubmitButton from '../layout/SubmitButton'
 import UploadThumb from '../layout/UploadThumb'
 import { assignData } from '../../reducers/data'
 import { showNotification } from '../../reducers/notification'
-import { selectCurrentEvent } from '../../selectors/event'
-import { selectCurrentMediation } from '../../selectors/mediation'
-import selectOfferer from '../../selectors/offerer'
-import { selectCurrentThing } from '../../selectors/thing'
+import selectCurrentEvent from '../../selectors/currentEvent'
+import selectCurrentMediation from '../../selectors/currentMediation'
+import selectCurrentThing from '../../selectors/currentThing'
+import selectCurrentOfferer from '../../selectors/currentOfferer'
 import { mediationNormalizer } from '../../utils/normalizers'
 
 const uploadExplanation = `
@@ -168,8 +168,6 @@ class MediationPage extends Component {
     const isNew = mediationId === 'nouveau'
     const backPath = `/offres/${occasionId}`
 
-    console.log('offerer', offerer)
-
     return (
       <PageWrapper name='mediation' backTo={{path: backPath, label: 'Revenir à l\'offre'}}>
         <section className='section hero'>
@@ -293,9 +291,9 @@ export default compose(
   withCurrentOccasion,
   connect(
     (state, ownProps) => ({
-      event: selectCurrentThing(state, ownProps),
+      event: selectCurrentEvent(state, ownProps),
       mediation: selectCurrentMediation(state, ownProps),
-      offerer: selectOfferer(state, ownProps),
+      offerer: selectCurrentOfferer(state, ownProps),
       thing: selectCurrentThing(state, ownProps)
     }),
     { assignData, showNotification }

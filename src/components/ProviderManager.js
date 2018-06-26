@@ -10,9 +10,10 @@ import SubmitButton from './layout/SubmitButton'
 import VenueProviderItem from './VenueProviderItem'
 import { requestData } from '../reducers/data'
 import { mergeForm } from '../reducers/form'
-import selectVenue from '../selectors/venue'
+import selectCurrentVenue from '../selectors/currentVenue'
 import selectProviderOptions from '../selectors/providerOptions'
 import selectSelectedProvider from '../selectors/selectedProvider'
+import selectCurrentVenueProviders from '../selectors/currentVenueProviders'
 import { NEW } from '../utils/config'
 
 class ProviderManager extends Component {
@@ -102,11 +103,9 @@ class ProviderManager extends Component {
     const {
       selectedProvider,
       providerOptions,
-      venue
-    } = this.props
-    const {
+      venue,
       venueProviders
-    } = (venue || {})
+    } = this.props
     const {
       identifierDescription,
       identifierRegexp,
@@ -213,7 +212,8 @@ export default compose(
       providers: state.data.providers,
       selectedProvider: selectSelectedProvider(state, ownProps),
       user: state.user,
-      venue: selectVenue(state, ownProps)
+      venue: selectCurrentVenue(state, ownProps),
+      venueProviders: selectCurrentVenueProviders(state, ownProps)
     }),
     { mergeForm, requestData }
   )

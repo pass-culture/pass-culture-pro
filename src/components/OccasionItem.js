@@ -10,15 +10,14 @@ import Price from './Price'
 import Icon from './layout/Icon'
 import Thumb from './layout/Thumb'
 import { requestData } from '../reducers/data'
-import createSelectEvent from '../selectors/event'
-import createSelectMediations from '../selectors/mediations'
-import createSelectMaxDate from '../selectors/maxDate'
-import createSelectCurrentThing from '../selectors/thing'
-import createSelectOccurences from '../selectors/occurences'
-import createSelectStock from '../selectors/stock'
-import createSelectThumbUrl from '../selectors/thumbUrl'
+import createSelectEvent from '../selectors/createEvent'
+import createSelectMediations from '../selectors/createMediations'
+import createSelectMaxDate from '../selectors/createMaxDate'
+import createSelectCurrentThing from '../selectors/createThing'
+import createSelectOccurences from '../selectors/createOccurences'
+import createSelectStock from '../selectors/createStock'
+import createSelectThumbUrl from '../selectors/createThumbUrl'
 import { pluralize } from '../utils/string'
-import { modelToPath } from '../utils/translate'
 import { occasionNormalizer } from '../utils/normalizers'
 
 class OccasionItem extends Component {
@@ -50,12 +49,20 @@ class OccasionItem extends Component {
       )
   }
 
+  onDeleteClick = () => {
+    const {
+      occasion,
+      requestData,
+    } = this.props
+    const { id } = (occasion || {})
+    requestData('DELETE', `occasions/${id}`, { key: 'occasions' })
+  }
+
   render() {
     const {
       event,
       isActive,
       mediations,
-      occasionItem,
       occasion,
       occurences,
       stock,
@@ -110,6 +117,10 @@ class OccasionItem extends Component {
               </NavLink>
             </li>
           </ul>
+        </div>
+        <div className="is-pulled-right" key={2}>
+          <button className="delete is-small"
+            onClick={this.onDeleteClick} />
         </div>
       </li>
     )

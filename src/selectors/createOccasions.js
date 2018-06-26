@@ -1,20 +1,24 @@
 import get from 'lodash.get'
-import moment from 'moment'
 import { createSelector } from 'reselect'
 
-import selectTypes from './types'
-
-export default createSelector(
+export default selectVenues => createSelector(
   state => state.data.occasions,
   state => state.data.searchedOccasions,
   (state, ownProps) => get(ownProps, 'match.params.venueId'),
-  (occasions, searchedOccasions, venueId) => {
+  selectVenues || (() => null),
+  (occasions, searchedOccasions, venueId, venues) => {
     if (!occasions && !searchedOccasions) return
 
     let filteredOccasions = [...(searchedOccasions || occasions)]
 
     if (venueId) {
-      filteredOccasions = filteredOccasions.filter(o => o.venueId === venueId)
+      filteredOccasions = filteredOccasions.filter(o =>
+        o.venueId === venueId)
+    }
+    if (venues) {
+      const venueIds = venues.map(v => v.id)
+      filteredOccasions = filteredOccasions.filter(o =>
+        venueIds.includes(o.venueId))
     }
 
     return filteredOccasions

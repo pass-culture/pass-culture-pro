@@ -90,7 +90,7 @@ class VenueProviderItem extends Component {
             </div>
           )
         }
-        <div className="is-pulled-right" key={2}>
+        <div className="is-pulled-right">
           <button className="delete is-small"
             onClick={this.onDeleteClick} />
         </div>

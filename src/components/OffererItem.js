@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 
 import Icon from './layout/Icon'
-import createSelectOccasions from '../selectors/occasions'
-import createSelectVenues from '../selectors/venues'
+import createSelectOccasions from '../selectors/createOccasions'
+import createSelectVenues from '../selectors/createVenues'
 
 
 const OffererItem = ({
@@ -76,7 +76,7 @@ const OffererItem = ({
                 <Icon svg='picto-structure' /> Ajouter un lieu
               </NavLink>
               </li>
-            ])
+            ]
           }
         </ul>
       </div>

@@ -1,12 +1,13 @@
+import get from 'lodash.get'
 import React, { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
-import get from 'lodash.get'
 
-import { requestData } from '../reducers/data'
-import selectVenues from '../selectors/venues'
 import VenueItem from './VenueItem'
+import { requestData } from '../reducers/data'
+import selectCurrentVenues from '../selectors/currentVenues'
+
 
 class VenuesList extends Component {
 
@@ -62,7 +63,7 @@ export default compose(
   connect(
     (state, ownProps) => ({
       user: state.user,
-      venues: selectVenues(state, ownProps)
+      venues: selectCurrentVenues(state, ownProps)
     }),
     { requestData }
   )

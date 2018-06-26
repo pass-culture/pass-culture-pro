@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import OccurenceForm from './OccurenceForm'
 import OccurenceItem from './OccurenceItem'
-import { selectCurrentOccurences } from '../selectors/occurences'
+import selectCurrentOccurences from '../selectors/currentOccurences'
 
 class OccurenceManager extends Component {
   constructor () {

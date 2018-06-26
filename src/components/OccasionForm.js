@@ -10,7 +10,7 @@ import FormField from './layout/FormField'
 import Label from './layout/Label'
 import { mergeForm } from '../reducers/form'
 import { closeModal, showModal } from '../reducers/modal'
-import { selectCurrentOccurences } from '../selectors/occurences'
+import selectCurrentOccurences from '../selectors/currentOccurences'
 import selectOffererOptions from '../selectors/offererOptions'
 import selectSelectedOffererId from '../selectors/selectedOffererId'
 import selectSelectedVenueId from '../selectors/selectedVenueId'
@@ -21,7 +21,7 @@ class OccasionForm extends Component {
 
   handleShowOccurencesModal = () => {
     const {
-      currentOccasion,
+      occasion,
       history,
       match: { params: { modalType } },
       routePath,
@@ -33,7 +33,7 @@ class OccasionForm extends Component {
     }
 
     showModal(
-      <OccurenceManager currentOccasion={currentOccasion} />,
+      <OccurenceManager occasion={occasion} />,
       {
         onCloseClick: () => history.push(routePath)
       }
@@ -56,13 +56,12 @@ class OccasionForm extends Component {
 
   render () {
     const {
-      currentOccasion,
       isEventType,
       isNew,
       isReadOnly,
+      occasion,
       occasionIdOrNew,
       occurences,
-      offerForm,
       offererOptions,
       routePath,
       selectedOffererId,
@@ -73,7 +72,7 @@ class OccasionForm extends Component {
     const {
       event,
       thing
-    } = (currentOccasion || {})
+    } = (occasion || {})
     const {
       author,
       contactName,
@@ -117,7 +116,9 @@ class OccasionForm extends Component {
                         className='button is-primary is-outlined is-small'
                         to={`${routePath}/dates`}
                       >
-                        <span className='icon'><Icon svg='ico-calendar' /></span>
+                        <span className='icon'>
+                          <Icon svg='ico-calendar' />
+                        </span>
                         <span>Gérer les dates</span>
                       </NavLink>
                     </div>

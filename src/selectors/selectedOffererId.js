@@ -7,10 +7,10 @@ import selectFormOccasion from './formOccasion'
 export default createSelector(
   selectOfferers,
   selectFormOccasion,
-  (state, ownProps) => get(ownProps, 'currentOccasion.offererId'),
-  (offerers, formOccasion, currentOffererId) => {
+  (state, ownProps) => get(ownProps, 'occasion.offererId'),
+  (offerers, formOccasion, offererId) => {
     return get(formOccasion, 'offererId') ||
-      currentOffererId ||
+      offererId ||
       (get(offerers, 'length') === 1 && get(offerers, '0.id'))
   }
 )

@@ -4,7 +4,7 @@ import { createSelector } from 'reselect'
 
 import selectSelectedVenueId from './selectedVenueId'
 
-const createSelectOccurences = () => createSelector(
+export default () => createSelector(
   state => state.data.eventOccurences,
   selectSelectedVenueId,
   (state, ownProps) => get(ownProps, 'occasion.eventId'),
@@ -39,7 +39,3 @@ const createSelectOccurences = () => createSelector(
     return filteredOccurences
   }
 )
-
-export default createSelectOccurences
-
-export const selectCurrentOccurences = createSelectOccurences()

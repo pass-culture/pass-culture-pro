@@ -3,9 +3,7 @@ import { createSelector } from 'reselect'
 
 import { API_URL, THUMBS_URL } from '../utils/config'
 
-export default (
-  selectMediations
-) => createSelector(
+export default selectMediations => createSelector(
   selectMediations,
   (state, ownProps) => get(ownProps, 'occasion.thumbPath'),
   (mediations, thumbPath) =>

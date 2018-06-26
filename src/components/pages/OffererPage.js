@@ -12,7 +12,7 @@ import PageWrapper from '../layout/PageWrapper'
 import SubmitButton from '../layout/SubmitButton'
 import { closeNotification, showNotification } from '../../reducers/notification'
 import { resetForm } from '../../reducers/form'
-import selectOfferer from '../../selectors/offerer'
+import selectCurrentOfferer from '../../selectors/currentOfferer'
 import { NEW } from '../../utils/config'
 
 
@@ -268,7 +268,7 @@ export default compose(
   withLogin({ isRequired: true }),
   connect(
     (state, ownProps) => ({
-      offerer: selectOfferer(state, ownProps),
+      offerer: selectCurrentOfferer(state, ownProps),
     }),
     {
       closeNotification,

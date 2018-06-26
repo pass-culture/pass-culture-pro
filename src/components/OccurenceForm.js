@@ -5,10 +5,8 @@ import { connect } from 'react-redux'
 
 import FormField from './layout/FormField'
 import SubmitButton from './layout/SubmitButton'
-import { mergeForm } from '../reducers/form'
-import { selectCurrentEvent } from '../selectors/event'
-import { selectCurrentOccurences } from '../selectors/occurences'
-import { selectCurrentVenue } from '../selectors/venue'
+import selectCurrentEvent from '../selectors/currentEvent'
+import selectCurrentVenue from '../selectors/currentVenue'
 import { NEW } from '../utils/config'
 import { getIsDisabled } from '../utils/form'
 
@@ -27,13 +25,16 @@ class OccurenceForm extends Component {
       occurence
     } = nextProps
     const {
+      beginningDatetime,
       id
     } = (occurence || {})
     return {
       apiPath: `eventOccurences${id ? `/${id}` : ''}`,
+      date: beginningDatetime && moment(beginningDatetime),
       highlightedDates: occurences &&
         occurences.map(o => moment(o.beginningDatetime)),
-      method: id ? 'PATCH' : 'POST'
+      method: id ? 'PATCH' : 'POST',
+      time: beginningDatetime && moment(beginningDatetime).format('HH:mm')
     }
   }
 
@@ -42,17 +43,12 @@ class OccurenceForm extends Component {
       event,
       occasion,
       occurence,
-      occurences,
       onDeleteClick,
       venue,
     } = this.props
     const {
       id,
-      available,
-      eventOccurence,
-      selectedVenueId,
       price,
-      beginningDatetime,
       groupSize,
       pmrGroupSize
     } = occurence || {}
@@ -61,19 +57,19 @@ class OccurenceForm extends Component {
     } = (occasion || {})
     const {
       apiPath,
+      date,
       highlightedDates,
-      method
+      method,
+      time
     } = this.state
     const eventOccurenceIdOrNew = id || NEW
-
-    console.log('venue', venue)
 
     return (
       <tr className='occurence-form'>
         <td>
           <FormField
             collectionName="eventOccurences"
-            defaultValue={beginningDatetime && moment(beginningDatetime)}
+            defaultValue={date}
             entityId={eventOccurenceIdOrNew}
             name="date"
             required
@@ -86,7 +82,7 @@ class OccurenceForm extends Component {
           <FormField
             className='is-small'
             collectionName="eventOccurences"
-            defaultValue={beginningDatetime && moment(beginningDatetime).format('HH:mm')}
+            defaultValue={time}
             entityId={eventOccurenceIdOrNew}
             name="time"
             required
@@ -135,21 +131,20 @@ class OccurenceForm extends Component {
             className="button is-primary is-small"
             getBody={form => {
               const eo = get(form, `eventOccurencesById.${eventOccurenceIdOrNew}`)
-              const [hour, minute] = eo.time.split(':')
-              const beginningDatetime = eo.date.set({
+              console.log('SDQSD', eo.time, eo.date)
+              const [hour, minute] = (time || eo.time).split(':')
+              const beginningDatetime = (date || eo.date).set({
                 hour,
                 minute,
               })
-              const endDatetime = beginningDatetime.clone().add(durationMinutes, 'minutes')
-              return {
+              const endDatetime = beginningDatetime.clone()
+                .add(durationMinutes, 'minutes')
+              return Object.assign({
                 beginningDatetime: beginningDatetime.format(), // ignores the GMT part of the date
                 endDatetime: endDatetime.format(),
-                groupSize: eo.groupSize,
-                pmrGroupSize: eo.pmrGroupSize,
-                price: eo.price,
                 eventId: get(event, 'id'),
                 venueId: get(venue, 'id'),
-              }
+              }, eo)
             }}
             getIsDisabled={form => getIsDisabled(
               get(form, `eventOccurencesById.${eventOccurenceIdOrNew}`),
@@ -179,6 +174,6 @@ class OccurenceForm extends Component {
 export default connect(
   (state, ownProps) => ({
     event: selectCurrentEvent(state, ownProps),
-    venue: selectCurrentVenue(state, ownProps),
+    venue: selectCurrentVenue(state, ownProps)
   })
 )(OccurenceForm)

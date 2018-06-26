@@ -3,7 +3,7 @@ import { createSelector } from 'reselect'
 
 import selectSelectedOfferererId from './selectedOffererId'
 
-const createSelectVenues = () => createSelector(
+export default () => createSelector(
   state => state.data.venues,
   (state, ownProps) => get(ownProps, 'match.params.offererId'),
   (state, ownProps) => get(ownProps, 'offerer.id'),
@@ -23,6 +23,3 @@ const createSelectVenues = () => createSelector(
     return filteredVenues
   }
 )
-export default createSelectVenues
-
-export const selectVenues = createSelectVenues()

@@ -4,9 +4,8 @@ import { withRouter } from 'react-router'
 import { compose } from 'redux'
 
 import { requestData } from '../../reducers/data'
-import { selectCurrentOccasion } from '../../selectors/occasion'
+import selectCurrentOccasion from '../../selectors/currentOccasion'
 import { NEW } from '../../utils/config'
-import { pathToCollection } from '../../utils/translate'
 import { occasionNormalizer } from '../../utils/normalizers'
 
 const withCurrentOccasion = WrappedComponent => {
@@ -57,14 +56,30 @@ const withCurrentOccasion = WrappedComponent => {
     static getDerivedStateFromProps (nextProps) {
       const {
         occasion,
-        match: { params: { occasionId } },
+        match: {
+          params: {
+            occasionId,
+            offererId,
+            venueId
+          }
+        },
       } = nextProps
       const {
         id
       } = (occasion || {})
       const isNew = occasionId === 'nouveau'
       const apiPath = `occasions${isNew ? '' : `/${occasionId}`}`
-      const routePath = `/offres${isNew ? '' : `/${occasionId}`}`
+      let routePath = '/'
+      if (offererId) {
+        routePath = `${routePath}structures/${offererId}/`
+      }
+      if (venueId) {
+        routePath = `${routePath}lieux/${venueId}/`
+      }
+      routePath = `${routePath}offres`
+      if (isNew) {
+        routePath = `${routePath}/nouveau`
+      }
       return {
         apiPath,
         isLoading: !(id || isNew),

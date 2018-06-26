@@ -1,9 +1,7 @@
 import moment from 'moment'
 import { createSelector } from 'reselect'
 
-export default (
-  selectOccurences
-) => createSelector(
+export default selectOccurences => createSelector(
   selectOccurences,
   occurences =>
     occurences && occurences.map(o =>

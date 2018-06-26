@@ -3,22 +3,20 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 
-import createSelectVenueItem from '../selectors/venueItem'
+import createSelectVenueOccasions from '../selectors/createVenueOccasions'
 import Icon from './layout/Icon'
 
 const VenueItem = ({
-  venue,
-  venueItem
+  occasions,
+  venue
 }) => {
   const {
     address,
     id,
     managingOffererId,
     name,
+
   } = (venue || {})
-  const {
-    occasions
-  } = (venueItem || {})
   const showPath = `/structures/${managingOffererId}/lieux/${id}`
   return (
     <li className="venue-item">
@@ -67,9 +65,9 @@ const VenueItem = ({
 
 export default connect(
   () => {
-    const selectVenueItem = createSelectVenueItem()
+    const selectVenueOccasions = createSelectVenueOccasions()
     return (state, ownProps) => ({
-      venueItem: selectVenueItem(state, ownProps)
+      occasions: selectVenueOccasions(state, ownProps)
     })
   }
 )(VenueItem)

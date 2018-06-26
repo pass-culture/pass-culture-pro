@@ -6,13 +6,13 @@ import { NEW } from '../utils/config'
 export default createSelector(
   state => get(state, 'form.eventOccurencesById'),
   (state, ownProps) => ownProps.isNew,
-  (state, ownProps) => get(ownProps, 'currentOccasion.id'),
-  (state, ownProps) => get(ownProps, 'currentOccasion.occurences'),
-  (eventOccurencesById, isNew, currentOccasionId, occurences=[]) => {
+  (state, ownProps) => get(ownProps, 'occurence.id'),
+  (state, ownProps) => get(ownProps, 'occasion.occurences'),
+  (eventOccurencesById, isNew, occurenceId, occurences) => {
 
     const eventOccurenceIdOrNew = isNew
       ? NEW
-      : currentOccasionId
+      : occurenceId
 
     const eventOccurenceForm = get(eventOccurencesById,
       eventOccurenceIdOrNew)
