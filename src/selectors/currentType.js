@@ -1,6 +1,12 @@
 import { createSelector } from 'reselect'
 
+import selectCurrentEvent from './currentEvent'
+import selectCurrentThing from './currentThing'
 import createSelectType from './createType'
-import selectCurrentTypeTag from './currentTypeTag'
+import selectCurrentTypeLabel from './currentTypeLabel'
 
-export default createSelectType(selectCurrentTypeTag)
+export default createSelectType(
+  selectCurrentEvent,
+  selectCurrentThing,
+  selectCurrentTypeLabel
+)
