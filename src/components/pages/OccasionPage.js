@@ -14,7 +14,9 @@ import SubmitButton from '../layout/SubmitButton'
 import { resetForm } from '../../reducers/form'
 import { closeModal, showModal } from '../../reducers/modal'
 import { showNotification } from '../../reducers/notification'
-import selectSelectedType from '../../selectors/selectedType'
+import selectCurrentEvent from '../../selectors/currentEvent'
+import selectCurrentThing  from '../../selectors/currentThing'
+import selectCurrentType from '../../selectors/currentType'
 import selectSelectedVenueId from '../../selectors/selectedVenueId'
 import { eventNormalizer } from '../../utils/normalizers'
 
@@ -41,16 +43,17 @@ class OccasionPage extends Component {
 
   static getDerivedStateFromProps (nextProps) {
     const {
-      currentMediation,
+      currentType,
       location: { search },
+      mediation,
       isNew,
-      selectedType,
     } = nextProps
     const {
       id
-    } = (currentMediation || {})
+    } = (mediation || {})
     const isEdit = search === '?modifie'
-    const isEventType = (selectedType || '').split('.')[0] === 'EventType'
+    console.log('currentType', currentType)
+    const isEventType = get(currentType, 'model') === 'EventType'
     const isReadOnly = !isNew && !isEdit
     const apiPath = isEventType
       ? `events${id ? `/${id}` : ''}`
@@ -110,7 +113,6 @@ class OccasionPage extends Component {
     const {
       closeModal,
       history,
-      occasionForm,
       selectedVenueId,
       showModal,
       showNotification
@@ -179,22 +181,17 @@ class OccasionPage extends Component {
 
   render () {
     const {
-      currentOccasion,
+      event,
       isLoading,
       isNew,
       location: { pathname },
       occasionIdOrNew,
-      occasionForm,
       routePath,
-      selectedType,
+      currentType,
+      thing,
       typeOptions,
     } = this.props
     const {
-      event,
-      thing
-    } = (currentOccasion || {})
-    const {
-      id,
       name
     } = (event || thing || {})
     const {
@@ -237,7 +234,7 @@ class OccasionPage extends Component {
           />
           <FormField
             collectionName='occasions'
-            defaultValue={selectedType}
+            defaultValue={get(currentType, 'value')}
             entityId={occasionIdOrNew}
             isHorizontal
             label={<Label title="Type :" />}
@@ -250,7 +247,7 @@ class OccasionPage extends Component {
         </div>
 
         {
-          selectedType && <OccasionForm {...this.props} {...this.state} />
+          currentType && <OccasionForm {...this.props} {...this.state} />
         }
 
         <hr />
@@ -322,8 +319,10 @@ export default compose(
   withCurrentOccasion,
   connect(
     (state, ownProps) => ({
-      selectedType: selectSelectedType(state, ownProps),
+      event: selectCurrentEvent(state, ownProps),
+      currentType: selectCurrentType(state, ownProps),
       selectedVenueId: selectSelectedVenueId(state, ownProps),
+      thing: selectCurrentThing(state, ownProps),
       typeOptions: state.data.types
     }),
     {

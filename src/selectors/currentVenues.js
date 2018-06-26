@@ -1,8 +1,3 @@
-import { createSelector } from 'reselect'
+import createSelectVenues from './createVenues'
 
-export default createSelector(
-  state => state.data.venues,
-  (state, ownProps) => ownProps.match.params.offererId,
-  (venues, offererId) => venues &&
-    venues.filter(v => v.managingOffererId === offererId)
-)
+export default createSelectVenues()

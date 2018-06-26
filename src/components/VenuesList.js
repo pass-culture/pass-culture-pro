@@ -1,12 +1,13 @@
+import get from 'lodash.get'
 import React, { Component } from 'react'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
-import get from 'lodash.get'
 
+import VenueItem from './VenueItem'
 import { requestData } from '../reducers/data'
 import selectCurrentVenues from '../selectors/currentVenues'
-import VenueItem from './VenueItem'
+
 
 class VenuesList extends Component {
 

@@ -1,11 +1,4 @@
-import get from 'lodash.get'
-import { createSelector } from 'reselect'
+import createSelectOccasion from './createOccasion'
+import selectCurrentOccasions from './currentOccasions'
 
-import selectOccasions from './occasions'
-
-export default () => createSelector(
-  selectOccasions,
-  (state, ownProps) => get(ownProps, 'match.params.occasionId'),
-  (occasions, occasionId) => occasions &&
-    occasions.find(o => o.id === occasionId)
-)
+export default createSelectOccasion(selectCurrentOccasions)

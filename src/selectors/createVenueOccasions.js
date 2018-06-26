@@ -7,5 +7,5 @@ export default () => createSelector(
   (state, ownProps) => ownProps.venue.id,
   (eventOccurences, venueId) =>
     (eventOccurences && eventOccurences.filter(eo => eo.venueId === venueId)) ||
-    emptyOffers
+    emptyEventOccurences
 )

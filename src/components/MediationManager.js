@@ -14,12 +14,12 @@ const mediationExplanation = `
 `
 
 const MediationManager = ({
-  currentOccasion,
+  occasion,
   routePath
 }) => {
   const {
     mediations
-  } = (currentOccasion || {})
+  } = (occasion || {})
   const mediationsLength = get(mediations, 'length')
   return (
     <div className='box content has-text-centered'>

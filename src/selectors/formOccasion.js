@@ -5,7 +5,7 @@ import { NEW } from '../utils/config'
 
 export default createSelector(
   (state, ownProps) => get(state, 'form.occasionsById'),
-  (state, ownProps) => get(ownProps, 'currentOccasion.id'),
-  (occasionsById, currentOccasionId, ) =>
-    get(occasionsById, currentOccasionId || NEW)
+  (state, ownProps) => get(ownProps, 'occasion.id'),
+  (occasionsById, occasionId, ) =>
+    get(occasionsById, occasionId || NEW)
 )

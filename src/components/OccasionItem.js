@@ -10,12 +10,14 @@ import Price from './Price'
 import Icon from './layout/Icon'
 import Thumb from './layout/Thumb'
 import { requestData } from '../reducers/data'
-import createSelectEvent from '../selectors/event'
-import createSelectMediations from '../selectors/mediations'
-import createSelectCurrentThing from '../selectors/thing'
-import createSelectOccasionItem from '../selectors/occasionItem'
+import createSelectEvent from '../selectors/createEvent'
+import createSelectMediations from '../selectors/createMediations'
+import createSelectMaxDate from '../selectors/createMaxDate'
+import createSelectCurrentThing from '../selectors/createThing'
+import createSelectOccurences from '../selectors/createOccurences'
+import createSelectStock from '../selectors/createStock'
+import createSelectThumbUrl from '../selectors/createThumbUrl'
 import { pluralize } from '../utils/string'
-import { modelToPath } from '../utils/translate'
 import { occasionNormalizer } from '../utils/normalizers'
 
 class OccasionItem extends Component {
@@ -47,24 +49,26 @@ class OccasionItem extends Component {
       )
   }
 
+  onDeleteClick = () => {
+    const {
+      occasion,
+      requestData,
+    } = this.props
+    const { id } = (occasion || {})
+    requestData('DELETE', `occasions/${id}`, { key: 'occasions' })
+  }
+
   render() {
     const {
-      isActive,
-      occasionItem,
-      occasion,
-    } = this.props
-    const {
       event,
-      id,
-      thing
-    } = (occasion || {})
-    const {
-      createdAt,
-      eventType,
+      isActive,
       mediations,
-      name,
-      occurences
-    } = (event || thing || {})
+      occasion,
+      occurences,
+      stock,
+      thing,
+      thumbUrl,
+    } = this.props
     const {
       available,
       maxDate,
@@ -72,8 +76,16 @@ class OccasionItem extends Component {
       groupSizeMax,
       priceMin,
       priceMax,
-      thumbUrl
-    } = (occasionItem || {})
+    } = (stock || {})
+    const {
+      id
+    } = (occasion || {})
+    const {
+      createdAt,
+      eventType,
+      name,
+    } = (event || thing || {})
+
     const mediationsLength = get(mediations, 'length')
     return (
       <li className={classnames('occasion-item', { active: isActive })}>
@@ -106,6 +118,10 @@ class OccasionItem extends Component {
             </li>
           </ul>
         </div>
+        <div className="is-pulled-right" key={2}>
+          <button className="delete is-small"
+            onClick={this.onDeleteClick} />
+        </div>
       </li>
     )
   }
@@ -121,13 +137,28 @@ export default connect(
   () => {
     const selectEvent =  createSelectEvent()
     const selectThing =  createSelectCurrentThing()
+    const selectOccurences = createSelectOccurences()
     const selectMediations = createSelectMediations(
       selectEvent,
       selectThing
     )
-    const selectOccasionItem = createSelectOccasionItem(selectMediations)
+    const selectMaxDate = createSelectMaxDate(
+      selectOccurences
+    )
+    const selectStock = createSelectStock(
+      selectOccurences
+    )
+    const selectThumbUrl = createSelectThumbUrl(
+      selectMediations
+    )
     return (state, ownProps) => ({
-      occasionItem: selectOccasionItem(state, ownProps)
+      event: selectEvent(state, ownProps),
+      maxDate: selectMaxDate(state, ownProps),
+      mediations: selectMediations(state, ownProps),
+      occurences: selectOccurences(state, ownProps),
+      stock: selectStock(state, ownProps),
+      thing: selectThing(state, ownProps),
+      thumbUrl: selectThumbUrl(state, ownProps)
     })
   },
   { requestData }

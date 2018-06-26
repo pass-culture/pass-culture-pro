@@ -19,8 +19,8 @@ class OccurenceManager extends Component {
 
   render() {
     const {
-      currentOccasion,
-      currentOccurences,
+      occasion,
+      occurences,
     } = this.props
     const { isAdding } = this.state
 
@@ -40,18 +40,18 @@ class OccurenceManager extends Component {
           </thead>
           <tbody>
             {
-              currentOccurences && currentOccurences.map(o =>
+              occurences && occurences.map(o =>
                 <OccurenceItem
                   key={o.id}
-                  currentOccasion={currentOccasion}
-                  currentOccurences={currentOccurences}
+                  occasion={occasion}
                   occurence={o}
+                  occurences={occurences}
                 />
               )
             }
             {
               isAdding && <OccurenceForm
-                currentOccasion={currentOccasion}
+                occasion={occasion}
                 onDeleteClick={e => this.setState({isAdding: false})}
               />
             }
@@ -71,6 +71,6 @@ class OccurenceManager extends Component {
 
 export default connect(
  (state, ownProps) => ({
-   currentOccurences: selectCurrentOccurences(state, ownProps)
+   occurences: selectCurrentOccurences(state, ownProps)
  })
 )(OccurenceManager)
