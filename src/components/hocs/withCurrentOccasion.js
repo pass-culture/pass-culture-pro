@@ -1,4 +1,5 @@
-import { requestData } from 'pass-culture-shared'
+import { requestData } from 'shared/reducers/data'
+// import { requestData } from 'pass-culture-shared'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
