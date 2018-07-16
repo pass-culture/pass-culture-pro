@@ -89,7 +89,7 @@
     "prettier": "$(yarn bin)/prettier --config config/prettier.js --write 'src/**/*.js'",
     "start": "node scripts/start.js",
     "test": "node scripts/test.js --env=jsdom",
-    "testcafe": "testcafe 'chrome:headless' testcafe",
+    "testcafe": "testcafe 'chrome:headless' testcafe"
   },
   "jest": {
     "collectCoverageFrom": [
