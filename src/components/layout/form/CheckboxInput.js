@@ -5,16 +5,15 @@ import BasicInput from './BasicInput'
 
 const CheckboxInput = props => {
 
-  const onInputChange = e => props.onChange(e.target.checked)
+  const onInputChange = e => {
+    e.preventDefault()
+    this.setState({'checkedValue': !props.value})
+    props.onChange(e.target.checked)
+  }
 
   return (
-    <label
-      className={`${classnames({required: props.required})}`}
-      htmlFor={props.id}>
-      <BasicInput {...props} type='checkbox' className='input' onChange={onInputChange}  />
-      {props.label}
-    </label>
-  )
+      <BasicInput {...props} type='checkbox' className='input' disabled={props.readOnly} onChange={onInputChange} checked={this.state.checkedValue} />
+    )
 
 }
 

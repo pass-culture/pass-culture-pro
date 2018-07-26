@@ -77,6 +77,8 @@ class Field extends Component {
     } = this.props
     const $input = this.renderInput()
 
+    console.log("LAYOUT", layout)
+    console.log("TYPE", type)
     if (type === 'hidden') return $input
     switch(layout) {
       case 'horizontal':
@@ -94,7 +96,7 @@ class Field extends Component {
               )
             }
             <div className='field-body'>
-              <div className={`field ${classnames({'is-expanded': isExpanded})}`}>
+              <div className={classnames('field', {'is-expanded': isExpanded, 'checkbox': type==='checkbox'})}>
                 {$input}
               </div>
               {
