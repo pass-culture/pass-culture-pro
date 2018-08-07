@@ -67,6 +67,7 @@ function getClientEnvironment(publicUrl) {
         return env;
       },
       {
+        API_URL: process.env.API_URL,
         // Determine which application it is
         IS_PRO: process.env.IS_PRO || false,
         // Useful for determining whether we’re running in production mode.
@@ -77,6 +78,7 @@ function getClientEnvironment(publicUrl) {
         // This should only be used as an escape hatch. Normally you would put
         // images into the `src` and `import` them in code to get their paths.
         PUBLIC_URL: publicUrl,
+        THUMBS_URL: process.env.THUMBS_URL,
         // VERSION FOR API
         VERSION: version
       }
