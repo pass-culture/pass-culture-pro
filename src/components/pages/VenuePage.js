@@ -1,7 +1,6 @@
 import get from 'lodash.get'
 import {
   CancelButton,
-  closeNotification,
   Icon,
   Field,
   Form,
@@ -74,13 +73,7 @@ class VenuePage extends Component {
   }
 
   handleSuccess = (state, action) => {
-    const {
-      closeNotification,
-      history,
-      offerer,
-      removeBlockers,
-      showNotification,
-    } = this.props
+    const { history, offerer, showNotification } = this.props
     const venueId = get(action, 'data.id')
     if (!venueId) {
       console.warn('You should have a venueId here')
@@ -100,14 +93,9 @@ class VenuePage extends Component {
           : 'Lieu modifié avec succès !',
       type: 'success',
     })
-    /*
-    addBlockers('venue-notification', ({ location: { pathname } }) => {
-      if (pathname === redirectPathname) {
-        removeBlockers('venue-notification')
-        closeNotification()
-      }
-    })
-    */
+    // TODO: do it in the way that the notification
+    // is displayed in the next page an disapeear when
+    // the user is after changing to another page
   }
 
   render() {
@@ -267,7 +255,6 @@ export default compose(
       }
     },
     {
-      closeNotification,
       requestData,
       showNotification,
     }
