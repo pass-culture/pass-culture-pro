@@ -1,4 +1,4 @@
-import { requestData } from 'pass-culture-shared'
+import { requestData, withLogin } from 'pass-culture-shared'
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
@@ -190,4 +190,4 @@ class CounterPage extends Component {
   }
 }
 
-export default connect()(CounterPage)
+export default withLogin({ failRedirect: '/connexion' })(connect()(CounterPage))
