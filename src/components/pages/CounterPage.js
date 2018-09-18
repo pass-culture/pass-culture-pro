@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { bindActionCreators, compose } from 'redux'
 
 import Main from '../layout/Main'
 
@@ -227,4 +227,6 @@ class CounterPage extends Component {
   }
 }
 
-export default withLogin({ failRedirect: '/connexion' })(connect()(CounterPage))
+export default compose(withLogin({ failRedirect: '/connexion' }), connect())(
+  CounterPage
+)
