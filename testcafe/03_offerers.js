@@ -16,13 +16,13 @@ const subTitleHeader = Selector('h2')
 
 fixture`03_01 OfferersPage | Je me connecte pour la première fois en tant que nouvel utilisateurice`.beforeEach(
   async t => {
-    await t.useRole(regularOfferer)
+    // await t.useRole(regularOfferer)
     // le userRole a l'option preserveUrl: true donc le test commence sur la page /offres
   }
 )
 
-test("J'arrive sur la page /offres après m'être connectée", async t => {
-  //await t.expect(pageTitleHeader.innerText).eql('Vos offres')
+test("J'arrive", async t => {
+  await t.expect(pageTitleHeader.innerText).eql('Vos offres')
 })
 
 /*
