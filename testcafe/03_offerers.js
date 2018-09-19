@@ -21,7 +21,7 @@ fixture`03_01 OfferersPage | Je me connecte pour la première fois en tant que n
   }
 )
 
-test("J'arrive sur la page /offres après m'être connecté·e", async t => {
+test("J'arrive sur la page /offres après m'être connectée", async t => {
   //await t.expect(pageTitleHeader.innerText).eql('Vos offres')
 })
 
