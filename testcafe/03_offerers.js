@@ -21,7 +21,6 @@ fixture`03_01 OfferersPage | Je me connecte pour la première fois en tant que n
   }
 )
 
-/*
 test("J'arrive sur la page /offres après m'être connecté·e", async t => {
   await t.expect(pageTitleHeader.innerText).eql('Vos offres')
 })
@@ -35,6 +34,7 @@ fixture`03_02 OfferersPage | Voir la liste de mes structures`.beforeEach(
   }
 )
 
+/*
 test("La structure qui vient d'être créée est en attente de validation", async t => {
   await t
     .expect(activationMessage.innerText)
