@@ -21,6 +21,7 @@ fixture`03_01 OfferersPage | Je me connecte pour la première fois en tant que n
   }
 )
 
+/*
 test("J'arrive sur la page /offres après m'être connecté·e", async t => {
   await t.expect(pageTitleHeader.innerText).eql('Vos offres')
 })
@@ -59,3 +60,4 @@ test('Je peux rattacher une nouvelle structure', async t => {
   const newLocation = await t.eval(() => window.location)
   await t.expect(newLocation.pathname).eql('/structures')
 })
+*/
