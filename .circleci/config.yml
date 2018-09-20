@@ -51,6 +51,7 @@ jobs:
             export NVM_BIN=/usr/bin/nodejs
             export PATH=$NVM_BIN:$PATH
             cd ~/pass-culture-main/pro
+            sudo apt-get install libfontconfig
             dockerize -wait http://localhost/health -timeout 3m -wait-retry-interval 5s
             yarn testcafe
 

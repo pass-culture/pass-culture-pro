@@ -14,18 +14,17 @@ const offerersNavbarLink = Selector("a.navbar-item[href='/structures']")
 const pageTitleHeader = Selector('h1')
 const subTitleHeader = Selector('h2')
 
-fixture`03_01 OfferersPage | Je me connecte pour la première fois en tant que nouvel utilisateurice`.beforeEach(
+fixture`03_01 OfferersPage | Je me connecte pour la première fois en tant que nouvel utilisateur·ice`.beforeEach(
   async t => {
-    // await t.useRole(regularOfferer)
+    await t.useRole(regularOfferer)
     // le userRole a l'option preserveUrl: true donc le test commence sur la page /offres
   }
 )
 
-test("J'arrive", async t => {
+test("J'arrive sur la page /offres après m'être connecté·e", async t => {
   await t.expect(pageTitleHeader.innerText).eql('Vos offres')
 })
 
-/*
 fixture`03_02 OfferersPage | Voir la liste de mes structures`.beforeEach(
   async t => {
     await t
@@ -60,4 +59,3 @@ test('Je peux rattacher une nouvelle structure', async t => {
   const newLocation = await t.eval(() => window.location)
   await t.expect(newLocation.pathname).eql('/structures')
 })
-*/

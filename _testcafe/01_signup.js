@@ -16,7 +16,7 @@ const signUpButton = Selector('button.button.is-primary')
 const sirenInput = Selector('#user-siren')
 const sirenInputError = Selector('#user-siren-error')
 
-fixture`01_01 SignupPage |  Component | Je crée un compte utilisateur.ice`
+fixture`01_01 SignupPage |  Component | Je crée un compte utilisateur·ice`
   .page`${ROOT_PATH + 'inscription'}`
 
 test("Je peux cliquer sur lien pour me connecter si j'ai déja un compte", async t => {
