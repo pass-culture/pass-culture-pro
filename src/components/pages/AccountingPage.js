@@ -92,13 +92,13 @@ class AccoutingPage extends Component {
 
   componentDidUpdate(prevProps) {
     const { handleQueryParamsChange, queryParams, offerers } = this.props
-    const offererId = get(queryParams, 'offererId')
+    const structure = get(queryParams, 'structure')
     if (
-      !offererId &&
+      !structure &&
       offerers !== prevProps.offerers &&
       get(offerers, 'length')
     ) {
-      handleQueryParamsChange({ offererId: offerers[0].id })
+      handleQueryParamsChange({ structure: offerers[0].id })
     }
   }
 
@@ -145,7 +145,7 @@ class AccoutingPage extends Component {
                     <select
                       onChange={event =>
                         handleQueryParamsChange({
-                          offererId: event.target.value,
+                          structure: event.target.value,
                         })
                       }
                       className=""
@@ -231,13 +231,11 @@ class AccoutingPage extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const queryParams = searchSelector(state, ownProps.location.search)
   const offerers = offerersSelector(state)
   return {
     bookings: state.data.bookings,
-    offerer: offererSelector(state, get(queryParams, 'offererId')),
+    offerer: offererSelector(state, get(ownProps.queryParams, 'structure')),
     offerers,
-    queryParams,
     user: state.user,
   }
 }
@@ -250,7 +248,7 @@ export default compose(
     defaultQueryParams: {
       search: undefined,
       order_by: `createdAt+desc`,
-      offererId: null,
+      structure: null,
     },
   }),
   connect(mapStateToProps)
