@@ -46,19 +46,23 @@ TableSortableTh.propTypes = {
 
 class AccoutingPage extends Component {
   fetchBookings(handleSuccess = () => {}, handleFail = () => {}) {
-    const { dispatch, goToNextSearchPage, offerer } = this.props
+    const { dispatch, goToNextSearchPage, offerer, querySearch } = this.props
     offerer &&
       dispatch(
-        requestData('GET', `offerers/${get(offerer, 'id')}/bookings`, {
-          handleSuccess: (state, action) => {
-            handleSuccess(state, action)
-            goToNextSearchPage()
-          },
-          key: 'bookings',
-          handleFail,
-          normalizer: bookingNormalizer,
-          isMergingArray: false,
-        })
+        requestData(
+          'GET',
+          `offerers/${get(offerer, 'id')}/bookings?${querySearch}`,
+          {
+            handleSuccess: (state, action) => {
+              handleSuccess(state, action)
+              goToNextSearchPage()
+            },
+            key: 'bookings',
+            handleFail,
+            normalizer: bookingNormalizer,
+            isMergingArray: true,
+          }
+        )
       )
   }
 
@@ -100,6 +104,19 @@ class AccoutingPage extends Component {
     ) {
       handleQueryParamsChange({ structure: offerers[0].id })
     }
+  }
+
+  cancelBooking(id) {
+    this.props.dispatch(
+      requestData('DELETE', `/bookings/${id}`, {
+        handleSuccess: (state, request) => {
+          console.log(request, state)
+        },
+        handleFail: (state, request) => {
+          console.log(request)
+        },
+      })
+    )
   }
 
   render() {
@@ -176,7 +193,7 @@ class AccoutingPage extends Component {
                 </tr>
                 <tr>
                   {/* @TODO: Fix fake key attributes !*/}
-                  <Th label="Date" field="date" />
+                  <Th label="Date" field="booking.%22dateModified%22" />
                   <Th label="Catégorie" field="category" />
                   <Th label="Structure" field="structure" />
                   <Th label="Lieu" field="place" />
@@ -215,11 +232,19 @@ class AccoutingPage extends Component {
                 handleLoadMore={this.handleDataRequest}
                 renderLoading={() => (
                   <tr>
-                    <Spinner Tag="td" style={{ justifyContent: 'center' }} />
+                    <Spinner
+                      Tag="td"
+                      colSpan="6"
+                      style={{ justifyContent: 'center' }}
+                    />
                   </tr>
                 )}>
                 {bookings.map(booking => (
-                  <BookingItem key={booking.id} booking={booking} />
+                  <BookingItem
+                    key={booking.id}
+                    booking={booking}
+                    cancelAction={this.cancelBooking.bind(this)}
+                  />
                 ))}
               </InfiniteScroller>
             </table>
@@ -244,10 +269,10 @@ export default compose(
   withLogin({ failRedirect: '/connexion' }),
   withRouter,
   withSearch({
-    dataKey: 'booking',
+    dataKey: 'bookings',
     defaultQueryParams: {
       search: undefined,
-      order_by: `createdAt+desc`,
+      order_by: `booking."dateModified"+desc`,
       structure: null,
     },
   }),
