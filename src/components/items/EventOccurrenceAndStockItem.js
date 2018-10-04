@@ -84,13 +84,17 @@ class EventOccurrenceAndStockItem extends Component {
   }
 
   handleEventOccurrenceSuccessData = (state, action) => {
-    const { history, offer, stockPatch } = this.props
+    const { history, offer, search, stockPatch } = this.props
     const stockIdOrNew = get(stockPatch, 'id', 'nouveau')
-    history.push(
-      `/offres/${get(offer, 'id')}?gestion&date=${
-        action.data.id
-      }&stock=${stockIdOrNew}`
-    )
+
+    let pathname = `/offres/${get(offer, 'id')}
+      ?gestion&date=${action.data.id}&stock=${stockIdOrNew}`
+
+    if (search.modifie) {
+      pathname = `${pathname}&modifie`
+    }
+
+    history.push(pathname)
   }
 
   handleInitBookingLimitDatetime = () => {

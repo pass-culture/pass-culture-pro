@@ -20,9 +20,16 @@ import stocksSelector from '../../selectors/stocks'
 
 class EventOccurrencesAndStocksManager extends Component {
   onCloseClick = e => {
-    const { dispatch, offer, history } = this.props
+    const { dispatch, offer, history, search } = this.props
+
     dispatch(closeModal())
-    history.push(`/offres/${get(offer, 'id')}`)
+
+    let pathname = `/offres/${get(offer, 'id')}`
+    if (search.modifie) {
+      pathname = `${pathname}?modifie`
+    }
+
+    history.push(pathname)
   }
 
   render() {
@@ -59,7 +66,9 @@ class EventOccurrencesAndStocksManager extends Component {
                 ? 'Dates, horaires et prix'
                 : get(thing, 'id') && 'Prix'
             }
-            subtitle={get(event, 'name') || get(thing, 'name')}
+            subtitle={(
+              get(event, 'name') || get(thing, 'name', '')
+            ).toUpperCase()}
           />
           <table
             className={classnames(
@@ -213,6 +222,7 @@ export default compose(
       isNew,
       offer,
       provider: providerSelector(state, get(event, 'lastProviderId')),
+      search,
       stocks,
       thing,
     }
