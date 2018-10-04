@@ -127,20 +127,20 @@ test('Je peux créer une offre', async t => {
     .expect(location.pathname)
     .match(/\/offres\/([A-Z0-9]*)$/)
     .expect(location.search)
-    .eql('?gestion')
+    .eql('?modifie&gestion')
 
   // ADD AN EVENT OCCURENCE AND A STOCK
   await t.click(addScheduleAnchor).wait(500)
 
   location = await t.eval(() => window.location)
-  await t.expect(location.search).eql('?gestion&date=nouvelle')
+  await t.expect(location.search).eql('?modifie&gestion&date=nouvelle')
 
   await t.click(scheduleSubmitButton).wait(500)
 
   location = await t.eval(() => window.location)
   await t
     .expect(location.search)
-    .match(/\?gestion&date=([A-Z0-9]*)&stock=nouveau$/)
+    .match(/\?modifie&gestion&date=([A-Z0-9]*)&stock=nouveau$/)
 
   await t
     .typeText(priceInput, '10')
@@ -150,7 +150,7 @@ test('Je peux créer une offre', async t => {
   await t.click(scheduleSubmitButton).wait(500)
 
   location = await t.eval(() => window.location)
-  await t.expect(location.search).eql('?gestion')
+  await t.expect(location.search).eql('?modifie&gestion')
 
   // ADD AN OTHER EVENT OCCURENCE AND A STOCK
   await t.click(addScheduleAnchor).wait(500)
@@ -158,7 +158,7 @@ test('Je peux créer une offre', async t => {
   location = await t.eval(() => window.location)
   await t
     .expect(location.search)
-    .eql('?gestion&date=nouvelle')
+    .eql('?modifie&gestion&date=nouvelle')
     .wait(500)
 
   await t.click(scheduleSubmitButton).wait(500)
@@ -166,7 +166,7 @@ test('Je peux créer une offre', async t => {
   location = await t.eval(() => window.location)
   await t
     .expect(location.search)
-    .match(/\?gestion&date=([A-Z0-9]*)&stock=nouveau$/)
+    .match(/\?modifie&gestion&date=([A-Z0-9]*)&stock=nouveau$/)
 
   // EDIT ONE
   /*
