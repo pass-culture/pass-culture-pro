@@ -42,6 +42,7 @@ class EventOccurrencesAndStocksManager extends Component {
       location,
       provider,
       offer,
+      search,
       stocks,
       thing,
     } = this.props
@@ -118,17 +119,19 @@ class EventOccurrencesAndStocksManager extends Component {
                             ? `/offres/${get(
                                 offer,
                                 'id'
-                              )}?gestion&stock=nouveau`
+                              )}?gestion&${(search.modifie && 'modifie&') ||
+                                ''}stock=nouveau`
                             : `/offres/${get(
                                 offer,
                                 'id'
-                              )}?gestion&date=nouvelle`
+                              )}?gestion&${(search.modifie && 'modifie&') ||
+                                ''}date=nouvelle`
                       }>
                       {isStockOnly
                         ? stocks.length
                           ? ''
-                          : '+ Ajouter un prix'
-                        : '+ Ajouter un horaire'}
+                          : '+ Ajouter un stock'
+                        : '+ Ajouter une date'}
                     </NavLink>
                   )}
                 </td>
