@@ -84,13 +84,14 @@ class EventOccurrenceAndStockItem extends Component {
   }
 
   handleEventOccurrenceSuccessData = (state, action) => {
-    const { history, offer, stockPatch } = this.props
+    const { history, offer, search, stockPatch } = this.props
     const stockIdOrNew = get(stockPatch, 'id', 'nouveau')
-    history.push(
-      `/offres/${get(offer, 'id')}?gestion&date=${
-        action.data.id
-      }&stock=${stockIdOrNew}`
-    )
+
+    const pathname = `/offres/${get(offer, 'id')}?gestion&${(search.modifie &&
+      'modifie&') ||
+      ''}date=${action.data.id}&stock=${stockIdOrNew}`
+
+    history.push(pathname)
   }
 
   handleInitBookingLimitDatetime = () => {
@@ -225,6 +226,7 @@ class EventOccurrenceAndStockItem extends Component {
       isEventOccurrenceReadOnly,
       isStockOnly,
       isStockReadOnly,
+      search,
       offer,
       stockPatch,
       tz,
@@ -383,7 +385,9 @@ class EventOccurrenceAndStockItem extends Component {
           <td ref={_e => (this.$submit = _e)}>
             {!isEditing && (
               <NavLink
-                to={`/offres/${get(offer, 'id')}?gestion&${
+                to={`/offres/${get(offer, 'id')}?gestion&${(search.modifie &&
+                  'modifie&') ||
+                  ''}${
                   isStockOnly
                     ? `stock=${get(stockPatch, 'id')}`
                     : `date=${get(eventOccurrencePatch, 'id')}`
@@ -502,6 +506,7 @@ export default compose(
       isEventOccurrenceReadOnly,
       isStockReadOnly,
       offer,
+      search,
       stockPatch,
       stockIdOrNew,
       tz: timezoneSelector(state, venueId),

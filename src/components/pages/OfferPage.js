@@ -171,14 +171,7 @@ class OfferPage extends Component {
 
   handleSuccess = (state, action) => {
     const { data, method } = action
-    const { dispatch, history, offer, venue } = this.props
-
-    dispatch(
-      showNotification({
-        text: 'Votre offre a bien été enregistrée',
-        type: 'success',
-      })
-    )
+    const { history, offer, venue } = this.props
 
     // PATCH
     if (method === 'PATCH') {
@@ -196,7 +189,7 @@ class OfferPage extends Component {
         )
         return
       }
-      history.push(`/offres/${offer.id}?gestion`)
+      history.push(`/offres/${offer.id}?modifie&gestion`)
     }
   }
 
@@ -225,9 +218,15 @@ class OfferPage extends Component {
       : dispatch(closeModal())
   }
 
+  handleShowWarningNotification = () => {
+    const { dispatch } = this.props
+    //showNotification()
+  }
+
   componentDidMount() {
     this.handleOffererRedirect()
     this.handleShowManagerModal()
+    this.handleShowWarningNotification()
   }
 
   componentDidUpdate(prevProps) {
@@ -303,10 +302,11 @@ class OfferPage extends Component {
       eventOccurrences,
       eventOrThingPatch,
       hasEventOrThing,
-      location: { search },
+      location,
       offer,
       offerer,
       offerers,
+      search,
       stocks,
       thing,
       type,
@@ -325,7 +325,7 @@ class OfferPage extends Component {
     const showAllForm = type || !isNew
     const venueId = get(venue, 'id')
     const isVenueVirtual = get(venue, 'isVirtual')
-
+    const isOfferActive = get(offer, 'isActive')
     const isOffererSelectReadOnly = typeof offererId !== 'undefined'
     const isVenueSelectReadOnly = typeof venueId !== 'undefined'
 
@@ -347,7 +347,7 @@ class OfferPage extends Component {
 
     return (
       <Main
-        backTo={{ path: `/offres${search}`, label: 'Vos offres' }}
+        backTo={{ path: `/offres${location.search}`, label: 'Vos offres' }}
         name="offer"
         handleDataRequest={this.handleDataRequest}>
         <HeroSection
@@ -469,8 +469,8 @@ class OfferPage extends Component {
                           </span>
                           <span>
                             {isEventType
-                              ? 'Gérer les dates et les prix'
-                              : 'Gérer les prix'}
+                              ? 'Gérer les dates et les stocks'
+                              : 'Gérer les stocks'}
                           </span>
                         </NavLink>
                       </div>
@@ -628,6 +628,22 @@ class OfferPage extends Component {
               style={{ justifyContent: 'space-between' }}>
               <div className="control">
                 {isReadOnly ? (
+                  <NavLink to="/offres" className="button is-primary is-medium">
+                    Terminer {search.modifie && !isOfferActive && 'et activer'}
+                  </NavLink>
+                ) : (
+                  showAllForm && (
+                    <SubmitButton className="button is-primary is-medium">
+                      Enregistrer{' '}
+                      {isNew &&
+                        'et passer ' +
+                          (isEventType ? 'aux dates' : 'aux stocks')}
+                    </SubmitButton>
+                  )
+                )}
+              </div>
+              <div className="control">
+                {isReadOnly ? (
                   <NavLink
                     to={`/offres/${offerId}?modifie`}
                     className="button is-secondary is-medium">
@@ -639,17 +655,6 @@ class OfferPage extends Component {
                     to={isNew ? '/offres' : `/offres/${offerId}`}>
                     Annuler
                   </CancelButton>
-                )}
-              </div>
-              <div className="control">
-                {isReadOnly ? (
-                  <NavLink to="/offres" className="button is-primary is-medium">
-                    Terminer
-                  </NavLink>
-                ) : (
-                  <SubmitButton className="button is-primary is-medium">
-                    Enregistrer
-                  </SubmitButton>
                 )}
               </div>
             </div>

@@ -20,9 +20,16 @@ import stocksSelector from '../../selectors/stocks'
 
 class EventOccurrencesAndStocksManager extends Component {
   onCloseClick = e => {
-    const { dispatch, offer, history } = this.props
+    const { dispatch, offer, history, search } = this.props
+
     dispatch(closeModal())
-    history.push(`/offres/${get(offer, 'id')}`)
+
+    let pathname = `/offres/${get(offer, 'id')}`
+    if (search.modifie) {
+      pathname = `${pathname}?modifie`
+    }
+
+    history.push(pathname)
   }
 
   render() {
@@ -35,6 +42,7 @@ class EventOccurrencesAndStocksManager extends Component {
       location,
       provider,
       offer,
+      search,
       stocks,
       thing,
     } = this.props
@@ -59,7 +67,9 @@ class EventOccurrencesAndStocksManager extends Component {
                 ? 'Dates, horaires et prix'
                 : get(thing, 'id') && 'Prix'
             }
-            subtitle={get(event, 'name')}
+            subtitle={(
+              get(event, 'name') || get(thing, 'name', '')
+            ).toUpperCase()}
           />
           <table
             className={classnames(
@@ -109,17 +119,19 @@ class EventOccurrencesAndStocksManager extends Component {
                             ? `/offres/${get(
                                 offer,
                                 'id'
-                              )}?gestion&stock=nouveau`
+                              )}?gestion&${(search.modifie && 'modifie&') ||
+                                ''}stock=nouveau`
                             : `/offres/${get(
                                 offer,
                                 'id'
-                              )}?gestion&date=nouvelle`
+                              )}?gestion&${(search.modifie && 'modifie&') ||
+                                ''}date=nouvelle`
                       }>
                       {isStockOnly
                         ? stocks.length
                           ? ''
-                          : '+ Ajouter un prix'
-                        : '+ Ajouter un horaire'}
+                          : '+ Ajouter un stock'
+                        : '+ Ajouter une date'}
                     </NavLink>
                   )}
                 </td>
@@ -213,6 +225,7 @@ export default compose(
       isNew,
       offer,
       provider: providerSelector(state, get(event, 'lastProviderId')),
+      search,
       stocks,
       thing,
     }
