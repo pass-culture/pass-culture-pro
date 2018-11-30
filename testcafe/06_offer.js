@@ -103,10 +103,20 @@ test('Je peux créer une offre événement', async t => {
     .match(/\/offres\/([A-Z0-9]*)$/)
     .expect(location.search)
     .eql('?gestion')
+})
 
-  // ADD AN EVENT OCCURENCE AND A STOCK
-  await t.click(addScheduleAnchor)
-  location = await t.eval(() => window.location)
+test("Je peux créer une occurence d'événement", async t => {
+  await t.useRole(regularOfferer)
+
+  const editOfferAnchor = Selector('.event a.edit-link:first-child')
+  const manageStockAnchor = Selector('a.manage-stock')
+
+  await t
+    .click(editOfferAnchor)
+    .click(manageStockAnchor)
+    .click(addScheduleAnchor)
+
+  let location = await t.eval(() => window.location)
   await t.expect(location.search).eql('?gestion&date=nouvelle')
   await t.click(scheduleSubmitButton)
   location = await t.eval(() => window.location)
@@ -119,54 +129,135 @@ test('Je peux créer une offre événement', async t => {
   await t.click(scheduleSubmitButton)
   location = await t.eval(() => window.location)
   await t.expect(location.search).eql('?gestion')
+})
 
-  // ADD AN OTHER EVENT OCCURENCE AND A STOCK
-  await t.click(addScheduleAnchor)
-  location = await t.eval(() => window.location)
+test('Je peux créer une autre occurence', async t => {
+  await t.useRole(regularOfferer)
+
+  const editOfferAnchor = Selector('a.edit-link:first-child')
+  const manageStockAnchor = Selector('a.manage-stock')
+
+  await t
+    .click(editOfferAnchor)
+    .click(manageStockAnchor)
+    .click(addScheduleAnchor)
+  let location = await t.eval(() => window.location)
   await t.expect(location.search).eql('?gestion&date=nouvelle')
   await t.click(scheduleSubmitButton)
   location = await t.eval(() => window.location)
   await t
     .expect(location.search)
     .match(/\?gestion&date=([A-Z0-9]*)&stock=nouveau$/)
+})
 
-  // EDIT ONE
-  /*
-  const editScheduleAnchor = Selector(
-    "a.button[href^='/offres/A9?gestion&date=']"
-  )
+test('Je peux créer une occurence en utilisant la touche Entrée', async t => {
+  await t.useRole(regularOfferer)
 
-  await t.click(editScheduleAnchor)
+  const editOfferAnchor = Selector('.event a.edit-link:first-child')
+  const manageStockAnchor = Selector('a.manage-stock')
 
-  location = await t.eval(() => window.location)
-  await t.expect(location.search)
-         .match(/\?gestion&date=([A-Z0-9]*)$/)
-
-  await t.click(scheduleSubmitButton)
-
-
+  await t
+    .click(editOfferAnchor)
+    .click(manageStockAnchor)
+    .pressKey('Enter')
+  let location = await t.eval(() => window.location)
+  await t.expect(location.search).eql('?gestion&date=nouvelle')
+  await t.pressKey('Enter')
   location = await t.eval(() => window.location)
   await t
     .expect(location.search)
-    .match(/\?gestion&date=([A-Z0-9]*)&stock=([A-Z0-9]*)$/)
+    .match(/\?gestion&date=([A-Z0-9]*)&stock=nouveau$/)
 
-  await t.typeText(availableInput, '10')
-
-
-  await t.click(scheduleSubmitButton)
-
-
+  await t.pressKey('Enter')
   location = await t.eval(() => window.location)
-  await t.expect(location.search)
-         .eql('?gestion')
+  await t.expect(location.search).match(/\?gestion$/)
+})
 
-  // CLOSE
-  await t.click(scheduleCloseButton)
+test('Je peux interrompre la saisie en utilisant la touche Escape', async t => {
+  // Given
+  await t.useRole(regularOfferer)
+  const editOfferAnchor = Selector('.event a.edit-link:first-child')
+  const manageStockAnchor = Selector('a.manage-stock')
 
+  // When
+  await t
+    .click(editOfferAnchor)
+    .click(manageStockAnchor)
+    .pressKey('Enter')
+
+  // Then
+  let location = await t.eval(() => window.location)
+  await t.expect(location.search).eql('?gestion&date=nouvelle')
+
+  // When
+  await t.pressKey('esc')
+
+  // Then
   location = await t.eval(() => window.location)
-  await t.expect(location.search)
-         .eql('')
-  */
+  await t
+    .expect(location.search)
+    .eql('?gestion')
+    .expect(location.href)
+    .match(/offres\/[A-Z0-9]+/i)
+})
+
+test('Je peux femer la fenêtre en utilisant la touche Escape', async t => {
+  // Given
+  await t.useRole(regularOfferer)
+  const editOfferAnchor = Selector('.event a.edit-link:first-child')
+  const manageStockAnchor = Selector('a.manage-stock')
+
+  // When
+  await t
+    .click(editOfferAnchor)
+    .click(manageStockAnchor)
+    .pressKey('esc')
+
+  // Then
+  let location = await t.eval(() => window.location)
+  await t
+    .expect(location.search)
+    .eql('')
+    .expect(location.href)
+    .match(/offres\/[A-Z0-9]+/i)
+})
+
+test('Je peux modifier une occurence', async t => {
+  await t.useRole(regularOfferer)
+
+  const editOfferAnchor = Selector('.event a.edit-link:first-child')
+  const manageStockAnchor = Selector('a.manage-stock')
+  const editScheduleAnchor = Selector('a.edit-stock:first-child')
+
+  await t
+    .click(editOfferAnchor)
+    .click(manageStockAnchor)
+    .click(editScheduleAnchor)
+
+  let location = await t.eval(() => window.location)
+  await t.expect(location.search).match(/\?gestion&date=([A-Z0-9]*)$/)
+
+  const beginInput = Selector('input.date')
+  const datePicker = Selector('.react-datepicker')
+  const datePickerLastDay = Selector(
+    '.react-datepicker__week:last-child .react-datepicker__day:last-child'
+  )
+
+  await t
+    .expect(beginInput.exists)
+    .ok()
+    .expect(datePicker.exists)
+    .notOk()
+    .click(beginInput)
+    .expect(datePicker.exists)
+    .ok()
+    .click(datePickerLastDay)
+    .expect(datePicker.exists)
+    .notOk()
+    .click(scheduleSubmitButton)
+
+  const availableInput = Selector('#stock-available')
+  await t.typeText(priceInput, '15').click(scheduleSubmitButton)
 })
 
 fixture`06_02 OfferPage | Créer une nouvelle offre avec type et sous-type`
@@ -225,10 +316,8 @@ fixture`06_03 OfferPage | Créer une nouvelle offre numérique`
 test('Je peux créer une offre numérique', async t => {
   await t
     .useRole(regularOfferer)
-    .wait(500)
     .click(navbarAnchor)
     .click(structuresLink)
-    .wait(500)
   await t.click(createVirtualOfferAnchor)
   await t.typeText(nameInput, 'Jeux vidéo abonnement de test')
   await t.click(typeInput).click(typeVideoGameOption)

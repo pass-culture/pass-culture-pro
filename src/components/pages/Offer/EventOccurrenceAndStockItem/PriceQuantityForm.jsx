@@ -46,15 +46,16 @@ class PriceQuantityForm extends Component {
                     ? 'Gratuit'
                     : 0
                   : readOnly
-                    ? `${value}€`
-                    : value
+                  ? `${value}€`
+                  : value
               }
               name="price"
               placeholder="Gratuit"
-              type="number"
+              type={isStockReadOnly ? 'text' : 'number'}
               step="0.01"
               min="0"
               title="Prix"
+              className="input is-small input-number"
             />
           </td>
           <td title="Laissez vide si pas de limite">
@@ -69,13 +70,14 @@ class PriceQuantityForm extends Component {
             <Field
               name="available"
               title="Places disponibles"
-              type="number"
+              type={isStockReadOnly ? 'text' : 'number'}
               placeholder="Illimité"
+              className="input is-small input-number"
               renderInfo={() => {
                 if (!isStockReadOnly) {
                   return (
                     <span
-                      className="button tooltip"
+                      className="button tooltip qty-info"
                       data-place="bottom"
                       data-tip="<p>Laissez ce champ vide pour un nombre de places illimité.</p>"
                       data-type="info">
@@ -95,7 +97,7 @@ class PriceQuantityForm extends Component {
               </td>
               <td className="is-clipped">
                 <NavLink
-                  className="button is-secondary is-small"
+                  className="button is-secondary is-small cancel-step"
                   to={`/offres/${get(offer, 'id')}?gestion`}>
                   Annuler
                 </NavLink>

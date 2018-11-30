@@ -18,28 +18,28 @@ import { connect } from 'react-redux'
 import { NavLink, withRouter } from 'react-router-dom'
 import { compose } from 'redux'
 
-import HeroSection from '../../layout/HeroSection'
-import Main from '../../layout/Main'
+import HeroSection from 'components/layout/HeroSection'
+import Main from 'components/layout/Main'
 import MediationsManager from './MediationsManager'
 import EventOccurrencesAndStocksManager from './EventOccurrencesAndStocksManager'
-import eventSelector from '../../../selectors/event'
-import eventOccurrencesSelector from '../../../selectors/eventOccurrences'
-import eventOrThingPatchSelector from '../../../selectors/eventOrThingPatch'
-import offerSelector from '../../../selectors/offer'
-import offererSelector from '../../../selectors/offerer'
-import offerersSelector from '../../../selectors/offerers'
-import providersSelector from '../../../selectors/providers'
-import selectApiSearch from '../../../selectors/selectApiSearch'
-import selectMusicSubOptionsByMusicType from '../../../selectors/selectMusicSubOptionsByMusicType'
-import selectShowSubOptionsByShowType from '../../../selectors/selectShowSubOptionsByShowType'
-import stocksSelector from '../../../selectors/stocks'
-import thingSelector from '../../../selectors/thing'
-import typesSelector from '../../../selectors/types'
-import typeSelector from '../../../selectors/type'
-import venueSelector from '../../../selectors/venue'
-import venuesSelector from '../../../selectors/venues'
-import { musicOptions, showOptions } from '../../../utils/edd'
-import { offerNormalizer } from '../../../utils/normalizers'
+import eventSelector from 'selectors/event'
+import eventOccurrencesSelector from 'selectors/eventOccurrences'
+import eventOrThingPatchSelector from 'selectors/eventOrThingPatch'
+import offerSelector from 'selectors/offer'
+import offererSelector from 'selectors/offerer'
+import offerersSelector from 'selectors/offerers'
+import providersSelector from 'selectors/providers'
+import selectApiSearch from 'selectors/selectApiSearch'
+import selectMusicSubOptionsByMusicType from 'selectors/selectMusicSubOptionsByMusicType'
+import selectShowSubOptionsByShowType from 'selectors/selectShowSubOptionsByShowType'
+import stocksSelector from 'selectors/stocks'
+import thingSelector from 'selectors/thing'
+import typesSelector from 'selectors/types'
+import typeSelector from 'selectors/type'
+import venueSelector from 'selectors/venue'
+import venuesSelector from 'selectors/venues'
+import { musicOptions, showOptions } from 'utils/edd'
+import { offerNormalizer } from 'utils/normalizers'
 
 const CONDITIONAL_FIELDS = {
   speaker: [
@@ -430,47 +430,44 @@ class OfferPage extends Component {
                   )}
                 </Fragment>
               )}
-              {!isNew &&
-                hasEventOrThing && (
-                  <div className="field is-horizontal field-text">
-                    <div className="field-label">
-                      <label className="label" htmlFor="input_offers_name">
-                        <div className="subtitle">
-                          {isEventType ? 'Dates :' : 'Stocks :'}
-                        </div>
-                      </label>
-                    </div>
-                    <div className="field-body">
-                      <div
-                        className="control"
-                        style={{ paddingTop: '0.25rem' }}>
-                        <span
-                          className="nb-dates"
-                          style={{ paddingTop: '0.25rem' }}>
-                          {pluralize(
-                            get(
-                              isEventType ? eventOccurrences : stocks,
-                              'length'
-                            ),
-                            isEventType ? 'date' : 'stock'
-                          )}
-                        </span>
-                        <NavLink
-                          className="button is-primary is-outlined is-small"
-                          to={`/offres/${offerId}?gestion`}>
-                          <span className="icon">
-                            <Icon svg="ico-calendar" />
-                          </span>
-                          <span>
-                            {isEventType
-                              ? 'Gérer les dates et les stocks'
-                              : 'Gérer les stocks'}
-                          </span>
-                        </NavLink>
+              {!isNew && hasEventOrThing && (
+                <div className="field is-horizontal field-text">
+                  <div className="field-label">
+                    <label className="label" htmlFor="input_offers_name">
+                      <div className="subtitle">
+                        {isEventType ? 'Dates :' : 'Stocks :'}
                       </div>
+                    </label>
+                  </div>
+                  <div className="field-body">
+                    <div className="control" style={{ paddingTop: '0.25rem' }}>
+                      <span
+                        className="nb-dates"
+                        style={{ paddingTop: '0.25rem' }}>
+                        {pluralize(
+                          get(
+                            isEventType ? eventOccurrences : stocks,
+                            'length'
+                          ),
+                          isEventType ? 'date' : 'stock'
+                        )}
+                      </span>
+                      <NavLink
+                        className="button is-primary is-outlined is-small manage-stock"
+                        to={`/offres/${offerId}?gestion`}>
+                        <span className="icon">
+                          <Icon svg="ico-calendar" />
+                        </span>
+                        <span>
+                          {isEventType
+                            ? 'Gérer les dates et les stocks'
+                            : 'Gérer les stocks'}
+                        </span>
+                      </NavLink>
                     </div>
                   </div>
-                )}
+                </div>
+              )}
             </div>
             {!isNew && <MediationsManager />}
             {showAllForm && (
@@ -487,24 +484,19 @@ class OfferPage extends Component {
                     required
                     type="select"
                   />
-                  {offerer &&
-                    get(venues, 'length') === 0 && (
-                      <div className="field is-horizontal">
-                        <div className="field-label" />
-                        <div className="field-body">
-                          <p className="help is-danger">
-                            {venue
-                              ? "Erreur dans les données: Le lieu rattaché à cette offre n'est pas compatible avec le type de l'offre"
-                              : 'Il faut obligatoirement une structure avec un lieu.'}
-                            <Field
-                              type="hidden"
-                              name="__BLOCK_FORM__"
-                              required
-                            />
-                          </p>
-                        </div>
+                  {offerer && get(venues, 'length') === 0 && (
+                    <div className="field is-horizontal">
+                      <div className="field-label" />
+                      <div className="field-body">
+                        <p className="help is-danger">
+                          {venue
+                            ? "Erreur dans les données: Le lieu rattaché à cette offre n'est pas compatible avec le type de l'offre"
+                            : 'Il faut obligatoirement une structure avec un lieu.'}
+                          <Field type="hidden" name="__BLOCK_FORM__" required />
+                        </p>
                       </div>
-                    )}
+                    </div>
+                  )}
                   <Field
                     label="Lieu"
                     name="venueId"
