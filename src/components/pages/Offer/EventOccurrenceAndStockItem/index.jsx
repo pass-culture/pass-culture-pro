@@ -165,14 +165,18 @@ class EventOccurrenceAndStockItem extends Component {
 
   render() {
     const {
+      closeInfo,
       eventOccurrencePatch,
       eventOccurrences,
       formBeginningDatetime,
+      formPrice,
+      hasIban,
       isEditing,
       isEventOccurrenceReadOnly,
       isStockOnly,
       isStockReadOnly,
       offer,
+      showInfo,
       stockPatch,
       tz,
     } = this.props
@@ -198,12 +202,16 @@ class EventOccurrenceAndStockItem extends Component {
 
           {this.getFormStep() !== 1 && (
             <PriceQuantityForm
-              isStockOnly={isStockOnly}
-              stockPatch={stockPatch}
-              isStockReadOnly={isStockReadOnly}
               beginningDatetime={beginningDatetime}
+              closeInfo={closeInfo}
+              formPrice={formPrice}
+              hasIban={hasIban}
               history={this.props.history}
+              isStockOnly={isStockOnly}
+              isStockReadOnly={isStockReadOnly}
               offer={offer}
+              showInfo={showInfo}
+              stockPatch={stockPatch}
             />
           )}
 

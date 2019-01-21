@@ -1,23 +1,48 @@
+import { Field, Form, SubmitButton, Icon } from 'pass-culture-shared'
 import React, { Component, Fragment } from 'react'
 import { NavLink } from 'react-router-dom'
 import get from 'lodash.get'
 import ReactTooltip from 'react-tooltip'
-import { Field, Form, SubmitButton, Icon } from 'pass-culture-shared'
 
 class PriceQuantityForm extends Component {
+  componentDidUpdate() {
+    ReactTooltip.rebuild()
+  }
+
   handleOfferSuccessData = (state, action) => {
     const { history, offer } = this.props
     history.push(`/offres/${get(offer, 'id')}?gestion`)
   }
 
-  componentDidUpdate() {
-    ReactTooltip.rebuild()
+  onPriceBlur = () => {
+    const { closeInfo, formPrice, hasIban, showInfo } = this.props
+    if (hasIban || !formPrice) {
+      return
+    }
+    const inputElement = document.querySelector('input[name="price"]')
+    inputElement.focus()
+    inputElement.value = 0
+    showInfo(
+      <Fragment>
+        <div className="mb12">
+          Vous avez saisi une offre payante. Pensez à demander à
+          l'administrateur financier nommé pour votre structure de renseigner
+          son IBAN. Sans IBAN, les réservations de vos offres éligibles ne vous
+          seront pas remboursées
+        </div>
+        <div className="has-text-centered">
+          <button className="button is-primary" onClick={closeInfo}>
+            J'ai compris
+          </button>
+        </div>
+      </Fragment>
+    )
   }
 
   render() {
     const {
-      offer,
       isStockOnly,
+      offer,
       stockPatch,
       isStockReadOnly,
       beginningDatetime,
@@ -36,10 +61,11 @@ class PriceQuantityForm extends Component {
         readOnly={isStockReadOnly}
         Tag={null}>
         <Fragment>
-          <td title="Vide si gratuit">
+          <td title="Gratuit si vide">
             <Field name="eventOccurrenceId" type="hidden" />
             <Field name="offerId" type="hidden" />
             <Field
+              className="input is-small input-number"
               displayValue={(value, { readOnly }) =>
                 value === 0
                   ? readOnly
@@ -49,13 +75,13 @@ class PriceQuantityForm extends Component {
                   ? `${value}€`
                   : value
               }
-              name="price"
-              placeholder="Gratuit"
-              type={isStockReadOnly ? 'text' : 'number'}
-              step="0.01"
               min="0"
+              name="price"
+              onBlur={this.onPriceBlur}
+              placeholder="Gratuit"
+              step="0.01"
               title="Prix"
-              className="input is-small input-number"
+              type={isStockReadOnly ? 'text' : 'number'}
             />
           </td>
           <td title="Laissez vide si pas de limite">

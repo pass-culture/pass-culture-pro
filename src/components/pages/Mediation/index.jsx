@@ -256,7 +256,7 @@ class Mediation extends PureComponent {
     const $imageSections = (image || imageUrl) && (
       <Fragment>
         <div className="thumbnailManager">
-          <div className="section ">
+          <div className="section">
             <h2 className="has-text-primary has-text-weight-semibold active">
               Comment cadrer votre image d’accroche
             </h2>
