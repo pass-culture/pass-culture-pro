@@ -60,10 +60,10 @@ class PriceQuantityForm extends Component {
       return
     }
     const inputElement = document.querySelector('input[name="price"]')
-    //event.persist()
     inputElement.focus()
-    //inputElement.value = 0
+
     dispatch(mergeForm(getFormName(stockPatch), { price: 0 }))
+
     showInfo(
       <Fragment>
         <div className="mb12">
