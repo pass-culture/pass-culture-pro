@@ -1,8 +1,41 @@
-import { Field, Form, SubmitButton, Icon } from 'pass-culture-shared'
+import { Field, Form, mergeForm, SubmitButton, Icon } from 'pass-culture-shared'
 import React, { Component, Fragment } from 'react'
+import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import get from 'lodash.get'
 import ReactTooltip from 'react-tooltip'
+
+const floatSep = ','
+
+function getFormName(stockPatch) {
+  return `stock${get(stockPatch, 'id', '')}`
+}
+
+function getDisplayedPrice(value, { readOnly }) {
+  if (value === 0) {
+    if (readOnly) {
+      return 'Gratuit'
+    }
+    return 0
+  }
+  if (readOnly) {
+    let floatValue = value
+    if (value && String(value).includes(floatSep)) {
+      floatValue = parseFloat(value.replace(/,/, '.')).toFixed(2)
+    }
+    let floatValueString = `${floatValue} €`
+    if (floatSep === ',') {
+      floatValueString = floatValueString.replace('.', ',')
+    }
+    return floatValueString
+  }
+
+  if (value === ' ') {
+    return 0
+  }
+
+  return value
+}
 
 class PriceQuantityForm extends Component {
   componentDidUpdate() {
@@ -14,14 +47,23 @@ class PriceQuantityForm extends Component {
     history.push(`/offres/${get(offer, 'id')}?gestion`)
   }
 
-  onPriceBlur = () => {
-    const { closeInfo, formPrice, hasIban, showInfo } = this.props
+  onPriceBlur = event => {
+    const {
+      closeInfo,
+      dispatch,
+      formPrice,
+      hasIban,
+      showInfo,
+      stockPatch,
+    } = this.props
     if (hasIban || !formPrice) {
       return
     }
     const inputElement = document.querySelector('input[name="price"]')
+    //event.persist()
     inputElement.focus()
-    inputElement.value = 0
+    //inputElement.value = 0
+    dispatch(mergeForm(getFormName(stockPatch), { price: 0 }))
     showInfo(
       <Fragment>
         <div className="mb12">
@@ -39,6 +81,10 @@ class PriceQuantityForm extends Component {
     )
   }
 
+  componentWillUnmount() {
+    this.props.closeInfo()
+  }
+
   render() {
     const {
       isStockOnly,
@@ -52,10 +98,13 @@ class PriceQuantityForm extends Component {
       <Form
         action={`/stocks/${get(stockPatch, 'id', '')}`}
         BlockComponent={null}
+        formatPatch={patch =>
+          Object.assign({}, patch, { price: patch.price.replace(',', '.') })
+        }
         handleSuccess={this.handleOfferSuccessData}
         layout="input-only"
         key={1}
-        name={`stock${get(stockPatch, 'id', '')}`}
+        name={getFormName(stockPatch)}
         patch={stockPatch}
         size="small"
         readOnly={isStockReadOnly}
@@ -66,20 +115,12 @@ class PriceQuantityForm extends Component {
             <Field name="offerId" type="hidden" />
             <Field
               className="input is-small input-number"
-              displayValue={(value, { readOnly }) =>
-                value === 0
-                  ? readOnly
-                    ? 'Gratuit'
-                    : 0
-                  : readOnly
-                  ? `${value}€`
-                  : value
-              }
+              displayValue={getDisplayedPrice}
+              floatSep={floatSep}
               min="0"
               name="price"
               onBlur={this.onPriceBlur}
               placeholder="Gratuit"
-              step="0.01"
               title="Prix"
               type={isStockReadOnly ? 'text' : 'number'}
             />
@@ -136,4 +177,4 @@ class PriceQuantityForm extends Component {
   }
 }
 
-export default PriceQuantityForm
+export default connect()(PriceQuantityForm)

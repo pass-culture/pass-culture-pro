@@ -189,14 +189,14 @@ class EventOccurrenceAndStockItem extends Component {
         <tr className="event-occurrence-and-stock-item">
           {!isStockOnly && (
             <DateTimeForm
-              eventOccurrencePatch={eventOccurrencePatch}
-              isEventOccurrenceReadOnly={isEventOccurrenceReadOnly}
               beginningDatetime={beginningDatetime}
+              eventOccurrencePatch={eventOccurrencePatch}
               eventOccurrences={eventOccurrences}
-              tz={tz}
               history={this.props.history}
+              isEventOccurrenceReadOnly={isEventOccurrenceReadOnly}
               offer={offer}
               stockPatch={stockPatch}
+              tz={tz}
             />
           )}
 

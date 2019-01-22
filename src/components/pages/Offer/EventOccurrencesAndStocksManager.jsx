@@ -192,7 +192,10 @@ class EventOccurrencesAndStocksManager extends Component {
               </tbody>
             ) : (
               <tbody>
-                <tr className={isStockOnly && stocks.length && 'inactive'}>
+                <tr
+                  className={classnames({
+                    inactive: isStockOnly && stocks.length,
+                  })}>
                   <td colSpan="10">
                     <NavLink
                       className="button is-secondary"
