@@ -98,9 +98,6 @@ class PriceQuantityForm extends Component {
       <Form
         action={`/stocks/${get(stockPatch, 'id', '')}`}
         BlockComponent={null}
-        formatPatch={patch =>
-          Object.assign({}, patch, { price: patch.price.replace(',', '.') })
-        }
         handleSuccess={this.handleOfferSuccessData}
         layout="input-only"
         key={1}
