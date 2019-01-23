@@ -1,7 +1,8 @@
 import { Selector } from 'testcafe'
 
-import { validatedOffererUserRole } from './helpers/roles'
 import { OFFERER_WITH_NO_PHYSICAL_VENUE } from './helpers/offerers'
+import { createUserRole } from './helpers/roles'
+import { VALIDATED_UNREGISTERED_OFFERER_USER } from './helpers/users'
 
 const form = Selector('form#venue')
 const mapMarker = Selector('.leaflet-marker-pane img')
@@ -54,9 +55,9 @@ async function endCreation(t) {
 }
 
 fixture`05_01 VenuePage | Créer un nouveau lieu avec succès`
+
 test('Je rentre une nouveau lieu via son siret avec succès', async t => {
-  await t.useRole(validatedOffererUserRole)
-  // le userRole a l'option preserveUrl: true donc le test commence sur la page /offres
+  await t.useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
 
   // navigation
   await t
@@ -90,7 +91,7 @@ test('Je rentre une nouveau lieu via son siret avec succès', async t => {
 
 fixture`05_02 VenuePage | Je ne peux pas créer de lieu, j'ai des erreurs`.beforeEach(
   async t => {
-    await t.useRole(validatedOffererUserRole)
+    await t.useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
 
     // navigation
     await t
@@ -221,7 +222,7 @@ test("Le siret n'est pas valide", async t => {
 
 fixture`05_03 VenuePage |  Component | Je suis sur la page de détail du lieu`.beforeEach(
   async t => {
-    await t.useRole(validatedOffererUserRole)
+    await t.useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
 
     // navigation
     await t
@@ -253,8 +254,9 @@ test('Je peux modifier le lieu', async t => {
 const addressInput = Selector('#venue-address')
 const addressSuggestion = Selector('.geo-input .menu .item')
 fixture`05_04 VenuePage | Créer un nouveau lieu sans SIRET`
+
 test('Je rentre une nouveau lieu sans siret avec succès', async t => {
-  await t.useRole(validatedOffererUserRole)
+  await t.useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
   // navigation
   await t
     .click(navbarAnchor)

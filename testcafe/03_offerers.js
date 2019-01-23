@@ -1,6 +1,7 @@
 import { Selector } from 'testcafe'
 
-import { validatedOffererUserRole } from './helpers/roles'
+import { createUserRole } from './helpers/roles'
+import { VALIDATED_UNREGISTERED_OFFERER_USER } from './helpers/users'
 
 const activationMessage = Selector('#offerer-item-validation')
 const arrow = Selector('.caret a')
@@ -16,8 +17,7 @@ const subTitleHeader = Selector('h2')
 
 fixture`03_01 OfferersPage | Je me connecte pour la première fois en tant que nouvel utilisateur·ice`.beforeEach(
   async t => {
-    await t.useRole(validatedOffererUserRole)
-    // le userRole a l'option preserveUrl: true donc le test commence sur la page /offres
+    await t.useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
   }
 )
 
@@ -28,7 +28,7 @@ test("J'arrive sur la page /offres après m'être connecté·e", async t => {
 fixture`03_02 OfferersPage | Voir la liste de mes structures`.beforeEach(
   async t => {
     await t
-      .useRole(validatedOffererUserRole)
+      .useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
       .click(navbarLink)
       .click(offerersNavbarLink)
   }

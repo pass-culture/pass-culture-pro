@@ -1,6 +1,8 @@
 import { Selector } from 'testcafe'
+
+import { createUserRole } from './helpers/roles'
+import { ADMIN_0_USER } from './helpers/users'
 import { ROOT_PATH } from '../src/utils/config'
-import { admin } from './helpers/roles'
 
 const subTitleHeader = Selector('h2')
 const pageTitleHeader = Selector('h1')
@@ -20,7 +22,7 @@ const TEST_BAD_CODE = 'ABC123'
 fixture`08_01 Guichet | Page guichet`.page`${ROOT_PATH}guichet`
 
 test("L'état de départ de la page /guichet est conforme", async t => {
-  await t.useRole(admin)
+  await t.useRole(createUserRole(ADMIN_0_USER))
   // Navigation
   await t.click(navbarAnchor).click(deskLink)
 

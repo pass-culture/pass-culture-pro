@@ -1,7 +1,8 @@
 import { Selector, RequestMock } from 'testcafe'
 
-import { validatedOffererUserRole } from './helpers/roles'
 import { OFFERER_WITH_NO_PHYSICAL_VENUE } from './helpers/offerers'
+import { createUserRole } from './helpers/roles'
+import { VALIDATED_UNREGISTERED_OFFERER_USER } from './helpers/users'
 
 const adressInput = Selector('input#offerer-address')
 const nameInput = Selector('input#offerer-name')
@@ -39,7 +40,7 @@ var apiSireneMock = RequestMock()
 fixture`04_01 OffererPage | Créer une nouvelle structure`.beforeEach(
   async t => {
     await t
-      .useRole(validatedOffererUserRole)
+      .useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
       // le userRole a l'option preserveUrl: true donc le test commence sur la page /offres
       .click(navbarAnchor)
       .click(offerersNavbarLink)

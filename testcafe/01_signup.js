@@ -1,7 +1,10 @@
 import { Selector } from 'testcafe'
 
 import { ROOT_PATH } from '../src/utils/config'
-import { offererUser0, offererUser1 } from './helpers/users'
+import {
+  USER_WITH_EXISTING_OFFERER_USER,
+  USER_WITH_NEW_OFFERER,
+} from './helpers/users'
 
 const contactOkInput = Selector('#user-contact_ok')
 const contactOkInputError = Selector('#user-contact_ok-error')
@@ -39,11 +42,11 @@ test("Lorsque l'un des champs obligatoire est manquant, le bouton créer est des
 
 test('Je créé un compte, je suis redirigé·e vers la page /inscription/confirmation', async t => {
   await t
-    .typeText(emailInput, offererUser0.email)
-    .typeText(passwordInput, offererUser0.password)
-    .typeText(lastNameInput, offererUser0.lastName)
-    .typeText(firstNameInput, offererUser0.firstName)
-    .typeText(sirenInput, offererUser0.siren)
+    .typeText(emailInput, USER_WITH_NEW_OFFERER.email)
+    .typeText(passwordInput, USER_WITH_NEW_OFFERER.password)
+    .typeText(lastNameInput, USER_WITH_NEW_OFFERER.lastName)
+    .typeText(firstNameInput, USER_WITH_NEW_OFFERER.firstName)
+    .typeText(sirenInput, USER_WITH_NEW_OFFERER.siren)
 
     .expect(signUpButton.hasAttribute('disabled'))
     .ok()
@@ -61,9 +64,9 @@ fixture`01_02 SignupPage | Création d'un compte utilisateur | Messages d'erreur
 
 test.skip('E-mail déjà présent dans la base et mot de passe invalide', async t => {
   await t
-    .typeText(emailInput, offererUser0.email)
+    .typeText(emailInput, USER_WITH_NEW_OFFERER.email)
     .typeText(passwordInput, 'pas')
-    .typeText(sirenInput, offererUser0.siren)
+    .typeText(sirenInput, USER_WITH_NEW_OFFERER.siren)
 
     .click(contactOkInput)
 
@@ -81,11 +84,11 @@ fixture`01_03 SignupPage | Création d'un compte pour rattachement à une struct
 
 test('Je créé un compte, je suis redirigé·e vers la page /inscription/confirmation', async t => {
   await t
-    .typeText(emailInput, offererUser1.email)
-    .typeText(passwordInput, offererUser1.password)
-    .typeText(lastNameInput, offererUser1.lastName)
-    .typeText(firstNameInput, offererUser1.firstName)
-    .typeText(sirenInput, offererUser1.siren)
+    .typeText(emailInput, USER_WITH_EXISTING_OFFERER_USER.email)
+    .typeText(passwordInput, USER_WITH_EXISTING_OFFERER_USER.password)
+    .typeText(lastNameInput, USER_WITH_EXISTING_OFFERER_USER.lastName)
+    .typeText(firstNameInput, USER_WITH_EXISTING_OFFERER_USER.firstName)
+    .typeText(sirenInput, USER_WITH_EXISTING_OFFERER_USER.siren)
 
     .expect(signUpButton.hasAttribute('disabled'))
     .ok()

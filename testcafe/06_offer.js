@@ -1,7 +1,8 @@
 import { Selector } from 'testcafe'
 
-import { validatedOffererUserRole } from './helpers/roles'
 import { OFFERER_WITH_PHYSICAL_VENUE } from './helpers/offerers'
+import { createUserRole } from './helpers/roles'
+import { VALIDATED_UNREGISTERED_OFFERER_USER } from './helpers/users'
 
 const cancelAnchor = Selector('button.button').withText('Annuler')
 const createOfferAnchor = Selector("a[href^='/offres/nouveau']")
@@ -29,7 +30,9 @@ const venueAnchor = Selector("a[href^='/structures/']").withText(
 fixture`06_01 OfferPage | Naviguer vers creer une offre`
 
 test("Lorsque je clique sur le bouton créer une offre sur la page des offres, j'accède au formulaire de création d'offre", async t => {
-  await t.useRole(validatedOffererUserRole).click(createOfferAnchor)
+  await t
+    .useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
+    .click(createOfferAnchor)
 
   const location = await t.eval(() => window.location)
   await t.expect(location.pathname).eql('/offres/nouveau')
@@ -37,7 +40,7 @@ test("Lorsque je clique sur le bouton créer une offre sur la page des offres, j
 
 test("Lorsque je clique sur le bouton créer une offre sur la page d'un lieu, j'accède au formulaire de création d'offre, et je peux revenir avec le bouton annuler", async t => {
   await t
-    .useRole(validatedOffererUserRole)
+    .useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
     .click(navbarAnchor)
     .click(offerersNavbarLink)
     .click(offererAnchor)
@@ -49,7 +52,9 @@ test("Lorsque je clique sur le bouton créer une offre sur la page d'un lieu, j'
 })
 
 test('Lorsque je clique sur le bouton annuler une offre sur la page des offres, je reviens aux offres', async t => {
-  await t.useRole(validatedOffererUserRole).click(createOfferAnchor)
+  await t
+    .useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
+    .click(createOfferAnchor)
   await t.click(cancelAnchor)
   const location = await t.eval(() => window.location)
   await t.expect(location.pathname).eql('/offres')
@@ -73,7 +78,9 @@ const addScheduleAnchor = Selector('#add-occurrence-or-stock')
 fixture`06_02 OfferPage | Créer une nouvelle offre événement`
 
 test('Je peux créer une offre événement', async t => {
-  await t.useRole(validatedOffererUserRole).click(createOfferAnchor)
+  await t
+    .useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
+    .click(createOfferAnchor)
   await t.typeText(nameInput, 'Rencontre avec Franck Lepage')
   await t
     .click(typeInput)
@@ -107,7 +114,7 @@ test('Je peux créer une offre événement', async t => {
 })
 
 test("Je peux créer une occurence d'événement", async t => {
-  await t.useRole(validatedOffererUserRole)
+  await t.useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
 
   const editOfferAnchor = Selector('.event a.edit-link:first-child')
   const manageStockAnchor = Selector('a.manage-stock')
@@ -133,7 +140,7 @@ test("Je peux créer une occurence d'événement", async t => {
 })
 
 test('Je peux créer une autre occurence', async t => {
-  await t.useRole(validatedOffererUserRole)
+  await t.useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
 
   const editOfferAnchor = Selector('a.edit-link:first-child')
   const manageStockAnchor = Selector('a.manage-stock')
@@ -152,7 +159,7 @@ test('Je peux créer une autre occurence', async t => {
 })
 
 test('Je peux créer une occurence en utilisant la touche Entrée', async t => {
-  await t.useRole(validatedOffererUserRole)
+  await t.useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
 
   const editOfferAnchor = Selector('.event a.edit-link:first-child')
   const manageStockAnchor = Selector('a.manage-stock')
@@ -176,7 +183,7 @@ test('Je peux créer une occurence en utilisant la touche Entrée', async t => {
 
 test('Je peux interrompre la saisie en utilisant la touche Escape', async t => {
   // Given
-  await t.useRole(validatedOffererUserRole)
+  await t.useRole(VALIDATED_UNREGISTERED_OFFERER_USER)
   const editOfferAnchor = Selector('.event a.edit-link:first-child')
   const manageStockAnchor = Selector('a.manage-stock')
 
@@ -204,7 +211,7 @@ test('Je peux interrompre la saisie en utilisant la touche Escape', async t => {
 
 test('Je peux femer la fenêtre en utilisant la touche Escape', async t => {
   // Given
-  await t.useRole(validatedOffererUserRole)
+  await t.useRole(VALIDATED_UNREGISTERED_OFFERER_USER)
   const editOfferAnchor = Selector('.event a.edit-link:first-child')
   const manageStockAnchor = Selector('a.manage-stock')
 
@@ -224,7 +231,7 @@ test('Je peux femer la fenêtre en utilisant la touche Escape', async t => {
 })
 
 test('Je peux modifier une occurence', async t => {
-  await t.useRole(validatedOffererUserRole)
+  await t.useRole(VALIDATED_UNREGISTERED_OFFERER_USER)
 
   const editOfferAnchor = Selector('.event a.edit-link:first-child')
   const manageStockAnchor = Selector('a.manage-stock')
@@ -265,7 +272,7 @@ fixture`06_02 OfferPage | Créer une nouvelle offre avec type et sous-type`
 
 test('Je peux créer une offre avec type et sous-type', async t => {
   await t
-    .useRole(validatedOffererUserRole)
+    .useRole(VALIDATED_UNREGISTERED_OFFERER_USER)
     .click(createOfferAnchor)
     .typeText(nameInput, 'Concert de PNL Unplugged')
     .click(typeInput)
@@ -316,7 +323,7 @@ fixture`06_03 OfferPage | Créer une nouvelle offre numérique`
 
 test('Je peux créer une offre numérique', async t => {
   await t
-    .useRole(validatedOffererUserRole)
+    .useRole(VALIDATED_UNREGISTERED_OFFERER_USER)
     .click(navbarAnchor)
     .click(structuresLink)
   await t.click(createVirtualOfferAnchor)
