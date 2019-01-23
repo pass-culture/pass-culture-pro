@@ -183,7 +183,7 @@ test('Je peux créer une occurence en utilisant la touche Entrée', async t => {
 
 test('Je peux interrompre la saisie en utilisant la touche Escape', async t => {
   // Given
-  await t.useRole(VALIDATED_UNREGISTERED_OFFERER_USER)
+  await t.useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
   const editOfferAnchor = Selector('.event a.edit-link:first-child')
   const manageStockAnchor = Selector('a.manage-stock')
 
@@ -211,7 +211,7 @@ test('Je peux interrompre la saisie en utilisant la touche Escape', async t => {
 
 test('Je peux femer la fenêtre en utilisant la touche Escape', async t => {
   // Given
-  await t.useRole(VALIDATED_UNREGISTERED_OFFERER_USER)
+  await t.useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
   const editOfferAnchor = Selector('.event a.edit-link:first-child')
   const manageStockAnchor = Selector('a.manage-stock')
 
@@ -231,7 +231,7 @@ test('Je peux femer la fenêtre en utilisant la touche Escape', async t => {
 })
 
 test('Je peux modifier une occurence', async t => {
-  await t.useRole(VALIDATED_UNREGISTERED_OFFERER_USER)
+  await t.useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
 
   const editOfferAnchor = Selector('.event a.edit-link:first-child')
   const manageStockAnchor = Selector('a.manage-stock')
@@ -272,7 +272,7 @@ fixture`06_02 OfferPage | Créer une nouvelle offre avec type et sous-type`
 
 test('Je peux créer une offre avec type et sous-type', async t => {
   await t
-    .useRole(VALIDATED_UNREGISTERED_OFFERER_USER)
+    .useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
     .click(createOfferAnchor)
     .typeText(nameInput, 'Concert de PNL Unplugged')
     .click(typeInput)
@@ -323,7 +323,7 @@ fixture`06_03 OfferPage | Créer une nouvelle offre numérique`
 
 test('Je peux créer une offre numérique', async t => {
   await t
-    .useRole(VALIDATED_UNREGISTERED_OFFERER_USER)
+    .useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
     .click(navbarAnchor)
     .click(structuresLink)
   await t.click(createVirtualOfferAnchor)
