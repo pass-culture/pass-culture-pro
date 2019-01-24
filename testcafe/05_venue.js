@@ -1,6 +1,11 @@
 import { Selector } from 'testcafe'
 
 import { OFFERER_WITH_NO_PHYSICAL_VENUE } from './helpers/offerers'
+import {
+  FUTURE_PHYSICAL_VENUE_WITH_SIRET,
+  FUTURE_PHYSICAL_VENUE_WITHOUT_SIRET,
+  PHYSICAL_VENUE_WITH_SIRET,
+} from './helpers/venues'
 import { createUserRole } from './helpers/roles'
 import { VALIDATED_UNREGISTERED_OFFERER_USER } from './helpers/users'
 
@@ -32,7 +37,7 @@ const offerersNavbarAnchor = Selector("a.navbar-item[href='/structures']")
 const siretInputError = Selector('#venue-siret-error')
 const submitButton = Selector('button.button.is-primary') //créer un lieu
 const updateAnchor = Selector('a.button.is-secondary') //modifier un lieu
-const venueAnchor = Selector(OFFERER_WITH_NO_PHYSICAL_VENUE.venueAnchor)
+const venueAnchor = Selector(FUTURE_PHYSICAL_VENUE_WITH_SIRET.anchor)
 const venueMarker = Selector('img.leaflet-marker-icon')
 
 async function endCreation(t) {
@@ -66,25 +71,28 @@ test('Je rentre une nouveau lieu via son siret avec succès', async t => {
     .click(offererButton)
     .click(newVenueAnchor)
 
+  const {
+    address,
+    city,
+    latitude,
+    longitude,
+    marker,
+    name,
+    postalCode,
+    siret,
+  } = FUTURE_PHYSICAL_VENUE_WITH_SIRET
+
   // input
-  await t.typeText(siretInput, OFFERER_WITH_NO_PHYSICAL_VENUE.siret)
+  await t.typeText(siretInput, siret)
 
   // check other completed fields
-  await t.expect(nameInput.value).eql(OFFERER_WITH_NO_PHYSICAL_VENUE.name)
-  await t.expect(adressInput.value).eql(OFFERER_WITH_NO_PHYSICAL_VENUE.adress)
-  await t
-    .expect(postalCodeInput.value)
-    .eql(OFFERER_WITH_NO_PHYSICAL_VENUE.postalCode)
-  await t.expect(cityInput.value).eql(OFFERER_WITH_NO_PHYSICAL_VENUE.city)
-  await t
-    .expect(latitudeInput.value)
-    .eql(OFFERER_WITH_NO_PHYSICAL_VENUE.latitude)
-  await t
-    .expect(longitudeInput.value)
-    .eql(OFFERER_WITH_NO_PHYSICAL_VENUE.longitude)
-  await t
-    .expect(venueMarker.getAttribute('alt'))
-    .eql(OFFERER_WITH_NO_PHYSICAL_VENUE.venueMarker)
+  await t.expect(nameInput.value).eql(name)
+  await t.expect(adressInput.value).eql(address)
+  await t.expect(postalCodeInput.value).eql(postalCode)
+  await t.expect(cityInput.value).eql(city)
+  await t.expect(latitudeInput.value).eql(latitude)
+  await t.expect(longitudeInput.value).eql(longitude)
+  await t.expect(venueMarker.getAttribute('alt')).eql(marker)
 
   await endCreation(t)
 })
@@ -105,7 +113,7 @@ fixture`05_02 VenuePage | Je ne peux pas créer de lieu, j'ai des erreurs`.befor
 
 test('Une entrée avec cet identifiant existe déjà', async t => {
   // input
-  await t.typeText(siretInput, OFFERER_WITH_NO_PHYSICAL_VENUE.siret)
+  await t.typeText(siretInput, PHYSICAL_VENUE_WITH_SIRET.siret)
 
   // create venue
   await t.click(submitButton)
@@ -264,23 +272,34 @@ test('Je rentre une nouveau lieu sans siret avec succès', async t => {
     .click(offererButton)
     .click(newVenueAnchor)
 
+  const {
+    address,
+    banAddress,
+    city,
+    comment,
+    latitude,
+    longitude,
+    name,
+    postalCode,
+  } = FUTURE_PHYSICAL_VENUE_WITHOUT_SIRET
+
   await t
-    .typeText(nameInput, 'Lieu sans SIRET')
-    .typeText(commentInput, 'Test sans SIRET')
-    .typeText(addressInput, '1 place du trocadéro')
+    .typeText(nameInput, name)
+    .typeText(commentInput, comment)
+    .typeText(addressInput, address)
     .expect(addressSuggestion.innerText)
-    .eql('1 Place du Trocadero et du 11 Novembre 75016 Paris')
+    .eql(banAddress)
 
     .click(addressSuggestion)
 
     .expect(postalCodeInput.value)
-    .eql('75016')
+    .eql(postalCode)
     .expect(cityInput.value)
-    .eql('Paris')
+    .eql(city)
     .expect(latitudeInput.value)
-    .eql('48.862923')
+    .eql(latitude)
     .expect(longitudeInput.value)
-    .eql('2.287896')
+    .eql(longitude)
 
   await endCreation(t)
 })

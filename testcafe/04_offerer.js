@@ -1,10 +1,14 @@
-import { Selector, RequestMock } from 'testcafe'
+import { Selector } from 'testcafe'
 
-import { OFFERER_WITH_NO_PHYSICAL_VENUE } from './helpers/offerers'
+import {
+  FUTURE_OFFERER_CREATED_IN_OFFERER_PAGE,
+  OFFERER_WITH_NO_PHYSICAL_VENUE,
+} from './helpers/offerers'
 import { createUserRole } from './helpers/roles'
+import { SIREN_WITHOUT_ADDRESS } from './helpers/sirens'
 import { VALIDATED_UNREGISTERED_OFFERER_USER } from './helpers/users'
 
-const adressInput = Selector('input#offerer-address')
+const addressInput = Selector('input#offerer-address')
 const nameInput = Selector('input#offerer-name')
 const navbarAnchor = Selector(
   'a.navbar-link, span.navbar-burger'
@@ -14,28 +18,8 @@ const newOffererAnchor = Selector(
 )
 const offerersNavbarLink = Selector("a.navbar-item[href='/structures']")
 const sirenInput = Selector('#offerer-siren')
-const ibanInput = Selector('#offerer-iban')
-const bicInput = Selector('#offerer-bic')
 const sirenErrorInput = Selector('#offerer-siren-error')
 const submitButton = Selector('button.button.is-primary') //connexion
-
-var apiSireneMock = RequestMock()
-  .onRequestTo('https://sirene.entreprise.api.gouv.fr/v1/siren/216701375')
-  .respond(
-    {
-      siege_social: {
-        siren: '216701375',
-        l1_normalisee: 'Nom',
-        l4_normalisee: null,
-        libelle_commune: 'test',
-        latitude: '12.98723',
-        longitude: '87.01821',
-        code_postal: '75000',
-      },
-    },
-    200,
-    { 'access-control-allow-origin': '*' }
-  )
 
 fixture`04_01 OffererPage | Créer une nouvelle structure`.beforeEach(
   async t => {
@@ -87,6 +71,8 @@ test('Je ne peux pas ajouter de nouvelle structure ayant un siren déjà existan
 })
 
 test('Je rentre une nouvelle structure via son siren', async t => {
+  const { address, name, siren } = FUTURE_OFFERER_CREATED_IN_OFFERER_PAGE
+
   // navigation
   let location = await t.eval(() => window.location)
   await t
@@ -94,11 +80,11 @@ test('Je rentre une nouvelle structure via son siren', async t => {
     .eql('/structures/nouveau')
 
     // input
-    .typeText(sirenInput, '492 475 033')
+    .typeText(sirenInput, siren)
 
   // check other completed fields
-  await t.expect(nameInput.value).eql('NASKA PROD')
-  await t.expect(adressInput.value).eql('167 QUAI DE VALMY')
+  await t.expect(nameInput.value).eql(name)
+  await t.expect(addressInput.value).eql(address)
 
   // submit
   await t.click(submitButton)
@@ -118,7 +104,7 @@ test.skip('J edit une structure pour lui ajouter ses coordonnées bancaires car 
   // t.typeText(ibanInput, 'FR7630004000031234567890143')
 })
 
-test.requestHooks(apiSireneMock)(
+test.requestHooks(SIREN_WITHOUT_ADDRESS)(
   "Je rentre une structure dont l'adresse n'est pas renvoyée par l'api sirene et je peux valider",
   async t => {
     // given
@@ -127,7 +113,7 @@ test.requestHooks(apiSireneMock)(
     let location = await t.eval(() => window.location)
     await t
       .typeText(sirenInput, sirenWithNoAddress)
-      .expect(adressInput.value)
+      .expect(addressInput.value)
       .eql('')
 
       // when

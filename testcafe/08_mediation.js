@@ -10,7 +10,6 @@ const editOfferAnchor = Selector('a.name').withText(
   'Rencontre avec Franck Lepage'
 )
 const submitButton = Selector('button.button.is-primary').withText('Valider')
-
 const urlInput = Selector("input[placeholder='URL du fichier']")
 const urlButton = Selector('button.is-primary').withText('OK')
 

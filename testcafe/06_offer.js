@@ -1,6 +1,6 @@
 import { Selector } from 'testcafe'
 
-import { OFFERER_WITH_PHYSICAL_VENUE } from './helpers/offerers'
+import { OFFERER_WITH_PHYSICAL_VENUE_WITH_NO_IBAN } from './helpers/offerers'
 import { createUserRole } from './helpers/roles'
 import { VALIDATED_UNREGISTERED_OFFERER_USER } from './helpers/users'
 
@@ -12,11 +12,11 @@ const navbarAnchor = Selector(
   'a.navbar-link, span.navbar-burger'
 ).filterVisible()
 const offererAnchor = Selector("a[href^='/structures/']").withText(
-  OFFERER_WITH_PHYSICAL_VENUE.name
+  OFFERER_WITH_PHYSICAL_VENUE_WITH_NO_IBAN.name
 )
 const offererInput = Selector('#offer-offererId')
 const offererOption = Selector('option').withText(
-  OFFERER_WITH_PHYSICAL_VENUE.name
+  OFFERER_WITH_PHYSICAL_VENUE_WITH_NO_IBAN.name
 )
 const offerersNavbarLink = Selector("a.navbar-item[href='/structures']")
 const priceInput = Selector('#stock-price')
@@ -24,7 +24,7 @@ const stockBookingLimitDatetimeInput = Selector('#stock-bookingLimitDatetime')
 const scheduleCloseButton = Selector('button.button').withText('Fermer')
 const scheduleSubmitButton = Selector('button.button.submitStep')
 const venueAnchor = Selector("a[href^='/structures/']").withText(
-  OFFERER_WITH_PHYSICAL_VENUE.venueName
+  OFFERER_WITH_PHYSICAL_VENUE_WITH_NO_IBAN.venueName
 )
 
 fixture`06_01 OfferPage | Naviguer vers creer une offre`
@@ -86,7 +86,9 @@ test('Je peux créer une offre événement', async t => {
     .click(typeInput)
     .click(typeOption.withText('Conférence — Débat — Dédicace'))
     .click(venueInput)
-    .click(venueOption.withText(OFFERER_WITH_PHYSICAL_VENUE.venueName))
+    .click(
+      venueOption.withText(OFFERER_WITH_PHYSICAL_VENUE_WITH_NO_IBAN.venueName)
+    )
   await t.click(offererInput).click(offererOption)
   await t.typeText(durationMinutesInput, '120')
   await t.typeText(
@@ -282,7 +284,9 @@ test('Je peux créer une offre avec type et sous-type', async t => {
     .click(musicSubTypeInput)
     .click(musicSubTypeOption.withText('Rap Alternatif'))
     .click(venueInput)
-    .click(venueOption.withText(OFFERER_WITH_PHYSICAL_VENUE.venueName))
+    .click(
+      venueOption.withText(OFFERER_WITH_PHYSICAL_VENUE_WITH_NO_IBAN.venueName)
+    )
     .click(offererInput)
     .click(offererOption)
     .typeText(durationMinutesInput, '90')
