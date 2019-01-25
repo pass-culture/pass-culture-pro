@@ -1,33 +1,34 @@
 const latitude = '48.83638'
 const longitude = '2.40027'
-export const FUTURE_PHYSICAL_VENUE_WITH_SIRET = {
+export const FUTURE_PHYSICAL_VENUE_WITH_SIRET_WITH_OFFERER_IBAN_WITH_NO_IBAN = {
   address: 'RUE DES POILUS',
   anchor: '#a-herbert-marcuse-entreprise',
   city: 'Drancy',
   latitude,
   longitude,
-  marker: `${longitude}-${latitude}`,
+  marker: `${latitude}-${longitude}`,
   name: 'Le lieu magique de type fussoir',
   postalCode: '93700',
-  siret: `22222222211111`,
+  siret: '22222222291111',
 }
 
-export const FUTURE_PHYSICAL_VENUE_WITHOUT_SIRET = {
+export const FUTURE_PHYSICAL_VENUE_WITH_NO_SIRET_WITH_OFFERER_IBAN_WITH_NO_IBAN = {
   address: '1 place du trocadéro',
   banAddress: '1 Place du Trocadero et du 11 Novembre 75016 Paris',
   city: 'Paris',
   comment: 'Test sans SIRET',
   latitude: '48.862923',
   longitude: '2.287896',
-  name: 'Lieu sans SIRET',
+  name: 'Le lieu sympa de type sans siret',
   postalCode: '75016',
 }
 
-export const PHYSICAL_VENUE_WITH_SIRET = {
-  name: 'Les Perruches Swing',
-  siret: '22222222511111',
-}
-
-export const VENUE_FROM_OFFERER_WITH_PHYSICAL_VENUE_WITH_NO_IBAN = {
-  name: 'Folie des anachorète',
+export const PHYSICAL_VENUE_WITH_SIRET_WITH_OFFERER_IBAN_WITH_NO_IBAN = {
+  address: 'RUE DIDEROT',
+  city: 'Aulnay-sous-Bois',
+  latitude: '48.92071',
+  longitude: '2.48371',
+  name: 'Cinéma de la fin',
+  postalCode: '93600',
+  siret: '22222222911111',
 }

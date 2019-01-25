@@ -22,9 +22,8 @@ const signUpButton = Selector('button.button.is-primary')
 const sirenInput = Selector('#user-siren')
 const notificationSuccess = Selector('.notification.is-success')
 
-fixture.skip(
-  `01_01 SignupPage |  Component | Je crée un compte utilisateur·ice`
-).page`${ROOT_PATH + 'inscription'}`
+fixture`01_01 SignupPage |  Component | Je crée un compte utilisateur·ice`
+  .page`${ROOT_PATH + 'inscription'}`
 
 test("Je peux cliquer sur lien pour me connecter si j'ai déja un compte", async t => {
   await t.click(signInButton)
@@ -65,9 +64,8 @@ test('Je créé un compte avec un nouveau siren, je suis redirigé·e vers la pa
   await t.expect(location.pathname).eql('/inscription/confirmation')
 })
 
-fixture.skip(
-  `01_02 SignupPage | Création d'un compte utilisateur | Messages d'erreur lorsque les champs ne sont pas correctement remplis`
-).page`${ROOT_PATH + 'inscription'}`
+fixture`01_02 SignupPage | Création d'un compte utilisateur | Messages d'erreur lorsque les champs ne sont pas correctement remplis`
+  .page`${ROOT_PATH + 'inscription'}`
 
 test.requestHooks(SIREN_ALREADY_IN_DATABASE)(
   'E-mail déjà présent dans la base',
@@ -117,9 +115,8 @@ test.requestHooks(SIREN_ALREADY_IN_DATABASE)(
   }
 )
 
-fixture.skip(
-  `01_03 SignupPage | Création d'un compte pour rattachement à une structure existante`
-).page`${ROOT_PATH + 'inscription'}`
+fixture`01_03 SignupPage | Création d'un compte pour rattachement à une structure existante`
+  .page`${ROOT_PATH + 'inscription'}`
 
 test.requestHooks(SIREN_ALREADY_IN_DATABASE)(
   'Je créé un compte avec un siren déjà dans la base, je suis redirigé·e vers la page /inscription/confirmation',

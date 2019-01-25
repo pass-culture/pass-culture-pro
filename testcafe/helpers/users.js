@@ -1,6 +1,6 @@
 import {
   FUTURE_OFFERER_CREATED_IN_SIGNUP_PAGE,
-  OFFERER_WITH_NO_PHYSICAL_VENUE,
+  OFFERER_WITH_NO_PHYSICAL_VENUE_WITH_NO_IBAN,
 } from './offerers'
 
 export const FUTURE_USER_WITH_UNREGISTERED_OFFERER = {
@@ -16,7 +16,7 @@ export const FUTURE_USER_WITH_REGISTERED_OFFERER_USER = {
   firstName: 'PC Test Pro',
   lastName: '93 Café1',
   password: 'pctest.Pro93.cafe1',
-  siren: OFFERER_WITH_NO_PHYSICAL_VENUE.siren,
+  siren: OFFERER_WITH_NO_PHYSICAL_VENUE_WITH_NO_IBAN.siren,
 }
 
 export const ADMIN_0_USER = {
@@ -36,5 +36,5 @@ export const VALIDATED_UNREGISTERED_OFFERER_USER = {
   firstName: 'PC Test Pro',
   lastName: '93 HVUO',
   password: 'pctest.Pro93.has-validated-unregistered-offerer',
-  siren: OFFERER_WITH_NO_PHYSICAL_VENUE.siren,
+  siren: OFFERER_WITH_NO_PHYSICAL_VENUE_WITH_NO_IBAN.siren,
 }

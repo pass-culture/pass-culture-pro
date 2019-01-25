@@ -1,35 +1,24 @@
 import { Selector } from 'testcafe'
 
+import { navigateToNewOffererAs } from './helpers/navigations'
 import {
-  FUTURE_OFFERER_CREATED_IN_OFFERER_PAGE,
-  OFFERER_WITH_NO_PHYSICAL_VENUE,
+  FUTURE_OFFERER_CREATED_IN_OFFERER_PAGE_WITH_NO_IBAN,
+  OFFERER_WITH_NO_PHYSICAL_VENUE_WITH_NO_IBAN,
 } from './helpers/offerers'
-import { createUserRole } from './helpers/roles'
-import { SIREN_WITHOUT_ADDRESS } from './helpers/sirens'
+import {
+  SIREN_ALREADY_IN_DATABASE,
+  SIREN_WITHOUT_ADDRESS,
+} from './helpers/sirens'
 import { VALIDATED_UNREGISTERED_OFFERER_USER } from './helpers/users'
 
 const addressInput = Selector('input#offerer-address')
 const nameInput = Selector('input#offerer-name')
-const navbarAnchor = Selector(
-  'a.navbar-link, span.navbar-burger'
-).filterVisible()
-const newOffererAnchor = Selector(
-  "a.button.is-primary[href='/structures/nouveau']"
-)
-const offerersNavbarLink = Selector("a.navbar-item[href='/structures']")
 const sirenInput = Selector('#offerer-siren')
 const sirenErrorInput = Selector('#offerer-siren-error')
 const submitButton = Selector('button.button.is-primary') //connexion
 
 fixture`04_01 OffererPage | Créer une nouvelle structure`.beforeEach(
-  async t => {
-    await t
-      .useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
-      // le userRole a l'option preserveUrl: true donc le test commence sur la page /offres
-      .click(navbarAnchor)
-      .click(offerersNavbarLink)
-      .click(newOffererAnchor)
-  }
+  navigateToNewOffererAs(VALIDATED_UNREGISTERED_OFFERER_USER)
 )
 
 test('Je ne peux pas ajouter de nouvelle structure avec un siren faux', async t => {
@@ -49,29 +38,36 @@ test('Je ne peux pas ajouter de nouvelle structure avec un siren faux', async t 
   await t.expect(sirenErrorInput.innerText).contains('Siren invalide')
 })
 
-test('Je ne peux pas ajouter de nouvelle structure ayant un siren déjà existant dans la base', async t => {
-  // navigation
-  let location = await t.eval(() => window.location)
-  await t
-    .expect(location.pathname)
-    .eql('/structures/nouveau')
+test.requestHooks(SIREN_ALREADY_IN_DATABASE)(
+  'Je ne peux pas ajouter de nouvelle structure ayant un siren déjà existant dans la base',
+  async t => {
+    // navigation
+    let location = await t.eval(() => window.location)
+    await t
+      .expect(location.pathname)
+      .eql('/structures/nouveau')
 
-    // input
-    .typeText(sirenInput, OFFERER_WITH_NO_PHYSICAL_VENUE.siren)
+      // input
+      .typeText(sirenInput, OFFERER_WITH_NO_PHYSICAL_VENUE_WITH_NO_IBAN.siren)
 
-  // submit
-  await t.click(submitButton)
+    // submit
+    await t.click(submitButton)
 
-  // api return an error message
-  await t
-    .expect(sirenErrorInput.innerText)
-    .contains(
-      'Une entrée avec cet identifiant existe déjà dans notre base de données'
-    )
-})
+    // api return an error message
+    await t
+      .expect(sirenErrorInput.innerText)
+      .contains(
+        'Une entrée avec cet identifiant existe déjà dans notre base de données'
+      )
+  }
+)
 
 test('Je rentre une nouvelle structure via son siren', async t => {
-  const { address, name, siren } = FUTURE_OFFERER_CREATED_IN_OFFERER_PAGE
+  const {
+    address,
+    name,
+    siren,
+  } = FUTURE_OFFERER_CREATED_IN_OFFERER_PAGE_WITH_NO_IBAN
 
   // navigation
   let location = await t.eval(() => window.location)
@@ -94,7 +90,7 @@ test('Je rentre une nouvelle structure via son siren', async t => {
   await t.expect(location.pathname).eql('/structures')
 })
 
-test.skip('J edit une structure pour lui ajouter ses coordonnées bancaires car je suis admin', async t => {
+test.skip('Je modifie une structure pour lui ajouter ses coordonnées bancaires car je suis admin', async t => {
   // navigation
   let location = await t.eval(() => window.location)
   await t.expect(location.pathname).eql('/structures')

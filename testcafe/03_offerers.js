@@ -1,6 +1,6 @@
 import { Selector } from 'testcafe'
 
-import { createUserRole } from './helpers/roles'
+import { navigateToOfferersAs } from './helpers/navigations'
 import { VALIDATED_UNREGISTERED_OFFERER_USER } from './helpers/users'
 
 const activationMessage = Selector('#offerer-item-validation')
@@ -10,15 +10,11 @@ const createOffererAnchor = Selector(
   "a.button.is-primary[href='/structures/nouveau']"
 )
 const firstArrow = arrow.nth(0)
-const navbarLink = Selector('a.navbar-link, span.navbar-burger').filterVisible()
-const offerersNavbarLink = Selector("a.navbar-item[href='/structures']")
 const pageTitleHeader = Selector('h1')
 const subTitleHeader = Selector('h2')
 
 fixture`03_01 OfferersPage | Je me connecte pour la première fois en tant que nouvel utilisateur·ice`.beforeEach(
-  async t => {
-    await t.useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
-  }
+  navigateToOfferersAs(VALIDATED_UNREGISTERED_OFFERER_USER)
 )
 
 test("J'arrive sur la page /offres après m'être connecté·e", async t => {
@@ -26,12 +22,7 @@ test("J'arrive sur la page /offres après m'être connecté·e", async t => {
 })
 
 fixture`03_02 OfferersPage | Voir la liste de mes structures`.beforeEach(
-  async t => {
-    await t
-      .useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
-      .click(navbarLink)
-      .click(offerersNavbarLink)
-  }
+  navigateToOfferersAs(VALIDATED_UNREGISTERED_OFFERER_USER)
 )
 
 test("La structure qui vient d'être créée est en attente de validation", async t => {
