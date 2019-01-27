@@ -1,8 +1,16 @@
 import { Selector } from 'testcafe'
 
-import { OFFERER_WITH_PHYSICAL_VENUE_WITH_NO_IBAN } from './helpers/offerers'
-import { createUserRole } from './helpers/roles'
+import {
+  navigateToNewOfferAs,
+  navigateToOfferAs,
+  navigateToVenueAs,
+} from './helpers/navigations'
+import {
+  OFFERER_WITH_PHYSICAL_VENUE_WITH_IBAN,
+  OFFERER_WITH_PHYSICAL_VENUE_WITH_NO_IBAN,
+} from './helpers/offerers'
 import { VALIDATED_UNREGISTERED_OFFERER_USER } from './helpers/users'
+import { PHYSICAL_VENUE_WITH_SIRET_WITH_OFFERER_IBAN_WITH_NO_IBAN } from './helpers/venues'
 
 const cancelAnchor = Selector('button.button').withText('Annuler')
 const createOfferAnchor = Selector("a[href^='/offres/nouveau']")
@@ -23,34 +31,52 @@ const priceInput = Selector('#stock-price')
 const stockBookingLimitDatetimeInput = Selector('#stock-bookingLimitDatetime')
 const scheduleCloseButton = Selector('button.button').withText('Fermer')
 const scheduleSubmitButton = Selector('button.button.submitStep')
-const venueAnchor = Selector("a[href^='/structures/']").withText(
-  OFFERER_WITH_PHYSICAL_VENUE_WITH_NO_IBAN.venueName
-)
 
-fixture`06_01 OfferPage | Naviguer vers creer une offre`
+fixture`OfferPage A | Naviguer vers creer une offre et revenir au précédent`
 
-test("Lorsque je clique sur le bouton créer une offre sur la page des offres, j'accède au formulaire de création d'offre", async t => {
-  await t
-    .useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
-    .click(createOfferAnchor)
+test("Lorsque je clique sur le bouton créer une offre sur la page des offres, j'accède au formulaire de création d'offre et je peux revenir aux offres", async t => {
+  await navigateToNewOfferAs(VALIDATED_UNREGISTERED_OFFERER_USER)(t)
 
   const location = await t.eval(() => window.location)
   await t.expect(location.pathname).eql('/offres/nouveau')
 })
 
-test("Lorsque je clique sur le bouton créer une offre sur la page d'un lieu, j'accède au formulaire de création d'offre, et je peux revenir avec le bouton annuler", async t => {
-  await t
-    .useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
-    .click(navbarAnchor)
-    .click(offerersNavbarLink)
-    .click(offererAnchor)
-    .click(venueAnchor)
-  await t.click(createOfferFromVenueAnchor)
+test("Lorsque je clique sur le bouton créer une offre d'un item structure dans la page structures, j'accède au formulaire de création d'offre", async t => {
+  await navigateToNewOfferAs(
+    VALIDATED_UNREGISTERED_OFFERER_USER,
+    OFFERER_WITH_PHYSICAL_VENUE_WITH_IBAN
+  )(t)
 
   const location = await t.eval(() => window.location)
   await t.expect(location.pathname).eql('/offres/nouveau')
 })
 
+test("Lorsque je clique sur le bouton créer une offre d'un item lieu dans la page d'une structure, j'accède au formulaire de création d'offre", async t => {
+  await navigateToNewOfferAs(
+    VALIDATED_UNREGISTERED_OFFERER_USER,
+    OFFERER_WITH_PHYSICAL_VENUE_WITH_IBAN,
+    PHYSICAL_VENUE_WITH_SIRET_WITH_OFFERER_IBAN_WITH_NO_IBAN
+  )(t)
+
+  const location = await t.eval(() => window.location)
+  await t.expect(location.pathname).eql('/offres/nouveau')
+})
+
+test("Lorsque je clique sur le bouton créer une offre sur la page d'un lieu, j'accède au formulaire de création d'offre", async t => {
+  await navigateToVenueAs(
+    VALIDATED_UNREGISTERED_OFFERER_USER,
+    OFFERER_WITH_PHYSICAL_VENUE_WITH_IBAN,
+    PHYSICAL_VENUE_WITH_SIRET_WITH_OFFERER_IBAN_WITH_NO_IBAN
+  )(t)
+
+  const newOfferAnchor = Selector("a[href^='/offres/nouveau?lieu=']")
+  await t.click(newOfferAnchor)
+
+  const location = await t.eval(() => window.location)
+  await t.expect(location.pathname).eql('/offres/nouveau')
+})
+
+/*
 test('Lorsque je clique sur le bouton annuler une offre sur la page des offres, je reviens aux offres', async t => {
   await t
     .useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
@@ -75,7 +101,7 @@ const submitButton = Selector('button.button.is-primary').withText(
 )
 const addScheduleAnchor = Selector('#add-occurrence-or-stock')
 
-fixture`06_02 OfferPage | Créer une nouvelle offre événement`
+fixture`OfferPage B | Créer une nouvelle offre événement`
 
 test('Je peux créer une offre événement', async t => {
   await t
@@ -270,7 +296,7 @@ test('Je peux modifier une occurence', async t => {
   await t.typeText(priceInput, '15').click(scheduleSubmitButton)
 })
 
-fixture`06_02 OfferPage | Créer une nouvelle offre avec type et sous-type`
+fixture`OfferPage C | Créer une nouvelle offre avec type et sous-type`
 
 test('Je peux créer une offre avec type et sous-type', async t => {
   await t
@@ -323,7 +349,7 @@ const offerUrlInput = Selector('#offer-url')
 const closeInput = Selector('button').withText('Fermer')
 const offerGoToGestionButton = Selector('.nb-dates')
 
-fixture`06_03 OfferPage | Créer une nouvelle offre numérique`
+fixture`OfferPage D | Créer une nouvelle offre numérique`
 
 test('Je peux créer une offre numérique', async t => {
   await t
@@ -371,3 +397,5 @@ test('Je peux créer une offre numérique', async t => {
   const listGoToGestionButton = Selector(`a[href="/offres/${offerId}?gestion"]`)
   await t.expect(listGoToGestionButton.innerText).eql('1 prix')
 })
+
+*/

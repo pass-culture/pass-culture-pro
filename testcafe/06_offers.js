@@ -13,7 +13,7 @@ const offerListLink = Selector('.navbar-item').withText('Vos offres')
 const offerActivSwitch = Selector('.offer-item .activ-switch')
 const offerActivSwitchText = () => trimed(Selector('.offer-item .activ-switch'))
 
-fixture`10_01 OffersList | Lister les offres`
+fixture`OffersList A | Lister les offres`
 
 test("Lorsque je cliques sur `Mes offres`, j'accès de à la liste des offres", async t => {
   await t

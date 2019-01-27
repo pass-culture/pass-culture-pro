@@ -22,8 +22,8 @@ const signUpButton = Selector('button.button.is-primary')
 const sirenInput = Selector('#user-siren')
 const notificationSuccess = Selector('.notification.is-success')
 
-fixture`01_01 SignupPage |  Component | Je crée un compte utilisateur·ice`
-  .page`${ROOT_PATH + 'inscription'}`
+fixture`SignupPage A | Je crée un compte utilisateur·ice`.page`${ROOT_PATH +
+  'inscription'}`
 
 test("Je peux cliquer sur lien pour me connecter si j'ai déja un compte", async t => {
   await t.click(signInButton)
@@ -64,7 +64,7 @@ test('Je créé un compte avec un nouveau siren, je suis redirigé·e vers la pa
   await t.expect(location.pathname).eql('/inscription/confirmation')
 })
 
-fixture`01_02 SignupPage | Création d'un compte utilisateur | Messages d'erreur lorsque les champs ne sont pas correctement remplis`
+fixture`SignupPage B | Création d'un compte utilisateur et messages d'erreur lorsque les champs ne sont pas correctement remplis`
   .page`${ROOT_PATH + 'inscription'}`
 
 test.requestHooks(SIREN_ALREADY_IN_DATABASE)(
@@ -115,7 +115,7 @@ test.requestHooks(SIREN_ALREADY_IN_DATABASE)(
   }
 )
 
-fixture`01_03 SignupPage | Création d'un compte pour rattachement à une structure existante`
+fixture`SignupPage C | Création d'un compte pour rattachement à une structure existante`
   .page`${ROOT_PATH + 'inscription'}`
 
 test.requestHooks(SIREN_ALREADY_IN_DATABASE)(
@@ -148,7 +148,7 @@ test.requestHooks(SIREN_ALREADY_IN_DATABASE)(
   }
 )
 
-fixture`01_04 SignupPage | Clique sur le lien de validation de compte reçu par email`
+fixture`SignupPage D | Clique sur le lien de validation de compte reçu par email`
   .page`${ROOT_PATH + 'inscription'}`
 
 test('Je suis redirigé sur la page de connexion avec un message de confirmation', async t => {

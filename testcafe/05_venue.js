@@ -36,14 +36,14 @@ const submitButton = Selector('button.button.is-primary') //créer un lieu
 const updateAnchor = Selector('a.button.is-secondary') //modifier un lieu
 const venueMarker = Selector('img.leaflet-marker-icon')
 
-fixture`05_01 VenuePage | Créer un nouveau lieu avec succès`.beforeEach(
+fixture`VenuePage A | Créer un nouveau lieu avec succès`.beforeEach(
   navigateToNewVenueAs(
     VALIDATED_UNREGISTERED_OFFERER_USER,
     OFFERER_WITH_NO_PHYSICAL_VENUE_WITH_NO_IBAN
   )
 )
 
-test.skip.requestHooks(FUTURE_SIRET)(
+test.requestHooks(FUTURE_SIRET)(
   'Je rentre une nouveau lieu via son siret avec succès',
   async t => {
     const {
@@ -73,7 +73,47 @@ test.skip.requestHooks(FUTURE_SIRET)(
   }
 )
 
-fixture`05_02 VenuePage | Je ne peux pas créer de lieu, j'ai des erreurs`.beforeEach(
+test('Je rentre une nouveau lieu sans siret avec succès', async t => {
+  // given
+  const addressInput = Selector('#venue-address')
+  const addressSuggestion = Selector('.geo-input .menu .item')
+  const {
+    address,
+    banAddress,
+    city,
+    comment,
+    latitude,
+    longitude,
+    name,
+    postalCode,
+  } = FUTURE_PHYSICAL_VENUE_WITH_NO_SIRET_WITH_OFFERER_IBAN_WITH_NO_IBAN
+
+  // when
+  await t
+    .typeText(nameInput, name)
+    .typeText(commentInput, comment)
+    .typeText(addressInput, address)
+
+  // then
+  await t
+    .expect(addressSuggestion.innerText)
+    .eql(banAddress)
+
+    .click(addressSuggestion)
+
+    .expect(postalCodeInput.value)
+    .eql(postalCode)
+    .expect(cityInput.value)
+    .eql(city)
+    .expect(latitudeInput.value)
+    .eql(latitude)
+    .expect(longitudeInput.value)
+    .eql(longitude)
+
+  await navigateAfterSubmit(t)
+})
+
+fixture`VenuePage B | Je ne peux pas créer de lieu, j'ai des erreurs`.beforeEach(
   navigateToNewVenueAs(
     VALIDATED_UNREGISTERED_OFFERER_USER,
     OFFERER_WITH_PHYSICAL_VENUE_WITH_IBAN
@@ -197,11 +237,11 @@ test('La saisie de bonnes coordonées géographiques ajoute un marker', async t 
     .ok()
 })
 
-fixture`05_03 VenuePage | Component | Je suis sur la page de détail du lieu`.beforeEach(
+fixture`VenuePage C | Je suis sur la page de détail du lieu`.beforeEach(
   navigateToVenueAs(
     VALIDATED_UNREGISTERED_OFFERER_USER,
     OFFERER_WITH_PHYSICAL_VENUE_WITH_IBAN,
-    FUTURE_PHYSICAL_VENUE_WITH_SIRET_WITH_OFFERER_IBAN_WITH_NO_IBAN
+    PHYSICAL_VENUE_WITH_SIRET_WITH_OFFERER_IBAN_WITH_NO_IBAN
   )
 )
 
@@ -215,51 +255,4 @@ test('Je peux revenir en arrière', async t => {
 test.skip('Je peux modifier le lieu', async t => {
   // TODO
   await t.click(updateAnchor)
-})
-
-const addressInput = Selector('#venue-address')
-const addressSuggestion = Selector('.geo-input .menu .item')
-fixture`05_04 VenuePage | Créer un nouveau lieu sans SIRET`.beforeEach(
-  navigateToNewVenueAs(
-    VALIDATED_UNREGISTERED_OFFERER_USER,
-    OFFERER_WITH_NO_PHYSICAL_VENUE_WITH_NO_IBAN
-  )
-)
-
-test('Je rentre une nouveau lieu sans siret avec succès', async t => {
-  // given
-  const {
-    address,
-    banAddress,
-    city,
-    comment,
-    latitude,
-    longitude,
-    name,
-    postalCode,
-  } = FUTURE_PHYSICAL_VENUE_WITH_NO_SIRET_WITH_OFFERER_IBAN_WITH_NO_IBAN
-
-  // when
-  await t
-    .typeText(nameInput, name)
-    .typeText(commentInput, comment)
-    .typeText(addressInput, address)
-
-  // then
-  await t
-    .expect(addressSuggestion.innerText)
-    .eql(banAddress)
-
-    .click(addressSuggestion)
-
-    .expect(postalCodeInput.value)
-    .eql(postalCode)
-    .expect(cityInput.value)
-    .eql(city)
-    .expect(latitudeInput.value)
-    .eql(latitude)
-    .expect(longitudeInput.value)
-    .eql(longitude)
-
-  await navigateAfterSubmit(t)
 })

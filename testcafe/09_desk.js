@@ -19,7 +19,7 @@ const registerButton = Selector('.form button[type="submit"]')
 const TEST_GOOD_CODE = '2ALYY5'
 const TEST_BAD_CODE = 'ABC123'
 
-fixture`08_01 Guichet | Page guichet`.page`${ROOT_PATH}guichet`
+fixture`DeskPage A | Saisir un code`.page`${ROOT_PATH}guichet`
 
 test("L'état de départ de la page /guichet est conforme", async t => {
   await t.useRole(createUserRole(ADMIN_0_USER))

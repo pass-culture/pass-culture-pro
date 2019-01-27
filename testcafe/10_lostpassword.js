@@ -11,7 +11,7 @@ const passwordInput = Selector('#user-newPassword')
 const pageH1 = Selector('h1')
 const errorsDiv = Selector('.errors')
 
-fixture`08_01 Lost Password link | La page de connexion propose un lien pour changer de mot de passe`
+fixture`LostPasswordPage A | La page de connexion propose un lien pour changer de mot de passe`
   .page`${ROOT_PATH + 'connexion'}`
 
 test('Je peux cliquer sur lien mot de passe oublié', async t => {
@@ -37,7 +37,7 @@ test('Je peux cliquer sur lien mot de passe oublié', async t => {
     .eql('Merci !')
 })
 
-fixture`08_03 Lost Password form | La page de changement de mot de passe vérifie le token`
+fixture`LostPasswordPage B | La page de changement de mot de passe vérifie le token`
   .page`${ROOT_PATH + 'mot-de-passe-perdu?token=ABCD'}`
 
 test('Je ne peux pas changer mon mot de passe de sans token valide', async t => {

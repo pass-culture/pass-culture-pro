@@ -1,7 +1,6 @@
 import { Selector } from 'testcafe'
 
 import { createUserRole } from './roles'
-import { getElementIdFromName } from '../../src/utils/identifiers'
 
 export const navigateToOfferersAs = user => async t => {
   const navbarAnchor = Selector(
@@ -23,28 +22,42 @@ export const navigateToNewOffererAs = user => async t => {
   await t.click(newOffererAnchor)
 }
 
+export const navigateToOffererAs = (user, offerer) => async t => {
+  const searchInput = Selector('#search')
+  const submitButton = Selector('button[type="submit"]')
+
+  const offererAnchor = Selector("a[href^='/structures/']").nth(0)
+
+  await navigateToOfferersAs(user)(t)
+
+  await t
+    .typeText(searchInput, offerer.keywordsString)
+    .click(submitButton)
+    .click(offererAnchor)
+}
+
 export const navigateToNewVenueAs = (user, offerer) => async t => {
   const newVenueAnchor = Selector('a.button.is-secondary').withText(
     '+ Ajouter un lieu'
   )
-  const offererButton = Selector("a[href^='/structures/']").withText(
+  const offererAnchor = Selector("a[href^='/structures/']").withText(
     offerer.name
   )
 
   await navigateToOfferersAs(user)(t)
 
-  await t.click(offererButton).click(newVenueAnchor)
+  await t.click(offererAnchor).click(newVenueAnchor)
 }
 
 export const navigateToVenueAs = (user, offerer, venue) => async t => {
-  const offererButton = Selector("a[href^='/structures/']").withText(
+  const offererAnchor = Selector("a[href^='/structures/']").withText(
     offerer.name
   )
-  const venueAnchor = Selector(`#${getElementIdFromName(venue.name)}`)
+  const venueAnchor = Selector("a[href^='/structures/']").withText(venue.name)
 
   await navigateToOfferersAs(user)(t)
 
-  await t.click(offererButton).click(venueAnchor)
+  await t.click(offererAnchor).click(venueAnchor)
 }
 
 export async function navigateAfterSubmit(t) {
@@ -71,21 +84,23 @@ export async function navigateAfterSubmit(t) {
 
 export const navigateToNewOfferAs = (user, offerer, venue) => async t => {
   if (venue) {
-    const newOfferAnchor = Selector(
-      `#${getElementIdFromName(venue.name)}`
-    ).parent.parent.find("a[href^='/offres/nouveau?lieu=']")
+    const newOfferAnchor = Selector("a[href^='/structures/']")
+      .withText(venue.name)
+      .parent('div.list-content')
+      .find("a[href^='/offres/nouveau?lieu=']")
 
-    await navigateToVenueAs(user, offerer, venue)
+    await navigateToOffererAs(user, offerer)(t)
 
     await t.click(newOfferAnchor)
     return
   }
   if (offerer) {
-    const newOfferAnchor = Selector(venue.name)
+    const newOfferAnchor = Selector("a[href^='/structures/']")
       .withText(offerer.name)
-      .parent.parent.parent.find("a[href^='/offres/nouveau?structure=']")
+      .parent('div.list-content')
+      .find("a[href^='/offres/nouveau?structure=']")
 
-    await navigateToNewOffererAs(user, offerer)
+    await navigateToOfferersAs(user)(t)
 
     await t.click(newOfferAnchor)
     return

@@ -11,8 +11,8 @@ const pageTitle = Selector('h1')
 const signInButton = Selector('button.button.is-primary') //connexion
 const signUpButton = Selector('.is-secondary') // inscription
 
-fixture`02_01 SignInPage Component | J'ai un compte et je me connecte`
-  .page`${ROOT_PATH + 'connexion'}`
+fixture`SignInPage A | J'ai un compte et je me connecte`.page`${ROOT_PATH +
+  'connexion'}`
 
 test('Je peux cliquer sur lien Créer un compte', async t => {
   await t.click(signUpButton)
@@ -79,7 +79,7 @@ test("J'ai un mot de passe invalide, je vois un messages d'erreur et je reste su
   await t.expect(location.pathname).eql('/connexion')
 })
 
-fixture`02_02 SignInPage Component | J'accède à une page sans être connecté·e`
+fixture`SignInPage B | J'accède à une page sans être connecté·e`
   .page`${ROOT_PATH + 'offres'}`
 
 test('Je suis redirigé·e vers la page connexion', async t => {

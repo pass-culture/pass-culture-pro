@@ -1,6 +1,9 @@
 import { Selector } from 'testcafe'
 
-import { navigateToNewOffererAs } from './helpers/navigations'
+import {
+  navigateToNewOffererAs,
+  navigateToOffererAs,
+} from './helpers/navigations'
 import {
   FUTURE_OFFERER_CREATED_IN_OFFERER_PAGE_WITH_NO_IBAN,
   OFFERER_WITH_NO_PHYSICAL_VENUE_WITH_NO_IBAN,
@@ -17,9 +20,20 @@ const sirenInput = Selector('#offerer-siren')
 const sirenErrorInput = Selector('#offerer-siren-error')
 const submitButton = Selector('button.button.is-primary') //connexion
 
-fixture`04_01 OffererPage | Créer une nouvelle structure`.beforeEach(
+fixture`OffererPage A | Créer une nouvelle structure`.beforeEach(
   navigateToNewOffererAs(VALIDATED_UNREGISTERED_OFFERER_USER)
 )
+
+test('Je peux naviguer vers une nouvelle structure et revenir aux structures', async t => {
+  const backAnchor = Selector('a.button.is-secondary')
+
+  const location = await t.eval(() => window.location)
+  await t.expect(location.pathname).eql('/structures/nouveau')
+
+  await t.click(backAnchor)
+  const newLocation = await t.eval(() => window.location)
+  await t.expect(newLocation.pathname).eql('/structures')
+})
 
 test('Je ne peux pas ajouter de nouvelle structure avec un siren faux', async t => {
   // navigation
@@ -90,16 +104,6 @@ test('Je rentre une nouvelle structure via son siren', async t => {
   await t.expect(location.pathname).eql('/structures')
 })
 
-test.skip('Je modifie une structure pour lui ajouter ses coordonnées bancaires car je suis admin', async t => {
-  // navigation
-  let location = await t.eval(() => window.location)
-  await t.expect(location.pathname).eql('/structures')
-
-  // form
-  // t.typeText(bicInput, 'BNPAFRPP')
-  // t.typeText(ibanInput, 'FR7630004000031234567890143')
-})
-
 test.requestHooks(SIREN_WITHOUT_ADDRESS)(
   "Je rentre une structure dont l'adresse n'est pas renvoyée par l'api sirene et je peux valider",
   async t => {
@@ -120,3 +124,20 @@ test.requestHooks(SIREN_WITHOUT_ADDRESS)(
     await t.expect(location.pathname).eql('/structures')
   }
 )
+
+fixture`OffererPage B | Modifier une structure`
+
+test.skip('Je modifie une structure pour lui ajouter ses coordonnées bancaires car je suis admin', async t => {
+  // given
+  await navigateToOffererAs(
+    VALIDATED_UNREGISTERED_OFFERER_USER,
+    OFFERER_WITH_NO_PHYSICAL_VENUE_WITH_NO_IBAN
+  )(t)
+
+  // when
+  // t.typeText(bicInput, 'BNPAFRPP')
+  // t.typeText(ibanInput, 'FR7630004000031234567890143')
+
+  // then
+  // TODO
+})
