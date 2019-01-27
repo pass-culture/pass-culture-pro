@@ -1,5 +1,7 @@
 import { Selector } from 'testcafe'
 
+import { navigateToOfferAs } from './helpers/navigations'
+import { OFFER_WITH_NO_OFFERER_IBAN_WITH_NO_VENUE_IBAN } from './helpers/offers'
 import { createUserRole } from './helpers/roles'
 import { VALIDATED_UNREGISTERED_OFFERER_USER } from './helpers/users'
 
@@ -19,7 +21,6 @@ test("Lorsque je cliques sur `Mes offres`, j'accès de à la liste des offres", 
     .click(offerListLink)
 
   const location = await t.eval(() => window.location)
-  let value
 
   await t.expect(location.pathname).eql('/offres')
 
@@ -34,4 +35,14 @@ test("Lorsque je cliques sur `Mes offres`, j'accès de à la liste des offres", 
     .click(offerActivSwitch)
 
   await t.expect(await offerActivSwitchText()).eql('Désactiver')
+})
+
+test('Je peux chercher une offre et aller sur sa page', async t => {
+  await navigateToOfferAs(
+    VALIDATED_UNREGISTERED_OFFERER_USER,
+    OFFER_WITH_NO_OFFERER_IBAN_WITH_NO_VENUE_IBAN
+  )(t)
+
+  const location = await t.eval(() => window.location)
+  await t.expect(location.pathname).match(/\/offres\/([A-Z0-9]*)/)
 })

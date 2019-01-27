@@ -3,6 +3,8 @@ import React from 'react'
 import Dotdotdot from 'react-dotdotdot'
 import { NavLink } from 'react-router-dom'
 
+import { getElementIdFromName } from '../../../utils/identifiers'
+
 const VenueItem = ({ venue }) => {
   const { address, city, id, managingOffererId, name, postalCode } = venue || {}
 
@@ -14,9 +16,7 @@ const VenueItem = ({ venue }) => {
       </div>
       <div className="list-content">
         <p className="name">
-          <NavLink
-            id={`a-${name ? name.toLowerCase().replace(/\s/g, '-') : ''}`}
-            to={showPath}>
+          <NavLink id={getElementIdFromName(name)} to={showPath}>
             {name}
           </NavLink>
         </p>
