@@ -4,7 +4,6 @@ import { createUserRole } from './helpers/roles'
 import { ADMIN_0_USER } from './helpers/users'
 import { ROOT_PATH } from '../src/utils/config'
 
-const subTitleHeader = Selector('h2')
 const pageTitleHeader = Selector('h1')
 const deskLink = Selector("a[href^='/guichet']")
 const navbarAnchor = Selector(

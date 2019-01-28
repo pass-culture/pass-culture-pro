@@ -1,6 +1,5 @@
-import { Field, Form, mergeForm, SubmitButton, Icon } from 'pass-culture-shared'
+import { Field, Form, SubmitButton, Icon } from 'pass-culture-shared'
 import React, { Component, Fragment } from 'react'
-import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import get from 'lodash.get'
 import ReactTooltip from 'react-tooltip'
@@ -48,21 +47,12 @@ class PriceQuantityForm extends Component {
   }
 
   onPriceBlur = event => {
-    const {
-      closeInfo,
-      dispatch,
-      formPrice,
-      hasIban,
-      showInfo,
-      stockPatch,
-    } = this.props
+    const { closeInfo, formPrice, hasIban, showInfo } = this.props
     if (hasIban || !formPrice) {
       return
     }
     const inputElement = document.querySelector('input[name="price"]')
     inputElement.focus()
-
-    dispatch(mergeForm(getFormName(stockPatch), { price: 0 }))
 
     showInfo(
       <Fragment>
@@ -174,4 +164,4 @@ class PriceQuantityForm extends Component {
   }
 }
 
-export default connect()(PriceQuantityForm)
+export default PriceQuantityForm

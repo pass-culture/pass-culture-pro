@@ -234,9 +234,9 @@ test(`Créer des offres avec des sous-types`, async t => {
 
 fixture`OfferPage B | Modifier nouvelle offre`
 
-test.skip("Je vois les détails d'une offre avec un prix", async t => {
+test("Je vois les détails d'une offre avec un prix", async t => {
   // given
-  const listGoToGestionButton = Selector(`a[href="/offres/${offerId}?gestion"]`)
+  const infoForManagerSpan = Selector('span.nb-dates')
 
   // when
   await navigateToOfferAs(
@@ -245,7 +245,7 @@ test.skip("Je vois les détails d'une offre avec un prix", async t => {
   )(t)
 
   // then
-  await t.expect(listGoToGestionButton.innerText).eql('1 prix')
+  await t.expect(infoForManagerSpan.innerText).eql('1 stock')
 })
 
 test.skip('*TODO* Je peux modifier un événement', async t => {

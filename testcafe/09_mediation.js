@@ -1,72 +1,76 @@
 import { Selector } from 'testcafe'
 
-import { createUserRole } from './helpers/roles'
+import { navigateToNewMediationAs } from './helpers/navigations'
+import { EVENT_OFFER_WITH_NO_EVENT_OCCURRENCE_WITH_NO_STOCK_WITH_NO_MEDIATION_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN } from './helpers/offers'
 import { VALIDATED_UNREGISTERED_OFFERER_USER } from './helpers/users'
 
-const addMediationAnchor = Selector('a.button').withText('Ajouter une accroche')
 const creditInput = Selector('#mediation-credit')
 const dropZoneDiv = Selector('div.dropzone').filterVisible()
-const editOfferAnchor = Selector('a.name').withText(
-  'Rencontre avec Franck Lepage'
-)
 const submitButton = Selector('button.button.is-primary').withText('Valider')
 const urlInput = Selector("input[placeholder='URL du fichier']")
 const urlButton = Selector('button.is-primary').withText('OK')
 
-fixture`MediationPage A | Naviguer vers ajouter une accroche`
+fixture.skip(`MediationPage A | Naviguer vers ajouter une accroche`)
 
 test("Lorsque je clique sur le bouton créer une accroche sur la page d'une offre, j'accède au formulaire de création d'une accroche", async t => {
-  // When
-  await t
-    .useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
-    .click(editOfferAnchor)
+  // when
+  await navigateToNewMediationAs(
+    VALIDATED_UNREGISTERED_OFFERER_USER,
+    EVENT_OFFER_WITH_NO_EVENT_OCCURRENCE_WITH_NO_STOCK_WITH_NO_MEDIATION_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN
+  )(t)
 
-    .click(addMediationAnchor)
-
-  // Then
+  // then
   const location = await t.eval(() => window.location)
   await t
     .expect(location.pathname)
     .match(/offres\/([A-Z0-9]*)\/accroches\/nouveau$/)
 })
 
-test('Je peux charger une image same origin', async t => {
-  // When
-  await t
-    .useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
-    .click(editOfferAnchor)
-    .click(addMediationAnchor)
-    .typeText(urlInput, '/images/mediation-test.jpg')
-    .click(urlButton)
+fixture.skip(`MediationPage B | Charger des images de l'url input`)
 
-  // Then
+test('Je peux charger une image same origin', async t => {
+  // given
+  await navigateToNewMediationAs(
+    VALIDATED_UNREGISTERED_OFFERER_USER,
+    EVENT_OFFER_WITH_NO_EVENT_OCCURRENCE_WITH_NO_STOCK_WITH_NO_MEDIATION_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN
+  )(t)
+
+  // when
+  await t.typeText(urlInput, '/images/mediation-test.jpg').click(urlButton)
+
+  // then
   await t.expect(dropZoneDiv.exists).ok()
 })
 
 test('Je peux charger une cors image', async t => {
-  // When
+  // given
+  await navigateToNewMediationAs(
+    VALIDATED_UNREGISTERED_OFFERER_USER,
+    EVENT_OFFER_WITH_NO_EVENT_OCCURRENCE_WITH_NO_STOCK_WITH_NO_MEDIATION_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN
+  )(t)
+
+  // when
   await t
-    .useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
-    .click(editOfferAnchor)
-    .click(addMediationAnchor)
     .typeText(
       urlInput,
       'https://www.deridet.com/photo/art/grande/8682609-13705793.jpg?v=1450665370'
     )
     .click(urlButton)
 
-  // Then
+  // then
   await t.expect(dropZoneDiv.exists).ok()
 })
 
 test('Je peux changer d image chargee', async t => {
-  // When
+  // given
+  await navigateToNewMediationAs(
+    VALIDATED_UNREGISTERED_OFFERER_USER,
+    EVENT_OFFER_WITH_NO_EVENT_OCCURRENCE_WITH_NO_STOCK_WITH_NO_MEDIATION_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN
+  )(t)
+  await t.typeText(urlInput, '/images/mediation-test.jpg').click(urlButton)
+
+  // when
   await t
-    .useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
-    .click(editOfferAnchor)
-    .click(addMediationAnchor)
-    .typeText(urlInput, '/images/mediation-test.jpg')
-    .click(urlButton)
     .typeText(
       urlInput,
       'https://www.deridet.com/photo/art/grande/8682609-13705793.jpg?v=1450665370',
@@ -74,35 +78,34 @@ test('Je peux changer d image chargee', async t => {
     )
     .click(urlButton)
 
-  // Then
+  // then
   await t.expect(dropZoneDiv.exists).ok()
 })
 
-test('Je peux creer une accroche', async t => {
-  // When
-  await t
-    .useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
-    .click(editOfferAnchor)
+fixture`MediationPage C | Créer une accroche`
 
-  // Given
+test('Je peux créer une accroche', async t => {
+  // given
   const mediationsListItems = Selector('.mediations-list li')
   const successBanner = Selector('.notification.is-success')
   const initialMediationCount = await mediationsListItems.count
-
-  // When
+  await navigateToNewMediationAs(
+    VALIDATED_UNREGISTERED_OFFERER_USER,
+    EVENT_OFFER_WITH_NO_EVENT_OCCURRENCE_WITH_NO_STOCK_WITH_NO_MEDIATION_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN
+  )(t)
   await t
-    .click(addMediationAnchor)
     .typeText(
       urlInput,
       'https://www.deridet.com/photo/art/grande/8682609-13705793.jpg?v=1450665370'
     )
     .click(urlButton)
-    .wait(3000)
+    .wait(5000)
     .typeText(creditInput, 'deridet')
-    .click(submitButton)
-    .wait(3000)
 
-  // Then
+  // when
+  await t.click(submitButton).wait(5000)
+
+  // then
   await t
     .expect(mediationsListItems.count)
     .eql(initialMediationCount + 1)
