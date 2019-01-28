@@ -30,13 +30,22 @@ export const FUTURE_VIRTUAL_THING_OFFER_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN = {
   thingUrl: 'http://www.example.com',
 }
 
-export const EVENT_OFFER_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN = {
-  // city: "Drancy",
+export const EVENT_OFFER_WITH_NO_EVENT_OCCURRENCE_WITH_NO_STOCK_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN = {
+  // city: "Aulnay-sous-Bois",
   // TODO does not work yet with "C'est"
   keywordsString: 'notre prooooojecteur Dorothy',
 }
 
-export const THING_OFFER_WITH_NO_OFFERER_IBAN_WITH_NO_IBAN = {
-  // city: "Aulnay-sous-Bois"
-  keywordsString: 'Sun aux lentilles Théâtre en feu',
+export const EVENT_OFFER_WITH_EVENT_OCCURRENCE_WITH_STOCK_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN = {
+  // city: "Drancy",
+  keywordsString: 'This is Spartaaaaa',
+}
+
+export const VIRTUAL_THING_OFFER_WITH_NO_STOCK_WITH_NO_OFFERER_IBAN_WITH_NO_IBAN = {
+  keywordsString: 'Topaz de Reackham le Rouge',
+}
+
+export const THING_OFFER_WITH_STOCK_WITH_OFFERER_IBAN_WITH_NO_IBAN = {
+  // city: "Drancy"
+  keywordsString: 'D-- tu l"auras',
 }

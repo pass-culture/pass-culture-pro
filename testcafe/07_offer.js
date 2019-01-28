@@ -98,7 +98,7 @@ const submitButton = Selector('button.button.is-primary').withText(
 fixture`OfferPage B | Créer une nouvelle offre`
 
 test('Je peux créer une offre événement', async t => {
-  // when
+  // given
   await navigateToNewOfferAs(VALIDATED_UNREGISTERED_OFFERER_USER)(t)
   const {
     eventDescription,
@@ -111,6 +111,7 @@ test('Je peux créer une offre événement', async t => {
     name: venueName,
   } = PHYSICAL_VENUE_WITH_SIRET_WITH_OFFERER_IBAN_WITH_NO_IBAN
 
+  // when
   await t.typeText(nameInput, eventName)
 
   await t.click(typeInput).click(typeOption.withText(eventType))
@@ -125,6 +126,7 @@ test('Je peux créer une offre événement', async t => {
 
   await t.click(submitButton)
 
+  // then
   let location = await t.eval(() => window.location)
   await t
     .expect(location.pathname)
@@ -134,7 +136,7 @@ test('Je peux créer une offre événement', async t => {
 })
 
 test('Je peux créer une offre numérique', async t => {
-  // when
+  // given
   await navigateToNewOfferAs(VALIDATED_UNREGISTERED_OFFERER_USER)(t)
   const {
     thingDescription,
@@ -147,6 +149,7 @@ test('Je peux créer une offre numérique', async t => {
     name: venueName,
   } = PHYSICAL_VENUE_WITH_SIRET_WITH_OFFERER_IBAN_WITH_NO_IBAN
 
+  // when
   await t.typeText(nameInput, thingName)
 
   await t.click(typeInput).click(typeOption.withText(thingType))
@@ -161,6 +164,7 @@ test('Je peux créer une offre numérique', async t => {
 
   await t.click(submitButton)
 
+  // then
   let location = await t.eval(() => window.location)
   await t
     .expect(location.pathname)
@@ -170,7 +174,7 @@ test('Je peux créer une offre numérique', async t => {
 })
 
 test(`Créer des offres avec des sous-types`, async t => {
-  // when
+  // given
   const musicTypeInput = Selector('#offer-musicType')
   const musicTypeOption = Selector('#offer-musicType option')
   const musicSubTypeInput = Selector('#offer-musicSubType')
@@ -189,6 +193,7 @@ test(`Créer des offres avec des sous-types`, async t => {
     name: venueName,
   } = PHYSICAL_VENUE_WITH_SIRET_WITH_OFFERER_IBAN_WITH_NO_IBAN
 
+  // when
   await t.typeText(nameInput, eventName)
 
   await t.click(typeInput).click(typeOption.withText(eventType))
@@ -209,8 +214,8 @@ test(`Créer des offres avec des sous-types`, async t => {
 
   await t.click(submitButton)
 
+  // then
   let location = await t.eval(() => window.location)
-
   await t
     .expect(location.pathname)
     .match(/\/offres\/([A-Z0-9]*)$/)
@@ -228,6 +233,20 @@ test(`Créer des offres avec des sous-types`, async t => {
 })
 
 fixture`OfferPage B | Modifier nouvelle offre`
+
+test.skip("Je vois les détails d'une offre avec un prix", async t => {
+  // given
+  const listGoToGestionButton = Selector(`a[href="/offres/${offerId}?gestion"]`)
+
+  // when
+  await navigateToOfferAs(
+    VALIDATED_UNREGISTERED_OFFERER_USER,
+    EVENT_OFFER_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN
+  )(t)
+
+  // then
+  await t.expect(listGoToGestionButton.innerText).eql('1 prix')
+})
 
 test.skip('*TODO* Je peux modifier un événement', async t => {
   // given

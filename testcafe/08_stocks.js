@@ -1,24 +1,27 @@
 import { Selector } from 'testcafe'
 
 import { navigateToOfferAs } from './helpers/navigations'
-import { EVENT_OFFER_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN } from './helpers/offers'
+import {
+  EVENT_OFFER_WITH_EVENT_OCCURRENCE_WITH_STOCK_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN,
+  EVENT_OFFER_WITH_NO_EVENT_OCCURRENCE_WITH_NO_STOCK_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN,
+  THING_OFFER_WITH_STOCK_WITH_OFFERER_IBAN_WITH_NO_IBAN,
+  VIRTUAL_THING_OFFER_WITH_NO_STOCK_WITH_NO_OFFERER_IBAN_WITH_NO_IBAN,
+} from './helpers/offers'
 import { VALIDATED_UNREGISTERED_OFFERER_USER } from './helpers/users'
 
 const addScheduleAnchor = Selector('#add-occurrence-or-stock')
 const availableInput = Selector('#stock-available')
 const manageStockAnchor = Selector('a.manage-stock')
-const scheduleCloseButton = Selector('button.button').withText('Fermer')
 const scheduleSubmitButton = Selector('button.button.submitStep')
 const priceInput = Selector('#stock-price')
-const stockBookingLimitDatetimeInput = Selector('#stock-bookingLimitDatetime')
 
 fixture`OfferPage Gestion A | Créer des dates et des stocks`
 
-test("Je peux créer une occurence d'événement", async t => {
+test.skip("Je peux créer une occurrence et un stock d'événement d'une offre vide", async t => {
   // given
   await navigateToOfferAs(
     VALIDATED_UNREGISTERED_OFFERER_USER,
-    EVENT_OFFER_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN
+    EVENT_OFFER_WITH_NO_EVENT_OCCURRENCE_WITH_NO_STOCK_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN
   )(t)
 
   // when
@@ -28,103 +31,98 @@ test("Je peux créer une occurence d'événement", async t => {
   let location = await t.eval(() => window.location)
   await t.expect(location.search).eql('?gestion&date=nouvelle')
 
+  // when
   await t.click(scheduleSubmitButton)
+
+  // then
   location = await t.eval(() => window.location)
   await t
     .expect(location.search)
     .match(/\?gestion&date=([A-Z0-9]*)&stock=nouveau$/)
 
+  // when
   await t.typeText(priceInput, '10').typeText(availableInput, '50')
   await t.click(scheduleSubmitButton)
+
+  // then
   location = await t.eval(() => window.location)
   await t.expect(location.search).eql('?gestion')
 })
 
-/*
-test('Je peux créer une autre occurence', async t => {
+test.skip('Je peux créer une autre occurrence et un autre stock', async t => {
+  // given
+  await navigateToOfferAs(
+    VALIDATED_UNREGISTERED_OFFERER_USER,
+    EVENT_OFFER_WITH_EVENT_OCCURRENCE_WITH_STOCK_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN
+  )(t)
 
-  await t.useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
+  // when
+  await t.click(manageStockAnchor).click(addScheduleAnchor)
 
-  const editOfferAnchor = Selector('a.edit-link:first-child')
-  const manageStockAnchor = Selector('a.manage-stock')
-
-  await t
-    .click(editOfferAnchor)
-    .click(manageStockAnchor)
-    .click(addScheduleAnchor)
+  // then
   let location = await t.eval(() => window.location)
   await t.expect(location.search).eql('?gestion&date=nouvelle')
+
+  // when
   await t.click(scheduleSubmitButton)
+
+  // then
   location = await t.eval(() => window.location)
   await t
     .expect(location.search)
     .match(/\?gestion&date=([A-Z0-9]*)&stock=nouveau$/)
+
+  // when
+  await t.typeText(priceInput, '10').typeText(availableInput, '50')
+  await t.click(scheduleSubmitButton)
+
+  // then
+  location = await t.eval(() => window.location)
+  await t.expect(location.search).eql('?gestion')
 })
 
-test('Je peux créer une occurence en utilisant la touche Entrée', async t => {
-  await t.useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
+test.skip('Je peux créer une occurrence en utilisant la touche Entrée', async t => {
+  // given
+  await navigateToOfferAs(
+    VALIDATED_UNREGISTERED_OFFERER_USER,
+    EVENT_OFFER_WITH_EVENT_OCCURRENCE_WITH_STOCK_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN
+  )(t)
 
-  const editOfferAnchor = Selector('.event a.edit-link:first-child')
-  const manageStockAnchor = Selector('a.manage-stock')
+  // when
+  await t.click(manageStockAnchor).pressKey('Enter')
 
-  await t
-    .click(editOfferAnchor)
-    .click(manageStockAnchor)
-    .pressKey('Enter')
+  // then
   let location = await t.eval(() => window.location)
   await t.expect(location.search).eql('?gestion&date=nouvelle')
+
+  // when
   await t.pressKey('Enter')
+
+  // then
   location = await t.eval(() => window.location)
   await t
     .expect(location.search)
     .match(/\?gestion&date=([A-Z0-9]*)&stock=nouveau$/)
 
+  // when
   await t.pressKey('Enter')
+
+  // then
   location = await t.eval(() => window.location)
   await t.expect(location.search).match(/\?gestion$/)
 })
 
-test('Je peux interrompre la saisie en utilisant la touche Escape', async t => {
-  // Given
-  await t.useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
-  const editOfferAnchor = Selector('.event a.edit-link:first-child')
-  const manageStockAnchor = Selector('a.manage-stock')
+test.skip('Je peux femer la fenêtre en utilisant la touche Escape', async t => {
+  // given
+  await navigateToOfferAs(
+    VALIDATED_UNREGISTERED_OFFERER_USER,
+    EVENT_OFFER_WITH_EVENT_OCCURRENCE_WITH_STOCK_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN
+  )(t)
 
-  // When
-  await t
-    .click(editOfferAnchor)
-    .click(manageStockAnchor)
-    .pressKey('Enter')
+  // when
+  await t.click(manageStockAnchor).pressKey('esc')
 
-  // Then
-  let location = await t.eval(() => window.location)
-  await t.expect(location.search).eql('?gestion&date=nouvelle')
-
-  // When
-  await t.pressKey('esc')
-
-  // Then
-  location = await t.eval(() => window.location)
-  await t
-    .expect(location.search)
-    .eql('?gestion')
-    .expect(location.href)
-    .match(/offres\/[A-Z0-9]+/i)
-})
-
-test('Je peux femer la fenêtre en utilisant la touche Escape', async t => {
-  // Given
-  await t.useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
-  const editOfferAnchor = Selector('.event a.edit-link:first-child')
-  const manageStockAnchor = Selector('a.manage-stock')
-
-  // When
-  await t
-    .click(editOfferAnchor)
-    .click(manageStockAnchor)
-    .pressKey('esc')
-
-  // Then
+  // then
   let location = await t.eval(() => window.location)
   await t
     .expect(location.search)
@@ -133,45 +131,93 @@ test('Je peux femer la fenêtre en utilisant la touche Escape', async t => {
     .match(/offres\/[A-Z0-9]+/i)
 })
 
+test.skip('Je peux femer la fenêtre en cliquant sur le bouton', async t => {
+  // given
+  const scheduleCloseButton = Selector('button.button').withText('Fermer')
+  await navigateToOfferAs(
+    VALIDATED_UNREGISTERED_OFFERER_USER,
+    EVENT_OFFER_WITH_EVENT_OCCURRENCE_WITH_STOCK_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN
+  )(t)
 
-/*
-const closeInput = Selector('button').withText('Fermer')
-// ADD AN EVENT OCCURENCE AND A STOCK
-const offerGoToGestionButton = Selector('.nb-dates')
-await t.click(addScheduleAnchor)
-location = await t.eval(() => window.location)
-await t.expect(location.search).eql('?gestion&stock=nouveau')
-await t.typeText(priceInput, '20')
-// await t.typeText(stockBookingLimitDatetimeInput, 20)
-await t.click(scheduleSubmitButton)
-location = await t.eval(() => window.location)
-await t.expect(location.search).match(/\?gestion$/)
+  // when
+  await t.click(manageStockAnchor).click(scheduleCloseButton)
 
-const offerId = location.pathname.replace('/offres/', '')
+  // then
+  let location = await t.eval(() => window.location)
+  await t
+    .expect(location.search)
+    .eql('')
+    .expect(location.href)
+    .match(/offres\/[A-Z0-9]+/i)
+})
 
-if (await !addScheduleAnchor.exists) {
-  t.expect(true).eql(false)
-}
-
-await t.click(closeInput)
-await t.expect(offerGoToGestionButton.innerText).eql('1 stock')
-
-// await t.click()
-
-// Check price quantity on list page
-// TODO Should probably be deported in offers test
-await t.click('a.back-button')
-const listGoToGestionButton = Selector(`a[href="/offres/${offerId}?gestion"]`)
-await t.expect(listGoToGestionButton.innerText).eql('1 prix')
-*/
-
-test('Je ne peux pas de rentrer de prix pour une structure et un lieu sans iban', async t => {
+test.skip('Je peux interrompre la saisie en utilisant la touche Escape', async t => {
   // given
   await navigateToOfferAs(
     VALIDATED_UNREGISTERED_OFFERER_USER,
-    EVENT_OFFER_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN
+    EVENT_OFFER_WITH_EVENT_OCCURRENCE_WITH_STOCK_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN
+  )(t)
+
+  // when
+  await t.click(manageStockAnchor).pressKey('Enter')
+  // then
+  let location = await t.eval(() => window.location)
+  await t.expect(location.search).eql('?gestion&date=nouvelle')
+
+  // when
+  await t.pressKey('esc')
+  // then
+  location = await t.eval(() => window.location)
+  await t
+    .expect(location.search)
+    .eql('?gestion')
+    .expect(location.href)
+    .match(/offres\/[A-Z0-9]+/i)
+})
+
+test('Je ne peux pas de rentrer un nouveau stock pour un objet avec déjà un stock', async t => {
+  // given
+  await navigateToOfferAs(
+    VALIDATED_UNREGISTERED_OFFERER_USER,
+    THING_OFFER_WITH_STOCK_WITH_OFFERER_IBAN_WITH_NO_IBAN
+  )(t)
+
+  // when
+  await t.click(manageStockAnchor)
+
+  // then
+  await t.expect(addScheduleAnchor.exists).notOk()
+})
+
+test("J'ai une info quand je rentre un prix non nul pour l'objet d'une structure et un lieu sans iban", async t => {
+  // given
+  await navigateToOfferAs(
+    VALIDATED_UNREGISTERED_OFFERER_USER,
+    VIRTUAL_THING_OFFER_WITH_NO_STOCK_WITH_NO_OFFERER_IBAN_WITH_NO_IBAN
   )(t)
   await t.click(manageStockAnchor).click(addScheduleAnchor)
+
+  // when
+  await t.typeText(priceInput, '10')
+
+  // then
+  t.debug()
+})
+
+test.skip("J'ai une info quand je rentre un prix non nul pour l'évènement d'une structure et un lieu sans iban", async t => {
+  // given
+  await navigateToOfferAs(
+    VALIDATED_UNREGISTERED_OFFERER_USER,
+    EVENT_OFFER_WITH_NO_EVENT_OCCURRENCE_WITH_NO_STOCK_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN
+  )(t)
+  await t.click(manageStockAnchor).click(addScheduleAnchor)
+  await t.click(scheduleSubmitButton)
+
+  // when
+  await t.typeText(priceInput, '10')
+
+  // then
+  t.debug()
 })
 
 /*
