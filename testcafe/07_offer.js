@@ -15,9 +15,7 @@ import { OFFERER_WITH_PHYSICAL_VENUE_WITH_IBAN } from './helpers/offerers'
 import { VALIDATED_UNREGISTERED_OFFERER_USER } from './helpers/users'
 import { PHYSICAL_VENUE_WITH_SIRET_WITH_OFFERER_IBAN_WITH_NO_IBAN } from './helpers/venues'
 
-fixture.skip(
-  `OfferPage A | Naviguer vers creer une offre et revenir au précédent`
-)
+fixture(`OfferPage A | Naviguer vers creer une offre et revenir au précédent`)
 
 test("Lorsque je clique sur le bouton créer une offre sur la page des offres, j'accède au formulaire de création d'offre", async t => {
   // given
@@ -99,7 +97,7 @@ const submitButton = Selector('button.button.is-primary').withText(
 )
 fixture`OfferPage B | Créer une nouvelle offre`
 
-test.skip('Je peux créer une offre événement', async t => {
+test('Je peux créer une offre événement', async t => {
   // when
   await navigateToNewOfferAs(VALIDATED_UNREGISTERED_OFFERER_USER)(t)
   const {
@@ -135,7 +133,7 @@ test.skip('Je peux créer une offre événement', async t => {
     .eql('?gestion')
 })
 
-test.skip('Je peux créer une offre numérique', async t => {
+test('Je peux créer une offre numérique', async t => {
   // when
   await navigateToNewOfferAs(VALIDATED_UNREGISTERED_OFFERER_USER)(t)
   const {
@@ -231,7 +229,7 @@ test(`Créer des offres avec des sous-types`, async t => {
 
 fixture`OfferPage B | Modifier nouvelle offre`
 
-test('Je peux modifier un événement', async t => {
+test.skip('*TODO* Je peux modifier un événement', async t => {
   // given
   await navigateToOfferAs(
     VALIDATED_UNREGISTERED_OFFERER_USER,

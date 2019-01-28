@@ -29,6 +29,7 @@ export const OFFERER_WITH_PHYSICAL_VENUE_WITH_NO_IBAN = {
   siren: '222222228',
 }
 
+/*
 export const OFFERER_WITH_PHYSICAL_VENUE_WITH_IBAN = {
   address: 'RUE DIDEROT',
   city: 'Aulnay-sous-Bois',
@@ -37,4 +38,14 @@ export const OFFERER_WITH_PHYSICAL_VENUE_WITH_IBAN = {
   name: 'Danse Jazz Dans Tes Bottes',
   postalCode: '93600',
   siren: '222222229',
+}
+*/
+
+export const OFFERER_WITH_PHYSICAL_VENUE_WITH_IBAN = {
+  address: 'RUE NIEUPORT',
+  city: 'Drancy',
+  keywordsString: 'Club Dorothy',
+  name: 'Club Dorothy',
+  postalCode: '93700',
+  siren: '222222223',
 }

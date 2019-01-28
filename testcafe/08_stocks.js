@@ -135,7 +135,9 @@ test('Je peux femer la fenêtre en utilisant la touche Escape', async t => {
 
 
 /*
+const closeInput = Selector('button').withText('Fermer')
 // ADD AN EVENT OCCURENCE AND A STOCK
+const offerGoToGestionButton = Selector('.nb-dates')
 await t.click(addScheduleAnchor)
 location = await t.eval(() => window.location)
 await t.expect(location.search).eql('?gestion&stock=nouveau')
@@ -212,19 +214,4 @@ test('Je peux modifier une occurence', async t => {
   const availableInput = Selector('#stock-available')
   await t.typeText(priceInput, '15').click(scheduleSubmitButton)
 })
-
-fixture`OfferPage D | Créer une nouvelle offre avec type et sous-type`
-
-test('Je peux créer une offre avec type et sous-type', async t => {
-  
-})
-
-const structuresLink = Selector("a[href='/structures']")
-const createVirtualOfferAnchor = Selector(
-  "a[href^='/offres/nouveau']"
-).withText('Nouvelle offre numérique')
-const typeVideoGameOption = Selector('option').withText('Jeux Vidéo')
-
-const closeInput = Selector('button').withText('Fermer')
-const offerGoToGestionButton = Selector('.nb-dates')
 */
