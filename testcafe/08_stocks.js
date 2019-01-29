@@ -14,9 +14,9 @@ const addAnchor = Selector('#add-occurrence-or-stock')
 const availableInput = Selector('#stock-available')
 const manageStockAnchor = Selector('a.manage-stock')
 const submitButton = Selector('button.button.submitStep')
-const priceInput = Selector('#stock-price')
+const priceInput = Selector('input[name="price"]')
 
-fixture.skip(`OfferPage Gestion A | Créer des dates et des stocks`)
+fixture(`OfferPage Gestion A | Créer des dates et des stocks`)
 
 test("Je peux créer une occurrence et un stock d'événement d'une offre vide", async t => {
   // given
@@ -192,7 +192,7 @@ test('Je ne peux pas de rentrer un nouveau stock pour un objet avec déjà un st
   await t.expect(addAnchor.visible).notOk()
 })
 
-fixture.skip(`OfferPage Gestion B | Avertissement pour les offres sans iban`)
+fixture(`OfferPage Gestion B | Avertissement pour les offres sans iban`)
 
 const infoDiv = Selector('div.info')
 const confirmationButton = infoDiv.find('button')
@@ -246,7 +246,7 @@ test("J'ai une info quand je rentre un prix non nul pour l'évènement d'une str
 
 fixture`OfferPage Gestion C | Modifier des dates et des stocks`
 
-test('Je peux modifier une occurrence', async t => {
+test('Je peux modifier une occurrence et un stock', async t => {
   // given
   const editAnchor = Selector('a.edit-stock:first-child')
   const beginInput = Selector('input.date')
