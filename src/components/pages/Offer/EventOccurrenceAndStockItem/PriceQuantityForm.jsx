@@ -6,10 +6,6 @@ import ReactTooltip from 'react-tooltip'
 
 const floatSep = ','
 
-function getFormName(stockPatch) {
-  return `stock${get(stockPatch, 'id', '')}`
-}
-
 function getDisplayedPrice(value, { readOnly }) {
   if (value === 0) {
     if (readOnly) {
@@ -84,14 +80,27 @@ class PriceQuantityForm extends Component {
       beginningDatetime,
     } = this.props
 
+    let action = ''
+    let name = ''
+    let stockId
+    if (stockPatch && stockPatch.id) {
+      stockId = stockPatch.id
+      action = `/stocks/${stockId}`
+      name = `stock${stockId}`
+    } else if (!isStockReadOnly) {
+      action = '/stocks'
+      name = 'stock'
+      stockId = null
+    }
+
     return (
       <Form
-        action={`/stocks/${get(stockPatch, 'id', '')}`}
+        action={action}
         BlockComponent={null}
         handleSuccess={this.handleOfferSuccessData}
         layout="input-only"
         key={1}
-        name={getFormName(stockPatch)}
+        name={name}
         patch={stockPatch}
         size="small"
         readOnly={isStockReadOnly}

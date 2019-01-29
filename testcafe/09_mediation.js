@@ -10,7 +10,7 @@ const submitButton = Selector('button.button.is-primary').withText('Valider')
 const urlInput = Selector("input[placeholder='URL du fichier']")
 const urlButton = Selector('button.is-primary').withText('OK')
 
-fixture.skip(`MediationPage A | Naviguer vers ajouter une accroche`)
+fixture(`MediationPage A | Naviguer vers ajouter une accroche`)
 
 test("Lorsque je clique sur le bouton créer une accroche sur la page d'une offre, j'accède au formulaire de création d'une accroche", async t => {
   // when
@@ -26,7 +26,7 @@ test("Lorsque je clique sur le bouton créer une accroche sur la page d'une offr
     .match(/offres\/([A-Z0-9]*)\/accroches\/nouveau$/)
 })
 
-fixture.skip(`MediationPage B | Charger des images de l'url input`)
+fixture(`MediationPage B | Charger des images de l'url input`)
 
 test('Je peux charger une image same origin', async t => {
   // given

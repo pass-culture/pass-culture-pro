@@ -1,5 +1,6 @@
 import { Selector } from 'testcafe'
 
+import { BOOKING_VALID_NOT_USED, BOOKING_BAD_CODE } from './helpers/bookings'
 import { createUserRole } from './helpers/roles'
 import { ADMIN_0_USER } from './helpers/users'
 import { ROOT_PATH } from '../src/utils/config'
@@ -14,9 +15,6 @@ const state = Selector('.form .state')
 const stateText = Selector('.form .state span')
 const exitlink = Selector('#exitlink')
 const registerButton = Selector('.form button[type="submit"]')
-
-const TEST_GOOD_CODE = '2ALYY5'
-const TEST_BAD_CODE = 'ABC123'
 
 fixture`DeskPage A | Saisir un code`.page`${ROOT_PATH}guichet`
 
@@ -39,7 +37,7 @@ test("L'état de départ de la page /guichet est conforme", async t => {
   t.selectText(codeInput).pressKey('delete')
 
   // typed + verified (beware of real validation lag)
-  await t.typeText(codeInput, TEST_GOOD_CODE)
+  await t.typeText(codeInput, BOOKING_VALID_NOT_USED.token)
   await t
     .expect(stateText.innerText)
     .eql('Coupon vérifié, cliquez sur OK pour enregistrer')
@@ -61,12 +59,12 @@ test("L'état de départ de la page /guichet est conforme", async t => {
   t.selectText(codeInput).pressKey('delete')
 
   // Registration success
-  await t.typeText(codeInput, TEST_GOOD_CODE)
+  await t.typeText(codeInput, BOOKING_VALID_NOT_USED.token)
   await t.click(registerButton)
   await t.expect(state.classNames).contains('success')
 
   // Registration failure
-  await t.typeText(codeInput, TEST_BAD_CODE)
+  await t.typeText(codeInput, BOOKING_BAD_CODE.token)
   await t.click(registerButton)
   await t.expect(state.classNames).contains('error')
 

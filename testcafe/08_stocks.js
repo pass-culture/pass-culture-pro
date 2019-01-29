@@ -2,10 +2,11 @@ import { Selector } from 'testcafe'
 
 import { navigateToOfferAs } from './helpers/navigations'
 import {
+  EVENT_OFFER_WITH_EVENT_OCCURRENCE_WITH_STOCK_WITH_MEDIATION_WITH_NO_OFFERER_IBAN_WITH_NO_VENUE_IBAN,
   EVENT_OFFER_WITH_EVENT_OCCURRENCE_WITH_STOCK_WITH_MEDIATION_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN,
   EVENT_OFFER_WITH_NO_EVENT_OCCURRENCE_WITH_NO_STOCK_WITH_NO_MEDIATION_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN,
-  THING_OFFER_WITH_STOCK_WITH_MEDIATION_WITH_OFFERER_IBAN_WITH_NO_IBAN,
-  VIRTUAL_THING_OFFER_WITH_NO_STOCK_WITH_NO_MEDIATION_WITH_NO_OFFERER_IBAN_WITH_NO_IBAN,
+  THING_OFFER_WITH_STOCK_WITH_MEDIATION_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN,
+  VIRTUAL_THING_OFFER_WITH_NO_STOCK_WITH_NO_MEDIATION_WITH_NO_OFFERER_IBAN_WITH_NO_VENUE_IBAN,
 } from './helpers/offers'
 import { VALIDATED_UNREGISTERED_OFFERER_USER } from './helpers/users'
 
@@ -15,9 +16,9 @@ const manageStockAnchor = Selector('a.manage-stock')
 const submitButton = Selector('button.button.submitStep')
 const priceInput = Selector('#stock-price')
 
-fixture`OfferPage Gestion A | Créer des dates et des stocks`
+fixture.skip(`OfferPage Gestion A | Créer des dates et des stocks`)
 
-test.skip("Je peux créer une occurrence et un stock d'événement d'une offre vide", async t => {
+test("Je peux créer une occurrence et un stock d'événement d'une offre vide", async t => {
   // given
   await navigateToOfferAs(
     VALIDATED_UNREGISTERED_OFFERER_USER,
@@ -49,7 +50,7 @@ test.skip("Je peux créer une occurrence et un stock d'événement d'une offre v
   await t.expect(location.search).eql('?gestion')
 })
 
-test.skip('Je peux créer une autre occurrence et un autre stock', async t => {
+test('Je peux créer une autre occurrence et un autre stock', async t => {
   // given
   await navigateToOfferAs(
     VALIDATED_UNREGISTERED_OFFERER_USER,
@@ -81,7 +82,7 @@ test.skip('Je peux créer une autre occurrence et un autre stock', async t => {
   await t.expect(location.search).eql('?gestion')
 })
 
-test.skip('Je peux créer une occurrence en utilisant la touche Entrée', async t => {
+test('Je peux créer une occurrence en utilisant la touche Entrée', async t => {
   // given
   await navigateToOfferAs(
     VALIDATED_UNREGISTERED_OFFERER_USER,
@@ -112,7 +113,7 @@ test.skip('Je peux créer une occurrence en utilisant la touche Entrée', async 
   await t.expect(location.search).match(/\?gestion$/)
 })
 
-test.skip('Je peux femer la fenêtre en utilisant la touche Escape', async t => {
+test('Je peux femer la fenêtre en utilisant la touche Escape', async t => {
   // given
   await navigateToOfferAs(
     VALIDATED_UNREGISTERED_OFFERER_USER,
@@ -131,7 +132,7 @@ test.skip('Je peux femer la fenêtre en utilisant la touche Escape', async t => 
     .match(/offres\/[A-Z0-9]+/i)
 })
 
-test.skip('Je peux femer la fenêtre en cliquant sur le bouton', async t => {
+test('Je peux femer la fenêtre en cliquant sur le bouton', async t => {
   // given
   const scheduleCloseButton = Selector('button.button').withText('Fermer')
   await navigateToOfferAs(
@@ -151,7 +152,7 @@ test.skip('Je peux femer la fenêtre en cliquant sur le bouton', async t => {
     .match(/offres\/[A-Z0-9]+/i)
 })
 
-test.skip('Je peux interrompre la saisie en utilisant la touche Escape', async t => {
+test('Je peux interrompre la saisie en utilisant la touche Escape', async t => {
   // given
   await navigateToOfferAs(
     VALIDATED_UNREGISTERED_OFFERER_USER,
@@ -181,7 +182,7 @@ test('Je ne peux pas de rentrer un nouveau stock pour un objet avec déjà un st
   // given
   await navigateToOfferAs(
     VALIDATED_UNREGISTERED_OFFERER_USER,
-    THING_OFFER_WITH_STOCK_WITH_MEDIATION_WITH_OFFERER_IBAN_WITH_NO_IBAN
+    THING_OFFER_WITH_STOCK_WITH_MEDIATION_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN
   )(t)
 
   // when
@@ -191,7 +192,7 @@ test('Je ne peux pas de rentrer un nouveau stock pour un objet avec déjà un st
   await t.expect(addAnchor.visible).notOk()
 })
 
-fixture`OfferPage Gestion B | Avertissement pour les offres sans iban`
+fixture.skip(`OfferPage Gestion B | Avertissement pour les offres sans iban`)
 
 const infoDiv = Selector('div.info')
 const confirmationButton = infoDiv.find('button')
@@ -200,7 +201,7 @@ test("J'ai une info quand je rentre un prix non nul pour l'objet d'une structure
   // given
   await navigateToOfferAs(
     VALIDATED_UNREGISTERED_OFFERER_USER,
-    VIRTUAL_THING_OFFER_WITH_NO_STOCK_WITH_NO_MEDIATION_WITH_NO_OFFERER_IBAN_WITH_NO_IBAN
+    VIRTUAL_THING_OFFER_WITH_NO_STOCK_WITH_NO_MEDIATION_WITH_NO_OFFERER_IBAN_WITH_NO_VENUE_IBAN
   )(t)
   await t.click(manageStockAnchor).click(addAnchor)
 
@@ -223,7 +224,7 @@ test("J'ai une info quand je rentre un prix non nul pour l'évènement d'une str
   // given
   await navigateToOfferAs(
     VALIDATED_UNREGISTERED_OFFERER_USER,
-    EVENT_OFFER_WITH_NO_EVENT_OCCURRENCE_WITH_NO_STOCK_WITH_NO_MEDIATION_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN
+    EVENT_OFFER_WITH_EVENT_OCCURRENCE_WITH_STOCK_WITH_MEDIATION_WITH_NO_OFFERER_IBAN_WITH_NO_VENUE_IBAN
   )(t)
   await t.click(manageStockAnchor).click(addAnchor)
   await t.click(submitButton)
@@ -260,7 +261,7 @@ test('Je peux modifier une occurrence', async t => {
   await t.click(manageStockAnchor)
 
   // when
-  await t.click(manageStockAnchor).click(editAnchor)
+  await t.click(editAnchor)
 
   // then
   let location = await t.eval(() => window.location)
@@ -284,11 +285,11 @@ test('Je peux modifier une occurrence', async t => {
   location = await t.eval(() => window.location)
   await t
     .expect(location.search)
-    .match(/\?gestion&date=([A-Z0-9]*)&stock=([A-Z0-9]*)$/)
+    .match(/\?gestion&date=([A-Z0-9]*)&stock=([A-Z0-9]*|nouveau)$/)
 
   // when
-  await t.typtypeText(priceInput, '15')
-  await t.click(submitButton)
+  await t.typeText(priceInput, '15')
+  await t.click(submitButton).wait(1000)
 
   // then
   location = await t.eval(() => window.location)

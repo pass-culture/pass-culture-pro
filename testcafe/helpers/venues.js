@@ -1,4 +1,7 @@
-import { OFFERER_WITH_PHYSICAL_VENUE_WITH_IBAN } from './offerers'
+import {
+  OFFERER_WITH_NO_PHYSICAL_VENUE_WITH_NO_IBAN,
+  OFFERER_WITH_PHYSICAL_VENUE_WITH_IBAN,
+} from './offerers'
 
 const latitude = '48.83638'
 const longitude = '2.40027'
@@ -11,7 +14,7 @@ export const FUTURE_PHYSICAL_VENUE_WITH_SIRET_WITH_OFFERER_IBAN_WITH_NO_IBAN = {
   marker: `${latitude}-${longitude}`,
   name: 'Le lieu magique de type fussoir',
   postalCode: '93700',
-  siret: OFFERER_WITH_PHYSICAL_VENUE_WITH_IBAN.siren,
+  siret: `${OFFERER_WITH_NO_PHYSICAL_VENUE_WITH_NO_IBAN.siren}21111`,
 }
 
 export const FUTURE_PHYSICAL_VENUE_WITH_NO_SIRET_WITH_OFFERER_IBAN_WITH_NO_IBAN = {
@@ -24,18 +27,6 @@ export const FUTURE_PHYSICAL_VENUE_WITH_NO_SIRET_WITH_OFFERER_IBAN_WITH_NO_IBAN 
   name: 'Le lieu sympa de type sans siret',
   postalCode: '75016',
 }
-
-/*
-export const PHYSICAL_VENUE_WITH_SIRET_WITH_OFFERER_IBAN_WITH_NO_IBAN = {
-  address: 'RUE DIDEROT',
-  city: 'Aulnay-sous-Bois',
-  latitude: '48.92071',
-  longitude: '2.48371',
-  name: 'Cinéma de la fin',
-  postalCode: '93600',
-  siret: '22222222911111',
-}
-*/
 
 export const PHYSICAL_VENUE_WITH_SIRET_WITH_OFFERER_IBAN_WITH_NO_IBAN = {
   address: OFFERER_WITH_PHYSICAL_VENUE_WITH_IBAN.address,

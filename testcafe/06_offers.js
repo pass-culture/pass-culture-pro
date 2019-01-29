@@ -1,7 +1,7 @@
 import { Selector } from 'testcafe'
 
 import { navigateToOfferAs } from './helpers/navigations'
-import { OFFER_WITH_NO_OFFERER_IBAN_WITH_NO_VENUE_IBAN } from './helpers/offers'
+import { EVENT_OFFER_WITH_NO_EVENT_OCCURRENCE_WITH_NO_STOCK_WITH_NO_MEDIATION_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN } from './helpers/offers'
 import { createUserRole } from './helpers/roles'
 import { VALIDATED_UNREGISTERED_OFFERER_USER } from './helpers/users'
 
@@ -9,16 +9,13 @@ async function trimed(selector, lol) {
   return await selector.innerText.then(value => value.trim())
 }
 
-const offerListLink = Selector('.navbar-item').withText('Vos offres')
 const offerActivSwitchText = () => trimed(Selector('.offer-item .activ-switch'))
 
 fixture`OffersList A | Lister les offres`
 
 test("Lorsque je cliques sur `Mes offres`, j'accès de à la liste des offres", async t => {
   // given
-  await t
-    .useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
-    .click(offerListLink)
+  await t.useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
 
   // then
   const location = await t.eval(() => window.location)
@@ -29,9 +26,7 @@ test("Lorsque je cliques sur `Mes offres`, j'accès de à la liste des offres", 
 test('Je peux désactiver ou activer des offres', async t => {
   // given
   const offerActivSwitch = Selector('.offer-item .activ-switch')
-  await t
-    .useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
-    .click(offerListLink)
+  await t.useRole(createUserRole(VALIDATED_UNREGISTERED_OFFERER_USER))
 
   // when
   await t.click(offerActivSwitch)
@@ -50,7 +45,7 @@ test('Je peux chercher une offre et aller sur sa page', async t => {
   // when
   await navigateToOfferAs(
     VALIDATED_UNREGISTERED_OFFERER_USER,
-    OFFER_WITH_NO_OFFERER_IBAN_WITH_NO_VENUE_IBAN
+    EVENT_OFFER_WITH_NO_EVENT_OCCURRENCE_WITH_NO_STOCK_WITH_NO_MEDIATION_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN
   )(t)
 
   // then

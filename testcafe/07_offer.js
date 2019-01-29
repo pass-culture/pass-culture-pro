@@ -6,14 +6,15 @@ import {
   navigateToVenueAs,
 } from './helpers/navigations'
 import {
-  EVENT_OFFER_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN,
+  EVENT_OFFER_WITH_NO_EVENT_OCCURRENCE_WITH_NO_STOCK_WITH_NO_MEDIATION_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN,
   FUTURE_EVENT_OFFER_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN,
   FUTURE_MUSIC_EVENT_OFFER_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN,
   FUTURE_VIRTUAL_THING_OFFER_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN,
+  THING_OFFER_WITH_STOCK_WITH_MEDIATION_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN,
 } from './helpers/offers'
 import { OFFERER_WITH_PHYSICAL_VENUE_WITH_IBAN } from './helpers/offerers'
 import { VALIDATED_UNREGISTERED_OFFERER_USER } from './helpers/users'
-import { PHYSICAL_VENUE_WITH_SIRET_WITH_OFFERER_IBAN_WITH_NO_IBAN } from './helpers/venues'
+import { PHYSICAL_VENUE_WITH_SIRET_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN } from './helpers/venues'
 
 fixture(`OfferPage A | Naviguer vers creer une offre et revenir au précédent`)
 
@@ -234,14 +235,14 @@ test(`Créer des offres avec des sous-types`, async t => {
 
 fixture`OfferPage B | Modifier nouvelle offre`
 
-test("Je vois les détails d'une offre avec un prix", async t => {
+test("Je vois les détails d'une offre d'object avec 1 stock", async t => {
   // given
   const infoForManagerSpan = Selector('span.nb-dates')
 
   // when
   await navigateToOfferAs(
     VALIDATED_UNREGISTERED_OFFERER_USER,
-    EVENT_OFFER_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN
+    THING_OFFER_WITH_STOCK_WITH_MEDIATION_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN
   )(t)
 
   // then
@@ -252,6 +253,6 @@ test.skip('*TODO* Je peux modifier un événement', async t => {
   // given
   await navigateToOfferAs(
     VALIDATED_UNREGISTERED_OFFERER_USER,
-    EVENT_OFFER_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN
+    EVENT_OFFER_WITH_NO_EVENT_OCCURRENCE_WITH_NO_STOCK_WITH_NO_MEDIATION_WITH_OFFERER_IBAN_WITH_NO_VENUE_IBAN
   )(t)
 })

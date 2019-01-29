@@ -70,6 +70,7 @@ export async function navigateAfterSubmit(t) {
 
   await t.click(submitButton)
   const location = await t.eval(() => window.location)
+
   await t
     .expect(location.pathname)
     .match(/\/structures\/([A-Z0-9]*)\/lieux\/([A-Z0-9]*)$/)

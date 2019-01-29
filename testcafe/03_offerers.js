@@ -12,9 +12,9 @@ const arrow = Selector('.caret a')
 const firstArrow = arrow.nth(0)
 const subTitleHeader = Selector('h2')
 
-fixture
-  .skip(`OfferersPage A | Voir la liste de mes structures`)
-  .beforeEach(navigateToOfferersAs(VALIDATED_UNREGISTERED_OFFERER_USER))
+fixture(`OfferersPage A | Voir la liste de mes structures`).beforeEach(
+  navigateToOfferersAs(VALIDATED_UNREGISTERED_OFFERER_USER)
+)
 
 test("La structure qui vient d'être créée est en attente de validation", async t => {
   await t
@@ -29,7 +29,7 @@ test("Je peux voir les détails d'une structure", async t => {
   await t.expect(subTitleHeader.exists).ok()
 })
 
-fixture`OfferersPage B | recherche`
+fixture`OfferersPage B | Recherche`
 
 test('Je peux chercher une structure avec des mots-clés et naviguer sur sa page', async t => {
   await navigateToOffererAs(

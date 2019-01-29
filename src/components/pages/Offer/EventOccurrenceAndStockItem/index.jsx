@@ -217,11 +217,11 @@ class EventOccurrenceAndStockItem extends Component {
 
           {!isEditing && (
             <Actions
-              isEditing={isEditing}
-              offer={offer}
-              isStockOnly={isStockOnly}
-              stockPatch={stockPatch}
               eventOccurrencePatch={eventOccurrencePatch}
+              isEditing={isEditing}
+              isStockOnly={isStockOnly}
+              offer={offer}
+              stockPatch={stockPatch}
               tbody={this.tbody}
             />
           )}

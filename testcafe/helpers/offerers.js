@@ -29,18 +29,6 @@ export const OFFERER_WITH_PHYSICAL_VENUE_WITH_NO_IBAN = {
   siren: '222222228',
 }
 
-/*
-export const OFFERER_WITH_PHYSICAL_VENUE_WITH_IBAN = {
-  address: 'RUE DIDEROT',
-  city: 'Aulnay-sous-Bois',
-  // TODO: Danse Jazz Dans Tes Bottes does not work
-  keywordsString: 'Danse Jazz Bottes',
-  name: 'Danse Jazz Dans Tes Bottes',
-  postalCode: '93600',
-  siren: '222222229',
-}
-*/
-
 export const OFFERER_WITH_PHYSICAL_VENUE_WITH_IBAN = {
   address: 'RUE NIEUPORT',
   city: 'Drancy',
