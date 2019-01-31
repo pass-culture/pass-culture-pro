@@ -82,6 +82,7 @@ class BookingItem extends Component {
 
     dispatch(
       showModal(
+        'booking',
         <div>
           Êtes-vous surs de vouloir annuler cette réservation ?
           <div className="level">
@@ -97,7 +98,7 @@ class BookingItem extends Component {
                     handleFail: this.cancelError,
                   })
                 )
-                dispatch(closeModal())
+                dispatch(closeModal('booking'))
               }}>
               Oui
             </button>

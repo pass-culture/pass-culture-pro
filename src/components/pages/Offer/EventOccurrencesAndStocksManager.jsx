@@ -1,6 +1,6 @@
 import classnames from 'classnames'
 import get from 'lodash.get'
-import { closeModal } from 'pass-culture-shared'
+import { closeModal, Modal } from 'pass-culture-shared'
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
@@ -96,7 +96,7 @@ class EventOccurrencesAndStocksManager extends Component {
 
   onCloseClick = e => {
     const { dispatch, offer, history } = this.props
-    dispatch(closeModal())
+    dispatch(closeModal('manager'))
     history.push(`/offres/${get(offer, 'id')}`)
   }
 

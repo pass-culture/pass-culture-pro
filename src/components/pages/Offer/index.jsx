@@ -226,11 +226,11 @@ class OfferPage extends Component {
     search.indexOf('gestion') > -1
       ? hasEventOrThing &&
         dispatch(
-          showModal(<EventOccurrencesAndStocksManager />, {
+          showModal('manager', <EventOccurrencesAndStocksManager />, {
             isUnclosable: true,
           })
         )
-      : dispatch(closeModal())
+      : dispatch(closeModal('manager'))
   }
 
   setDefaultBookingEmailIfNew(prevProps) {

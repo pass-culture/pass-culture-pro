@@ -1,8 +1,9 @@
 import {
-  assignModalConfig,
+  closeModal,
   Field,
   Form,
   Icon,
+  showModal,
   SubmitButton,
 } from 'pass-culture-shared'
 import PropTypes from 'prop-types'
@@ -60,14 +61,7 @@ class PriceQuantityForm extends Component {
       return
     }
 
-    const {
-      closeInfo,
-      dispatch,
-      formPrice,
-      hasIban,
-      isStockReadOnly,
-      showInfo,
-    } = this.props
+    const { dispatch, formPrice, hasIban, isStockReadOnly } = this.props
     if (isStockReadOnly || hasIban || !formPrice) {
       return
     }
@@ -76,28 +70,28 @@ class PriceQuantityForm extends Component {
     priceInput.focus()
     this.isPriceInputDeactivate = true
 
-    dispatch(assignModalConfig({ extraClassName: 'modal-in-modal' }))
-
-    showInfo(
-      <Fragment>
-        <div className="mb24 has-text-left">
-          Vous avez saisi une offre payante. Pensez à demander à
-          l'administrateur financier nommé pour votre structure de renseigner
-          son IBAN. Sans IBAN, les réservations de vos offres éligibles ne vous
-          seront pas remboursées.
-        </div>
-        <div className="has-text-right">
-          <button
-            className="button is-primary"
-            onClick={() => {
-              dispatch(assignModalConfig({ extraClassName: null }))
-              closeInfo()
-              this.isPriceInputDeactivate = false
-            }}>
-            J'ai compris
-          </button>
-        </div>
-      </Fragment>
+    dispatch(
+      showModal(
+        'info',
+        <Fragment>
+          <div className="mb12">
+            Vous avez saisi une offre payante. Pensez à demander à
+            l'administrateur financier nommé pour votre structure de renseigner
+            son IBAN. Sans IBAN, les réservations de vos offres éligibles ne
+            vous seront pas remboursées
+          </div>
+          <div className="has-text-centered">
+            <button
+              className="button is-primary"
+              onClick={() => {
+                dispatch(closeModal('info'))
+                this.isPriceInputDeactivate = false
+              }}>
+              J'ai compris
+            </button>
+          </div>
+        </Fragment>
+      )
     )
   }
 
