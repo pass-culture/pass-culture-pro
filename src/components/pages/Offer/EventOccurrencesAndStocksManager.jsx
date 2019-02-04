@@ -96,7 +96,7 @@ class EventOccurrencesAndStocksManager extends Component {
 
   onCloseClick = e => {
     const { dispatch, offer, history } = this.props
-    dispatch(closeModal('manager'))
+    dispatch(closeModal('main'))
     history.push(`/offres/${get(offer, 'id')}`)
   }
 
@@ -126,6 +126,8 @@ class EventOccurrencesAndStocksManager extends Component {
       <div
         className="event-occurrences-and-stocks-manager"
         ref={elem => (this.elem = elem)}>
+        <Modal name="info" />
+
         <div className={classnames('info', { 'is-invisible': !info })}>
           <div className="content">
             <div>{info}</div>

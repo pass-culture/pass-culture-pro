@@ -145,7 +145,7 @@ class Main extends Component {
           )}
           {footer}
         </Tag>
-        <Modal key="modal" />
+        <Modal name="main" />
       </Fragment>
     )
   }

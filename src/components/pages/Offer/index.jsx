@@ -148,6 +148,7 @@ class OfferPage extends Component {
             if (!get(state, 'data.venues.length')) {
               dispatch(
                 showModal(
+                  'app',
                   <div>
                     Vous devez avoir déjà enregistré un lieu dans une de vos
                     structures pour ajouter des offres
@@ -226,11 +227,11 @@ class OfferPage extends Component {
     search.indexOf('gestion') > -1
       ? hasEventOrThing &&
         dispatch(
-          showModal('manager', <EventOccurrencesAndStocksManager />, {
+          showModal('main', <EventOccurrencesAndStocksManager />, {
             isUnclosable: true,
           })
         )
-      : dispatch(closeModal('manager'))
+      : dispatch(closeModal('main'))
   }
 
   setDefaultBookingEmailIfNew(prevProps) {
