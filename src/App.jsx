@@ -14,7 +14,7 @@ const App = ({ modalOpen, children }) => {
 
 function mapStateToProps(state) {
   return {
-    modalOpen: state.modal.isActive,
+    modalOpen: (state.modals.main || {}).isActive,
   }
 }
 export default compose(
