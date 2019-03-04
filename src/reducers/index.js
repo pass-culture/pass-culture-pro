@@ -2,12 +2,12 @@ import {
   errors,
   form,
   loading,
-  modal,
   notification,
   tracker,
   user,
 } from 'pass-culture-shared'
 import { combineReducers } from 'redux'
+import { modals } from 'redux-react-modals'
 
 import data from './data'
 
@@ -16,7 +16,7 @@ const rootReducer = combineReducers({
   errors,
   form,
   loading,
-  modal,
+  modals,
   notification,
   tracker,
   user,

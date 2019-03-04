@@ -1,9 +1,9 @@
 import {
   watchDataActions,
   watchErrorsActions,
-  watchModalActions,
   watchUserActions,
 } from 'pass-culture-shared'
+import { watchModalActions } from 'redux-react-modals'
 import { all } from 'redux-saga/effects'
 
 import { watchFormActions } from './form'

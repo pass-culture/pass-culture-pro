@@ -1,16 +1,15 @@
 import get from 'lodash.get'
 import moment from 'moment'
 import {
-  closeModal,
   Icon,
   requestData,
-  showModal,
   showNotification,
   getRequestErrorString,
 } from 'pass-culture-shared'
 import PropTypes from 'prop-types'
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
+import { closeModal, showModal } from 'redux-react-modals'
 
 import eventSelector from '../../../selectors/event'
 import thingSelector from '../../../selectors/thing'

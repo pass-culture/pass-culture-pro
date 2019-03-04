@@ -1,17 +1,11 @@
-import {
-  closeModal,
-  Field,
-  Form,
-  Icon,
-  showModal,
-  SubmitButton,
-} from 'pass-culture-shared'
+import { Field, Form, Icon, SubmitButton } from 'pass-culture-shared'
 import PropTypes from 'prop-types'
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { NavLink } from 'react-router-dom'
 import get from 'lodash.get'
 import ReactTooltip from 'react-tooltip'
+import { closeModal, showModal } from 'redux-react-modals'
 
 const floatSep = ','
 

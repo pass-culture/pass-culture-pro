@@ -1,7 +1,6 @@
 import get from 'lodash.get'
 import {
   CancelButton,
-  closeModal,
   Field,
   Form,
   Icon,
@@ -9,7 +8,6 @@ import {
   mergeForm,
   pluralize,
   requestData,
-  showModal,
   SubmitButton,
   withLogin,
 } from 'pass-culture-shared'
@@ -17,6 +15,7 @@ import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { NavLink, withRouter } from 'react-router-dom'
 import { compose } from 'redux'
+import { closeModal, showModal } from 'redux-react-modals'
 
 import HeroSection from 'components/layout/HeroSection'
 import Main from 'components/layout/Main'

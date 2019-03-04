@@ -2,7 +2,6 @@ import classnames from 'classnames'
 import get from 'lodash.get'
 import {
   Icon,
-  Modal,
   resetForm,
   showNotification,
   Spinner,
@@ -13,6 +12,7 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { NavLink } from 'react-router-dom'
 import ReactTooltip from 'react-tooltip'
+import { Modal } from 'redux-react-modals'
 import { compose } from 'redux'
 
 import Header from './Header'

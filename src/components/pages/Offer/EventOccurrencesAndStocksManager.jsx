@@ -1,11 +1,11 @@
 import classnames from 'classnames'
 import get from 'lodash.get'
-import { closeModal, Modal } from 'pass-culture-shared'
 import React, { Component, Fragment } from 'react'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { NavLink } from 'react-router-dom'
 import { compose } from 'redux'
+import { closeModal, Modal } from 'redux-react-modals'
 
 import EventOccurrenceAndStockItem from './EventOccurrenceAndStockItem'
 import HeroSection from '../../layout/HeroSection'

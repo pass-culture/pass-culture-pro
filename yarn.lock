@@ -8684,6 +8684,19 @@ redux-persist@^5.10.0:
   version "5.10.0"
   resolved "https://registry.yarnpkg.com/redux-persist/-/redux-persist-5.10.0.tgz#5d8d802c5571e55924efc1c3a9b23575283be62b"
 
+redux-react-modals@^0.0.11:
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/redux-react-modals/-/redux-react-modals-0.0.11.tgz#18b6e7a3c4cf261b1e75b934d9261f0970b7bcfb"
+  dependencies:
+    classnames "2.2.5"
+    eslint "^5.8.0"
+    prop-types "^15.6.2"
+    react "^16.5.2"
+    react-dom "^16.5.2"
+    react-redux "^5.0.7"
+    react-router-dom "^4.3.1"
+    redux "^4.0.0"
+
 redux-saga@^0.15.3:
   version "0.15.6"
   resolved "https://registry.yarnpkg.com/redux-saga/-/redux-saga-0.15.6.tgz#8638dc522de6c6c0a496fe8b2b5466287ac2dc4d"
