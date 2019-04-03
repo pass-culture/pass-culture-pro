@@ -105,6 +105,7 @@ class RawOffer extends Component {
       query,
       types,
     } = this.props
+
     const { offererId, venueId } = translateQueryParamsToApiParams(
       query.parse()
     )
