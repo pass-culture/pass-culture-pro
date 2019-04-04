@@ -1,17 +1,5 @@
 import moment from 'moment'
 
-export const getRemainingStock = (availableStock, bookings) => {
-  if (!availableStock && availableStock !== 0) {
-    return 'Illimité'
-  }
-
-  const validBookings = bookings.filter(
-    booking => booking.isCancelled === false
-  )
-
-  return availableStock - validBookings.length
-}
-
 export const FLOATSEP = ','
 
 export function getDisplayedPrice(value, readOnly) {

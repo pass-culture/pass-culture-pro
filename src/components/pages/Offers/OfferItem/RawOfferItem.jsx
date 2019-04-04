@@ -1,6 +1,5 @@
 import classnames from 'classnames'
 import get from 'lodash.get'
-import moment from 'moment'
 import { Icon, pluralize } from 'pass-culture-shared'
 import React, { Component } from 'react'
 import Dotdotdot from 'react-dotdotdot'
@@ -10,6 +9,7 @@ import { requestData } from 'redux-saga-data'
 import Price from 'components/layout/Price'
 import Thumb from 'components/layout/Thumb'
 import { offerNormalizer } from 'utils/normalizers'
+import { getRemainingStock } from 'utils/offerItem'
 
 class RawOfferItem extends Component {
   onDeactivateClick = () => {
@@ -35,10 +35,16 @@ class RawOfferItem extends Component {
     if (remainingStock === 0) {
       return '0 places'
     }
+    if (remainingStock === 'Illimité') {
+      return 'places illimitées'
+    }
     return `encore ${pluralize(remainingStock, 'place')}`
   }
 
   buildThingLabel = remainingStock => {
+    if (remainingStock === 'Illimité') {
+      return 'stock illimité'
+    }
     return `${remainingStock} en stock`
   }
 
@@ -84,10 +90,13 @@ class RawOfferItem extends Component {
     const { isNew } = offer || {}
     const { groupSizeMin, groupSizeMax, priceMin, priceMax } =
       aggregatedStock || {}
-    const { name, createdAt } = event || thing || {}
+    const { name } = event || thing || {}
 
     const numberOfMediations = get(mediations, 'length')
-    const remainingStockQuantity = get(stocks, 'length')
+
+    const { available, bookings } = stocks[0] || {}
+
+    const remainingStockQuantity = getRemainingStock(available, bookings || [])
 
     return (
       <li

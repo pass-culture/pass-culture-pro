@@ -8,7 +8,8 @@ import PropTypes from 'prop-types'
 import React, { Component, Fragment } from 'react'
 import ReactTooltip from 'react-tooltip'
 
-import { FLOATSEP, getDisplayedPrice, getRemainingStock } from './utils'
+import { FLOATSEP, getDisplayedPrice } from './utils'
+import { getRemainingStock } from 'utils/offerItem'
 
 export class EventOrThingFields extends Component {
   static isParsedByForm = true
