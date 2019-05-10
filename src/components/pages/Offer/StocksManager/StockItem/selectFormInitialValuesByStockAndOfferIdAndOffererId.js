@@ -52,8 +52,8 @@ export const selectFormInitialValuesByStockAndOfferIdAndOffererId = createCached
         : getDatetimeOneHourAfter(beginningDatetime)
     }
 
-    if (!bookingLimitDatetime) {
-      bookingLimitDatetime = getDatetimeTwoDaysBefore(beginningDatetime)
+    if (offer.isEvent && !bookingLimitDatetime) {
+      bookingLimitDatetime = beginningDatetime
     }
 
     if (typeof price === 'undefined') {
