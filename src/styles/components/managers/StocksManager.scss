@@ -87,6 +87,11 @@
               color: $black;
             }
           }
+
+          td.booking-limit-datetime {
+            max-width: 150px;
+          }
+
           td.tooltiped {
             white-space: nowrap;
             span.tooltip {
