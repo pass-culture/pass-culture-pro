@@ -73,7 +73,7 @@ ShallowWrapper {
               clamp={1}
               tagName="div"
               truncationChar="…"
-              useNativeClamp={false}
+              useNativeClamp={true}
             />
           </NavLink>
           <ul
@@ -204,7 +204,7 @@ ShallowWrapper {
                 clamp={1}
                 tagName="div"
                 truncationChar="…"
-                useNativeClamp={false}
+                useNativeClamp={true}
               />
             </NavLink>,
             <ul
@@ -317,7 +317,7 @@ ShallowWrapper {
                 clamp={1}
                 tagName="div"
                 truncationChar="…"
-                useNativeClamp={false}
+                useNativeClamp={true}
               />,
               "className": "name",
               "title": undefined,
@@ -333,7 +333,7 @@ ShallowWrapper {
                 "clamp": 1,
                 "tagName": "div",
                 "truncationChar": "…",
-                "useNativeClamp": false,
+                "useNativeClamp": true,
               },
               "ref": null,
               "rendered": null,
@@ -865,7 +865,7 @@ ShallowWrapper {
                 clamp={1}
                 tagName="div"
                 truncationChar="…"
-                useNativeClamp={false}
+                useNativeClamp={true}
               />
             </NavLink>
             <ul
@@ -996,7 +996,7 @@ ShallowWrapper {
                   clamp={1}
                   tagName="div"
                   truncationChar="…"
-                  useNativeClamp={false}
+                  useNativeClamp={true}
                 />
               </NavLink>,
               <ul
@@ -1109,7 +1109,7 @@ ShallowWrapper {
                   clamp={1}
                   tagName="div"
                   truncationChar="…"
-                  useNativeClamp={false}
+                  useNativeClamp={true}
                 />,
                 "className": "name",
                 "title": undefined,
@@ -1125,7 +1125,7 @@ ShallowWrapper {
                   "clamp": 1,
                   "tagName": "div",
                   "truncationChar": "…",
-                  "useNativeClamp": false,
+                  "useNativeClamp": true,
                 },
                 "ref": null,
                 "rendered": null,
@@ -1646,7 +1646,6 @@ ShallowWrapper {
           "getChildContext": Object {
             "calledByRenderer": false,
           },
-          "getDerivedStateFromError": true,
           "getDerivedStateFromProps": Object {
             "hasShouldComponentUpdateBug": false,
           },

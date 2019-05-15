@@ -75,7 +75,7 @@ ShallowWrapper {
                 className="has-text-grey"
                 tagName="div"
                 truncationChar="…"
-                useNativeClamp={false}
+                useNativeClamp={true}
               >
                  
                  
@@ -168,7 +168,7 @@ ShallowWrapper {
                   className="has-text-grey"
                   tagName="div"
                   truncationChar="…"
-                  useNativeClamp={false}
+                  useNativeClamp={true}
                 >
                    
                    
@@ -241,7 +241,7 @@ ShallowWrapper {
                     className="has-text-grey"
                     tagName="div"
                     truncationChar="…"
-                    useNativeClamp={false}
+                    useNativeClamp={true}
                   >
                      
                      
@@ -326,7 +326,7 @@ ShallowWrapper {
                     className="has-text-grey"
                     tagName="div"
                     truncationChar="…"
-                    useNativeClamp={false}
+                    useNativeClamp={true}
                   >
                      
                      
@@ -349,7 +349,7 @@ ShallowWrapper {
                     "className": "has-text-grey",
                     "tagName": "div",
                     "truncationChar": "…",
-                    "useNativeClamp": false,
+                    "useNativeClamp": true,
                   },
                   "ref": null,
                   "rendered": Array [
@@ -471,7 +471,7 @@ ShallowWrapper {
                   className="has-text-grey"
                   tagName="div"
                   truncationChar="…"
-                  useNativeClamp={false}
+                  useNativeClamp={true}
                 >
                    
                    
@@ -564,7 +564,7 @@ ShallowWrapper {
                     className="has-text-grey"
                     tagName="div"
                     truncationChar="…"
-                    useNativeClamp={false}
+                    useNativeClamp={true}
                   >
                      
                      
@@ -637,7 +637,7 @@ ShallowWrapper {
                       className="has-text-grey"
                       tagName="div"
                       truncationChar="…"
-                      useNativeClamp={false}
+                      useNativeClamp={true}
                     >
                        
                        
@@ -722,7 +722,7 @@ ShallowWrapper {
                       className="has-text-grey"
                       tagName="div"
                       truncationChar="…"
-                      useNativeClamp={false}
+                      useNativeClamp={true}
                     >
                        
                        
@@ -745,7 +745,7 @@ ShallowWrapper {
                       "className": "has-text-grey",
                       "tagName": "div",
                       "truncationChar": "…",
-                      "useNativeClamp": false,
+                      "useNativeClamp": true,
                     },
                     "ref": null,
                     "rendered": Array [
@@ -826,7 +826,6 @@ ShallowWrapper {
           "getChildContext": Object {
             "calledByRenderer": false,
           },
-          "getDerivedStateFromError": true,
           "getDerivedStateFromProps": Object {
             "hasShouldComponentUpdateBug": false,
           },
