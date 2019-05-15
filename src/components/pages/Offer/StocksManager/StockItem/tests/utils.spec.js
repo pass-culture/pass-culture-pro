@@ -1,7 +1,6 @@
 import {
   getDatetimeOneDayAfter,
   getDatetimeOneHourAfter,
-  getDatetimeTwoDaysBefore,
   getRemainingStocksCount,
 } from '../utils'
 
@@ -170,16 +169,6 @@ describe('src | components | pages | Offer | StockItem | utils', () => {
 
       // then
       expect(nextDatetime).toEqual('2019-04-27T20:00:00.000Z')
-    })
-    it('should getDatetimeTwoDaysBefore', () => {
-      // given
-      const datetime = '2019-04-27T19:00:00Z'
-
-      // when
-      const nextDatetime = getDatetimeTwoDaysBefore(datetime)
-
-      // then
-      expect(nextDatetime).toEqual('2019-04-25T19:00:00.000Z')
     })
   })
 })

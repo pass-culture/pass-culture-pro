@@ -3,11 +3,7 @@ import createCachedSelector from 're-reselect'
 
 import selectOfferById from 'selectors/selectOfferById'
 import selectStocksByOfferId from 'selectors/selectStocksByOfferId'
-import {
-  getDatetimeOneDayAfter,
-  getDatetimeOneHourAfter,
-  getDatetimeTwoDaysBefore,
-} from './utils'
+import { getDatetimeOneDayAfter, getDatetimeOneHourAfter } from './utils'
 
 function mapArgsToCacheKey(state, stock, offerId, offererId) {
   return `${(stock && stock.id) || ''}${offerId || ''}/${offererId || ''}`

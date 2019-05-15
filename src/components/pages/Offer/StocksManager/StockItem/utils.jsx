@@ -26,12 +26,6 @@ export function getDatetimeOneHourAfter(datetime) {
     .toISOString()
 }
 
-export function getDatetimeTwoDaysBefore(datetime) {
-  return moment(datetime)
-    .subtract(2, 'day')
-    .toISOString()
-}
-
 export function errorKeyToFrenchKey(errorKey) {
   switch (errorKey) {
     case 'available':
