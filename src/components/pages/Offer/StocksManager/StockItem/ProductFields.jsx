@@ -98,7 +98,6 @@ export class ProductFields extends Component {
         </td>
         <td title="Laissez vide si pas de limite">
           <DateField
-            maxDate={isEvent ? moment(beginningDatetime) : undefined}
             name="bookingLimitDatetime"
             placeholder="Laissez vide si pas de limite"
             readOnly={readOnly}
