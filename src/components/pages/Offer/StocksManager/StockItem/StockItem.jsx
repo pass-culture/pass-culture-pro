@@ -13,11 +13,7 @@ import EventFields from './EventFields'
 import ProductFields from './ProductFields'
 import SubmitAndCancelControl from './SubmitAndCancelControl'
 import adaptBookingLimitDateTimeGivenBeginningDateTime from './decorators/adaptBookingLimitDateTimeGivenBeginningDateTime'
-import {
-  BOOKING_LIMIT_DATETIME_HOURS,
-  BOOKING_LIMIT_DATETIME_MINUTES,
-  errorKeyToFrenchKey,
-} from './utils'
+import { errorKeyToFrenchKey } from './utils'
 
 export class StockItem extends Component {
   constructor() {
@@ -113,7 +109,12 @@ export class StockItem extends Component {
     const { id: stockId } = stockPatch
     const { readOnly } = query.context({ id: stockId, key: 'stock' })
 
-    let decorators = []
+    let decorators = [
+      adaptBookingLimitDateTimeGivenBeginningDateTime({
+        isEvent,
+        timezone,
+      }),
+    ]
 
     if (isEvent) {
       decorators = decorators.concat([
@@ -134,13 +135,6 @@ export class StockItem extends Component {
         }),
       ])
     }
-
-    decorators = decorators.concat([
-      adaptBookingLimitDateTimeGivenBeginningDateTime({
-        isEvent,
-        timezone,
-      }),
-    ])
 
     return (
       <tbody
