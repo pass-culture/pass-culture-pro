@@ -12,7 +12,7 @@ import EditAndDeleteControl from './EditAndDeleteControl'
 import EventFields from './EventFields'
 import ProductFields from './ProductFields'
 import SubmitAndCancelControl from './SubmitAndCancelControl'
-import forceDateTimeAtSpecificHoursAndMinutes from './decorators/forceDateTimeAtSpecificHoursAndMinutes'
+import adaptBookingLimitDateTimeGivenBeginningDateTime from './decorators/adaptBookingLimitDateTimeGivenBeginningDateTime'
 import {
   BOOKING_LIMIT_DATETIME_HOURS,
   BOOKING_LIMIT_DATETIME_MINUTES,
@@ -113,14 +113,8 @@ export class StockItem extends Component {
     const { id: stockId } = stockPatch
     const { readOnly } = query.context({ id: stockId, key: 'stock' })
 
-    let decorators = [
-      forceDateTimeAtSpecificHoursAndMinutes({
-        dateTimeName: 'bookingLimitDatetime',
-        hours: BOOKING_LIMIT_DATETIME_HOURS,
-        minutes: BOOKING_LIMIT_DATETIME_MINUTES,
-        timezone,
-      }),
-    ]
+    let decorators = []
+
     if (isEvent) {
       decorators = decorators.concat([
         triggerDateFieldChangeSetsSameHoursAndMinutesToTargetDateField({
@@ -140,6 +134,13 @@ export class StockItem extends Component {
         }),
       ])
     }
+
+    decorators = decorators.concat([
+      adaptBookingLimitDateTimeGivenBeginningDateTime({
+        isEvent,
+        timezone,
+      }),
+    ])
 
     return (
       <tbody
