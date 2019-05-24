@@ -40,7 +40,7 @@ exports.getRunAllTestcafeFilesCommand = config => {
     )
     .join('&')
 
-  return `${command}&`
+  return `${command}&wait`
 }
 
 exports.getRunTestcafeCommand = config => {
