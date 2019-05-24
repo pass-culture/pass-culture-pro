@@ -5,6 +5,8 @@ const program = require('commander')
 const env = require('node-env-file')
 const path = require('path')
 
+const { getRunTestcafeCommand } = require('./testcafe')
+
 const fileDir = path.join(__dirname, '/../env_file')
 if (fs.existsSync(fileDir)) {
   env(fileDir)
@@ -22,11 +24,12 @@ program
 
   .parse(process.argv)
 
-const { browser, debug, environment, file, testcafe } = program
-const NODE_ENV = environment === 'local' ? 'development' : environment
+const { testcafe } = program
+const config = Object.assign({ fileDir }, program)
 
+let command
 if (testcafe) {
-  const debugOption = debug ? '-d' : ''
-  const command = `NODE_ENV=${NODE_ENV} ./node_modules/.bin/testcafe ${browser} ${debugOption} testcafe/${file}`
-  childProcess.execSync(command, { stdio: [0, 1, 2] })
+  command = getRunTestcafeCommand(config)
 }
+
+childProcess.execSync(command, { stdio: [0, 1, 2] })
