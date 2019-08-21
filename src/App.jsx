@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { withRouter } from 'react-router'
 
-import MatomoPageTracker from './components/matomo/MatomoPageTracker'
+import MatomoContainer from './components/matomo/MatomoContainer'
 
 const App = ({ modalOpen, children, user }) => {
   const currentUser = user
@@ -14,7 +14,7 @@ const App = ({ modalOpen, children, user }) => {
       <div className={classnames('app', { 'modal-open': modalOpen })}>
         {children}
       </div>
-      <MatomoPageTracker user={currentUser} />
+      <MatomoContainer user={currentUser} />
     </React.Fragment>
   )
 }
