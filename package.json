@@ -2,7 +2,7 @@
   "name": "pass-culture-pro",
   "version": "44.0.3",
   "private": true,
-  "homepage": ".",
+  "homepage": "/",
   "engines": {
     "node": ">=8.12.0 <8.16"
   },
