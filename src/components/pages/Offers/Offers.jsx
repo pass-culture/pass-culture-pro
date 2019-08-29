@@ -40,7 +40,19 @@ class Offers extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { location } = this.props
+    const { location, offers } = this.props
+
+
+    console.log('************* componentDidUpdate ************************');
+    console.log('offers.length', offers.length);
+    console.log('prevPropsoffers.length', prevProps.offers.length);
+    console.log('************* componentDidUpdate ************************');
+    if (offers.length > prevProps.offers.length) {
+      this.setState(
+        { isLoading: false }
+      )
+    }
+
     if (location.search !== prevProps.location.search) {
       this.onHandleRequestData()
     }
@@ -52,6 +64,7 @@ class Offers extends Component {
     types.length === 0 && dispatch(requestData({ apiPath: '/types' }))
 
     const queryParams = query.parse()
+    console.log('onHandleRequestData', queryParams.page)
     const apiParams = translateQueryParamsToApiParams(queryParams)
     const apiParamsString = stringify(apiParams)
     const apiPath = `/offers?${apiParamsString}`
@@ -70,9 +83,10 @@ class Offers extends Component {
             const {
               payload: { data },
             } = action
+            console.log('>>>>>>> DATA in handleSuccess', data);
             this.setState({
-              hasMore: data.length > 0,
-              isLoading: false,
+              hasMore: data.length === 10,
+              noMore: data.length == []
             })
           },
           normalizer: offerNormalizer,
@@ -162,7 +176,13 @@ class Offers extends Component {
 
     const { isAdmin } = currentUser || {}
     const queryParams = query.parse()
+
+    console.log('IN RENDER queryParams.page', queryParams.page)
+    console.log('IN RENDER offers.length', offers.length)
+    console.log('THIS STATE', this.state)
+
     const apiParams = translateQueryParamsToApiParams(queryParams)
+
     const { keywords, venueId, offererId, orderBy } = apiParams
     const { hasMore, isLoading } = this.state
 
@@ -176,9 +196,9 @@ class Offers extends Component {
     const [orderName, orderDirection] = (orderBy || '').split('+')
     return (
       <Main
-        handleRequestData={this.onHandleRequestData}
-        name="offers"
+        handleRequestData={null}
         id="offers"
+        name="offers"
       >
         <HeroSection title="Vos offres">
           {!isAdmin && (
@@ -189,7 +209,9 @@ class Offers extends Component {
               <span className="icon">
                 <Icon svg="ico-offres-w" />
               </span>
-              <span>{'Créer une offre'}</span>
+              <span>
+                {'Créer une offre'}
+              </span>
             </NavLink>
           )}
         </HeroSection>
@@ -197,7 +219,9 @@ class Offers extends Component {
           className="section"
           onSubmit={this.handleOnSubmit}
         >
-          <label className="label">{'Rechercher une offre :'}</label>
+          <label className="label">
+            {'Rechercher une offre :'}
+          </label>
           <div className="field is-grouped">
             <p className="control is-expanded">
               <input
@@ -232,16 +256,18 @@ class Offers extends Component {
         <ul className="section">
 
           { offerer &&
-              <button
-                className="offerer-filter tag is-rounded is-medium"
-                onClick={this.handleOnOffererClick(query)}
-                type="button"
-              >
-                {'Structure :'}
-                <span className="name">&nbsp;{offerer.name}</span>
-                <Icon svg="ico-close-r" />
-                </button>
-          }
+          <button
+            className="offerer-filter tag is-rounded is-medium"
+            onClick={this.handleOnOffererClick(query)}
+            type="button"
+          >
+            {'Structure :'}
+            <span className="name">
+              &nbsp;
+              {offerer.name}
+            </span>
+            <Icon svg="ico-close-r" />
+          </button>}
 
           { venue &&
             <button
@@ -250,10 +276,11 @@ class Offers extends Component {
               type="button"
             >
                 {'Lieu : '}
-                <span className="name">{venue.name}</span>
-                <Icon svg="ico-close-r" />
-              </button>
-          }
+              <span className="name">
+                {venue.name}
+              </span>
+              <Icon svg="ico-close-r" />
+            </button>}
 
         </ul>
         <div className="section">
@@ -297,7 +324,7 @@ class Offers extends Component {
                   onClick={this.handleOnDeactivateAllVenueOffersClick}
                   type="button"
                 >
-                Désactiver toutes les offres
+                  {'Désactiver toutes les offres'}
                 </button>
 
                 <button
@@ -317,7 +344,6 @@ class Offers extends Component {
             hasMore={hasMore}
             isLoading={isLoading}
             loader={<Spinner key="spinner" />}
-            useWindow
           >
             {offers.map(offer => (
               <OfferItemContainer
