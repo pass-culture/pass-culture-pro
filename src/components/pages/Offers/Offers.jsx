@@ -14,7 +14,6 @@ import { offerNormalizer } from '../../../utils/normalizers'
 import { mapApiToBrowser, translateQueryParamsToApiParams } from '../../../utils/translate'
 import OfferItemContainer from './OfferItem/OfferItemContainer'
 
-
 class Offers extends Component {
   constructor(props) {
     super(props)
@@ -42,20 +41,17 @@ class Offers extends Component {
   componentDidUpdate(prevProps) {
     const { location, offers } = this.props
 
-
-    console.log('************* componentDidUpdate ************************');
-    console.log('offers.length', offers.length);
-    console.log('prevPropsoffers.length', prevProps.offers.length);
-    console.log('************* componentDidUpdate ************************');
     if (offers.length > prevProps.offers.length) {
-      this.setState(
-        { isLoading: false }
-      )
+      this.scrollerIsNotLoading()
     }
 
     if (location.search !== prevProps.location.search) {
       this.onHandleRequestData()
     }
+  }
+
+  scrollerIsNotLoading = () => {
+    this.setState({ isLoading: false })
   }
 
   onHandleRequestData = () => {
@@ -64,7 +60,6 @@ class Offers extends Component {
     types.length === 0 && dispatch(requestData({ apiPath: '/types' }))
 
     const queryParams = query.parse()
-    console.log('onHandleRequestData', queryParams.page)
     const apiParams = translateQueryParamsToApiParams(queryParams)
     const apiParamsString = stringify(apiParams)
     const apiPath = `/offers?${apiParamsString}`
@@ -83,10 +78,8 @@ class Offers extends Component {
             const {
               payload: { data },
             } = action
-            console.log('>>>>>>> DATA in handleSuccess', data);
             this.setState({
-              hasMore: data.length === 10,
-              noMore: data.length == []
+              hasMore: !(data.length < 10),
             })
           },
           normalizer: offerNormalizer,
@@ -112,7 +105,7 @@ class Offers extends Component {
     }
   }
 
-  handleSubmitRequestSuccess = (notificationMessage) => {
+  handleSubmitRequestSuccess = notificationMessage => {
     const { dispatch } = this.props
     dispatch(
       showNotification({
@@ -143,7 +136,9 @@ class Offers extends Component {
         apiPath: `/venues/${venue.id}/offers/deactivate`,
         method: 'PUT',
         stateKey: 'offers',
-        handleSuccess: this.handleSubmitRequestSuccess('Toutes les offres de ce lieu ont été désactivées avec succès')
+        handleSuccess: this.handleSubmitRequestSuccess(
+          'Toutes les offres de ce lieu ont été désactivées avec succès'
+        ),
       })
     )
   }
@@ -155,7 +150,9 @@ class Offers extends Component {
         apiPath: `/venues/${venue.id}/offers/activate`,
         method: 'PUT',
         stateKey: 'offers',
-        handleSuccess: this.handleSubmitRequestSuccess('Toutes les offres de ce lieu ont été activées avec succès')
+        handleSuccess: this.handleSubmitRequestSuccess(
+          'Toutes les offres de ce lieu ont été activées avec succès'
+        ),
       })
     )
   }
@@ -171,15 +168,10 @@ class Offers extends Component {
   }
 
   render() {
-
     const { currentUser, offers, offerer, query, venue } = this.props
 
     const { isAdmin } = currentUser || {}
     const queryParams = query.parse()
-
-    console.log('IN RENDER queryParams.page', queryParams.page)
-    console.log('IN RENDER offers.length', offers.length)
-    console.log('THIS STATE', this.state)
 
     const apiParams = translateQueryParamsToApiParams(queryParams)
 
@@ -245,8 +237,7 @@ class Offers extends Component {
                 disabled
                 type="button"
               >
-                &nbsp;
-                &nbsp;
+                &nbsp; &nbsp;
                 <Icon svg="ico-filter" />
               </button>
             </p>
@@ -254,34 +245,34 @@ class Offers extends Component {
         </form>
 
         <ul className="section">
+          {offerer && (
+            <button
+              className="offerer-filter tag is-rounded is-medium"
+              onClick={this.handleOnOffererClick(query)}
+              type="button"
+            >
+              {'Structure :'}
+              <span className="name">
+                &nbsp;
+                {offerer.name}
+              </span>
+              <Icon svg="ico-close-r" />
+            </button>
+          )}
 
-          { offerer &&
-          <button
-            className="offerer-filter tag is-rounded is-medium"
-            onClick={this.handleOnOffererClick(query)}
-            type="button"
-          >
-            {'Structure :'}
-            <span className="name">
-              &nbsp;
-              {offerer.name}
-            </span>
-            <Icon svg="ico-close-r" />
-          </button>}
-
-          { venue &&
+          {venue && (
             <button
               className="venue-filter tag is-rounded is-medium"
               onClick={this.handleOnVenueClick(query)}
               type="button"
             >
-                {'Lieu : '}
+              {'Lieu : '}
               <span className="name">
                 {venue.name}
               </span>
               <Icon svg="ico-close-r" />
-            </button>}
-
+            </button>
+          )}
         </ul>
         <div className="section">
           {false && (
@@ -297,8 +288,12 @@ class Offers extends Component {
                     onBlur={this.handleOnChange}
                     value={orderName}
                   >
-                    <option value="sold">{'Offres écoulées'}</option>
-                    <option value="createdAt">{'Date de création'}</option>
+                    <option value="sold">
+                      {'Offres écoulées'}
+                    </option>
+                    <option value="createdAt">
+                      {'Date de création'}
+                    </option>
                   </select>
                 </span>
               </div>
@@ -316,27 +311,25 @@ class Offers extends Component {
             </div>
           )}
 
-          {
-            offers && venue && (
-              <div className="offers-list-actions">
-                <button
-                  className="button deactivate is-secondary is-small"
-                  onClick={this.handleOnDeactivateAllVenueOffersClick}
-                  type="button"
-                >
-                  {'Désactiver toutes les offres'}
-                </button>
+          {offers && venue && (
+            <div className="offers-list-actions">
+              <button
+                className="button deactivate is-secondary is-small"
+                onClick={this.handleOnDeactivateAllVenueOffersClick}
+                type="button"
+              >
+                {'Désactiver toutes les offres'}
+              </button>
 
-                <button
-                  className="button activate is-secondary is-small"
-                  onClick={this.handleOnActivateAllVenueOffersClick}
-                  type="button"
-                >
-                Activer toutes les offres
-                </button>
-              </div>
-            )
-          }
+              <button
+                className="button activate is-secondary is-small"
+                onClick={this.handleOnActivateAllVenueOffersClick}
+                type="button"
+              >
+                {'Activer toutes les offres'}
+              </button>
+            </div>
+          )}
 
           <LoadingInfiniteScroll
             className="offers-list main-list"

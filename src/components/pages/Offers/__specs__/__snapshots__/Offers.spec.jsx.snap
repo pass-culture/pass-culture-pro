@@ -234,11 +234,10 @@ ShallowWrapper {
                 style={null}
               />
             }
-            useWindow={true}
           />
         </div>,
       ],
-      "handleRequestData": [Function],
+      "handleRequestData": null,
       "id": "offers",
       "name": "offers",
     },
@@ -669,7 +668,6 @@ ShallowWrapper {
                   style={null}
                 />
               }
-              useWindow={true}
             />,
           ],
           "className": "section",
@@ -750,7 +748,6 @@ ShallowWrapper {
                 label="Chargement"
                 style={null}
               />,
-              "useWindow": true,
             },
             "ref": null,
             "rendered": Array [],
@@ -888,11 +885,10 @@ ShallowWrapper {
                   style={null}
                 />
               }
-              useWindow={true}
             />
           </div>,
         ],
-        "handleRequestData": [Function],
+        "handleRequestData": null,
         "id": "offers",
         "name": "offers",
       },
@@ -1323,7 +1319,6 @@ ShallowWrapper {
                     style={null}
                   />
                 }
-                useWindow={true}
               />,
             ],
             "className": "section",
@@ -1404,7 +1399,6 @@ ShallowWrapper {
                   label="Chargement"
                   style={null}
                 />,
-                "useWindow": true,
               },
               "ref": null,
               "rendered": Array [],
