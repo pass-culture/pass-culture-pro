@@ -8,12 +8,12 @@ describe('src | components | pages | Offerers | Offerers', () => {
 
   beforeEach(() => {
     props = {
-      assignData:jest.fn(),
-      closeNotification:jest.fn(),
+      closeNotification: jest.fn(),
       currentUser: {},
-      dispatch:jest.fn(),
-      loadOfferers:jest.fn(),
-      loadNotValidatedUserOfferers:jest.fn(),
+      dispatch: jest.fn(),
+      emptyOfferersAndpendingOfferersState: jest.fn(),
+      loadOfferers: jest.fn(),
+      loadNotValidatedUserOfferers: jest.fn(),
       offerers: [{ id: 'AE' }],
       pendingOfferers: [],
       pagination: {
@@ -25,7 +25,7 @@ describe('src | components | pages | Offerers | Offerers', () => {
         change: jest.fn(),
         parse: () => ({ 'mots-cles': null }),
       },
-      showNotification:jest.fn(),
+      showNotification: jest.fn(),
       location: {
         search: '',
       },
@@ -74,7 +74,7 @@ describe('src | components | pages | Offerers | Offerers', () => {
     describe('when leaving page', () => {
       it('should not close notifcation', () => {
         // given
-        props = {...props, closeNotification: jest.fn()}
+        props = { ...props, closeNotification: jest.fn() }
         const wrapper = shallow(<Offerers {...props} />)
 
         // when
@@ -90,8 +90,8 @@ describe('src | components | pages | Offerers | Offerers', () => {
           ...props,
           closeNotification: jest.fn(),
           notification: {
-            tag: 'offerers'
-          }
+            tag: 'offerers',
+          },
         }
         const wrapper = shallow(<Offerers {...props} />)
 
@@ -107,7 +107,7 @@ describe('src | components | pages | Offerers | Offerers', () => {
         props = {
           ...props,
           closeNotification: jest.fn(),
-          notification: null
+          notification: null,
         }
         const wrapper = shallow(<Offerers {...props} />)
 

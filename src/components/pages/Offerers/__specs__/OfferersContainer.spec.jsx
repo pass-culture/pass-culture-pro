@@ -68,9 +68,9 @@ describe('src | components | pages | Offerers | OfferersContainer', () => {
       dispatch = jest.fn()
     })
 
-    it('enable to assign data', () => {
+    it('enable to emptyOfferersAndpendingOfferersState', () => {
       // when
-      mapDispatchToProps(dispatch).assignData()
+      mapDispatchToProps(dispatch).emptyOfferersAndpendingOfferersState()
 
       // then
       expect(dispatch).toHaveBeenCalledWith({
@@ -149,18 +149,17 @@ describe('src | components | pages | Offerers | OfferersContainer', () => {
       mapDispatchToProps(dispatch).showNotification(url)
 
       // then
-      expect(dispatch).toHaveBeenCalledWith(
-        {
-          "patch": {
-            "tag": "offerers",
-            "text": "Commencez par créer un lieu pour accueillir vos offres physiques (événements, livres, abonnements…)",
-            "type": "info",
-            "url": "/offerers",
-            "urlLabel": "Nouveau lieu",
-          },
-          "type": "SHOW_NOTIFICATION",
-        }
-      )
+      expect(dispatch).toHaveBeenCalledWith({
+        patch: {
+          tag: 'offerers',
+          text:
+            'Commencez par créer un lieu pour accueillir vos offres physiques (événements, livres, abonnements…)',
+          type: 'info',
+          url: '/offerers',
+          urlLabel: 'Nouveau lieu',
+        },
+        type: 'SHOW_NOTIFICATION',
+      })
     })
   })
 })

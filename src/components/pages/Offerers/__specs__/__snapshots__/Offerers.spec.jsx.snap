@@ -4,21 +4,13 @@ exports[`src | components | pages | Offerers | Offerers should match the snapsho
 ShallowWrapper {
   Symbol(enzyme.__root__): [Circular],
   Symbol(enzyme.__unrendered__): <Offerers
-    assignData={[MockFunction]}
     closeNotification={[MockFunction]}
     currentUser={Object {}}
-    dispatch={
+    dispatch={[MockFunction]}
+    emptyOfferersAndpendingOfferersState={
       [MockFunction] {
         "calls": Array [
-          Array [
-            Object {
-              "patch": Object {
-                "offerers": Array [],
-                "pendingOfferers": Array [],
-              },
-              "type": "ASSIGN_DATA",
-            },
-          ],
+          Array [],
         ],
         "results": Array [
           Object {
@@ -129,20 +121,15 @@ ShallowWrapper {
             <a
               href="/structures/AE/lieux/creation"
             >
-               
               créer un nouveau lieu 
-               
             </a>
-             
              lié à une structure.
             <br />
             Sans lieu, vous pouvez uniquement 
             <a
               href="/offres/creation"
             >
-               
               ajouter des offres numériques.
-               
             </a>
           </p>
           <div
@@ -221,20 +208,15 @@ ShallowWrapper {
               <a
                 href="/structures/AE/lieux/creation"
               >
-                 
                 créer un nouveau lieu 
-                 
               </a>
-               
                lié à une structure.
               <br />
               Sans lieu, vous pouvez uniquement 
               <a
                 href="/offres/creation"
               >
-                 
                 ajouter des offres numériques.
-                 
               </a>
             </p>,
             <div
@@ -275,20 +257,15 @@ ShallowWrapper {
                 <a
                   href="/structures/AE/lieux/creation"
                 >
-                   
                   créer un nouveau lieu 
-                   
                 </a>,
-                " ",
                 " lié à une structure.",
                 <br />,
                 "Sans lieu, vous pouvez uniquement ",
                 <a
                   href="/offres/creation"
                 >
-                   
                   ajouter des offres numériques.
-                   
                 </a>,
               ],
               "className": "subtitle",
@@ -301,22 +278,13 @@ ShallowWrapper {
                 "key": undefined,
                 "nodeType": "host",
                 "props": Object {
-                  "children": Array [
-                    " ",
-                    "créer un nouveau lieu ",
-                    " ",
-                  ],
+                  "children": "créer un nouveau lieu ",
                   "href": "/structures/AE/lieux/creation",
                 },
                 "ref": null,
-                "rendered": Array [
-                  " ",
-                  "créer un nouveau lieu ",
-                  " ",
-                ],
+                "rendered": "créer un nouveau lieu ",
                 "type": "a",
               },
-              " ",
               " lié à une structure.",
               Object {
                 "instance": null,
@@ -333,19 +301,11 @@ ShallowWrapper {
                 "key": undefined,
                 "nodeType": "host",
                 "props": Object {
-                  "children": Array [
-                    " ",
-                    "ajouter des offres numériques.",
-                    " ",
-                  ],
+                  "children": "ajouter des offres numériques.",
                   "href": "/offres/creation",
                 },
                 "ref": null,
-                "rendered": Array [
-                  " ",
-                  "ajouter des offres numériques.",
-                  " ",
-                ],
+                "rendered": "ajouter des offres numériques.",
                 "type": "a",
               },
             ],
@@ -529,20 +489,15 @@ ShallowWrapper {
               <a
                 href="/structures/AE/lieux/creation"
               >
-                 
                 créer un nouveau lieu 
-                 
               </a>
-               
                lié à une structure.
               <br />
               Sans lieu, vous pouvez uniquement 
               <a
                 href="/offres/creation"
               >
-                 
                 ajouter des offres numériques.
-                 
               </a>
             </p>
             <div
@@ -621,20 +576,15 @@ ShallowWrapper {
                 <a
                   href="/structures/AE/lieux/creation"
                 >
-                   
                   créer un nouveau lieu 
-                   
                 </a>
-                 
                  lié à une structure.
                 <br />
                 Sans lieu, vous pouvez uniquement 
                 <a
                   href="/offres/creation"
                 >
-                   
                   ajouter des offres numériques.
-                   
                 </a>
               </p>,
               <div
@@ -675,20 +625,15 @@ ShallowWrapper {
                   <a
                     href="/structures/AE/lieux/creation"
                   >
-                     
                     créer un nouveau lieu 
-                     
                   </a>,
-                  " ",
                   " lié à une structure.",
                   <br />,
                   "Sans lieu, vous pouvez uniquement ",
                   <a
                     href="/offres/creation"
                   >
-                     
                     ajouter des offres numériques.
-                     
                   </a>,
                 ],
                 "className": "subtitle",
@@ -701,22 +646,13 @@ ShallowWrapper {
                   "key": undefined,
                   "nodeType": "host",
                   "props": Object {
-                    "children": Array [
-                      " ",
-                      "créer un nouveau lieu ",
-                      " ",
-                    ],
+                    "children": "créer un nouveau lieu ",
                     "href": "/structures/AE/lieux/creation",
                   },
                   "ref": null,
-                  "rendered": Array [
-                    " ",
-                    "créer un nouveau lieu ",
-                    " ",
-                  ],
+                  "rendered": "créer un nouveau lieu ",
                   "type": "a",
                 },
-                " ",
                 " lié à une structure.",
                 Object {
                   "instance": null,
@@ -733,19 +669,11 @@ ShallowWrapper {
                   "key": undefined,
                   "nodeType": "host",
                   "props": Object {
-                    "children": Array [
-                      " ",
-                      "ajouter des offres numériques.",
-                      " ",
-                    ],
+                    "children": "ajouter des offres numériques.",
                     "href": "/offres/creation",
                   },
                   "ref": null,
-                  "rendered": Array [
-                    " ",
-                    "ajouter des offres numériques.",
-                    " ",
-                  ],
+                  "rendered": "ajouter des offres numériques.",
                   "type": "a",
                 },
               ],

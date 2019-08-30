@@ -93,16 +93,13 @@ class Offers extends Component {
     event.preventDefault()
     const { dispatch, query } = this.props
     const value = event.target.elements.search.value
-    const isEmptySearch = typeof value === 'undefined' || value === ''
 
     query.change({
       [mapApiToBrowser.keywords]: value === '' ? null : value,
       page: null,
     })
 
-    if (!isEmptySearch) {
-      dispatch(assignData({ offers: [] }))
-    }
+    dispatch(assignData({ offers: [] }))
   }
 
   handleSubmitRequestSuccess = notificationMessage => {

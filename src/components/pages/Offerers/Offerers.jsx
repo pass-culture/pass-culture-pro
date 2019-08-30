@@ -4,7 +4,6 @@ import React, { Component, Fragment } from 'react'
 import { Form } from 'react-final-form'
 import LoadingInfiniteScroll from 'react-loading-infinite-scroller'
 import { NavLink } from 'react-router-dom'
-import { assignData } from 'fetch-normalize-data'
 
 import OffererItemContainer from './OffererItem/OffererItemContainer'
 import PendingOffererItem from './OffererItem/PendingOffererItem'
@@ -13,23 +12,20 @@ import Icon from '../../layout/Icon'
 import Main from '../../layout/Main'
 import Spinner from '../../layout/Spinner'
 import TextField from '../../layout/form/fields/TextField'
-import {
-  mapApiToBrowser,
-  translateQueryParamsToApiParams,
-} from '../../../utils/translate'
+import { mapApiToBrowser, translateQueryParamsToApiParams } from '../../../utils/translate'
 import createVenueForOffererUrl from './utils/createVenueForOffererUrl'
 
 class Offerers extends Component {
   constructor(props) {
     super(props)
-    const { dispatch } = props
+    const { emptyOfferersAndpendingOfferersState } = props
 
     this.state = {
       hasMore: false,
       isLoading: false,
     }
 
-    dispatch(assignData({ offerers: [], pendingOfferers: [] }))
+    emptyOfferersAndpendingOfferersState()
   }
 
   componentDidMount() {
@@ -44,7 +40,7 @@ class Offerers extends Component {
   }
 
   componentWillUnmount() {
-    const { closeNotification, notification}  = this.props
+    const { closeNotification, notification } = this.props
     if (notification && notification.tag === 'offerers') {
       closeNotification()
     }
@@ -108,14 +104,12 @@ class Offerers extends Component {
   }
 
   handleOnKeywordsSubmit = values => {
-    const { assignData, query } = this.props
+    const { emptyOfferersAndpendingOfferersState, query } = this.props
     const { keywords } = values
 
     const isEmptyKeywords = typeof keywords === 'undefined' || keywords === ''
 
-    if (!isEmptyKeywords) {
-      assignData()
-    }
+    emptyOfferersAndpendingOfferersState()
 
     query.change({
       [mapApiToBrowser.keywords]: isEmptyKeywords ? null : keywords,
@@ -125,10 +119,17 @@ class Offerers extends Component {
 
   renderTextField = () => (
     <Fragment>
-      <button className="button is-primary is-outlined search-ok ml12" type="submit">
+      <button
+        className="button is-primary is-outlined search-ok ml12"
+        type="submit"
+      >
         {'OK'}
       </button>
-      <button className="button is-secondary" disabled type="button">
+      <button
+        className="button is-secondary"
+        disabled
+        type="button"
+      >
         &nbsp;
         <Icon svg="ico-filter" />
         &nbsp;
@@ -167,13 +168,21 @@ class Offerers extends Component {
         <HeroSection title={sectionTitle}>
           <p className="subtitle">
             {'Pour présenter vos offres, vous devez d’abord '}
-            <a href={url}> {'créer un nouveau lieu '} </a> {' lié à une structure.'}
+            <a href={url}>
+              {'créer un nouveau lieu '}
+            </a>
+            {' lié à une structure.'}
             <br />
             {'Sans lieu, vous pouvez uniquement '}
-            <a href="/offres/creation"> {'ajouter des offres numériques.'} </a>
+            <a href="/offres/creation">
+              {'ajouter des offres numériques.'}
+            </a>
           </p>
           <div className="title-action-links">
-            <NavLink className="cta button is-primary is-outlined" to="/structures/creation">
+            <NavLink
+              className="cta button is-primary is-outlined"
+              to="/structures/creation"
+            >
               {'+ Ajouter une structure'}
               <span
                 className="tip-icon"
@@ -196,9 +205,15 @@ class Offerers extends Component {
         <br />
 
         {pendingOfferers.length > 0 && (
-          <ul className="main-list offerers-list" id="pending-offerer-list">
+          <ul
+            className="main-list offerers-list"
+            id="pending-offerer-list"
+          >
             {pendingOfferers.map(o => (
-              <PendingOffererItem key={o.siren} offerer={o} />
+              <PendingOffererItem
+                key={o.siren}
+                offerer={o}
+              />
             ))}
           </ul>
         )}
@@ -212,7 +227,10 @@ class Offerers extends Component {
           useWindow
         >
           {offerers.map(offerer => (
-            <OffererItemContainer key={offerer.id} offerer={offerer} />
+            <OffererItemContainer
+              key={offerer.id}
+              offerer={offerer}
+            />
           ))}
         </LoadingInfiniteScroll>
       </Main>
@@ -221,10 +239,9 @@ class Offerers extends Component {
 }
 
 Offerers.propTypes = {
-  assignData: PropTypes.func.isRequired,
   closeNotification: PropTypes.func.isRequired,
   currentUser: PropTypes.shape().isRequired,
-  dispatch: PropTypes.func.isRequired,
+  emptyOfferersAndpendingOfferersState: PropTypes.func.isRequired,
   loadNotValidatedUserOfferers: PropTypes.func.isRequired,
   loadOfferers: PropTypes.func.isRequired,
   offerers: PropTypes.arrayOf.isRequired,
