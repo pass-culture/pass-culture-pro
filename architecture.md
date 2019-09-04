@@ -1,6 +1,6 @@
 # L’architecture React + Redux se base sur le pattern Flux.
 
-En résumé, il s’agit d’un pattern où la donnée a un cycle de vie unidirectionnel : Etat de l’application > Rendu visuel (terminal, html, etc…) > Action qui altère l’état de l’application > Rendu > Etc.
+Il s’agit d’un pattern où la donnée a un cycle de vie unidirectionnel : Etat de l’application > Rendu visuel (terminal, html, etc…) > Action qui altère l’état de l’application > Rendu > Etc.
 Exemple : Je n’ai pas chargé l’information « Profil » que je souhaite afficher (ETAT), j’affiche un loader (RENDU), je charge la donnée « Profil » (ACTION), la donnée est chargée (ETAT), J’affiche le « Profil »  (RENDU)
 
 L’élément conceptuel essentiel ici est que l’affichage (le formulaire par exemple) ne modifie JAMAIS l’état de l’application, mais déclenche des actions qui ont un effet de modification.
@@ -9,21 +9,36 @@ Dans Redux, ça passe par le dispatch.
 Ce pattern d’architecture est fortement inspiré du pattern CQS (Command Query Separation).
 
 En résumé :
-* Toute méthode qui change l’état de l’application est appelé une command, et ne renvoie aucun résultat. C’est ce qu’on appelle une action dans Redux
-* Toute méthode qui retourne une donnée est appelée query et ne modifie pas l’état (idempotence). C’est ce qu’on appelle un selector dans Redux
+* Toute méthode qui change l’état de l’application est appelé "command", et ne renvoie aucun résultat. C’est ce qu’on appelle une action dans Redux.
+* Toute méthode qui retourne une donnée est appelée query et ne modifie pas l’état (idempotence). C’est ce qu’on appelle un selector dans Redux.
 
 ## Vocabulaire et responsabilités :
 
 
 1. **Composant**
 
-   _Cf la partie dédiée_
+   Un composant est peut être décrit de deux manières différentes :
+   * Soit, il s'agit d'un élément graphique (= porteur de l’identité de l’application) réutilisable et petit (unité de code). Ces éléments devraient pouvoir être regroupés dans un document de type « design system » qui sert de documentation sur le code.
+   * Un morceau de code créé par la composition de composants plus petit. Exemple : Un formulaire est la composition de composants plus petit. 
+
+   Ainsi, une page est construite à partir de composants petits et réutilisables et qui deviennent de plus en plus complexes et spécifiques.
+   Par conséquent, une page ne sert qu’un seul objectif
+   
+   __Exemple : On aura une page pour la création d’une offre, une pour l’édition, une pour la visualisation, etc … et non pas une seule page qui fait tout__
+   
+   Dans l’esprit, on applique le Single Responsibility Principle (https://fr.wikipedia.org/wiki/Principe_de_responsabilit%C3%A9_unique) et on fait de la composition.
+
+   **Quelques règles pour construire un composant :** 
+   
+   * Doit avoir une interface PropType claire
+   * N’est pas responsable d'altérer les données (store, clock, variables globales, route, etc.)
+   * Ne connait rien du métier / Ne porte aucune logique métier
 
 2. **Container**
 
     Assure la connexion entre un composant et le store. Pour transmettre les informations demandées par le composant, il utilise :
-    * soit des sélecteurs
-    * soit constructeur de value objects (décrit dans la section ci-dessous)
+    * soit des __selectors__
+    * soit des __constructors__ de value objects (décrit dans la section ci-dessous)
     
     Ce sont les seules dépendances utilisées dans un container.
 
@@ -46,21 +61,26 @@ En résumé :
     __BirthDateContainer__
     
         connect({ defaultDate: state.birthdate })(DatePicker)
+        
+    Notons aussi que les informations transmises par le container sont construites en deux fois:
+    
+    * __mapStateToProps(state, ownProps?)__ est chargé de construire **les données**.
+    * __mapDispatchToProps(dispatch, ownProps?)__ est chargé de construire **les actions**. Ce qui est construit dans cette fonction démarre par un verbe d'action. 
 
 3. **Value Object / Constructor**
 
-    Les pages de l’application partagent un store, mais elles ne partagent souvent pas les mêmes besoins et donc pas les mêmes données qu'elles manipulent.
-    Le meilleur exemple est qu’un booking pour la liste des réservations n’est pas la même chose qu’un booking sur la page des réservations de PRO.
-    De la même manière, une recommandation pour la recherche n'a pas nécessairement la même structure de donnée qu’une recommendation pour le carrousel.
+    Les pages de l’application partagent un store, mais elles ne partagent pas souvent les mêmes besoins et donc pas les mêmes données qu'elles manipulent.
+    Le meilleur exemple est qu’un booking pour la liste des réservations de WEBAPP n’est pas la même chose qu’un booking sur la page des réservations de PRO.
+    De la même manière, une recommendation pour la recherche n'a pas nécessairement la même structure de données qu’une recommendation pour le carrousel.
 
-    Ces objets spécifiques (qui ont un but et un contexte identifié) sont construits à partir d’un ou plusieurs sélecteurs.
-    On veux remplacer les __.shape()__ par :
+    Ces objets spécifiques (qui ont un but et un contexte identifié) sont construits à partir d’un ou plusieurs __selectors__.
+    On veut remplacer les __.shape()__ par :
 
         PropTypes.instanceOf(DiscoveryRecommendation)
     
         PropTypes.instanceOf(SearchRecommendation)
 
-    1. Suggestion de construction **(à débattre)** :
+    1. Suggestion de constructor **(à débattre)** :
 
         ```
         Class DiscoveryRecommendation() {
@@ -70,14 +90,14 @@ En résumé :
 
     2. Quand utiliser un Value Object ?
 
-        Quand un composant reçoit une structure de donnée (un object {}) que l’on peux nommer car il répond à un cas précis.
+        Quand un composant reçoit une structure de données (un object {}) que l’on peut nommer car il répond à un cas précis.
         Quand on veut faire apparaître un élément de vocabulaire qui correspond à un cas métier (donc pas de StructForMyComponent)
 
 4. **Selector**
     
     Elément de base qui permet à un container d’accéder à une donnée du store
     Prend le state complet en paramètre et en extrait ce qui est nécessaire.
-    Préserve la structure de la donnée du store ou faire un agrégation pour avoir une donnée primitive (une valeur numérique, une string, etc …)
+    Peut, au choix, préserver la structure de la donnée du store (pluck) ou en agréger la donnée (map, reduce) pour retourner une donnée primitive (une valeur numérique, une string, etc …)
 
     Exemples :
     * Accéder à un noeud du store : __getFavorites()__
@@ -85,7 +105,7 @@ En résumé :
     * Faire de l’agrégation : __countFavorites()__
 
     L’association container + Selector + value object correspond à l’aspect Query de l’architecture.
-    Les sélecteurs peuvent être construit par composition d’autres sélecteurs et sont communs à l’ensemble de l’application.
+    Les __selectors__ peuvent être construits par composition d’autres __selectors__ et sont communs à l’ensemble de l’application.
 
     Suggestion d’arborescence :
     ```
@@ -111,31 +131,22 @@ En résumé :
     }
    ```
 
-    Une action est transmise via un dispatch. Et l’ensemble des actions sont transmises aux composants via les props.
+    Une action est transmise via un dispatch. Et l’ensemble des actions sont transmises aux composants, encapsulées dans des fonctions, via les props.
     Par conséquence, pas de dispatch ni de paramétrage d’action dans les composants.
     Tout est construit dans le container, et c’est ce qui permet au composant d’agir sur l’état de l’application (charger des données, en supprimer, en mettre à jour, etc …)
 
-6. Reducer
+6. **Reducer**
 
     Un reducer est l’endroit où l’action est traitée, ce qui a pour effet de modifier l’état.
     Toute la mécanique est expliquée en détail dans la [documentation Redux](https://redux.js.org/basics/reducers)
+    
+    **Flux "query" :**
 
-
-## Composant
-* Doit avoir une interface PropType claire
-* N’est pas responsable d'altérer les données (store, clock, variables globales, route, etc.)
-* Ne connait rien du métier / Ne porte aucune logique métier
-* Est soit :
-    * Un élément graphique (= porteur de l’identité de l’application) réutilisable et petit (unité de code). Ces éléments devraient pouvoir être regroupé dans un document de type « design système » qui sert de documentation sur le code.
-    * Un morceau de code créé par la composition de composants plus petit. Exemple : Un formulaire est la composition de composants plus petit. 
-
-Partant de là, une page est construite à partir de composants petits et réutilisables et qui deviennent de plus en plus complexe et spécifique.
-Par conséquent, une page ne sert qu’un seul objectif
-Exemple : On aura une page pour la création d’une offre, une pour l’édition, une pour la visualisation, etc … et non pas une seule page qui fait tout
-
-Dans l’esprit, on applique le Single Responsibility Principle (https://fr.wikipedia.org/wiki/Principe_de_responsabilit%C3%A9_unique) et on fait de la composition.
-
-
+    ACTION --> DISPATCHER --> REDUCER --> STORE
+    
+    **Flux "Command" :**
+    
+    STORE --> SELECTOR --> CONTAINER --> VIEW
 
 
 ## Bonnes pratiques Composant
