@@ -67,10 +67,13 @@ class IdentifierFields extends Component {
     return (
       <div className="section">
         <h2 className="main-list-title is-relative">
-          {'IDENTIFIANTS'}
+          {'INFORMATIONS DU LIEU'}
           {!readOnly && (
             <span className="is-pulled-right is-size-7 has-text-grey">
-              {'Les champs marqués d’un'} <span className="required-legend">{' * '}</span>
+              {'Les champs marqués d’un'}
+              <span className="required-legend">
+                {' * '}
+              </span>
               {' sont obligatoires'}
             </span>
           )}
@@ -86,7 +89,9 @@ class IdentifierFields extends Component {
                 <Fragment>
                   {'SIRET'}
                   <span className="siret-label-details">
-                    <span className="siret-label-bold">{' du lieu qui accueille vos offres'}</span>
+                    <span className="siret-label-bold">
+                      {' du lieu qui accueille vos offres'}
+                    </span>
                     {' (si applicable) : '}
                   </span>
                 </Fragment>
@@ -104,13 +109,13 @@ class IdentifierFields extends Component {
             />
           </div>
           <TextField
-            label="Nom : "
+            label="Nom du lieu : "
             name="name"
             readOnly={readOnly || fieldReadOnlyBecauseFrozenFormSiret}
             required
           />
           <TextField
-            label="Nom d’usage : "
+            label="Nom d’usage du lieu : "
             name="publicName"
             readOnly={readOnly}
           />
