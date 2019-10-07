@@ -18,7 +18,7 @@ const submitButton = Selector('button.button.is-primary').withText('Enregistrer'
 
 fixture('En étant sur la page des offres')
 
-test("J'ai accès à l'ensemble de mes offres", async t => {
+test("j'ai accès à l'ensemble de mes offres", async () => {await new Promise(t => {
   // given
   const { user } = await fetchSandbox(
     'pro_06_offers',
@@ -33,9 +33,9 @@ test("J'ai accès à l'ensemble de mes offres", async t => {
   const location = await t.eval(() => window.location)
   await t.expect(location.pathname).eql('/offres')
   await t.expect(offerItem.count).gt(0)
-})
+})})
 
-test('Je recherche une offre et je clique sur celle-ci pour accéder au détail', async t => {
+test('je recherche une offre et je clique sur celle-ci pour accéder au détail', async () => {await new Promise(t => {
   // given
   const { offer, user } = await fetchSandbox(
     'pro_06_offers',
@@ -48,9 +48,9 @@ test('Je recherche une offre et je clique sur celle-ci pour accéder au détail'
   // then
   const location = await t.eval(() => window.location)
   await t.expect(location.pathname).match(/\/offres\/([A-Z0-9]*)/)
-})
+})})
 
-test('Je peux créer une offre de type événement', async t => {
+test('je peux créer une offre de type événement', async () => {await new Promise(t => {
   // given
   const { offerer, user, venue } = await fetchSandbox(
     'pro_07_offer',
@@ -94,9 +94,9 @@ test('Je peux créer une offre de type événement', async t => {
     .match(/\/offres\/([A-Z0-9]*)$/)
     .expect(location.search)
     .eql('?gestion')
-})
+})})
 
-test('Je peux créer une offre avec des sous-types', async t => {
+test('je peux créer une offre avec des sous-types', async () => {await new Promise(t => {
   // given
   const { offerer, user, venue } = await fetchSandbox(
     'pro_07_offer',
@@ -110,7 +110,7 @@ test('Je peux créer une offre avec des sous-types', async t => {
   const eventDescription = 'Venez re découvrir PNL en accoustique, sans auto-tune'
   const eventDurationMinutes = '01:30'
   const eventName = 'Concert de PNL Unplugged'
-  const eventType = 'Musique — concerts, festivals'
+  const eventType = 'Musique - concerts, festivals'
   const eventMusicType = 'Hip-Hop/Rap'
   const eventMusicSubType = 'Rap Alternatif'
   const { name: offererName } = offerer
@@ -148,4 +148,4 @@ test('Je peux créer une offre avec des sous-types', async t => {
     .ok()
     .expect(musicSubTypeOption.withText(eventMusicSubType).selected)
     .ok()
-})
+})})
