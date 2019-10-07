@@ -324,8 +324,8 @@ class Offer extends Component {
     const showAllForm = selectedOfferType || !isCreatedEntity
     const venueId = get(venue, 'id')
     const isOfferActive = get(offer, 'isActive')
-    const isOffererSelectReadOnly = typeof offererId !== 'undefined'
-    const isVenueSelectReadOnly = typeof venueId !== 'undefined'
+    const isOffererSelectReadOnly = typeof offererId !== 'undefined' || offerFromTiteLive
+    const isVenueSelectReadOnly = typeof venueId !== 'undefined' || offerFromTiteLive
     const isVenueVirtual = get(venue, 'isVirtual')
 
     const formApiPath = isCreatedEntity ? '/offers' : `/offers/${offerId}`
@@ -568,6 +568,7 @@ class Offer extends Component {
                     isExpanded
                     label="URL"
                     name="url"
+                    readOnly={offerFromTiteLive}
                     required
                     sublabel={
                       !readOnly &&
@@ -580,6 +581,7 @@ class Offer extends Component {
                   <Field
                     label="Rayonnement national"
                     name="isNational"
+                    readOnly={offerFromTiteLive}
                     type="checkbox"
                   />
                 )}
@@ -591,12 +593,14 @@ class Offer extends Component {
                     limitTimeInHours={DURATION_LIMIT_TIME}
                     name="durationMinutes"
                     placeholder="HH:MM"
+                    readOnly={offerFromTiteLive}
                     type="duration"
                   />
                 )}
                 <Field
                   label="Email auquel envoyer les réservations"
                   name="bookingEmail"
+                  readOnly={offerFromTiteLive}
                   sublabel="Merci de laisser ce champ vide si vous ne souhaitez pas recevoir d’email lors des réservations"
                   type="email"
                 />
@@ -619,6 +623,7 @@ class Offer extends Component {
                   <Field
                     label="Intervenant"
                     name="speaker"
+                    readOnly={offerFromTiteLive}
                     setKey="extraData"
                     type="text"
                   />
@@ -628,6 +633,7 @@ class Offer extends Component {
                   <Field
                     label="Auteur"
                     name="author"
+                    readOnly={offerFromTiteLive}
                     setKey="extraData"
                     type="text"
                   />
@@ -638,6 +644,7 @@ class Offer extends Component {
                     isExpanded
                     label="Visa d’exploitation"
                     name="visa"
+                    readOnly={offerFromTiteLive}
                     setKey="extraData"
                     sublabel="(obligatoire si applicable)"
                     type="text"
@@ -649,6 +656,7 @@ class Offer extends Component {
                     isExpanded
                     label="ISBN"
                     name="isbn"
+                    readOnly={offerFromTiteLive}
                     setKey="extraData"
                     sublabel="(obligatoire si applicable)"
                     type="text"
@@ -660,6 +668,7 @@ class Offer extends Component {
                     isExpanded
                     label="Metteur en scène"
                     name="stageDirector"
+                    readOnly={offerFromTiteLive}
                     setKey="extraData"
                   />
                 )}
@@ -669,6 +678,7 @@ class Offer extends Component {
                     isExpanded
                     label="Interprète"
                     name="performer"
+                    readOnly={offerFromTiteLive}
                     setKey="extraData"
                   />
                 )}
