@@ -1,6 +1,7 @@
 import React from 'react'
 import { Redirect } from 'react-router'
 
+import ApiDocumentation from '../components/apiDoc/ApiDocumentation/ApiDocumentation'
 import BookingsContainer from '../components/pages/Bookings/BookingsContainer'
 import CsvDetailViewContainer from '../components/layout/CsvTable/CsvTableContainer'
 import DeskContainer from '../components/pages/Desk/DeskContainer'
@@ -24,6 +25,11 @@ const routes = [
   {
     path: '/',
     render: () => <Redirect to="/connexion" />,
+  },
+  {
+    component: ApiDocumentation,
+    path: '/api',
+    title: 'Documentation Api',
   },
   {
     component: HomeContainer,
