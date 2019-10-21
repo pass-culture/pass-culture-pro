@@ -11,7 +11,7 @@ export const mapDispatchToProps = dispatch => {
     getBookingFromCode: (code, handleSuccess, handleFail) => {
       dispatch(
         requestData({
-          apiPath: `/bookings/token/${code}`,
+          apiPath: `/v2/bookings/token/${code}`,
           handleSuccess: handleSuccess,
           handleFail: handleFail,
           stateKey: 'deskBookings',
@@ -22,7 +22,7 @@ export const mapDispatchToProps = dispatch => {
     validateBooking: (code, handleSuccess, handleFail) => {
       dispatch(
         requestData({
-          apiPath: `/bookings/token/${code}`,
+          apiPath: `/v2/bookings/use/token/${code}`,
           handleFail: handleFail,
           handleSuccess: handleSuccess,
           stateKey: 'deskBookings',
