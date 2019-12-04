@@ -1,10 +1,10 @@
 import { applyMiddleware, compose, createStore } from 'redux'
 import { persistReducer, persistStore } from 'redux-persist'
-import createSagaMiddleware from 'redux-saga'
+import { API_URL } from '../utils/config'
+import thunk from 'redux-thunk'
 
 import persist from './persist'
 import rootReducer from '../reducers'
-import rootSaga from '../sagas'
 
 const buildStoreEnhancer = (middlewares = []) => {
   const enhancers = []
@@ -22,15 +22,14 @@ const buildStoreEnhancer = (middlewares = []) => {
 }
 
 const configureStore = (initialState = {}) => {
-  const sagaMiddleware = createSagaMiddleware()
+  const thunkMiddleware = thunk.withExtraArgument({ rootUrl: API_URL })
+  const storeEnhancer = buildStoreEnhancer([thunkMiddleware])
 
   const persistedReducer = persistReducer(persist, rootReducer)
 
-  const store = createStore(persistedReducer, initialState, buildStoreEnhancer([sagaMiddleware]))
+  const store = createStore(persistedReducer, initialState, storeEnhancer)
 
   const persistor = persistStore(store)
-
-  sagaMiddleware.run(rootSaga)
 
   return { persistor, store }
 }
