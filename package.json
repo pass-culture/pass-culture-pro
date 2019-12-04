@@ -11,7 +11,7 @@
     "autoprefixer": "9.6.1",
     "@babel/core": "^7.0.0",
     "babel-jest": "^24.9.0",
-    "babel-loader": "7.1.5",
+    "babel-loader": "^8.0.6",
     "babel-polyfill": "^6.26.0",
     "babel-preset-react-app": "^9.0.2",
     "babel-runtime": "6.26.0",
