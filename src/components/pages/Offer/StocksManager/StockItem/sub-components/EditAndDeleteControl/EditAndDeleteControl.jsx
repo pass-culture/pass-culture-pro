@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent, Fragment } from 'react'
 import { Portal } from 'react-portal'
+import { requestData } from 'redux-thunk-data'
 
 import DeleteDialog from '../DeleteDialog/DeleteDialog'
 import withFrenchQueryRouter from '../../../../../../hocs/withFrenchQueryRouter'

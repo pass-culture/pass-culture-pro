@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { Redirect } from 'react-router-dom'
 import { showNotification } from 'pass-culture-shared'
-import { requestData } from 'redux-saga-data'
+import { requestData } from 'redux-thunk-data'
 
 class SignupValidation extends PureComponent {
   componentDidMount() {

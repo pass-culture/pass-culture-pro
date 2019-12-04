@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import { Form } from 'react-final-form'
 import PropTypes from 'prop-types'
-import { requestData } from 'redux-saga-data'
+import { requestData } from 'redux-thunk-data'
 import classnames from 'classnames'
 import { showNotification } from 'pass-culture-shared'
 

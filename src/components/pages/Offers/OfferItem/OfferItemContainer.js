@@ -1,6 +1,6 @@
 import { compose } from 'redux'
 import { connect } from 'react-redux'
-import { requestData } from 'redux-saga-data'
+import { requestData } from 'redux-thunk-data'
 import { withRouter } from 'react-router'
 
 import OfferItem from './OfferItem'

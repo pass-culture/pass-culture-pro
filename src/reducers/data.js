@@ -1,4 +1,4 @@
-import { createDataReducer } from 'redux-saga-data'
+import { createDataReducer } from 'redux-thunk-data'
 
 const data = createDataReducer({
   bookings: [],

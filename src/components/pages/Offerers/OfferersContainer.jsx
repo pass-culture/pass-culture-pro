@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { assignData, requestData } from 'redux-saga-data'
+import { assignData, requestData } from 'redux-thunk-data'
 import { closeNotification, showNotification } from 'pass-culture-shared'
 import { stringify } from 'query-string'
 

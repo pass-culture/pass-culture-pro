@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { compose } from 'redux'
-import { requestData } from 'redux-saga-data'
+import { requestData } from 'redux-thunk-data'
 
 import VenueProvidersManager from './VenueProvidersManager'
 import selectVenueProvidersByVenueId from './selectors/selectVenueProvidersByVenueId'

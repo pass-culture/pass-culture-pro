@@ -14,7 +14,7 @@ import {
 import React, { PureComponent, Fragment } from 'react'
 import ReactToolTip from 'react-tooltip'
 import { NavLink } from 'react-router-dom'
-import { requestData } from 'redux-saga-data'
+import { requestData } from 'redux-thunk-data'
 
 import MediationsManager from './MediationsManager/MediationsManagerContainer'
 import StocksManagerContainer from './StocksManager/StocksManagerContainer'

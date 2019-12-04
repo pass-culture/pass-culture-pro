@@ -12,8 +12,8 @@ import VenueContainer from '../VenueContainer'
 window.scroll = () => {}
 
 const mockRequestDataCatch = jest.fn()
-jest.mock('redux-saga-data', () => {
-  const actualModule = jest.requireActual('redux-saga-data')
+jest.mock('redux-thunk-data', () => {
+  const actualModule = jest.requireActual('redux-thunk-data')
   return {
     ...actualModule,
     requestData: config => {

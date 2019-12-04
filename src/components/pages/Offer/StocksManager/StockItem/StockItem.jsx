@@ -2,6 +2,7 @@ import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { Form } from 'react-final-form'
 import { getCanSubmit } from 'react-final-form-utils'
+import { requestData } from 'redux-thunk-data'
 
 import EditAndDeleteControl from './sub-components/EditAndDeleteControl/EditAndDeleteControl'
 import EventFields from './sub-components/fields/EventFields/EventFields'

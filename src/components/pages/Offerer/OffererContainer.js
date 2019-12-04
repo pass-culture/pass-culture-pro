@@ -1,7 +1,7 @@
 import { showNotification } from 'pass-culture-shared'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
-import { requestData } from 'redux-saga-data'
+import { requestData } from 'redux-thunk-data'
 import get from 'lodash.get'
 
 import Offerer from './Offerer'

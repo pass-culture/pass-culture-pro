@@ -1,5 +1,5 @@
 import { all } from 'redux-saga/effects'
-import { watchDataActions } from 'redux-saga-data'
+import { watchDataActions } from 'redux-thunk-data'
 
 import { watchErrorsActions } from './errors'
 import { watchFormActions } from './form'

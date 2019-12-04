@@ -3,7 +3,7 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 
 import { withRequiredLogin } from '../../hocs'
-import { requestData } from 'redux-saga-data'
+import { requestData } from 'redux-thunk-data'
 import withTracking from '../../hocs/withTracking'
 
 export const mapDispatchToProps = dispatch => {
