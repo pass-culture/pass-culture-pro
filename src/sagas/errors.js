@@ -1,6 +1,6 @@
 import { put, takeEvery } from 'redux-saga/effects'
 
-import { mergeErrors } from '../reducers/errors'
+import {mergeErrors, redirectErrors} from '../reducers/errors'
 
 export function* fromWatchFailDataActionsMergeErrors(action) {
   const {
@@ -15,6 +15,10 @@ export function* fromWatchFailDataActionsMergeErrors(action) {
     errors.forEach(error => Object.assign(patch, error))
   } else {
     patch = errors
+  }
+  if(action.payload.status_code === 503){
+    console.log('********************')
+    yield put(redirectErrors(errorsName, patch))
   }
 
   yield put(mergeErrors(errorsName, patch))

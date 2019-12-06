@@ -1,6 +1,7 @@
 const MERGE_ERRORS = 'MERGE_ERRORS'
 const REMOVE_ERRORS = 'REMOVE_ERRORS'
 const RESET_ERRORS = 'RESET_ERRRORS'
+const MAINTENANCE_ERRORS = 'MAINTENANCE_ERRORS'
 
 const initialState = {}
 
@@ -11,6 +12,10 @@ const errors = (state = initialState, action) => {
         [action.name]: Object.assign({}, state[action.name], action.patch),
       })
     case REMOVE_ERRORS:
+      return Object.assign({}, state, {
+        [action.name]: null,
+      })
+    case MAINTENANCE_ERRORS:
       return Object.assign({}, state, {
         [action.name]: null,
       })
@@ -25,6 +30,12 @@ export const mergeErrors = (name, patch) => ({
   name,
   patch,
   type: MERGE_ERRORS,
+})
+
+export const redirectErrors = (name, patch) => ({
+  name,
+  patch,
+  type: MAINTENANCE_ERRORS,
 })
 
 export const removeErrors = name => ({

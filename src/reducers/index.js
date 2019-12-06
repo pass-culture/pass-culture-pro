@@ -5,6 +5,7 @@ import data from './data'
 import errors from './errors'
 import modal from './modal'
 import bookingSummary from './bookingSummary/bookingSummary'
+import maintenanceErrors from './maintenanceErrors';
 
 const rootReducer = combineReducers({
   bookingSummary,
@@ -14,7 +15,7 @@ const rootReducer = combineReducers({
   loading,
   modal,
   notification,
-  tracker,
+  tracker
 })
 
 export default rootReducer
