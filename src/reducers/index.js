@@ -15,7 +15,8 @@ const rootReducer = combineReducers({
   loading,
   modal,
   notification,
-  tracker
+  tracker,
+  maintenanceErrors
 })
 
 export default rootReducer
