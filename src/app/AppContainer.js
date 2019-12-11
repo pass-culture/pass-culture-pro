@@ -2,11 +2,12 @@ import { compose } from 'redux'
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import { App } from './App'
+import { isMaintenanceActivated } from '../selectors/isMaintenanceActivated'
 
-function mapStateToProps(state) {
+export function mapStateToProps(state) {
   return {
     modalOpen: state.modal.isActive,
-    isMaintenanceActivated: false,
+    isMaintenanceActivated: isMaintenanceActivated(state),
   }
 }
 
