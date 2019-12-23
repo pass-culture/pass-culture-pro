@@ -1,6 +1,13 @@
 import { mapDispatchToProps } from '../MediationContainer'
 import { mapStateToProps } from '../MediationContainer'
 
+jest.mock('redux-thunk-data', () => {
+  const { requestData } = jest.requireActual('fetch-normalize-data')
+  return {
+    requestData,
+  }
+})
+
 describe('src | components | pages | MediationContainer', () => {
   let dispatch
   let props

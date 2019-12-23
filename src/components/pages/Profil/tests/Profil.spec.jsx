@@ -5,6 +5,14 @@ import { Form } from 'react-final-form'
 import TextField from '../../../layout/form/fields/TextField'
 import HeroSection from '../../../layout/HeroSection/HeroSection'
 
+jest.mock('redux-thunk-data', () => {
+  const { requestData } = jest.requireActual('fetch-normalize-data')
+
+  return {
+    requestData,
+  }
+})
+
 describe('src | components | pages | Profil', () => {
   let dispatch
   let props

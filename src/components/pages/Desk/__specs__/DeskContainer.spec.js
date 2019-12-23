@@ -1,6 +1,14 @@
 import { mapDispatchToProps, mergeProps } from '../DeskContainer'
 
-describe('src | components | pages | Desk | DeskContainer ', () => {
+jest.mock('redux-thunk-data', () => {
+  const { requestData } = jest.requireActual('fetch-normalize-data')
+
+  return {
+    requestData,
+  }
+})
+
+describe('src | components | pages | Desk | DeskContainer', () => {
   let dispatch
 
   beforeEach(() => {

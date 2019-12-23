@@ -1,5 +1,12 @@
 import { mapDispatchToProps, mapStateToProps } from '../FeaturedRouteContainer'
 
+jest.mock('redux-thunk-data', () => {
+  const { requestData } = jest.requireActual('fetch-normalize-data')
+  return {
+    requestData,
+  }
+})
+
 describe('src | components | router | FeaturedRouteContainer', () => {
   describe('mapStateToProps()', () => {
     it('should return areFeaturesLoaded falsy when state contain no feature', () => {

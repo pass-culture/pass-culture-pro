@@ -1,6 +1,14 @@
 import state from '../../../utils/mocks/state'
 import { mapStateToProps, mapDispatchToProps, createApiPath } from '../OfferersContainer'
 
+jest.mock('redux-thunk-data', () => {
+  const { assignData, requestData } = jest.requireActual('fetch-normalize-data')
+  return {
+    assignData,
+    requestData,
+  }
+})
+
 describe('src | components | pages | Offerers | OfferersContainer', () => {
   describe('mapStateToProps', () => {
     it('should return an object of props', () => {

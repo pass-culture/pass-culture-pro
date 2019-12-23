@@ -1,5 +1,12 @@
 import { mapDispatchToProps, mapStateToProps, mergeProps } from '../OffererContainer'
 
+jest.mock('redux-thunk-data', () => {
+  const { requestData } = jest.requireActual('fetch-normalize-data')
+  return {
+    requestData,
+  }
+})
+
 describe('src | components | pages | Offerer | OffererContainer', () => {
   let dispatch
 

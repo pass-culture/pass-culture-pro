@@ -1,5 +1,12 @@
 import { mapDispatchToProps } from '../AllocineProviderFormContainer'
 
+jest.mock('redux-thunk-data', () => {
+  const { requestData } = jest.requireActual('fetch-normalize-data')
+  return {
+    requestData,
+  }
+})
+
 describe('src | components | pages | Venue | VenueProviderManager | form | AllocineProviderForm', () => {
   describe('mapDispatchToProps', () => {
     let dispatch

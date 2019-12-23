@@ -4,6 +4,14 @@ import React from 'react'
 import { Redirect, Router } from 'react-router-dom'
 import { createBrowserHistory } from 'history'
 
+jest.mock('redux-thunk-data', () => {
+  const { requestData } = jest.requireActual('fetch-normalize-data')
+
+  return {
+    requestData,
+  }
+})
+
 describe('src | components | pages | Signup | validation', () => {
   let history
   let dispatch

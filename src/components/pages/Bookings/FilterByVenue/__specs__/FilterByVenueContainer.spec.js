@@ -1,6 +1,13 @@
 import { mapStateToProps, mapDispatchToProps } from '../FilterByVenueContainer'
 import { getCurrentUserUUID } from 'with-react-redux-login'
 
+jest.mock('redux-thunk-data', () => {
+  const { requestData } = jest.requireActual('fetch-normalize-data')
+  return {
+    requestData,
+  }
+})
+
 describe('src | components | pages | Bookings | FilterByVenueContainer', () => {
   describe('mapStateToProps', () => {
     it('should return an object of props', () => {

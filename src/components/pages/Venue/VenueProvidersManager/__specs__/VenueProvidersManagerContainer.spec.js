@@ -1,5 +1,13 @@
 import { mapDispatchToProps, mapStateToProps } from '../VenueProvidersManagerContainer'
 
+jest.mock('redux-thunk-data', () => {
+  const { requestData } = jest.requireActual('fetch-normalize-data')
+
+  return {
+    requestData,
+  }
+})
+
 describe('src | components | pages | Venue | VenueProvidersManager', () => {
   describe('mapStateToProps', () => {
     it('should return an object with props', () => {

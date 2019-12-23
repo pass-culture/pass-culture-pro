@@ -12,6 +12,14 @@ import { Route, Router, Switch } from 'react-router-dom'
 import { Field } from 'react-final-form'
 import Offer from '../../../ValueObjects/Offer'
 
+jest.mock('redux-thunk-data', () => {
+  const { requestData } = jest.requireActual('fetch-normalize-data')
+
+  return {
+    requestData,
+  }
+})
+
 describe('src | components | pages | Offer | StocksManager | StockItem', () => {
   let props
 

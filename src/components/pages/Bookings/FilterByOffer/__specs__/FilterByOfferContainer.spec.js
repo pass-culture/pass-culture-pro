@@ -1,6 +1,13 @@
 import { mapStateToProps, mapDispatchToProps } from '../FilterByOfferContainer'
 import { getCurrentUserUUID } from 'with-react-redux-login'
 
+jest.mock('redux-thunk-data', () => {
+  const { requestData } = jest.requireActual('fetch-normalize-data')
+  return {
+    requestData,
+  }
+})
+
 describe('src | components | pages | Bookings | FilterByOfferContainer', () => {
   describe('mapStateToProps', () => {
     it('should return an object of props', () => {
@@ -249,7 +256,7 @@ describe('src | components | pages | Bookings | FilterByOfferContainer', () => {
         })
       })
 
-      it('should return an array of physical offers related to the given venueId ', () => {
+      it('should return an array of physical offers related to the given venueId', () => {
         // given
         const state = {
           bookingSummary: {

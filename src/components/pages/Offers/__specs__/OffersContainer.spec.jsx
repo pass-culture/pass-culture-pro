@@ -2,6 +2,14 @@ import { mapDispatchToProps, mapStateToProps } from '../OffersContainer'
 
 import state from '../../../utils/mocks/state'
 
+jest.mock('redux-thunk-data', () => {
+  const { assignData, requestData } = jest.requireActual('fetch-normalize-data')
+  return {
+    assignData,
+    requestData,
+  }
+})
+
 describe('src | components | pages | Offers | OffersContainer', () => {
   let parse
   let ownProps
