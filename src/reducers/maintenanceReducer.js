@@ -3,7 +3,7 @@ import { MAINTENANCE_PAGE_AVAILABLE } from '../utils/config'
 const FAIL_DATA_PATTERN = 'FAIL_DATA_'
 const SUCCESS_DATA_PATTERN = 'SUCCESS_DATA_'
 const MAINTENANCE_STATUS_CODE = 500
-const { SERVER_ERROR } = require('redux-saga-data')
+const { SERVER_ERROR } = require('redux-thunk-data')
 
 const initialState = {
   isActivated: false,
