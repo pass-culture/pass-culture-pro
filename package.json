@@ -100,6 +100,7 @@
   "devDependencies": {
     "@babel/preset-env": "^7.7.7",
     "babel-eslint": "^10.0.2",
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "coveralls": "^3.0.6",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.14.0",
