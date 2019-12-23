@@ -1,5 +1,6 @@
 import { compose } from 'redux'
 import withLogin from 'with-react-redux-login'
+import { requestData } from 'redux-thunk-data'
 
 import { getRedirectToSignin } from './helpers'
 import withFrenchQueryRouter from '../withFrenchQueryRouter'
@@ -12,6 +13,7 @@ const withRequiredLogin = compose(
       history.push(getRedirectToSignin({...location}))
     },
     isRequired: true,
+    requestData
   })
 )
 
