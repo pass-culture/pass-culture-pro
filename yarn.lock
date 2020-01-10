@@ -9391,10 +9391,10 @@ pascalcase@^0.1.1:
   resolved "https://registry.yarnpkg.com/pascalcase/-/pascalcase-0.1.1.tgz#b363e55e8006ca6fe21784d2db22bd15d7917f14"
   integrity sha1-s2PlXoAGym/iF4TS2yK9FdeRfxQ=
 
-pass-culture-shared@1.0.0-0:
-  version "1.0.0-0"
-  resolved "https://registry.yarnpkg.com/pass-culture-shared/-/pass-culture-shared-1.0.0-0.tgz#2aff5a7d1e11e808f62dc95bdb51a6271573d123"
-  integrity sha512-RZ5REZdrnC641ZzPgmINuFiyNVjp0SNFefpAnq46lGRGekjPq6V6wlTgoNzF//cISCUqBOTodCpovpbv6/zkwg==
+pass-culture-shared@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/pass-culture-shared/-/pass-culture-shared-1.1.0.tgz#c4b48dd78ece4eb64f3f66783459c0ecc9e6831c"
+  integrity sha512-maCs8lb5lC8en26kmmS2HCoSvmn446DS/7V5hoEfBY2teZGgbO1TrcFh7uRlyZkegCnbWTJxlmvVRsVaavfzTA==
   dependencies:
     classnames "2.2.5"
     eslint "^5.8.0"
@@ -9417,7 +9417,7 @@ pass-culture-shared@1.0.0-0:
     react-router-dom "^4.3.1"
     react-time-input "^0.0.19"
     redux "^4.0.0"
-    redux-thunk-data "^1.6.5"
+    redux-thunk-data "^1.9.0"
     reselect "^3.0.1"
     uuid "^3.3.2"
 
@@ -10288,7 +10288,7 @@ react-dev-utils@6.1.1:
     strip-ansi "4.0.0"
     text-table "0.2.0"
 
-react-dom@^0.14||^15.5.4||^16.1.1, react-dom@^16.5.2:
+react-dom@^16.1.1, react-dom@^16.5.2:
   version "16.12.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.12.0.tgz#0da4b714b8d13c2038c9396b54a92baea633fe11"
   integrity sha512-LMxFfAGrcS3kETtQaCkTKjMiifahaMySFDn71fZUNpPHZQEzmk/GiAeIT8JSOrHB23fnuCOMruL2a8NYlw+8Gw==
@@ -10508,7 +10508,7 @@ react-tracking@^7.1.0:
     deepmerge "^4.1.1"
     hoist-non-react-statics "^3.3.0"
 
-react@^0.14||^15.5.4||^16.1.1, react@^16.5.2, react@^16.9.0:
+react@^16.1.1, react@^16.5.2, react@^16.9.0:
   version "16.12.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.12.0.tgz#0c0a9c6a142429e3614834d5a778e18aa78a0b83"
   integrity sha512-fglqy3k5E+81pA8s+7K0/T3DBCF0ZDOher1elBFzF7O6arXJgzyu/FW+COxFvAWXJoJN9KIZbT2LXlukwphYTA==
@@ -10718,13 +10718,6 @@ redux-saga@^1.1.1:
   integrity sha512-RkSn/z0mwaSa5/xH/hQLo8gNf4tlvT18qXDNvedihLcfzh+jMchDgaariQoehCpgRltEm4zHKJyINEz6aqswTw==
   dependencies:
     "@redux-saga/core" "^1.1.3"
-
-redux-thunk-data@^1.6.5:
-  version "1.7.0"
-  resolved "https://registry.yarnpkg.com/redux-thunk-data/-/redux-thunk-data-1.7.0.tgz#90402ad2086c7b3c6a2b16c6ff489f25b002185c"
-  integrity sha512-bq78tiI9aSYuc8YWxiD4AcN12OOpQ8vxkU8JpaAXzPCQ+qq5n2jhD8NXecDfJcjnYTHeib+31/lt3fksz6fg/A==
-  dependencies:
-    fetch-normalize-data "1.9.0"
 
 redux-thunk-data@^1.9.0:
   version "1.9.0"
