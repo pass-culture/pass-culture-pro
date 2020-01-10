@@ -155,6 +155,7 @@ class Main extends PureComponent {
 Main.defaultProps = {
   Tag: 'main',
   backTo: null,
+  currentUser: null,
   fullscreen: false,
   handleDataRequest: null,
   header: {},
@@ -167,7 +168,7 @@ Main.propTypes = {
   Tag: PropTypes.string,
   backTo: PropTypes.shape(),
   children: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  currentUser: PropTypes.shape().isRequired,
+  currentUser: PropTypes.shape(),
   dispatch: PropTypes.func.isRequired,
   fullscreen: PropTypes.bool,
   handleDataRequest: PropTypes.func,

@@ -126,8 +126,12 @@ class Signin extends PureComponent {
   }
 }
 
+Signin.defaultProps = {
+  errors: null
+}
+
 Signin.propTypes = {
-  errors: PropTypes.string.isRequired,
+  errors: PropTypes.string,
   query: PropTypes.shape().isRequired,
 }
 
