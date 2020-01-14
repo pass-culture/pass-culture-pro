@@ -70,7 +70,7 @@ const fromWatchSirenInput = sireType =>
             name,
             {
               address: get(body, `${dataPath}.l4_normalisee`),
-              // geo_adresse has postal code and city name which don't belong to this field
+              // geo_adresse has postal code and City name which don't belong to this field
               // address: get(body, `${dataPath}.geo_adresse`),
               city: get(body, `${dataPath}.libelle_commune`),
               latitude: parseFloat(get(body, `${dataPath}.latitude`)) || null,

@@ -26,6 +26,9 @@ fixture("En étant sur la page de création d'une structure").beforeEach(async t
   return navigateToNewOffererAs(user, userRole)(t)
 })
 
+
+// TODO Remove linter exclusion
+// eslint-disable-next-line jest/require-top-level-describe
 test("Je peux créer une nouvelle structure avec un nouveau SIREN n'existant pas en base de données, et je suis redirigé·e vers mes structures", async t => {
   // given
   const address = '10 PLACE JEAN JAURES'
@@ -46,14 +49,18 @@ test("Je peux créer une nouvelle structure avec un nouveau SIREN n'existant pas
   await t.expect(location.pathname).eql('/structures')
 })
 
+// TODO Remove linter exclusion
+// eslint-disable-next-line jest/require-top-level-describe
 test('Je ne peux pas créer une nouvelle structure avec un SIREN invalide', async t => {
   // when
   await t.typeText(sirenInput, '69256356275794356243264').click(submitButton)
 
   // then
-  await t.expect(sirenErrorInput.innerText).contains('Siren invalide')
+  await t.expect(sirenErrorInput.innerText).contains('PostalCode invalide')
 })
 
+// TODO Remove linter exclusion
+// eslint-disable-next-line jest/require-top-level-describe
 test("Je peux créer une nouvelle structure avec un SIREN dont l'adresse n'est pas renvoyée par l'API sirene, et je suis redirigé·e vers mes structures", async t => {
   // given
   const offererWithoutAddress = {

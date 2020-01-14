@@ -86,7 +86,7 @@ describe('src | components | pages | Offerers | OffererItem | OffererItem', () =
         props.offerer = {
           id: 'AE',
           isValidated: true,
-          name: 'Validated Offerer',
+          name: 'Validated OffererCreation',
           nOffers: 0,
           userHasAccess: true,
         }

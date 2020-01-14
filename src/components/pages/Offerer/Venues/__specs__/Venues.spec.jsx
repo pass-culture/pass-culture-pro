@@ -2,7 +2,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import Venues from '../Venues'
 
-describe('src | components | pages | Offerer | Venues ', () => {
+describe('src | components | pages | OffererCreation | Venues', () => {
   let props
 
   beforeEach(() => {

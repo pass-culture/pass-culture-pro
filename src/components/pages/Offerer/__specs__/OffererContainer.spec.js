@@ -1,4 +1,4 @@
-import { mapDispatchToProps, mapStateToProps, mergeProps } from '../OffererContainer'
+import { mapDispatchToProps, mapStateToProps, mergeProps } from '../OffererCreationContainer'
 
 jest.mock('redux-thunk-data', () => {
   const { requestData } = jest.requireActual('fetch-normalize-data')
@@ -7,7 +7,7 @@ jest.mock('redux-thunk-data', () => {
   }
 })
 
-describe('src | components | pages | Offerer | OffererContainer', () => {
+describe('src | components | pages | OffererCreation | OffererContainer', () => {
   let dispatch
 
   beforeEach(() => {
@@ -202,6 +202,38 @@ describe('src | components | pages | Offerer | OffererContainer', () => {
             type: 'success',
           },
           type: 'SHOW_NOTIFICATION',
+        })
+      })
+    })
+
+    describe('createNewOfferer', () => {
+      it('should dispatch', () => {
+        // Given
+        const ownProps = {
+          currentUser: {
+            id: 'TY56er',
+          },
+          match: {
+            params: {
+              offererId: 'AGH',
+            },
+          },
+        }
+        const { createNewOfferer } = mapDispatchToProps(dispatch, ownProps)
+        const payload = { key: 'value' }
+
+        // When
+        createNewOfferer(payload)
+
+        expect(dispatch).toHaveBeenCalledWith({
+          config: {
+            apiPath: '/offerers',
+            method: 'POST',
+            payload: {
+              key: 'value'
+            },
+          },
+          type: 'REQUEST_DATA_POST_/OFFERERS',
         })
       })
     })

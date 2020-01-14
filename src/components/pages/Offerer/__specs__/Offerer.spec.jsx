@@ -1,9 +1,9 @@
-import Offerer from '../Offerer'
+import Offerer from '../OffererCreation'
 import React from 'react'
 import { shallow } from 'enzyme'
 import { OffererClass } from '../OffererClass'
 
-describe('src | components | pages | Offerer', () => {
+describe('src | components | pages | OffererCreation', () => {
   let props
   const offerer = {
     id: 'AA',

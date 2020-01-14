@@ -2,7 +2,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import ModificationControl from '../ModificationControl'
 
-describe('src | components | pages | Offerer | ModificationControl ', () => {
+describe('src | components | pages | OffererCreation | ModificationControl', () => {
   let props
 
   beforeEach(() => {

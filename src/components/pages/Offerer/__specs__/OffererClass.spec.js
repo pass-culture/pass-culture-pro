@@ -1,6 +1,6 @@
 import { OffererClass } from '../OffererClass'
 
-describe('src | components | pages | Offerer | OffererClass', () => {
+describe('src | components | pages | OffererCreation | OffererClass', () => {
   describe('isIdOrNameDefined', () => {
     describe('when offerer id exists', () => {
       it('should return true', () => {

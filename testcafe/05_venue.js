@@ -7,7 +7,7 @@ import { createUserRole } from './helpers/roles'
 
 const addressInput = Selector('input[name="address"]')
 const addressSuggestion = Selector('.location-viewer .menu .item')
-const cityInput = Selector('input[name="city"]')
+const cityInput = Selector('input[name="City"]')
 const commentInput = Selector('textarea[name="comment"]')
 const latitudeInput = Selector('input[name="latitude"]')
 const longitudeInput = Selector('input[name="longitude"]')
@@ -18,6 +18,8 @@ const newVenueButton = Selector('a.button.is-secondary').withText('+ Ajouter un 
 
 fixture("En étant sur la page de création d'un lieu")
 
+// TODO Remove linter exclusion
+// eslint-disable-next-line jest/require-top-level-describe
 test('Je peux créer un lieu avec un SIRET valide', async t => {
   // given
   const { offerer, user } = await fetchSandbox(
@@ -64,6 +66,8 @@ test('Je peux créer un lieu avec un SIRET valide', async t => {
   await navigateAfterVenueSubmit('creation')(t)
 })
 
+// TODO Remove linter exclusion
+// eslint-disable-next-line jest/require-top-level-describe
 test('Je peux créer un lieu sans SIRET', async t => {
   // given
   const { offerer, user } = await fetchSandbox(

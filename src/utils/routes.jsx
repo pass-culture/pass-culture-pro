@@ -10,7 +10,8 @@ import Mediation from '../components/pages/Mediation/MediationContainer'
 import Offers from '../components/pages/Offers/OffersContainer'
 import Offer from '../components/pages/Offer/OfferContainer'
 import OfferEdition from '../components/pages/OfferEdition/OfferContainer'
-import OffererContainer from '../components/pages/Offerer/OffererContainer'
+import OffererCreationContainer from '../components/pages/Offerer/OffererCreationContainer'
+import OffererDetailsContainer from '../components/pages/Offerer/OffererDetailsContainer'
 import Offerers from '../components/pages/Offerers/OfferersContainer'
 import ProfilContainer from '../components/pages/Profil/ProfilContainer'
 import ReimbursementsContainer from '../components/pages/Reimbursements/ReimbursementsContainer'
@@ -69,7 +70,12 @@ const routes = [
     title: 'Structures',
   },
   {
-    component: OffererContainer,
+    component: OffererCreationContainer,
+    path: '/structures/creation',
+    title: 'Structure',
+  },
+  {
+    component: OffererDetailsContainer,
     path: '/structures/:offererId',
     title: 'Structure',
   },

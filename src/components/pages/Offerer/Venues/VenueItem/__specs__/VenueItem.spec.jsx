@@ -5,7 +5,7 @@ import { createBrowserHistory } from 'history'
 import VenueItem from '../VenueItem'
 import { Router, NavLink } from 'react-router-dom'
 
-describe('src | components | pages | Offerer | VenueItem', () => {
+describe('src | components | pages | OffererCreation | VenueItem', () => {
   let props
   let history
 

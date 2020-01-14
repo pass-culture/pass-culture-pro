@@ -2,7 +2,7 @@ import React from 'react'
 import {shallow} from 'enzyme'
 import CreationControl from "../CreationControl"
 
-describe('src | components | pages | Offerer | CreationControl ', () => {
+describe('src | components | pages | OffererCreation | CreationControl', () => {
   let props
 
   beforeEach(() => {

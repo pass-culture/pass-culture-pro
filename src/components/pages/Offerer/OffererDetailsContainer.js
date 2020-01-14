@@ -2,9 +2,8 @@ import { showNotification } from 'pass-culture-shared'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { requestData } from 'redux-thunk-data'
-import get from 'lodash.get'
 
-import Offerer from './Offerer'
+import OffererDetails from './OffererDetails'
 import { makeOffererComponentValueObject } from './OffererFactory'
 
 import { withRequiredLogin } from '../../hocs'
@@ -30,9 +29,6 @@ export const mapStateToProps = (state, ownProps) => {
       state
     ),
     venues: selectPhysicalVenuesByOffererId(state, offererId),
-    formCurrentValues: {
-      offererName: get(state, 'form.offerer.name'),
-    }
   }
 }
 
@@ -43,6 +39,16 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
     } = {}
   } = ownProps
   return {
+    createNewOfferer: (payload, onHandleFail) => {
+      dispatch(
+        requestData({
+          apiPath: `/offerers`,
+          method: 'POST',
+          body: payload,
+          handleFail: onHandleFail
+        })
+      )
+    },
     getOfferer: (handleFail, handleSuccess) => {
       dispatch(
         requestData({
@@ -93,4 +99,4 @@ export default compose(
     mapDispatchToProps,
     mergeProps
   )
-)(Offerer)
+)(OffererDetails)

@@ -1,6 +1,6 @@
 import formatSiren from '../formatSiren'
 
-describe('src | components | pages | Offerer | siren | formatSiren', () => {
+describe('src | components | pages | OffererCreation | siren | formatSiren', () => {
   describe('when siren is undefined', () => {
     it('should return an empty string', () => {
       // given

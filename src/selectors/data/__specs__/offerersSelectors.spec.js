@@ -3,6 +3,12 @@ import state from './mockState.json'
 
 describe('src | selectors | data | offerersSelectors', () => {
   describe('selectOfferers', () => {
+    describe('when state data offerers does not exist', () => {
+      it('should return it', () => {
+        const state = {}
+        expect(selectOfferers(state)).toStrictEqual([])
+      })
+    })
     describe('when state data offerers exists', () => {
       it('should return it', () => {
         const state = {
