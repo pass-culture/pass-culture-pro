@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 
-import { OffererClass } from './OffererClass'
 import HeroSection from '../../layout/HeroSection/HeroSection'
 import Main from '../../layout/Main'
 import { Form } from 'react-final-form'
@@ -15,27 +14,9 @@ import City from "./City"
 
 class OffererCreation extends PureComponent {
 
-
-  componentDidMount() {
-    const { getOfferer } = this.props
-    getOfferer()
-  }
-
   handleSubmit = (values) => {
     const { createNewOfferer } = this.props
     createNewOfferer(values, this.onHandleFail)
-  }
-
-  onHandleDataRequest = (handleSuccess, handleFail) => {
-    const { getOfferer, getUserOfferers, query } = this.props
-    const { isCreatedEntity } = query.context()
-
-    if (!isCreatedEntity) {
-      getOfferer(handleFail, handleSuccess)
-      getUserOfferers()
-      return
-    }
-    handleSuccess()
   }
 
   onHandleFail = () => {
@@ -78,15 +59,12 @@ class OffererCreation extends PureComponent {
   }
 
   render() {
-    const { offerer} = this.props
-
     return (
       <Main
         backTo={{ label: 'Vos structures juridiques', path: '/structures' }}
         name="offerer"
       >
         <HeroSection
-          subtitle={offerer.name}
           title="Structure"
         >
           <p className="subtitle">
@@ -96,7 +74,6 @@ class OffererCreation extends PureComponent {
 
         <Form
           decorators={this.createDecorators()}
-          initialValues={offerer}
           onSubmit={this.handleSubmit}
           render={this.onRender}
         />
@@ -107,10 +84,6 @@ class OffererCreation extends PureComponent {
 
 OffererCreation.propTypes = {
   createNewOfferer: PropTypes.func.isRequired,
-  getOfferer: PropTypes.func.isRequired,
-  getUserOfferers: PropTypes.func.isRequired,
-  offerer: PropTypes.instanceOf(OffererClass).isRequired,
-  query: PropTypes.shape().isRequired,
   showNotification: PropTypes.func.isRequired,
 }
 
