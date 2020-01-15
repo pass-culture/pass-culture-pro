@@ -1,6 +1,5 @@
 import React from 'react'
 import { Field } from 'react-final-form'
-import classnames from 'classnames'
 
 const City = () => (
   <Field
@@ -8,9 +7,9 @@ const City = () => (
   >
     {({ input }) => {
       return (
-        <div className={classnames('field text-field', 'is-label-aligned')}>
+        <div className='field text-field is-label-aligned'>
           <label
-            className={classnames('field-label')}
+            className='field-label'
             htmlFor="city"
           >
             <span>
@@ -19,7 +18,7 @@ const City = () => (
           </label>
           <div className="field-control">
             <div className="field-value flex-columns items-center">
-              <div className={classnames('field-inner flex-columns items-center')}>
+              <div className='field-inner flex-columns items-center'>
                 <input
                   className="input is-normal"
                   id="city"
