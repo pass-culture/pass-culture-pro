@@ -9,6 +9,8 @@ import withTracking from '../../../hocs/withTracking'
 import { selectOffererById } from '../../../../selectors/data/offerersSelectors'
 import { selectPhysicalVenuesByOffererId } from '../../../../selectors/data/venuesSelectors'
 import { selectUserOffererByOffererIdAndUserIdAndRightsType } from '../../../../selectors/data/userOfferersSelectors'
+import { requestData } from 'redux-thunk-data'
+import { offererNormalizer } from '../../../../utils/normalizers'
 
 export const mapStateToProps = (state, ownProps) => {
   const { currentUser, match } = ownProps
@@ -25,12 +27,26 @@ export const mapStateToProps = (state, ownProps) => {
       currentUserId,
       state
     ),
+    offererId,
     venues: selectPhysicalVenuesByOffererId(state, offererId),
+  }
+}
+
+export const mapDispatchToProps = (dispatch) => {
+  return {
+    loadOffererById: (offererId) => {
+      dispatch(
+        requestData({
+          apiPath: `/offerers/${offererId}`,
+          normalizer: offererNormalizer,
+        })
+      )
+    }
   }
 }
 
 export default compose(
   withTracking('Offerer'),
   withRequiredLogin,
-  connect(mapStateToProps)
+  connect(mapStateToProps, mapDispatchToProps)
 )(OffererDetails)

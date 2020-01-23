@@ -7,6 +7,7 @@ describe('src | components | pages | Offerer | OffererDetails', () => {
   let props
   beforeEach(() => {
     props = {
+      loadOffererById: () => {},
       offerer: new Offerer({
         id: 'AA',
         name: 'fake offerer name',
@@ -14,7 +15,8 @@ describe('src | components | pages | Offerer | OffererDetails', () => {
         bic: 'ABC',
         iban: 'DEF',
       }),
-      venues: [{}]
+      offererId: 'AA',
+      venues: [{}],
     }
   })
 
