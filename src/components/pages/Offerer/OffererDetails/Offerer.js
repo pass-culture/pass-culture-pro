@@ -1,4 +1,4 @@
-export class OffererClass {
+export class Offerer {
   constructor(offerer = {}, adminUserOfferer) {
     this.id = offerer.id || undefined // pass-culture-shared awaits undefined to condition the submit method (PATCH vs POST)
     this.siren = offerer.siren || ''
@@ -9,7 +9,7 @@ export class OffererClass {
     this.adminUserOfferer = adminUserOfferer
   }
 
-  isIdOrNameDefined = () => !!(this.id || this.name)
-
-  areBankInformationProvided = () => !!(this.bic && this.iban)
+  get areBankInformationProvided () {
+    return !!(this.bic && this.iban)
+  }
 }

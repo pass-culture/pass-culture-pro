@@ -28,6 +28,8 @@ describe('src | components | pages | Offerer | OffererDetails | OffererDetailsCo
               name: 'Gaumont cinéma',
               bic: 'bic',
               iban: 'iban',
+              siren: '256712456',
+              address: '256, rue des mimosas'
             },
           ],
           venues: [],
@@ -53,6 +55,7 @@ describe('src | components | pages | Offerer | OffererDetails | OffererDetailsCo
           name: 'Gaumont cinéma',
           bic: 'bic',
           iban: 'iban',
+          address: '256, rue des mimosas',
           adminUserOfferer: {
             id: 'AEKQ',
             modelName: 'UserOfferer',
@@ -60,11 +63,9 @@ describe('src | components | pages | Offerer | OffererDetails | OffererDetailsCo
             rights: 'admin',
             userId: 'TY56er',
           },
+          siren: '256712456',
         }),
         venues: [],
-        formCurrentValues: {
-          offererName: 'Form Gaumont cinéma',
-        }
       })
     })
   })

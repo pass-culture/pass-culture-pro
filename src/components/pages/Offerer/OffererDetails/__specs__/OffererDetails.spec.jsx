@@ -1,18 +1,20 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import OffererDetails from '../OffererDetails'
+import { Offerer } from '../Offerer'
 
-describe('src | components | pages | OffererDetails | OffererDetailsDetails | OffererDetailsDetails', () => {
+describe('src | components | pages | Offerer | OffererDetails', () => {
   let props
   beforeEach(() => {
     props = {
-      offerer: {
+      offerer: new Offerer({
         id: 'AA',
         name: 'fake offerer name',
         address: 'fake address',
         bic: 'ABC',
         iban: 'DEF',
-      },
+      }),
+      venues: [{}]
     }
   })
 
@@ -25,14 +27,6 @@ describe('src | components | pages | OffererDetails | OffererDetailsDetails | Of
   })
 
   describe('render', () => {
-    it('should render a OffererDetails component with default props', () => {
-      // when
-      const wrapper = shallow(<OffererDetails />)
-
-      // then
-      expect(wrapper.prop('offerer')).toBe()
-    })
-
     describe('bank information', () => {
       it('should render a bank instructions block when bank information are not provided', () => {
         // given
@@ -62,19 +56,14 @@ describe('src | components | pages | OffererDetails | OffererDetailsDetails | Of
 
     describe('venues information', () => {
       it('should render a Venues Component', () => {
-        // given
-        props.venues = [{}, {}, {}]
-
-        jest.spyOn(props.query, 'context').mockReturnValue({
-          isCreatedEntity: false,
-        })
-
         // when
         const wrapper = shallow(<OffererDetails {...props} />)
         const venuesComponent = wrapper.find('Venues')
 
         // then
         expect(venuesComponent).toHaveLength(1)
+        expect(venuesComponent.prop('offererId')).toBe(props.offerer.id)
+        expect(venuesComponent.prop('venues')).toBe(props.venues)
       })
     })
   })
