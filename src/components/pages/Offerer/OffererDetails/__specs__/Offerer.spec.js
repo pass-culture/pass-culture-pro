@@ -13,9 +13,30 @@ describe('src | components | pages | OffererCreation | Offerer', () => {
         siren: '',
         name: '',
         address: '',
+        postalCode: '',
+        city: '',
         bic: '',
         iban: '',
         adminUserOfferer: undefined,
+      })
+    })
+
+    it('should instantiate Offerer object with offerer values', () => {
+      // Given
+      const properties = {
+        id: 'B3',
+        postalCode: '75001',
+        city: 'PARIS'
+      }
+
+      // When
+      const result = new Offerer(properties)
+
+      // Then
+      expect(result).toMatchObject({
+        id: 'B3',
+        postalCode: '75001',
+        city: 'PARIS',
       })
     })
   })

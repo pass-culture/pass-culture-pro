@@ -1,12 +1,14 @@
 export class Offerer {
   constructor(offerer = {}, adminUserOfferer) {
-    this.id = offerer.id || undefined // pass-culture-shared awaits undefined to condition the submit method (PATCH vs POST)
-    this.siren = offerer.siren || ''
-    this.name = offerer.name || ''
     this.address = offerer.address || ''
-    this.bic = offerer.bic || ''
-    this.iban = offerer.iban || ''
     this.adminUserOfferer = adminUserOfferer
+    this.bic = offerer.bic || ''
+    this.city = offerer.city || ''
+    this.iban = offerer.iban || ''
+    this.id = offerer.id
+    this.name = offerer.name || ''
+    this.postalCode = offerer.postalCode || ''
+    this.siren = offerer.siren || ''
   }
 
   get areBankInformationProvided () {
