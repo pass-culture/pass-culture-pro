@@ -2,13 +2,14 @@ import React from 'react'
 import { Field } from 'react-final-form'
 import FieldErrors from '../../../../../layout/form/FieldErrors'
 import formatSiren from './formatSiren'
-import {composeValidators} from 'react-final-form-utils'
+import { composeValidators } from 'react-final-form-utils'
 
 const required = value => {
   return value ? undefined : 'Ce champs est obligatoire'
 }
 
 const mustHaveTheProperLength = value => {
+  console.log(value)
   return value.length < 11 ? 'SIREN trop court' : undefined
 }
 

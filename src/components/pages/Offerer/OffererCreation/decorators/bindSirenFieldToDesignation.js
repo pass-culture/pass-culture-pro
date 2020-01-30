@@ -1,5 +1,5 @@
-import formatSiren from '../Fields/Siren/formatSiren'
 import { removeWhitespaces } from 'react-final-form-utils'
+import formatSiren from '../Fields/Siren/formatSiren'
 import getSirenInformation from './getSirenInformation'
 
 export const bindAddressAndDesignationFromSiren = async (siren) => {
@@ -8,7 +8,7 @@ export const bindAddressAndDesignationFromSiren = async (siren) => {
 
   if(sirenFormatForAPI.length === 9) {
     const message = await getSirenInformation(sirenFormatForAPI)
-    return { ...message }
+    return { ...message, siren: formattedSiren }
   } else {
     return {
       address: '',

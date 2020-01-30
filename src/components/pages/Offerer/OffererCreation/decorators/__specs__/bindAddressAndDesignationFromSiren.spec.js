@@ -7,7 +7,7 @@ jest.mock('../getSirenInformation', () => {
       city: null,
       name: null,
       postalCode: null,
-      siren: '841 166 09616',
+      siren: '841166096',
     }
   ))
 })
@@ -49,27 +49,30 @@ describe('bindAddressAndDesignationFromSiren', () => {
     })
   })
 
-  it('should load offerer details from API', () => {
-    // Given
-    const siren = '418166096'
+  describe('when the SIREN has the required 9 numbers', () => {
+    it('should load offerer details from API', () => {
+      // Given
+      const siren = '418166096'
 
-    // When
-    bindAddressAndDesignationFromSiren(siren)
+      // When
+      bindAddressAndDesignationFromSiren(siren)
 
-    // Then
-    expect(getSirenInformation).toHaveBeenCalledWith(siren)
+      // Then
+      expect(getSirenInformation).toHaveBeenCalledWith(siren)
+    })
+
+    it('should format the SIREN to the API standards', () => {
+      // Given
+      const siren = '418 166 096'
+
+      // When
+      bindAddressAndDesignationFromSiren(siren)
+
+      // Then
+      expect(getSirenInformation).toHaveBeenCalledWith('418166096')
+    })
   })
 
-  it('should format the SIREN to the API standards', () => {
-    // Given
-    const siren = '418 166 096'
-
-    // When
-    bindAddressAndDesignationFromSiren(siren)
-
-    // Then
-    expect(getSirenInformation).toHaveBeenCalledWith('418166096')
-  })
 
 
   it('should format the SIREN to exclude extra characters', () => {
@@ -85,7 +88,7 @@ describe('bindAddressAndDesignationFromSiren', () => {
 
   it('should return the result', async () => {
     // Given
-    const siren = '841 166 09616'
+    const siren = '841 166 096'
 
     // When
     const result = await bindAddressAndDesignationFromSiren(siren)
@@ -94,7 +97,7 @@ describe('bindAddressAndDesignationFromSiren', () => {
     expect(result).toStrictEqual({
         address: null,
         name: null,
-        siren: '841 166 09616',
+        siren: '841 166 096',
         postalCode: null,
         city: null
       }

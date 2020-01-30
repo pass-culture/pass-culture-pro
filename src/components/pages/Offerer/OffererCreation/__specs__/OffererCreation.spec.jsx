@@ -1,7 +1,8 @@
 import OffererCreation from '../OffererCreation'
 import React from 'react'
-import {mount, shallow} from 'enzyme'
+import {shallow} from 'enzyme'
 import {Form} from 'react-final-form'
+import OffererCreationForm from '../OffererCreationForm/OffererCreationForm'
 
 describe('src | components | pages | Offerer | OffererCreation | OffererCreation', () => {
   let props
@@ -10,6 +11,7 @@ describe('src | components | pages | Offerer | OffererCreation | OffererCreation
     props = {
       createNewOfferer: jest.fn(),
       showNotification: jest.fn(),
+      trackCreateOfferer: jest.fn(),
     }
   })
 
@@ -45,7 +47,7 @@ describe('src | components | pages | Offerer | OffererCreation | OffererCreation
   describe('render', () => {
     it('should render a OffererCreation component with default props', () => {
       // when
-      const wrapper = shallow(<OffererCreation />)
+      const wrapper = shallow(<OffererCreation {...props} />)
 
       // then
       expect(wrapper.prop('createNewOfferer')).toBe()
@@ -63,13 +65,14 @@ describe('src | components | pages | Offerer | OffererCreation | OffererCreation
       expect(heroSection.title).toStrictEqual('Structure')
     })
 
-    it('should display the siren fields', () => {
+    it('should display offerer creation form', () => {
       // when
-      const wrapper = mount(<OffererCreation {...props} />)
+      const wrapper = shallow(<OffererCreation {...props} />)
 
       // then
-      const sirenField = wrapper.find(Form).find('Siren')
-      expect(sirenField).toHaveLength(1)
+      const form = wrapper.find(Form)
+      const renderProp = form.prop('render')
+      expect(renderProp).toBe(OffererCreationForm)
     })
   })
 })

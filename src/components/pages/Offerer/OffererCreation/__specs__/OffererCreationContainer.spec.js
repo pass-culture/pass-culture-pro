@@ -92,7 +92,7 @@ describe('src | components | pages | Offerer | OfferCreation | OffererCreationCo
           config: {
             apiPath: '/offerers',
             method: 'POST',
-            payload: {
+            body: {
               key: 'value'
             },
           },

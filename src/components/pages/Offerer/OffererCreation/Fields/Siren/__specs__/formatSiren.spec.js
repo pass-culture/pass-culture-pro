@@ -56,7 +56,7 @@ describe('src | components | pages | OffererCreation | siren | formatSiren', () 
   describe('when value given is a valid SIREN', () => {
     it('should ignore whitespaces', () => {
       // given
-      const siren = '418 166 096'
+      const siren = '418    166 096'
 
       // when
       const formatedSiret = formatSiren(siren)
