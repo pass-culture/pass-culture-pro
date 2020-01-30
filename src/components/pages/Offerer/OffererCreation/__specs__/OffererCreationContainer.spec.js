@@ -83,7 +83,10 @@ describe('src | components | pages | Offerer | OfferCreation | OffererCreationCo
           },
         }
         const { createNewOfferer } = mapDispatchToProps(dispatch, ownProps)
-        const payload = { key: 'value' }
+        const payload = {
+          key: 'value',
+          siren: '123 456 789'
+        }
 
         // When
         createNewOfferer(payload)
@@ -93,7 +96,8 @@ describe('src | components | pages | Offerer | OfferCreation | OffererCreationCo
             apiPath: '/offerers',
             method: 'POST',
             body: {
-              key: 'value'
+              key: 'value',
+              siren: '123456789'
             },
           },
           type: 'REQUEST_DATA_POST_/OFFERERS',

@@ -7,14 +7,16 @@ import OffererCreation from './OffererCreation'
 
 import { withRequiredLogin } from '../../../hocs'
 import withTracking from '../../../hocs/withTracking'
+import { removeWhitespaces } from 'react-final-form-utils'
 
 export const mapDispatchToProps = (dispatch) => ({
   createNewOfferer: (payload, onHandleFail) => {
+    const { siren } = payload
     dispatch(
       requestData({
         apiPath: `/offerers`,
         method: 'POST',
-        body: payload,
+        body: {...payload, siren: removeWhitespaces(siren)},
         handleFail: onHandleFail
       })
     )
@@ -44,6 +46,7 @@ export default compose(
   withTracking('Offerer'),
   withRequiredLogin,
   connect(
+    null,
     mapDispatchToProps,
     mergeProps
   )

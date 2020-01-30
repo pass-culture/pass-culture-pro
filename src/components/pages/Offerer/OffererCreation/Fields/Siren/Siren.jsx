@@ -9,7 +9,6 @@ const required = value => {
 }
 
 const mustHaveTheProperLength = value => {
-  console.log(value)
   return value.length < 11 ? 'SIREN trop court' : undefined
 }
 
