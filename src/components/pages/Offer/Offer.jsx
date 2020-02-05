@@ -322,7 +322,6 @@ class Offer extends PureComponent {
       musicSubOptions,
       offer,
       offerer,
-      offerers,
       query,
       stocks,
       selectedOfferType,
@@ -351,8 +350,6 @@ class Offer extends PureComponent {
 
     const venueId = get(venue, 'id')
     const isOfferActive = get(offer, 'isActive')
-    const isOffererSelectReadOnly = typeof offererId !== 'undefined' || offerFromLocalProvider
-    const isVenueSelectReadOnly = typeof venueId !== 'undefined' || offerFromLocalProvider
     const isVenueVirtual = get(venue, 'isVirtual')
 
     const formApiPath = isCreatedEntity ? '/offers' : `/offers/${offerId}`
@@ -554,16 +551,28 @@ class Offer extends PureComponent {
                 {'Infos pratiques'}
               </h2>
               <div className="field-group">
-                <Field
-                  debug
-                  label="Structure"
-                  name="offererId"
-                  options={offerers}
-                  placeholder="Sélectionnez une structure"
-                  readOnly={isOffererSelectReadOnly}
-                  required
-                  type="select"
-                />
+                {offerer && (
+                  <div className="field field-select is-horizontal readonly">
+                    <div className="field-label is-normal readonly">
+                      {'Structure :'}
+                    </div>
+                    <div className="field-body field-content">
+                      {offerer.name}
+                    </div>
+                  </div>
+                )}
+
+                {venue && (
+                  <div className="field field-select is-horizontal readonly">
+                    <div className="field-label is-normal readonly">
+                      {'Lieu :'}
+                    </div>
+                    <div className="field-body field-content">
+                      {venue.name}
+                    </div>
+                  </div>
+                )}
+
                 {offererHasNoPhysicalVenues && (
                   <div className="field is-horizontal">
                     <div className="field-label" />
@@ -581,15 +590,6 @@ class Offer extends PureComponent {
                     </div>
                   </div>
                 )}
-                <Field
-                  label="Lieu"
-                  name="venueId"
-                  options={this.replaceVenueNameByPublicName(venuesMatchingOfferType)}
-                  placeholder="Sélectionnez un lieu"
-                  readOnly={isVenueSelectReadOnly}
-                  required
-                  type="select"
-                />
               </div>
               {displayDigitalOfferInformationMessage && (
                 <div className="is-horizontal">
@@ -660,7 +660,7 @@ class Offer extends PureComponent {
                       onClick={this.handleCheckIsDuo}
                       type="checkbox"
                     />
-                    <label htmlFor="isDigital">
+                    <label htmlFor="isDuo">
                       {'Accepter les réservations '}
                       <span className="duo-label-italic">
                         {'duo'}
