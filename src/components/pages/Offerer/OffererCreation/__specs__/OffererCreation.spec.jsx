@@ -12,6 +12,7 @@ describe('src | components | pages | Offerer | OffererCreation | OffererCreation
       createNewOfferer: jest.fn(),
       showNotification: jest.fn(),
       trackCreateOfferer: jest.fn(),
+      redirectToOfferersList: jest.fn()
     }
   })
 

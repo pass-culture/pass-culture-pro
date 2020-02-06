@@ -12,15 +12,16 @@ class OffererCreation extends PureComponent {
 
   handleSubmit = (values) => {
     const { createNewOfferer } = this.props
-    createNewOfferer(values, this.onHandleFail)
+    createNewOfferer(values, this.onHandleFail, this.onHandleSuccess)
   }
 
   onHandleSuccess = (_, action) => {
-    const { trackCreateOfferer } = this.props
+    const { trackCreateOfferer, redirectToOfferersList } = this.props
     const { payload } = action
     const createdOffererId = payload.datum.id
 
     trackCreateOfferer(createdOffererId)
+    redirectToOfferersList()
   }
 
   onHandleFail = () => {
@@ -63,6 +64,7 @@ class OffererCreation extends PureComponent {
 
 OffererCreation.propTypes = {
   createNewOfferer: PropTypes.func.isRequired,
+  redirectToOfferersList: PropTypes.func.isRequired,
   showNotification: PropTypes.func.isRequired,
   trackCreateOfferer: PropTypes.func.isRequired,
 }

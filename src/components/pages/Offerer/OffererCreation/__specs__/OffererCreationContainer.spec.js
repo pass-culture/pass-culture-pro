@@ -34,6 +34,7 @@ describe('src | components | pages | Offerer | OfferCreation | OffererCreationCo
       expect(functions).toStrictEqual({
         createNewOfferer: expect.any(Function),
         showNotification: expect.any(Function),
+        redirectToOfferersList: expect.any(Function)
       })
     })
 

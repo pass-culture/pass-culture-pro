@@ -9,15 +9,16 @@ import { withRequiredLogin } from '../../../hocs'
 import withTracking from '../../../hocs/withTracking'
 import { removeWhitespaces } from 'react-final-form-utils'
 
-export const mapDispatchToProps = (dispatch) => ({
-  createNewOfferer: (payload, onHandleFail) => {
+export const mapDispatchToProps = (dispatch, ownProps) => ({
+  createNewOfferer: (payload, onHandleFail, onHandleSuccess) => {
     const { siren } = payload
     dispatch(
       requestData({
         apiPath: `/offerers`,
         method: 'POST',
         body: {...payload, siren: removeWhitespaces(siren)},
-        handleFail: onHandleFail
+        handleFail: onHandleFail,
+        handleSuccess: onHandleSuccess
       })
     )
   },
@@ -29,6 +30,9 @@ export const mapDispatchToProps = (dispatch) => ({
       })
     )
   },
+  redirectToOfferersList: () => {
+    ownProps.history.push('/structures')
+  }
 })
 
 export const mergeProps = (stateProps, dispatchProps, ownProps) => {
