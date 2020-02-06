@@ -222,36 +222,7 @@ ShallowWrapper {
             </h2>
             <div
               className="field-group"
-            >
-              <Field
-                debug={true}
-                displayValue={[Function]}
-                errors={null}
-                label="Structure"
-                layout="horizontal"
-                name="offererId"
-                placeholder="Sélectionnez une structure"
-                readOnly={false}
-                required={true}
-                size="normal"
-                storeValue={[Function]}
-                type="select"
-              />
-              <Field
-                displayValue={[Function]}
-                errors={null}
-                label="Lieu"
-                layout="horizontal"
-                name="venueId"
-                options={Array []}
-                placeholder="Sélectionnez un lieu"
-                readOnly={false}
-                required={true}
-                size="normal"
-                storeValue={[Function]}
-                type="select"
-              />
-            </div>
+            />
             <div
               className="field-group"
             >
@@ -479,36 +450,7 @@ ShallowWrapper {
               </h2>
               <div
                 className="field-group"
-              >
-                <Field
-                  debug={true}
-                  displayValue={[Function]}
-                  errors={null}
-                  label="Structure"
-                  layout="horizontal"
-                  name="offererId"
-                  placeholder="Sélectionnez une structure"
-                  readOnly={false}
-                  required={true}
-                  size="normal"
-                  storeValue={[Function]}
-                  type="select"
-                />
-                <Field
-                  displayValue={[Function]}
-                  errors={null}
-                  label="Lieu"
-                  layout="horizontal"
-                  name="venueId"
-                  options={Array []}
-                  placeholder="Sélectionnez un lieu"
-                  readOnly={false}
-                  required={true}
-                  size="normal"
-                  storeValue={[Function]}
-                  type="select"
-                />
-              </div>
+              />
               <div
                 className="field-group"
               >
@@ -1070,36 +1012,7 @@ ShallowWrapper {
                 </h2>,
                 <div
                   className="field-group"
-                >
-                  <Field
-                    debug={true}
-                    displayValue={[Function]}
-                    errors={null}
-                    label="Structure"
-                    layout="horizontal"
-                    name="offererId"
-                    placeholder="Sélectionnez une structure"
-                    readOnly={false}
-                    required={true}
-                    size="normal"
-                    storeValue={[Function]}
-                    type="select"
-                  />
-                  <Field
-                    displayValue={[Function]}
-                    errors={null}
-                    label="Lieu"
-                    layout="horizontal"
-                    name="venueId"
-                    options={Array []}
-                    placeholder="Sélectionnez un lieu"
-                    readOnly={false}
-                    required={true}
-                    size="normal"
-                    storeValue={[Function]}
-                    type="select"
-                  />
-                </div>,
+                />,
                 false,
                 <div
                   className="field-group"
@@ -1163,86 +1076,17 @@ ShallowWrapper {
                 "nodeType": "host",
                 "props": Object {
                   "children": Array [
-                    <Field
-                      debug={true}
-                      displayValue={[Function]}
-                      errors={null}
-                      label="Structure"
-                      layout="horizontal"
-                      name="offererId"
-                      placeholder="Sélectionnez une structure"
-                      readOnly={false}
-                      required={true}
-                      size="normal"
-                      storeValue={[Function]}
-                      type="select"
-                    />,
                     undefined,
-                    <Field
-                      displayValue={[Function]}
-                      errors={null}
-                      label="Lieu"
-                      layout="horizontal"
-                      name="venueId"
-                      options={Array []}
-                      placeholder="Sélectionnez un lieu"
-                      readOnly={false}
-                      required={true}
-                      size="normal"
-                      storeValue={[Function]}
-                      type="select"
-                    />,
+                    undefined,
+                    undefined,
                   ],
                   "className": "field-group",
                 },
                 "ref": null,
                 "rendered": Array [
-                  Object {
-                    "instance": null,
-                    "key": undefined,
-                    "nodeType": "class",
-                    "props": Object {
-                      "debug": true,
-                      "displayValue": [Function],
-                      "errors": null,
-                      "label": "Structure",
-                      "layout": "horizontal",
-                      "name": "offererId",
-                      "options": undefined,
-                      "placeholder": "Sélectionnez une structure",
-                      "readOnly": false,
-                      "required": true,
-                      "size": "normal",
-                      "storeValue": [Function],
-                      "type": "select",
-                    },
-                    "ref": null,
-                    "rendered": null,
-                    "type": [Function],
-                  },
                   undefined,
-                  Object {
-                    "instance": null,
-                    "key": undefined,
-                    "nodeType": "class",
-                    "props": Object {
-                      "displayValue": [Function],
-                      "errors": null,
-                      "label": "Lieu",
-                      "layout": "horizontal",
-                      "name": "venueId",
-                      "options": Array [],
-                      "placeholder": "Sélectionnez un lieu",
-                      "readOnly": false,
-                      "required": true,
-                      "size": "normal",
-                      "storeValue": [Function],
-                      "type": "select",
-                    },
-                    "ref": null,
-                    "rendered": null,
-                    "type": [Function],
-                  },
+                  undefined,
+                  undefined,
                 ],
                 "type": "div",
               },
@@ -1658,36 +1502,7 @@ ShallowWrapper {
               </h2>
               <div
                 className="field-group"
-              >
-                <Field
-                  debug={true}
-                  displayValue={[Function]}
-                  errors={null}
-                  label="Structure"
-                  layout="horizontal"
-                  name="offererId"
-                  placeholder="Sélectionnez une structure"
-                  readOnly={false}
-                  required={true}
-                  size="normal"
-                  storeValue={[Function]}
-                  type="select"
-                />
-                <Field
-                  displayValue={[Function]}
-                  errors={null}
-                  label="Lieu"
-                  layout="horizontal"
-                  name="venueId"
-                  options={Array []}
-                  placeholder="Sélectionnez un lieu"
-                  readOnly={false}
-                  required={true}
-                  size="normal"
-                  storeValue={[Function]}
-                  type="select"
-                />
-              </div>
+              />
               <div
                 className="field-group"
               >
@@ -1915,36 +1730,7 @@ ShallowWrapper {
                 </h2>
                 <div
                   className="field-group"
-                >
-                  <Field
-                    debug={true}
-                    displayValue={[Function]}
-                    errors={null}
-                    label="Structure"
-                    layout="horizontal"
-                    name="offererId"
-                    placeholder="Sélectionnez une structure"
-                    readOnly={false}
-                    required={true}
-                    size="normal"
-                    storeValue={[Function]}
-                    type="select"
-                  />
-                  <Field
-                    displayValue={[Function]}
-                    errors={null}
-                    label="Lieu"
-                    layout="horizontal"
-                    name="venueId"
-                    options={Array []}
-                    placeholder="Sélectionnez un lieu"
-                    readOnly={false}
-                    required={true}
-                    size="normal"
-                    storeValue={[Function]}
-                    type="select"
-                  />
-                </div>
+                />
                 <div
                   className="field-group"
                 >
@@ -2506,36 +2292,7 @@ ShallowWrapper {
                   </h2>,
                   <div
                     className="field-group"
-                  >
-                    <Field
-                      debug={true}
-                      displayValue={[Function]}
-                      errors={null}
-                      label="Structure"
-                      layout="horizontal"
-                      name="offererId"
-                      placeholder="Sélectionnez une structure"
-                      readOnly={false}
-                      required={true}
-                      size="normal"
-                      storeValue={[Function]}
-                      type="select"
-                    />
-                    <Field
-                      displayValue={[Function]}
-                      errors={null}
-                      label="Lieu"
-                      layout="horizontal"
-                      name="venueId"
-                      options={Array []}
-                      placeholder="Sélectionnez un lieu"
-                      readOnly={false}
-                      required={true}
-                      size="normal"
-                      storeValue={[Function]}
-                      type="select"
-                    />
-                  </div>,
+                  />,
                   false,
                   <div
                     className="field-group"
@@ -2599,86 +2356,17 @@ ShallowWrapper {
                   "nodeType": "host",
                   "props": Object {
                     "children": Array [
-                      <Field
-                        debug={true}
-                        displayValue={[Function]}
-                        errors={null}
-                        label="Structure"
-                        layout="horizontal"
-                        name="offererId"
-                        placeholder="Sélectionnez une structure"
-                        readOnly={false}
-                        required={true}
-                        size="normal"
-                        storeValue={[Function]}
-                        type="select"
-                      />,
                       undefined,
-                      <Field
-                        displayValue={[Function]}
-                        errors={null}
-                        label="Lieu"
-                        layout="horizontal"
-                        name="venueId"
-                        options={Array []}
-                        placeholder="Sélectionnez un lieu"
-                        readOnly={false}
-                        required={true}
-                        size="normal"
-                        storeValue={[Function]}
-                        type="select"
-                      />,
+                      undefined,
+                      undefined,
                     ],
                     "className": "field-group",
                   },
                   "ref": null,
                   "rendered": Array [
-                    Object {
-                      "instance": null,
-                      "key": undefined,
-                      "nodeType": "class",
-                      "props": Object {
-                        "debug": true,
-                        "displayValue": [Function],
-                        "errors": null,
-                        "label": "Structure",
-                        "layout": "horizontal",
-                        "name": "offererId",
-                        "options": undefined,
-                        "placeholder": "Sélectionnez une structure",
-                        "readOnly": false,
-                        "required": true,
-                        "size": "normal",
-                        "storeValue": [Function],
-                        "type": "select",
-                      },
-                      "ref": null,
-                      "rendered": null,
-                      "type": [Function],
-                    },
                     undefined,
-                    Object {
-                      "instance": null,
-                      "key": undefined,
-                      "nodeType": "class",
-                      "props": Object {
-                        "displayValue": [Function],
-                        "errors": null,
-                        "label": "Lieu",
-                        "layout": "horizontal",
-                        "name": "venueId",
-                        "options": Array [],
-                        "placeholder": "Sélectionnez un lieu",
-                        "readOnly": false,
-                        "required": true,
-                        "size": "normal",
-                        "storeValue": [Function],
-                        "type": "select",
-                      },
-                      "ref": null,
-                      "rendered": null,
-                      "type": [Function],
-                    },
+                    undefined,
+                    undefined,
                   ],
                   "type": "div",
                 },
