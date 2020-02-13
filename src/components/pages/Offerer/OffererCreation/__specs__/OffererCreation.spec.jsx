@@ -11,6 +11,7 @@ describe('src | components | pages | Offerer | OffererCreation | OffererCreation
     props = {
       createNewOfferer: jest.fn(),
       showNotification: jest.fn(),
+      closeNotification: jest.fn(),
       trackCreateOfferer: jest.fn(),
       redirectToOfferersList: jest.fn()
     }
@@ -74,6 +75,17 @@ describe('src | components | pages | Offerer | OffererCreation | OffererCreation
       const form = wrapper.find(Form)
       const renderProp = form.prop('render')
       expect(renderProp).toBe(OffererCreationForm)
+    })
+  })
+
+  describe('componentWillUnmount', () => {
+    it('should close notification', () => {
+      // when
+      const wrapper = shallow(<OffererCreation {...props} />)
+      wrapper.unmount()
+
+      // expect
+      expect(props.closeNotification).toHaveBeenCalledWith()
     })
   })
 })

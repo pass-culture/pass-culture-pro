@@ -9,6 +9,10 @@ import { bindAddressAndDesignationFromSiren } from './decorators/bindSirenFieldT
 import OffererCreationForm from './OffererCreationForm/OffererCreationForm'
 
 class OffererCreation extends PureComponent {
+  componentWillUnmount() {
+    const { closeNotification } = this.props
+    closeNotification()
+  }
 
   handleSubmit = (values) => {
     const { createNewOfferer } = this.props
@@ -63,6 +67,7 @@ class OffererCreation extends PureComponent {
 }
 
 OffererCreation.propTypes = {
+  closeNotification: PropTypes.func.isRequired,
   createNewOfferer: PropTypes.func.isRequired,
   redirectToOfferersList: PropTypes.func.isRequired,
   showNotification: PropTypes.func.isRequired,

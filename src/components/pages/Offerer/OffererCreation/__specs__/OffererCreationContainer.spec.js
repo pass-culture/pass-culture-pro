@@ -70,6 +70,18 @@ describe('src | components | pages | Offerer | OfferCreation | OffererCreationCo
       })
     })
 
+    describe('closeNotification', () => {
+      it('enable to close notification', () => {
+        // when
+        mapDispatchToProps(dispatch).closeNotification()
+
+        // then
+        expect(dispatch).toHaveBeenCalledWith({
+          type: 'CLOSE_NOTIFICATION',
+        })
+      })
+    })
+
     describe('createNewOfferer', () => {
       it('should dispatch', () => {
         // Given

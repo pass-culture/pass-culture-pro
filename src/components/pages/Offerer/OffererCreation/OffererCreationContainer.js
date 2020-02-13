@@ -1,4 +1,4 @@
-import { showNotification } from 'pass-culture-shared'
+import { closeNotification, showNotification } from 'pass-culture-shared'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { requestData } from 'redux-thunk-data'
@@ -16,9 +16,9 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
       requestData({
         apiPath: `/offerers`,
         method: 'POST',
-        body: {...payload, siren: removeWhitespaces(siren)},
+        body: { ...payload, siren: removeWhitespaces(siren) },
         handleFail: onHandleFail,
-        handleSuccess: onHandleSuccess
+        handleSuccess: onHandleSuccess,
       })
     )
   },
@@ -30,9 +30,12 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
       })
     )
   },
+  closeNotification: () => {
+    dispatch(closeNotification())
+  },
   redirectToOfferersList: () => {
     ownProps.history.push('/structures')
-  }
+  },
 })
 
 export const mergeProps = (stateProps, dispatchProps, ownProps) => {
