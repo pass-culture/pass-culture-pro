@@ -1,14 +1,9 @@
 import React from 'react'
 import { Field } from 'react-final-form'
 
-const required = value => {
-  return value ? undefined : 'Ce champs est requis'
-}
-
 const Address = () => (
   <Field
     name="address"
-    validate={required}
   >
     {({ input }) => {
       return (

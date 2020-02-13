@@ -5,11 +5,11 @@ import { navigateToNewOffererAs } from './helpers/navigations'
 import { getSirenRequestMockAs } from './helpers/sirenes'
 import { createUserRole } from './helpers/roles'
 
-const addressInput = Selector('input#offerer-address')
-const nameInput = Selector('input#offerer-name')
-const sirenInput = Selector('#offerer-siren')
-const sirenErrorInput = Selector('#offerer-siren-error')
-const submitButton = Selector('button.button.is-primary')
+const addressInput = Selector('input[name=address]')
+const nameInput = Selector('input[name=name]')
+const sirenInput = Selector('input[name=siren]')
+const sirenErrorInput = Selector('.field-errors')
+const submitButton = Selector('button[type=submit]')
 
 let user
 let userRole
@@ -53,10 +53,10 @@ test("Je peux créer une nouvelle structure avec un nouveau SIREN n'existant pas
 // eslint-disable-next-line jest/require-top-level-describe
 test('Je ne peux pas créer une nouvelle structure avec un SIREN invalide', async t => {
   // when
-  await t.typeText(sirenInput, '69256356275794356243264').click(submitButton)
+  await t.typeText(sirenInput, '000000000').click(submitButton)
 
   // then
-  await t.expect(sirenErrorInput.innerText).contains('PostalCode invalide')
+  await t.expect(sirenErrorInput.innerText).contains('Ce SIREN n\'est pas reconnu')
 })
 
 // TODO Remove linter exclusion
