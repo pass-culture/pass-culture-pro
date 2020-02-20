@@ -1,6 +1,6 @@
 import get from 'lodash.get'
 
-const getSirenInformation = async siren => {
+export const getSirenInformation = async siren => {
   const sirenUrl = `https://entreprise.data.gouv.fr/api/sirene/v1/siren/${siren}`
 
   const response = await fetch(sirenUrl)
