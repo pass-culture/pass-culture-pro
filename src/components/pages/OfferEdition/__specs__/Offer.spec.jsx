@@ -9,7 +9,7 @@ import LocalProviderInformation from '../LocalProviderInformation/LocalProviderI
 import { VenueName } from '../VenueName'
 import { OffererName } from '../OffererName'
 
-describe('components | OfferEdition | Offer ', () => {
+describe('components | OfferEdition | Offer', () => {
   let dispatch
   let props
   let history

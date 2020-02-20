@@ -2,6 +2,14 @@ import { mapStateToProps, mapDispatchToProps } from '../StockItemContainer'
 import state from '../../../../../utils/mocks/state'
 import Offer from '../../../ValueObjects/Offer'
 
+jest.mock('redux-thunk-data', () => {
+  const { requestData } = jest.requireActual('fetch-normalize-data')
+
+  return {
+    requestData,
+  }
+})
+
 describe('components | OfferEdition | stockItemContainer', () => {
   describe('mapStateToProps', () => {
     describe('when adding stock to one offer', () => {

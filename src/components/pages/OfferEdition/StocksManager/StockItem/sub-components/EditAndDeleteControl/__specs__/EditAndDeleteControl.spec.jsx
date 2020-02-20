@@ -3,13 +3,13 @@ import React from 'react'
 import configureStore from 'redux-mock-store'
 import { Provider } from 'react-redux'
 
-import { requestData } from 'redux-saga-data'
+import { requestData } from 'redux-thunk-data'
 import EditAndDeleteControl from '../EditAndDeleteControl'
 
 const middlewares = []
 const mockStore = configureStore(middlewares)
 
-jest.mock('redux-saga-data', () => ({
+jest.mock('redux-thunk-data', () => ({
   requestData: jest.fn(),
 }))
 

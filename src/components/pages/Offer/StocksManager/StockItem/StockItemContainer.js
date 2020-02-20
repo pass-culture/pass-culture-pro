@@ -9,7 +9,7 @@ import { translateQueryParamsToApiParams } from '../../../../../utils/translate'
 import { selectVenueById } from '../../../../../selectors/data/venuesSelectors'
 import { selectOffererById } from '../../../../../selectors/data/offerersSelectors'
 import { selectOfferById } from '../../../../../selectors/data/offersSelectors'
-import { requestData } from 'redux-saga-data'
+import { requestData } from 'redux-thunk-data'
 import Offer from '../../ValueObjects/Offer'
 import { getTimezone } from '../../../../../utils/timezone'
 

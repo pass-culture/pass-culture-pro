@@ -2718,3 +2718,5 @@ ShallowWrapper {
   Symbol(enzyme.__childContext__): null,
 }
 `;
+
+exports[`components | OfferEdition | Offer should match the snapshot 1`] = `ShallowWrapper {}`;
