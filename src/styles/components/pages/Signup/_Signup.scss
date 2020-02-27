@@ -96,15 +96,13 @@
     h3 {
       position: relative;
       font-size: $size-3;
-
-      &.with-subtitle {
-        float: left;
-      }
+      display: inline;
     }
 
     p {
       font-size: 0.9rem;
       text-align: right;
+      display: inline;
     }
 
     a {
