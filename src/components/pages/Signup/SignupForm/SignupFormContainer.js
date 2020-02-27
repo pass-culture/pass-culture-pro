@@ -2,7 +2,7 @@ import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import get from 'lodash.get'
-import SignupForm from './SignupForm'
+import Signup from './Signup'
 
 export const mapStateToProps = state => ({
   offererName: get(state, 'form.user.name'),
@@ -11,4 +11,4 @@ export const mapStateToProps = state => ({
 export default compose(
   withRouter,
   connect(mapStateToProps)
-)(SignupForm)
+)(Signup)

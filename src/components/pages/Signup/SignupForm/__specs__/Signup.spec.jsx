@@ -1,10 +1,10 @@
 import React from 'react'
-import SignupForm from '../SignupForm'
+import Signup from '../Signup'
 import { shallow } from 'enzyme'
 import { Field, Form, SubmitButton } from 'pass-culture-shared'
 import { NavLink } from 'react-router-dom'
 
-describe('src | components | pages | Signup | SignupForm', () => {
+describe('src | components | pages | Signup', () => {
   let props
 
   beforeEach(() => {
@@ -17,7 +17,7 @@ describe('src | components | pages | Signup | SignupForm', () => {
 
   it('should match snapshot', () => {
     // when
-    const wrapper = shallow(<SignupForm {...props} />)
+    const wrapper = shallow(<Signup {...props} />)
 
     // then
     expect(wrapper).toMatchSnapshot()
@@ -26,7 +26,7 @@ describe('src | components | pages | Signup | SignupForm', () => {
   describe('render', () => {
     it('should render a disabled submit button when required inputs are not filled', () => {
       // when
-      const wrapper = shallow(<SignupForm {...props} />)
+      const wrapper = shallow(<Signup {...props} />)
 
       // then
       const submitButton = wrapper
@@ -38,7 +38,7 @@ describe('src | components | pages | Signup | SignupForm', () => {
 
     it('should render a Form component with the right props', () => {
       // when
-      const wrapper = shallow(<SignupForm {...props} />)
+      const wrapper = shallow(<Signup {...props} />)
 
       // then
       const form = wrapper.find(Form)
@@ -55,7 +55,7 @@ describe('src | components | pages | Signup | SignupForm', () => {
 
     it('should render nine Field components', () => {
       // when
-      const wrapper = shallow(<SignupForm {...props} />)
+      const wrapper = shallow(<Signup {...props} />)
 
       // then
       const fields = wrapper.find(Field)
@@ -64,7 +64,7 @@ describe('src | components | pages | Signup | SignupForm', () => {
 
     it('should render a Field component for email with the right props', () => {
       // when
-      const wrapper = shallow(<SignupForm {...props} />)
+      const wrapper = shallow(<Signup {...props} />)
 
       // then
       const field = wrapper.find(Field).at(0)
@@ -91,7 +91,7 @@ describe('src | components | pages | Signup | SignupForm', () => {
           </Fragment>`
 
       // when
-      const wrapper = shallow(<SignupForm {...props} />)
+      const wrapper = shallow(<Signup {...props} />)
 
       // then
       const field = wrapper.find(Field).at(1)
@@ -106,7 +106,7 @@ describe('src | components | pages | Signup | SignupForm', () => {
 
     it('should render a Field component for lastname with the right props', () => {
       // when
-      const wrapper = shallow(<SignupForm {...props} />)
+      const wrapper = shallow(<Signup {...props} />)
 
       // then
       const field = wrapper.find(Field).at(2)
@@ -118,7 +118,7 @@ describe('src | components | pages | Signup | SignupForm', () => {
 
     it('should render a Field component for firstname with the right props', () => {
       // when
-      const wrapper = shallow(<SignupForm {...props} />)
+      const wrapper = shallow(<Signup {...props} />)
 
       // then
       const field = wrapper.find(Field).at(3)
@@ -130,7 +130,7 @@ describe('src | components | pages | Signup | SignupForm', () => {
 
     it('should render a Field component for phone number with the right props', () => {
       // when
-      const wrapper = shallow(<SignupForm {...props} />)
+      const wrapper = shallow(<Signup {...props} />)
 
       // then
       const field = wrapper.find(Field).at(4)
@@ -143,7 +143,7 @@ describe('src | components | pages | Signup | SignupForm', () => {
 
     it('should render a Field component for siren with the right props', () => {
       // when
-      const wrapper = shallow(<SignupForm {...props} />)
+      const wrapper = shallow(<Signup {...props} />)
 
       // then
       const field = wrapper.find(Field).at(5)
@@ -159,7 +159,7 @@ describe('src | components | pages | Signup | SignupForm', () => {
 
     it('should render a Field component for newsletter agreement with the right props', () => {
       // when
-      const wrapper = shallow(<SignupForm {...props} />)
+      const wrapper = shallow(<Signup {...props} />)
 
       // then
       const field = wrapper.find(Field).at(6)
@@ -170,7 +170,7 @@ describe('src | components | pages | Signup | SignupForm', () => {
 
     it('should render a Field component for contact agreement with the right props', () => {
       // when
-      const wrapper = shallow(<SignupForm {...props} />)
+      const wrapper = shallow(<Signup {...props} />)
 
       // then
       const field = wrapper.find(Field).at(7)
@@ -184,7 +184,7 @@ describe('src | components | pages | Signup | SignupForm', () => {
 
     it('should render a Field component for cgu agreement with the right props', () => {
       // when
-      const wrapper = shallow(<SignupForm {...props} />)
+      const wrapper = shallow(<Signup {...props} />)
 
       // then
       const field = wrapper.find(Field).at(8)
@@ -211,7 +211,7 @@ describe('src | components | pages | Signup | SignupForm', () => {
       props.errors = ['error1']
 
       // when
-      const wrapper = shallow(<SignupForm {...props} />)
+      const wrapper = shallow(<Signup {...props} />)
 
       // then
       const errors = wrapper.find('.errors')
@@ -220,7 +220,7 @@ describe('src | components | pages | Signup | SignupForm', () => {
 
     it('should render a NavLink component with the right props', () => {
       // when
-      const wrapper = shallow(<SignupForm {...props} />)
+      const wrapper = shallow(<Signup {...props} />)
 
       // then
       const navLink = wrapper.find(NavLink)
@@ -231,7 +231,7 @@ describe('src | components | pages | Signup | SignupForm', () => {
 
     it('should render a SubmitButton component with the right props', () => {
       // when
-      const wrapper = shallow(<SignupForm {...props} />)
+      const wrapper = shallow(<Signup {...props} />)
 
       // then
       const submitButton = wrapper.find(SubmitButton)
