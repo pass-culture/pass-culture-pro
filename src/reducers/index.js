@@ -11,7 +11,7 @@ const rootReducer = combineReducers({
   bookingSummary,
   data,
   errors,
-  form,
+  /*form,*/
   loading,
   modal,
   notification,
