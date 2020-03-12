@@ -58,8 +58,8 @@ describe('src | components | pages | Offers | OfferItem', () => {
 
   describe('render', () => {
 
-    describe('thumb Component', () => {
-      it('should render a Thumb Component with the given url when offer has an active mediation', () => {
+    describe('thumb Tooltip', () => {
+      it('should render a Thumb Tooltip with the given url when offer has an active mediation', () => {
         // given
         const wrapper = shallow(<OfferItem {...props} />)
 
@@ -71,7 +71,7 @@ describe('src | components | pages | Offers | OfferItem', () => {
         expect(thumbComponent.prop('src')).toBe('https://url.to/thumb')
       })
 
-      it('should render a Thumb Component with url from product when offer does not have an active mediation', () => {
+      it('should render a Thumb Tooltip with url from product when offer does not have an active mediation', () => {
         // given
         props.offer = activeOfferWithOutActiveMediation
         props.product.thumbUrl = '/fake-product-url'
@@ -86,7 +86,7 @@ describe('src | components | pages | Offers | OfferItem', () => {
         expect(thumbComponent.prop('src')).toBe('/fake-product-url')
       })
 
-      it('should render a Thumb Component with an empty url when offer does not have an active mediation and product does not have a thumb url', () => {
+      it('should render a Thumb Tooltip with an empty url when offer does not have an active mediation and product does not have a thumb url', () => {
         // given
         props.offer = activeOfferWithOutActiveMediation
         props.product.thumbUrl = null
@@ -278,7 +278,7 @@ describe('src | components | pages | Offers | OfferItem', () => {
         expect(firstLink.prop('title')).toStrictEqual('Harry Potter vol.1')
       })
 
-      it('should contain a Navlink Component with the right props and containing a DotDotDot component', () => {
+      it('should contain a Navlink Tooltip with the right props and containing a DotDotDot component', () => {
         // given
         props.offer.name = 'fake name'
         props.stocks = []

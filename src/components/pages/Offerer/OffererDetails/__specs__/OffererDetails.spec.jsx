@@ -57,7 +57,7 @@ describe('src | components | pages | Offerer | OffererDetails', () => {
     })
 
     describe('venues information', () => {
-      it('should render a Venues Component', () => {
+      it('should render a Venues Tooltip', () => {
         // when
         const wrapper = shallow(<OffererDetails {...props} />)
         const venuesComponent = wrapper.find('Venues')
