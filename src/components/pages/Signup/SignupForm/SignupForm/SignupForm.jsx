@@ -1,10 +1,13 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 import { NavLink } from 'react-router-dom'
 import Email from '../Fields/Email'
 import Password from '../Fields/Password'
 import LastName from '../Fields/LastName'
 import FirstName from '../Fields/FirstName'
 import PhoneNumber from '../Fields/PhoneNumber'
+import Newsletter from '../Fields/Newsletter'
+import JoinSurvey from '../Fields/JoinSurvey'
+import ConditionGeneralUtilisation from '../Fields/ConditionGeneralUtilisation'
 
 function SignupForm({ handleSubmit, invalid, pristine }) {
   return (
@@ -14,7 +17,10 @@ function SignupForm({ handleSubmit, invalid, pristine }) {
       <LastName />
       <FirstName />
       <PhoneNumber />
-{/*
+      <Newsletter />
+      <JoinSurvey />
+      <ConditionGeneralUtilisation />
+      {/*
       <div className="field-group">
         <Field
           label="Adresse e-mail"
@@ -84,7 +90,7 @@ function SignupForm({ handleSubmit, invalid, pristine }) {
           {errors}
         </div>
       </div>
-*/}
+     */}
 
       <div className="buttons-field">
         <NavLink
