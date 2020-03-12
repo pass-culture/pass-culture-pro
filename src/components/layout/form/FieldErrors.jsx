@@ -8,7 +8,7 @@ import PropTypes from 'prop-types'
 // Documentation: https://reactjs.org/docs/lists-and-keys.html#keys
 const setDangerousArrayKeyIndex = index => `field_error_${index}`
 
-const FieldErrors = ({ className, customMessage, meta }) => {
+function FieldErrors({ className, customMessage, meta }) {
   const showError =
     customMessage ||
     (meta && meta.touched && (meta.error || (!meta.dirtySinceLastSubmit && meta.submitError)))

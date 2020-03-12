@@ -111,10 +111,10 @@ class AllocineProviderForm extends PureComponent {
             </div>
             <div className="apf-is-duo-section">
               <CheckboxField
+                checked
                 id="apf-is-duo"
                 label="Accepter les réservations DUO"
                 name="isDuo"
-                checked
               />
               <span
                 className="apf-tooltip"

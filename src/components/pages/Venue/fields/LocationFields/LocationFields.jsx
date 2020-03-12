@@ -6,14 +6,14 @@ import HiddenField from '../../../../layout/form/fields/HiddenField'
 import NumberField from '../../../../layout/form/fields/NumberField'
 import TextField from '../../../../layout/form/fields/TextField'
 
-const LocationFields = ({
+function LocationFields({
   fieldReadOnlyBecauseFrozenFormSiret,
   form,
   formLatitude,
   formLongitude,
   formIsLocationFrozen,
   readOnly,
-}) => {
+}) {
   const fieldIsFrozen = readOnly || formIsLocationFrozen || fieldReadOnlyBecauseFrozenFormSiret
   return (
     <div className="section">

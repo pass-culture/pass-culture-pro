@@ -7,7 +7,7 @@ import PostalCode from '../Fields/PostalCode'
 import City from '../Fields/City'
 import { NavLink } from "react-router-dom"
 
-const OffererCreationForm = ({ handleSubmit, invalid, pristine }) => {
+function OffererCreationForm({ handleSubmit, invalid, pristine }) {
   return (
     <form onSubmit={handleSubmit}>
       <div className="section">
