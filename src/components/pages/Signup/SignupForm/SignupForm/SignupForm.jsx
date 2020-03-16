@@ -8,6 +8,7 @@ import PhoneNumber from '../Fields/PhoneNumber'
 import Newsletter from '../Fields/Newsletter'
 import JoinSurvey from '../Fields/JoinSurvey'
 import ConditionGeneralUtilisation from '../Fields/ConditionGeneralUtilisation'
+import Siren from '../Fields/Siren'
 
 function SignupForm({ handleSubmit, invalid, pristine }) {
   return (
@@ -17,6 +18,7 @@ function SignupForm({ handleSubmit, invalid, pristine }) {
       <LastName />
       <FirstName />
       <PhoneNumber />
+      <Siren />
       <Newsletter />
       <JoinSurvey />
       <ConditionGeneralUtilisation />
