@@ -11,7 +11,7 @@ const mustHaveTheProperLength = value => {
 
 const getOffererNameBySiren = async value => {
   value = removeWhitespaces(value)
-
+  isRequired
   const sirenInformation = await getSirenInformation(value)
 
 
@@ -41,10 +41,7 @@ class Siren extends PureComponent {
 
   handleOnChange = event => {
     if (event.target.value.length === 11) {
-
       getOffererNameBySiren(event.target.value).then(fetchedName => {
-        console.log('handleOnChange : ', fetchedName)
-
         this.setState({
           fetchedName: fetchedName
         })
@@ -69,7 +66,6 @@ class Siren extends PureComponent {
               this.handleOnChange(event)
             }
           }
-          console.log(fetchedName)
 
           return (
             <div className="field field-siren with-subtitle">
@@ -99,7 +95,7 @@ class Siren extends PureComponent {
                 <span className="display-name">
                   {fetchedName}
                 </span>
-                : value && !errors && !readOnly &&
+                : value &&
                 <button
                   className="button is-loading"
                   type="button"

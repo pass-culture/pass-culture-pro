@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types'
 import React, { Fragment, PureComponent } from 'react'
-import { NavLink } from 'react-router-dom'
 import { CGU_URL } from '../../../../utils/config'
-import { Field, Form } from 'react-final-form'
-import SignupForm from "./SignupForm/SignupForm";
+import { Form } from 'react-final-form'
+import SignupForm from "./SignupForm"
 
 class Signup extends PureComponent {
   onHandleSuccessRedirect = () => '/inscription/confirmation'
@@ -41,8 +40,6 @@ class Signup extends PureComponent {
   handleOnSubmit = console.debug
 
   render() {
-    const { patch } = this.props
-
     return (
       <section>
         <div className="hero-body">
