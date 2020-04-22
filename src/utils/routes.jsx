@@ -1,7 +1,5 @@
 import React from 'react'
 import { Redirect } from 'react-router'
-
-import BookingsContainer from '../components/pages/Bookings/BookingsContainer'
 import CsvDetailViewContainer from '../components/layout/CsvTable/CsvTableContainer'
 import DeskContainer from '../components/pages/Desk/DeskContainer'
 import HomeContainer from '../components/pages/Home/HomeContainer'
@@ -20,6 +18,7 @@ import Terms from '../components/pages/Terms/Terms'
 import VenueContainer from '../components/pages/Venue/VenueContainer'
 import OffererCreationContainer from '../components/pages/Offerer/OffererCreation/OffererCreationContainer'
 import OffererDetailsContainer from '../components/pages/Offerer/OffererDetails/OffererDetailsContainer'
+import BookingsRouter from '../components/hocs/bookings-router/BookingsRouter'
 
 const RedirectToConnexionComponent = () => <Redirect to="/connexion" />
 
@@ -95,7 +94,8 @@ const routes = [
     title: 'Remboursements',
   },
   {
-    component: BookingsContainer,
+    component: BookingsRouter,
+    featureName: 'BOOKINGS_V2',
     path: '/reservations',
     title: 'Réservations',
   },
