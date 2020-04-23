@@ -18,7 +18,7 @@ import Terms from '../components/pages/Terms/Terms'
 import VenueContainer from '../components/pages/Venue/VenueContainer'
 import OffererCreationContainer from '../components/pages/Offerer/OffererCreation/OffererCreationContainer'
 import OffererDetailsContainer from '../components/pages/Offerer/OffererDetails/OffererDetailsContainer'
-import BookingsRouter from '../components/hocs/bookings-router/BookingsRouter'
+import BookingsRouterContainer from '../components/hocs/bookings-router/BookingsRouterContainer'
 
 const RedirectToConnexionComponent = () => <Redirect to="/connexion" />
 
@@ -94,7 +94,7 @@ const routes = [
     title: 'Remboursements',
   },
   {
-    component: BookingsRouter,
+    component: BookingsRouterContainer,
     featureName: 'BOOKINGS_V2',
     path: '/reservations',
     title: 'Réservations',
