@@ -95,7 +95,6 @@ const routes = [
   },
   {
     component: BookingsRouterContainer,
-    featureName: 'BOOKINGS_V2',
     path: '/reservations',
     title: 'Réservations',
   },
