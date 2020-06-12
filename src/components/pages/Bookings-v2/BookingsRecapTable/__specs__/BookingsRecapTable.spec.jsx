@@ -179,7 +179,6 @@ describe('components | BookingsRecapTable', () => {
     expect(bookingTokenCell.props()).toStrictEqual({ bookingToken: 'ZEHBGD' })
     const bookingStatusCell = wrapper.find(BookingStatusCell)
     expect(bookingStatusCell).toHaveLength(1)
-    expect(bookingStatusCell.props()).toStrictEqual({ bookingStatus: 'Validé' })
   })
 
   it('should render the expected table with max given number of hits per page', () => {
@@ -351,7 +350,6 @@ describe('components | BookingsRecapTable', () => {
     expect(bookingTokenCell.props()).toStrictEqual({ bookingToken: 'ZEHBGD' })
     const bookingStatusCell = wrapper.find(BookingStatusCell)
     expect(bookingStatusCell).toHaveLength(1)
-    expect(bookingStatusCell.props()).toStrictEqual({ bookingStatus: 'Validé' })
   })
 
   it('should not apply filters when component didnt receive new data', () => {
