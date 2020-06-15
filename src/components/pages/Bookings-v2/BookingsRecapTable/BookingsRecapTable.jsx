@@ -66,9 +66,9 @@ class BookingsRecapTable extends Component {
       currentPage: 0,
       filters: {
         bookingBeneficiary: EMPTY_FILTER_VALUE,
-        bookingBeginningDate: null,
-        bookingEndingDate: null,
-        offerDate: null,
+        bookingBeginningDate: EMPTY_FILTER_VALUE,
+        bookingEndingDate: EMPTY_FILTER_VALUE,
+        offerDate: EMPTY_FILTER_VALUE,
         bookingToken: EMPTY_FILTER_VALUE,
         offerISBN: EMPTY_FILTER_VALUE,
         offerName: EMPTY_FILTER_VALUE,
