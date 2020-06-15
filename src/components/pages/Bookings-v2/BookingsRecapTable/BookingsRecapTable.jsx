@@ -69,6 +69,7 @@ class BookingsRecapTable extends Component {
         bookingBeginningDate: null,
         bookingEndingDate: null,
         offerDate: null,
+        bookingToken: EMPTY_FILTER_VALUE,
         offerISBN: EMPTY_FILTER_VALUE,
         offerName: EMPTY_FILTER_VALUE,
         offerVenue: ALL_VENUES,
