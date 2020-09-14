@@ -40,7 +40,7 @@ class OfferItem extends PureComponent {
     const offerIsEditable = offer ? offer.isEditable : null
     const offerStatus = computeOfferStatus(offer, stocks)
     const offerStatusProperties = {
-      [OFFER_STATUS.DEACTIVATED]: {
+      [OFFER_STATUS.INACTIVE]: {
         className: 'status-deactivated',
         icon: 'ico-status-deactivated',
       },
