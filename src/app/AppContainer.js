@@ -6,6 +6,7 @@ import { maintenanceSelector } from 'store/selectors/maintenanceSelector'
 
 export function mapStateToProps(state) {
   return {
+    layoutConfig: state.app.layoutConfig,
     modalOpen: state.modal.isActive,
     isMaintenanceActivated: maintenanceSelector(state),
   }

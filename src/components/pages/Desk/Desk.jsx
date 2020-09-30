@@ -33,7 +33,15 @@ class Desk extends React.PureComponent {
   }
 
   componentDidMount() {
+    this.props.setLayoutConfig({
+      whiteHeader: false
+    })
+
     this.textInput.current.focus()
+  }
+
+  componentWillUnmount() {
+    this.props.resetLayoutConfig()
   }
 
   handleOnClick = code => () => {

@@ -2,9 +2,10 @@ import Desk from './Desk'
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 
-import { withRequiredLogin } from '../../hocs'
 import { requestData } from 'redux-saga-data'
-import withTracking from '../../hocs/withTracking'
+import { SET_LAYOUT_CONFIG, RESET_LAYOUT_CONFIG } from 'store/reducers/app'
+import { withRequiredLogin } from 'components/hocs'
+import withTracking from 'components/hocs/withTracking'
 
 export const mapDispatchToProps = dispatch => {
   return {
@@ -19,6 +20,20 @@ export const mapDispatchToProps = dispatch => {
         })
       )
     },
+
+    resetLayoutConfig: () => {
+      dispatch({
+        type: RESET_LAYOUT_CONFIG
+      })
+    },
+
+    setLayoutConfig: layoutConfig => {
+      dispatch({
+        type: SET_LAYOUT_CONFIG,
+        layoutConfig,
+      })
+    },
+
     validateBooking: (code, handleSuccess, handleFail) => {
       dispatch(
         requestData({
