@@ -6,6 +6,9 @@ export const selectCurrentUser = createSelector(
     if (users && users.length > 0) {
       return users[0]
     }
+    return {
+      publicName: 'Visitor'
+    }
   }
 )
 
