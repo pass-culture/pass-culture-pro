@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "jsx": "react",
+    "lib": ["es6"],
+    "moduleResolution": "node",
+    "noEmit": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "resolveJsonModule": true,
+    "target": "esnext",
+    "skipLibCheck": true
+  },
+  "exclude": [
+    "node_modules",
+    "config/**",
+    "jest.config.js",
+    "jest.setup.js",
+    "src/**/*.spec.ts",
+    "src/**/*.spec.tsx",
+    "*mock*",
+    "coverage/**"
+  ]
+}
