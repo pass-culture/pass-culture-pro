@@ -37,7 +37,7 @@ module.exports = {
         .concat('src')
         .join(path.delimiter)
     ),
-    extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx'],
+    extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx', 'ts', 'tsx'],
     alias: {
       'react-native': 'react-native-web',
     },
@@ -47,7 +47,7 @@ module.exports = {
     strictExportPresence: true,
     rules: [
       {
-        test: /\.(js|jsx|mjs)$/,
+        test: /\.(t|j)sx?$/,
         enforce: 'pre',
         use: [
           {
@@ -76,12 +76,11 @@ module.exports = {
             },
           },
           {
-            test: /\.(js|jsx|mjs)$/,
-            include: paths.appSrc,
-            loader: require.resolve('babel-loader'),
-            options: {
-              cacheDirectory: true,
+            test: /\.(ts|js)x?$/,
+            use: {
+              loader: 'ts-loader',
             },
+            exclude: /node_modules/,
           },
           {
             test: /\.s?css$/,
@@ -96,6 +95,12 @@ module.exports = {
             },
           },
         ]),
+      },
+      {
+        enforce: 'pre',
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'source-map-loader',
       },
     ],
   },

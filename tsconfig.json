@@ -1,5 +1,9 @@
 {
   "compilerOptions": {
+    "outDir": "./build/",        // path to output directory
+    "sourceMap": true,          // allow sourcemap support
+    "strictNullChecks": true,   // enable strict null checks as a best practice
+    "module": "es6",            // specifiy module code generation
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
@@ -7,13 +11,12 @@
     "jsx": "react",
     "lib": ["es6"],
     "moduleResolution": "node",
-    "noEmit": true,
     "strict": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "resolveJsonModule": true,
-    "target": "esnext",
+    "target": "es2015", // same as es6
     "skipLibCheck": true
   },
   "exclude": [
