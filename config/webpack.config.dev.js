@@ -7,6 +7,7 @@ const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin')
 const path = require('path')
 const paths = require('./paths')
 const WatchMissingNodeModulesPlugin = require('react-dev-utils/WatchMissingNodeModulesPlugin')
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const webpack = require('webpack')
 
 const publicPath = '/'
@@ -77,10 +78,27 @@ module.exports = {
           },
           {
             test: /\.(ts|js)x?$/,
-            use: {
-              loader: 'ts-loader',
-            },
+            include: paths.appSrc,
             exclude: /node_modules/,
+            use: {
+              loader: require.resolve('babel-loader'),
+              options: {
+                cacheDirectory: true,
+                cacheDirectory: false,
+                presets: [
+                  [
+                    "@babel/preset-env",
+                    { targets: "react-app" } // or whatever your project requires
+                  ],
+                  "@babel/preset-typescript",
+                  "@babel/preset-react"
+                ],
+                plugins: [
+                  ["@babel/plugin-proposal-class-properties", { loose: true }],
+                  "react-hot-loader/babel"
+                ]
+              },
+            }
           },
           {
             test: /\.s?css$/,
@@ -116,6 +134,7 @@ module.exports = {
     new CaseSensitivePathsPlugin(),
     new WatchMissingNodeModulesPlugin(paths.appNodeModules),
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new ForkTsCheckerWebpackPlugin(),
   ],
   node: {
     dgram: 'empty',

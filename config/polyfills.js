@@ -10,7 +10,7 @@ if (typeof Promise === 'undefined') {
 require('whatwg-fetch')
 
 // put all the polyfill we need...
-require('babel-polyfill')
+require('@babel/polyfill')
 
 // In tests, polyfill requestAnimationFrame since jsdom doesn't provide it yet.
 // We don't polyfill it in the browser--this is user's responsibility.
