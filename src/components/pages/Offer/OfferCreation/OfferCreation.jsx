@@ -386,8 +386,6 @@ class OfferCreation extends PureComponent {
       title = 'Détails de l’offre'
     }
 
-    let isDuoDefaultStatus = formInitialValues.isDuo
-
     const offererHasNoPhysicalVenues = offerer && get(venuesMatchingOfferType, 'length') === 0
 
     const displayDigitalOfferInformationMessage = !offerIsRefundable(selectedOfferType, venue)
@@ -659,7 +657,7 @@ class OfferCreation extends PureComponent {
                   <div className="select-duo-offer">
                     <input
                       className="offer-duo-checkbox input"
-                      defaultChecked={isDuoDefaultStatus}
+                      defaultChecked={formInitialValues.isDuo}
                       disabled={readOnly ? 'disabled' : ''}
                       id="isDuo"
                       onClick={this.handleCheckIsDuo}
