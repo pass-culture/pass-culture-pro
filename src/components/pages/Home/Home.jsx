@@ -1,13 +1,9 @@
 import React from 'react'
 
 import Card from './Card/Card'
-import Main from '../../layout/Main'
 
-const Home = () => (
-  <Main
-    name="home"
-    whiteHeader
-  >
+const Home = () => {
+  return (
     <div className="home-cards columns">
       <Card
         navLink="/guichet"
@@ -22,7 +18,7 @@ const Home = () => (
         title="Offres"
       />
     </div>
-  </Main>
-)
+  )
+}
 
 export default Home

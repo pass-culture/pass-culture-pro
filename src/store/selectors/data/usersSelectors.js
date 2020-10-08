@@ -6,6 +6,9 @@ export const selectCurrentUser = createSelector(
     if (users && users.length > 0) {
       return users[0]
     }
+    return {
+      publicName: 'Visitor',
+    }
   }
 )
 
@@ -16,12 +19,9 @@ export const resolveCurrentUser = userFromRequest => {
   return userFromRequest
 }
 
-export const selectIsUserAdmin = createSelector(
-  selectCurrentUser,
-  currentUser => {
-    if (!currentUser) {
-      return false
-    }
-    return currentUser.isAdmin
+export const selectIsUserAdmin = createSelector(selectCurrentUser, currentUser => {
+  if (!currentUser) {
+    return false
   }
-)
+  return currentUser.isAdmin
+})

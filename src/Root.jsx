@@ -7,7 +7,7 @@ import AppContainer from 'app/AppContainer'
 import NoMatchPage from 'components/pages/NoMatch/NoMatch'
 import MatomoContainer from 'components/matomo/MatomoContainer'
 import FeaturedRouteContainer from 'components/router/FeaturedRouteContainer'
-import routes from 'utils/routes_map'
+import routes, { routesWithMain } from 'utils/routes_map'
 import configureStore from 'store'
 
 const { store, persistor } = configureStore()
@@ -23,7 +23,7 @@ const Root = () => {
           <BrowserRouter>
             <AppContainer>
               <Switch>
-                {routes.map(route => {
+                {[...routes, ...routesWithMain].map(route => {
                   const isExact = typeof route.exact !== 'undefined' ? route.exact : true
                   // first props, last overrides
                   return (
