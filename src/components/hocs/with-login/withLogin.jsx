@@ -1,15 +1,17 @@
-
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
 import { requestData } from 'redux-saga-data'
 
-import { selectCurrentUser, resolveCurrentUser } from 'store/selectors/data/usersSelectors'
+import { selectCurrentUser } from 'store/users/selectors'
 
 export default (config = {}) => WrappedComponent => {
   const { handleFail, handleSuccess } = config
   const isRequired = typeof config.isRequired === 'undefined' ? true : config.isRequired
   const currentUserApiPath = '/users/current'
+
+  // TODO (rlecellier): this will be removed before merge !!!
+  const resolveCurrentUser = () => null
 
   class _withLogin extends PureComponent {
     constructor(props) {

@@ -3,12 +3,13 @@ import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { assignData, requestData } from 'redux-saga-data'
 
-import { withRequiredLogin } from 'components/hocs'
+import withFrenchQueryRouter from 'components/hocs/withFrenchQueryRouter'
 import { OFFERERS_API_PATH } from 'config/apiPaths'
 import {} from 'store/selectors/data/featuresSelectors'
 import { closeNotification, showNotificationV1 } from 'store/reducers/notificationReducer'
 import { isAPISireneAvailable } from 'store/selectors/data/featuresSelectors'
 import { selectOfferers } from 'store/selectors/data/offerersSelectors'
+import { selectCurrentUser } from 'store/users/selectors'
 import { offererNormalizer } from 'utils/normalizers'
 
 import Offerers from './Offerers'
@@ -32,6 +33,7 @@ export const mapStateToProps = state => {
     isOffererCreationAvailable: isAPISireneAvailable(state),
     notification: state.notification,
     offerers: selectOfferers(state),
+    currentUser: selectCurrentUser(state),
   }
 }
 
@@ -83,4 +85,7 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
   },
 })
 
-export default compose(withRequiredLogin, connect(mapStateToProps, mapDispatchToProps))(Offerers)
+export default compose(
+  withFrenchQueryRouter,
+  connect(mapStateToProps, mapDispatchToProps)
+)(Offerers)

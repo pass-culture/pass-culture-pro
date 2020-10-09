@@ -42,6 +42,9 @@ const routes = [
     component: SigninContainer,
     path: '/connexion',
     title: 'Connexion',
+    meta: {
+      public: true,
+    },
   },
   {
     component: DeskContainer,
@@ -52,6 +55,9 @@ const routes = [
     component: SignupContainer,
     path: '/inscription/(confirmation)?',
     title: 'Inscription',
+    meta: {
+      public: true,
+    },
   },
   {
     component: SignupValidationContainer,
@@ -62,6 +68,9 @@ const routes = [
     component: LostPasswordContainer,
     path: '/mot-de-passe-perdu',
     title: 'Mot de passe perdu',
+    meta: {
+      public: true,
+    },
   },
   {
     component: Offerers,

@@ -7,7 +7,7 @@ import RedirectToMaintenance from '../RedirectToMaintenance'
 describe('src | App', () => {
   it('should render App and children components when isMaintenanceActivated is false', () => {
     // Given
-    const props = { modalOpen: false, isMaintenanceActivated: false }
+    const props = { modalOpen: false, isMaintenanceActivated: false, getCurrentUser: jest.fn() }
 
     // When
     const wrapper = mount(
@@ -26,7 +26,7 @@ describe('src | App', () => {
 
   it('should render a Redirect component when isMaintenanceActivated is true', () => {
     // Given
-    const props = { modalOpen: false, isMaintenanceActivated: true }
+    const props = { modalOpen: false, isMaintenanceActivated: true, getCurrentUser: jest.fn() }
 
     // When
     const wrapper = shallow(

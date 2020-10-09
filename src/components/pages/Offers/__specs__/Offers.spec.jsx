@@ -89,9 +89,9 @@ describe('src | components | pages | Offers | Offers', () => {
     currentUser = { id: 'EY', isAdmin: false, name: 'Current User', publicName: 'USER' }
     store = configureTestStore({
       data: {
-        users: [currentUser],
         venues: [{ id: 'JI', name: 'Venue' }],
       },
+      users: { currentUser },
     })
 
     props = {

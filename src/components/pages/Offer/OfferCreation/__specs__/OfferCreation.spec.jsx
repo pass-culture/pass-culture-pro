@@ -34,7 +34,6 @@ const buildStore = (store = {}) => {
       state = {
         offerers: [],
         mediations: [],
-        users: [currentUser],
         venues: [{ id: 'JI', name: 'Venue' }],
       }
     ) => (store.data ? { ...state, ...store.data } : state),
@@ -55,6 +54,11 @@ const buildStore = (store = {}) => {
         searchFilters: {},
       }
     ) => (store.offers ? { ...state, ...store.offers } : state),
+    users: (
+      state = {
+        currentUser,
+      }
+    ) => (store.offers ? { ...state, ...store.users } : state),
   })
 }
 

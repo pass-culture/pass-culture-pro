@@ -14,7 +14,6 @@ export const initialState = {
   stocks: [],
   things: [],
   types: [],
-  users: [],
   userOfferers: [],
   venues: [],
   'venue-types': [],

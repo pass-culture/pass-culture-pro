@@ -1,13 +1,12 @@
-import { selectCurrentUser, selectIsUserAdmin } from '../usersSelectors'
+import { initialState } from 'store/users/reducer'
+import { selectCurrentUser, selectIsUserAdmin } from 'store/users/selectors'
 
 describe('users selectors', () => {
   describe('select if user is admin', () => {
     it('should return false when state contains no users', () => {
       // given
       const state = {
-        data: {
-          users: [],
-        },
+        users: initialState,
       }
 
       // when
@@ -20,13 +19,11 @@ describe('users selectors', () => {
     it('should return true when state contain an admin user', () => {
       // given
       const state = {
-        data: {
-          users: [
-            {
-              id: 'FA',
-              isAdmin: true,
-            },
-          ],
+        users: {
+          currentUser: {
+            id: 'FA',
+            isAdmin: true,
+          },
         },
       }
 
@@ -40,13 +37,11 @@ describe('users selectors', () => {
     it('should return false when state contain no admin user', () => {
       // given
       const state = {
-        data: {
-          users: [
-            {
-              id: 'EF',
-              isAdmin: false,
-            },
-          ],
+        users: {
+          currentUser: {
+            id: 'EF',
+            isAdmin: false,
+          },
         },
       }
 
@@ -63,14 +58,14 @@ describe('users selectors', () => {
       it('should return nothing', () => {
         // given
         const state = {
-          data: {},
+          users: initialState,
         }
 
         // when
         const user = selectCurrentUser(state)
 
         // then
-        expect(user).toBeUndefined()
+        expect(user).toBeNull()
       })
     })
 
@@ -78,12 +73,10 @@ describe('users selectors', () => {
       it('should return the first user', () => {
         // given
         const state = {
-          data: {
-            users: [
-              {
-                id: 'EF',
-              },
-            ],
+          users: {
+            currentUser: {
+              id: 'EF',
+            },
           },
         }
 

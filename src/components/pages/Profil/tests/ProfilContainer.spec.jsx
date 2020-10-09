@@ -1,4 +1,4 @@
-import { mapStateToProps } from '../ProfilContainer'
+import { mapStateToProps } from 'components/pages/Profil/ProfilContainer'
 
 describe('src | components | pages | Profil | ProfilContainer', () => {
   describe('mapStateToProps', () => {
@@ -6,7 +6,7 @@ describe('src | components | pages | Profil | ProfilContainer', () => {
       // given
       const id = '1'
       const state = {
-        data: { users: [{ id }] },
+        users: { currentUser: { id } },
       }
 
       // when
@@ -15,7 +15,7 @@ describe('src | components | pages | Profil | ProfilContainer', () => {
       // then
       expect(result).toStrictEqual({
         currentUser: {
-          id: '1',
+          id: id,
         },
       })
     })

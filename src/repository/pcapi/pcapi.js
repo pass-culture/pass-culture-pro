@@ -91,3 +91,18 @@ export const setAllVenueOffersInactivate = async venueId => {
 export const loadTypes = () => {
   return client.get(`/types`)
 }
+
+//
+// users
+//
+export const fetchCurrentUser = async () => {
+  return client.get('/users/current')
+}
+
+export const resetPasswordRequest = async email => {
+  return client.post('/users/reset-password', { email })
+}
+
+export const changePassword = async (newPassword, token) => {
+  return client.post('/users/new-password', { newPassword, token })
+}

@@ -1,4 +1,4 @@
-import { selectCurrentUser } from 'store/selectors/data/usersSelectors'
+import { selectCurrentUser } from 'store/users/selectors'
 
 function mapStateToProps(state) {
   return {

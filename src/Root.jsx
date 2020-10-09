@@ -24,6 +24,7 @@ const Root = () => {
             <AppContainer>
               <Switch>
                 {routes.map(route => {
+                  // TODO (rlecellier): only public route should be displayed when store.users.currentUser isn't set.
                   const isExact = typeof route.exact !== 'undefined' ? route.exact : true
                   // first props, last overrides
                   return (

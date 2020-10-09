@@ -1,4 +1,4 @@
-import state from '../../../utils/mocks/state'
+import state from 'components/utils/mocks/state'
 import { mapStateToProps, mapDispatchToProps, createApiPath } from '../OfferersContainer'
 
 describe('src | components | pages | Offerers | OfferersContainer', () => {
@@ -54,6 +54,7 @@ describe('src | components | pages | Offerers | OfferersContainer', () => {
             validationToken: 'w3hDQgjYRIyYTxOYY08nwgH3BzI',
           },
         ],
+        currentUser: state.users.currentUser,
       }
       expect(result).toStrictEqual(expected)
     })
@@ -62,7 +63,7 @@ describe('src | components | pages | Offerers | OfferersContainer', () => {
       it('should mark offerer creation possible when API sirene is available', () => {
         // given
         const props = {}
-        const state = {
+        const localState = {
           data: {
             features: [
               {
@@ -71,10 +72,11 @@ describe('src | components | pages | Offerers | OfferersContainer', () => {
               },
             ],
           },
+          users: state.users,
         }
 
         // when
-        const result = mapStateToProps(state, props)
+        const result = mapStateToProps(localState, props)
 
         // then
         expect(result).toHaveProperty('isOffererCreationAvailable', true)
@@ -83,7 +85,7 @@ describe('src | components | pages | Offerers | OfferersContainer', () => {
       it('should prevent offerer creation when feature API sirene is not available', () => {
         // given
         const props = {}
-        const state = {
+        const localState = {
           data: {
             features: [
               {
@@ -92,10 +94,11 @@ describe('src | components | pages | Offerers | OfferersContainer', () => {
               },
             ],
           },
+          users: state.users,
         }
 
         // when
-        const result = mapStateToProps(state, props)
+        const result = mapStateToProps(localState, props)
 
         // then
         expect(result).toHaveProperty('isOffererCreationAvailable', false)

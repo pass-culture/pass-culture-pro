@@ -32,8 +32,8 @@ describe('src | components | pages | LostPassword', () => {
     it('should display one input with submit button to receive user email', () => {
       // given
       const store = configureStore({
-        data: {
-          users: [{ id: 'CMOI' }],
+        users: {
+          currentUser: { id: 'CMOI' },
         },
       }).store
 
@@ -58,8 +58,8 @@ describe('src | components | pages | LostPassword', () => {
       it('submit button should not be disabled', () => {
         // given
         const store = configureStore({
-          data: {
-            users: [{ id: 'CMOI' }],
+          users: {
+            currentUser: { id: 'CMOI' },
           },
         }).store
 
@@ -80,6 +80,8 @@ describe('src | components | pages | LostPassword', () => {
     })
 
     describe('when user successfully request password change', () => {
+      // mock pcapi.
+
       it('should redirect success message page', () => {
         // when
         const wrapper = shallow(<LostPassword {...props} />)
@@ -113,8 +115,8 @@ describe('src | components | pages | LostPassword', () => {
     it('should display one input with submit button to receive new user password', () => {
       // given
       const store = configureStore({
-        data: {
-          users: [{ id: 'CMOI' }],
+        users: {
+          currentUser: { id: 'CMOI' },
         },
       }).store
 
@@ -142,8 +144,8 @@ describe('src | components | pages | LostPassword', () => {
       it('submit button should not be disabled', () => {
         // given
         const store = configureStore({
-          data: {
-            users: [{ id: 'CMOI' }],
+          users: {
+            currentUser: { id: 'CMOI' },
           },
         }).store
 

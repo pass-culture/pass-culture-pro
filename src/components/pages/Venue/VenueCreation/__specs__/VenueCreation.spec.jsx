@@ -5,7 +5,7 @@ import { Form } from 'react-final-form'
 import { Provider } from 'react-redux'
 import { Router } from 'react-router-dom'
 
-import * as usersSelectors from 'store/selectors/data/usersSelectors'
+import * as usersSelectors from 'store/users/selectors'
 
 import { getStubStore } from '../../../../../utils/stubStore'
 import AddressField from '../../fields/LocationFields/AddressField'
@@ -173,6 +173,11 @@ describe('src | components | pages | Venue', () => {
           modal: (
             state = {
               config: {},
+            }
+          ) => state,
+          users: (
+            state = {
+              currentUser: {},
             }
           ) => state,
         })

@@ -4,9 +4,8 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { MemoryRouter } from 'react-router'
 
-import configureStore from 'store'
-
-import Profil from '../Profil'
+import Profil from 'components/pages/Profil/Profil'
+import { configureTestStore } from 'store/testUtils'
 
 describe('src | components | pages | Profil', () => {
   let dispatch
@@ -31,12 +30,7 @@ describe('src | components | pages | Profil', () => {
       },
       dispatch,
     }
-    store = configureStore({
-      data: {
-        users: [{ id: 'CMOI', publicName: 'user' }],
-        offerers: [],
-      },
-    }).store
+    store = configureTestStore({ users: { currentUser: { id: 'CMOI', publicName: 'user' } } })
   })
 
   it('should render a Titles component with right properties', () => {

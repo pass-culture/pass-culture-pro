@@ -8,6 +8,7 @@ import TextInputWithIcon from 'components/layout/inputs/TextInputWithIcon/TextIn
 import Logo from 'components/layout/Logo'
 import Main from 'components/layout/Main'
 import PageTitle from 'components/layout/PageTitle/PageTitle'
+import * as pcapi from 'repository/pcapi/pcapi'
 
 class LostPassword extends PureComponent {
   constructor(props) {
@@ -44,28 +45,26 @@ class LostPassword extends PureComponent {
     this.setState({ hasPasswordResetRequestErrorMessage: true })
 
   submitResetPasswordRequest = event => {
-    event.preventDefault()
-    const { submitResetPasswordRequest } = this.props
-    const { emailValue } = this.state
+    const { emailValue: email } = this.state
 
-    return submitResetPasswordRequest(
-      emailValue,
-      this.redirectToResetPasswordRequestSuccessPage,
-      this.displayPasswordResetRequestErrorMessage
-    )
+    event.preventDefault()
+
+    pcapi
+      .resetPasswordRequest(email)
+      .then(() => this.redirectToResetPasswordRequestSuccessPage())
+      .catch(() => this.displayPasswordResetRequestErrorMessage())
   }
 
   submitResetPassword = event => {
-    event.preventDefault()
-    const { submitResetPassword, token } = this.props
+    const { token } = this.props
     const { newPasswordValue } = this.state
 
-    return submitResetPassword(
-      newPasswordValue,
-      token,
-      this.redirectToResetPasswordSuccessPage,
-      this.displayPasswordResetErrorMessages
-    )
+    event.preventDefault()
+
+    pcapi
+      .changePassword(newPasswordValue, token)
+      .then(() => this.redirectToResetPasswordRequestSuccessPage())
+      .catch(() => this.displayPasswordResetRequestErrorMessage())
   }
 
   handleInputEmailChange = event => {
@@ -264,8 +263,6 @@ class LostPassword extends PureComponent {
 LostPassword.propTypes = {
   change: PropTypes.bool.isRequired,
   envoye: PropTypes.bool.isRequired,
-  submitResetPassword: PropTypes.func.isRequired,
-  submitResetPasswordRequest: PropTypes.func.isRequired,
   token: PropTypes.string.isRequired,
 }
 
