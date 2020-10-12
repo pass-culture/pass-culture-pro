@@ -4,6 +4,7 @@ import React from 'react'
 import RedirectToMaintenance from './RedirectToMaintenance'
 
 export const App = ({ modalOpen, isMaintenanceActivated, children }) => {
+  // this is a new comment
   if (isMaintenanceActivated) {
     return <RedirectToMaintenance />
   } else return (
