@@ -4,7 +4,8 @@ import { compose } from 'redux'
 import { requestData } from 'redux-saga-data'
 
 import { withRequiredLogin } from 'components/hocs'
-import { SAVE_SEARCH_FILTERS } from 'store/reducers/offers'
+import { SET_ACTIONS_BAR_VISIBILITY } from 'store/reducers/actionsBar'
+import { SAVE_SEARCH_FILTERS, SET_SELECTED_OFFER_IDS } from 'store/reducers/offers'
 import { selectOffers } from 'store/selectors/data/offersSelectors'
 import { fetchFromApiWithCredentials } from 'utils/fetch'
 import { ALL_OFFERS, ALL_VENUES } from './_constants'
@@ -16,6 +17,7 @@ export const mapStateToProps = state => {
     notification: state.notification,
     offers: selectOffers(state),
     searchFilters: state.offers.searchFilters,
+    selectedOfferIds: state.offers.selectedOfferIds,
   }
 }
 
@@ -94,6 +96,19 @@ export const mapDispatchToProps = dispatch => {
           return { page, pageCount, offersCount }
         }
       ),
+    setActionsVisibility (actionsBarVisibility) {
+      dispatch({
+        actionsBarVisibility,
+        type: SET_ACTIONS_BAR_VISIBILITY,
+      })
+    },
+
+    setSelectedOfferIds: (selectedOfferIds) => {
+      dispatch({
+        selectedOfferIds,
+        type: SET_SELECTED_OFFER_IDS,
+      })
+    },
   }
 }
 

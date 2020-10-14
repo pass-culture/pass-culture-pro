@@ -3,14 +3,16 @@ import PropTypes from 'prop-types'
 import React, { Fragment, PureComponent } from 'react'
 import { Link } from 'react-router-dom'
 
-import { formatAndOrderVenues, fetchAllVenuesByProUser } from '../../../services/venuesService'
-import { mapApiToBrowser, translateQueryParamsToApiParams } from '../../../utils/translate'
-import Select from '../../layout/inputs/Select'
-import TextInput from '../../layout/inputs/TextInput/TextInput'
-import Main from '../../layout/Main'
-import Spinner from '../../layout/Spinner'
-import Titles from '../../layout/Titles/Titles'
+import Select from 'components/layout/inputs/Select'
+import TextInput from 'components/layout/inputs/TextInput/TextInput'
+import Main from 'components/layout/Main'
+import Spinner from 'components/layout/Spinner'
+import Titles from 'components/layout/Titles/Titles'
+import { formatAndOrderVenues, fetchAllVenuesByProUser } from 'services/venuesService'
+import { mapApiToBrowser, translateQueryParamsToApiParams } from 'utils/translate'
+
 import { ALL_OFFERS, ALL_VENUES, ALL_VENUES_OPTION, DEFAULT_PAGE } from './_constants'
+import ActionsBar from './ActionsBar/'
 import OfferItemContainer from './OfferItem/OfferItemContainer'
 
 class Offers extends PureComponent {
@@ -126,6 +128,20 @@ class Offers extends PureComponent {
     })
   }
 
+  setSelected = (offerId, selected) => {
+    const { setActionsVisibility, setSelectedOfferIds, selectedOfferIds } = this.props
+
+    let newSelectedOfferIds = [...selectedOfferIds]
+    if (selected) {
+      newSelectedOfferIds.push(offerId)
+    } else {
+      const offerIdIndex = newSelectedOfferIds.indexOf(offerId)
+      newSelectedOfferIds.splice(offerIdIndex, 1)
+    }
+    setSelectedOfferIds(newSelectedOfferIds)
+    setActionsVisibility(!!newSelectedOfferIds.length)
+  }
+
   render() {
     const {
       currentUser,
@@ -133,6 +149,7 @@ class Offers extends PureComponent {
       handleOnActivateAllVenueOffersClick,
       offers,
       query,
+      selectedOfferIds,
     } = this.props
 
     const { isAdmin } = currentUser || {}
@@ -163,6 +180,7 @@ class Offers extends PureComponent {
 
     return (
       <Main
+        PageActionsBar={ActionsBar}
         id="offers"
         name="offers"
       >
@@ -230,6 +248,7 @@ class Offers extends PureComponent {
                   <tr>
                     <th />
                     <th />
+                    <th />
                     <th>
                       {'Lieu'}
                     </th>
@@ -249,6 +268,8 @@ class Offers extends PureComponent {
                       key={offer.id}
                       offer={offer}
                       refreshOffers={this.getPaginatedOffersWithFilters}
+                      selected={selectedOfferIds.includes(offer.id)}
+                      setSelected={this.setSelected}
                     />
                   ))}
                 </tbody>
@@ -287,6 +308,7 @@ class Offers extends PureComponent {
 }
 
 Offers.defaultProps = {
+  selectedOfferIds: [],
   venue: undefined,
 }
 
@@ -302,6 +324,9 @@ Offers.propTypes = {
     parse: PropTypes.func.isRequired,
   }).isRequired,
   saveSearchFilters: PropTypes.func.isRequired,
+  selectedOfferIds: PropTypes.arrayOf(PropTypes.string),
+  setActionsVisibility: PropTypes.func.isRequired,
+  setSelectedOfferIds: PropTypes.func.isRequired,
   venue: PropTypes.shape({
     name: PropTypes.string.isRequired,
   }),

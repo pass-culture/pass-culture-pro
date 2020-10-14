@@ -1,6 +1,7 @@
 import { form, loading, notification, tracker } from 'pass-culture-shared'
 import { combineReducers } from 'redux'
 
+import actionsBar from './actionsBar'
 import bookingSummary from './bookingSummary/bookingSummary'
 import data from './data'
 import errors from './errors'
@@ -9,6 +10,7 @@ import modal from './modal'
 import offers from './offers'
 
 const rootReducer = combineReducers({
+  actionsBar,
   bookingSummary,
   data,
   errors,

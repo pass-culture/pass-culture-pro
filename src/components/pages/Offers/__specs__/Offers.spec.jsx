@@ -4,7 +4,11 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { MemoryRouter } from 'react-router'
 
-import { getStubStore } from 'utils/stubStore'
+import configureStore from 'store'
+import { initialState as actionsBarInitialState } from 'store/reducers/actionsBar'
+import { initialState as dataInitialState } from 'store/reducers/data'
+import { initialState as modalInitialState } from 'store/reducers/modal'
+import { initialState as offersInitialState } from 'store/reducers/offers'
 import { fetchAllVenuesByProUser } from 'services/venuesService'
 import { ALL_OFFERS, ALL_VENUES, ALL_VENUES_OPTION, DEFAULT_PAGE } from '../_constants'
 import Offers from '../Offers'
@@ -58,25 +62,16 @@ describe('src | components | pages | Offers | Offers', () => {
     change = jest.fn()
     parse = jest.fn().mockReturnValue({})
     currentUser = { id: 'EY', isAdmin: false, name: 'Current User', publicName: 'USER' }
-    store = getStubStore({
-      data: (
-        state = {
-          offerers: [],
-          users: [currentUser],
-          venues: [{ id: 'JI', name: 'Venue' }],
-        }
-      ) => state,
-      modal: (
-        state = {
-          config: {},
-        }
-      ) => state,
-      offers: (
-        state = {
-          searchFilters: {},
-        }
-      ) => state,
-    })
+    store = configureStore({
+      actionsBar: actionsBarInitialState,
+      data: {
+        ...dataInitialState,
+        users: [currentUser],
+        venues: [{ id: 'JI', name: 'Venue' }],
+      },
+      modal: modalInitialState,
+      offers: offersInitialState,
+    }).store
 
     props = {
       closeNotification: jest.fn(),
@@ -95,6 +90,8 @@ describe('src | components | pages | Offers | Offers', () => {
         change,
         parse,
       },
+      setSelectedOfferIds: jest.fn(),
+      setActionsVisibility: jest.fn(),
       venue: { name: 'Ma Venue', id: 'JI' },
     }
     fetchAllVenuesByProUser.mockResolvedValue(proVenues)

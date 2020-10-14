@@ -4,12 +4,12 @@ import { Link } from 'react-router-dom'
 
 import Icon from 'components/layout/Icon'
 import Thumb from 'components/layout/Thumb'
-import { computeOfferStatus } from 'components/pages/Offers/domain/computeOfferStatus'
-import { pluralize } from 'utils/pluralize'
-import { OFFER_STATUS } from 'components/pages/Offers/domain/offerStatus'
-import { isOfferFullyBooked } from 'components/pages/Offers/domain/isOfferFullyBooked'
 import { fetchFromApiWithCredentials } from 'utils/fetch'
 import { computeVenueDisplayName } from 'services/venuesService'
+import { pluralize } from 'utils/pluralize'
+
+import { computeOfferStatus } from '../domain/computeOfferStatus'
+import { OFFER_STATUS } from '../domain/offerStatus'
 
 const OFFER_STATUS_PROPERTIES = {
   [OFFER_STATUS.INACTIVE]: {
@@ -37,6 +37,8 @@ const OfferItem = ({
   trackActivateOffer,
   trackDeactivateOffer,
   venue,
+  selected,
+  setSelected,
 }) => {
   function handleOnDeactivateClick() {
     const { id, isActive } = offer || {}
@@ -50,6 +52,10 @@ const OfferItem = ({
     })
 
     isActive ? trackDeactivateOffer(id) : trackActivateOffer(id)
+  }
+
+  function handleOnChangeSelected() {
+    setSelected(offer.id, !selected)
   }
 
   const buildStocksDetail = (offer, stockSize) => {
@@ -86,6 +92,15 @@ const OfferItem = ({
 
   return (
     <tr className={`offer-item ${isOfferInactiveOrExpired ? 'inactive' : ''} offer-row`}>
+      <td className="thumb-column">
+        <input
+          checked={selected}
+          className="select-offer-checkbox"
+          id={`select-offer-${offer.id}`}
+          onChange={handleOnChangeSelected}
+          type="checkbox"
+        />
+      </td>
       <td className="thumb-column">
         <Thumb url={offer.thumbUrl} />
       </td>
@@ -155,9 +170,15 @@ const OfferItem = ({
   )
 }
 
+OfferItem.defaultProps = {
+  selected: false,
+}
+
 OfferItem.propTypes = {
   offer: PropTypes.shape().isRequired,
   refreshOffers: PropTypes.func.isRequired,
+  selected: PropTypes.bool,
+  setSelected: PropTypes.func.isRequired,
   stocks: PropTypes.arrayOf(PropTypes.shape()).isRequired,
   trackActivateOffer: PropTypes.func.isRequired,
   trackDeactivateOffer: PropTypes.func.isRequired,

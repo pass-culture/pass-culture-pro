@@ -44,6 +44,7 @@
     "lodash.debounce": "^4.0.8",
     "lodash.get": "^4.4.2",
     "lodash.invert": "^4.3.0",
+    "lodash.omit": "^4.5.0",
     "lodash.uniq": "^4.5.0",
     "lodash.uniqby": "^4.7.0",
     "moment": "^2.29.1",
@@ -87,6 +88,7 @@
     "with-query-router": "3.2.1"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.0.4",
     "@types/jest": "^26.0.14",
     "autoprefixer": "9.6.1",
