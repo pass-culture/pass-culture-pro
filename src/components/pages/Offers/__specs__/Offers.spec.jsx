@@ -40,6 +40,7 @@ jest.mock('services/venuesService', () => ({
   ...jest.requireActual('services/venuesService'),
   fetchAllVenuesByProUser: jest.fn(),
 }))
+
 describe('src | components | pages | Offers | Offers', () => {
   let change
   let parse
@@ -707,6 +708,35 @@ describe('src | components | pages | Offers | Offers', () => {
       wrapper.update()
       const rightArrow = wrapper.find('img[alt="Aller à la page suivante"]').closest('button')
       expect(rightArrow.prop('disabled')).toBe(true)
+    })
+  })
+
+  describe('offers selection interaction with action bar', () => {
+    it('should display/hide actionBar when offers selection change', async () => {
+      // Given
+      renderOffers(props, store)
+      let checkbox
+      await waitFor(() => (checkbox = screen.getByTestId('select-offer-N9')))
+
+      // When
+      fireEvent.click(checkbox)
+
+      // Then
+      await waitFor(() => expect(props.setActionsVisibility).toHaveBeenLastCalledWith(true))
+    })
+
+    it('should hide actionBar when all offers are unselected', async () => {
+      // Given
+      props.selectedOfferIds = ['N9']
+      renderOffers(props, store)
+      let checkbox
+      await waitFor(() => (checkbox = screen.getByTestId('select-offer-N9', { checked: true })))
+
+      // When
+      fireEvent.click(checkbox)
+
+      // Then
+      await waitFor(() => expect(props.setActionsVisibility).toHaveBeenLastCalledWith(false))
     })
   })
 })

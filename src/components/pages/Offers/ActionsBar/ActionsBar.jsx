@@ -2,25 +2,40 @@ import PropTypes from 'prop-types'
 import React from 'react'
 
 import Icon from 'components/layout/Icon'
+import { fetchFromApiWithCredentials } from 'utils/fetch'
 
 const ActionsBar = ({ selectedOfferIds, setActionsBarVisibility, setSelectedOfferIds }) => {
   const nbSelectedOffers = selectedOfferIds.length
   function handleActivate() {
-    // TODO: add redux thunk action call
-    console.log('handleActivate')
+    const body = {
+      ids: selectedOfferIds,
+      isActive: true,
+    }
+
+    fetchFromApiWithCredentials('/offers/active-status', 'PATCH', body)
+    // This logic should be include in a redux action
+    // refreshOffers({ shouldTriggerSpinner: false })
+    // trackActivateOffer(id)
   }
   function handleDeactivate() {
-    // TODO: add redux thunk action call
-    console.log('handleDeactivate')
+    const body = {
+      ids: selectedOfferIds,
+      isActive: false,
+    }
+    fetchFromApiWithCredentials('/offers/active-status', 'PATCH', body)
+    // refreshOffers({ shouldTriggerSpinner: false })
+    // trackDeactivateOffer(id)
   }
   function handleClose() {
-    console.log('handleClose')
     setSelectedOfferIds([])
     setActionsBarVisibility(false)
   }
 
   return (
-    <div className="offer-actions-bar">
+    <div
+      className="offers-actions-bar"
+      data-testid="offers-actions-bar"
+    >
       <span className="nb-offers-description">
         {(() => {
           if (nbSelectedOffers > 1) {
@@ -65,6 +80,7 @@ ActionsBar.defaultProps = {
 
 ActionsBar.propTypes = {
   selectedOfferIds: PropTypes.arrayOf(PropTypes.string),
+  setActionsBarVisibility: PropTypes.func.isRequired,
   setSelectedOfferIds: PropTypes.func.isRequired,
 }
 

@@ -96,6 +96,7 @@ const OfferItem = ({
         <input
           checked={selected}
           className="select-offer-checkbox"
+          data-testid={`select-offer-${offer.id}`}
           id={`select-offer-${offer.id}`}
           onChange={handleOnChangeSelected}
           type="checkbox"
