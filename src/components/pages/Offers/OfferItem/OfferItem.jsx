@@ -5,9 +5,9 @@ import { Link } from 'react-router-dom'
 import { isOfferFullyBooked } from 'components/pages/Offers/domain/isOfferFullyBooked'
 import Icon from 'components/layout/Icon'
 import Thumb from 'components/layout/Thumb'
-import { fetchFromApiWithCredentials } from 'utils/fetch'
 import { computeVenueDisplayName } from 'services/venuesService'
 import { pluralize } from 'utils/pluralize'
+import pcapi from 'services/pcapi'
 
 import { computeOfferStatus } from '../domain/computeOfferStatus'
 import { OFFER_STATUS } from '../domain/offerStatus'
@@ -41,18 +41,18 @@ const OfferItem = ({
   isSelected,
   selectOffer,
 }) => {
-  function handleOnDeactivateClick() {
+  async function handleToggleActive() {
     const { id, isActive } = offer || {}
-    const body = {
-      ids: [id],
-      isActive: !isActive,
-    }
 
-    fetchFromApiWithCredentials('/offers/active-status', 'PATCH', body).then(() => {
+    if (isActive) {
+      await pcapi.offers.deactivateOffers([id])
       refreshOffers({ shouldTriggerSpinner: false })
-    })
-
-    isActive ? trackDeactivateOffer(id) : trackActivateOffer(id)
+      trackDeactivateOffer(id)
+    } else {
+      await pcapi.offers.activateOffers([id])
+      refreshOffers({ shouldTriggerSpinner: false })
+      trackActivateOffer(id)
+    }
   }
 
   function handleOnChangeSelected() {
@@ -152,7 +152,7 @@ const OfferItem = ({
       <td className="switch-column">
         <button
           className="secondary-button"
-          onClick={handleOnDeactivateClick}
+          onClick={handleToggleActive}
           type="button"
         >
           {offer.isActive ? 'Désactiver' : 'Activer'}

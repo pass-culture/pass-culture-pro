@@ -2,11 +2,12 @@ import React from 'react'
 import { mount } from 'enzyme'
 import { MemoryRouter } from 'react-router'
 import OfferItem from '../OfferItem'
-import { fetchFromApiWithCredentials } from 'utils/fetch'
+import pcapi from 'services/pcapi'
 
-jest.mock('utils/fetch', () => {
+jest.mock('services/pcapi', () => {
   return {
-    fetchFromApiWithCredentials: jest.fn().mockImplementation(() => Promise.resolve()),
+    activateOffers: jest.fn().mockImplementation(() => Promise.resolve()),
+    deactivateOffers: jest.fn().mockImplementation(() => Promise.resolve()),
   }
 })
 
@@ -39,6 +40,7 @@ describe('src | components | pages | Offers | OfferItem', () => {
       },
       trackActivateOffer: jest.fn(),
       trackDeactivateOffer: jest.fn(),
+      selectOffer: jest.fn(),
       refreshOffers: jest.fn(),
     }
   })
@@ -90,11 +92,7 @@ describe('src | components | pages | Offers | OfferItem', () => {
           disableButton.invoke('onClick')()
 
           // then
-          expect(fetchFromApiWithCredentials).toHaveBeenCalledWith(
-            '/offers/active-status',
-            'PATCH',
-            { isActive: false, ids: ['M4'] }
-          )
+          expect(pcapi.deactivateOffers).toHaveBeenCalledWith(['M4'])
         })
 
         it('should activate when offer is not active', () => {
@@ -111,11 +109,7 @@ describe('src | components | pages | Offers | OfferItem', () => {
           disableButton.invoke('onClick')()
 
           // then
-          expect(fetchFromApiWithCredentials).toHaveBeenCalledWith(
-            '/offers/active-status',
-            'PATCH',
-            { isActive: true, ids: ['M4'] }
-          )
+          expect(pcapi.activateOffers).toHaveBeenCalledWith(['M4'])
         })
       })
 
