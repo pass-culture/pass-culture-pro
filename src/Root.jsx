@@ -1,4 +1,4 @@
-import React, { StrictMode } from 'react'
+import React, { StrictMode, Suspense } from 'react'
 import { Provider } from 'react-redux'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { PersistGate } from 'redux-persist/integration/react'
@@ -22,20 +22,27 @@ const Root = () => {
         >
           <BrowserRouter>
             <AppContainer>
-              <Switch>
-                {routes.map(route => {
-                  const isExact = typeof route.exact !== 'undefined' ? route.exact : true
-                  // first props, last overrides
-                  return (
-                    <FeaturedRouteContainer
-                      {...route}
-                      exact={isExact}
-                      key={route.path}
-                    />
-                  )
-                })}
-                <Route component={NoMatchPage} />
-              </Switch>
+              <Suspense fallback={(
+                <div>
+                  {'Chanrgement...'}
+                </div>
+              )}
+              >
+                <Switch>
+                  {routes.map(route => {
+                    const isExact = typeof route.exact !== 'undefined' ? route.exact : true
+                    // first props, last overrides
+                    return (
+                      <FeaturedRouteContainer
+                        {...route}
+                        exact={isExact}
+                        key={route.path}
+                      />
+                    )
+                  })}
+                  <Route component={NoMatchPage} />
+                </Switch>
+              </Suspense>
               <MatomoContainer />
             </AppContainer>
           </BrowserRouter>

@@ -1,27 +1,44 @@
-import React from 'react'
+import React, { lazy } from 'react'
 import { Redirect } from 'react-router'
-import BookingsRecapContainer from '../components/pages/Bookings/BookingsRecapContainer'
-import CsvDetailViewContainer from '../components/layout/CsvTable/CsvTableContainer'
-import DeskContainer from '../components/pages/Desk/DeskContainer'
-import HomeContainer from '../components/pages/Home/HomeContainer'
 import LostPasswordContainer from '../components/pages/LostPassword/LostPasswordContainer'
-import Mediation from '../components/pages/Mediation/MediationContainer'
-import Offers from '../components/pages/Offers/OffersContainer'
-import OfferCreation from '../components/pages/Offer/OfferCreation/OfferCreationContainer'
-import OfferEdition from '../components/pages/Offer/OfferEdition/OfferEditionContainer'
-import Offerers from '../components/pages/Offerers/OfferersContainer'
-import OffererCreationContainer from '../components/pages/Offerer/OffererCreation/OffererCreationContainer'
-import OffererDetailsContainer from '../components/pages/Offerer/OffererDetails/OffererDetailsContainer'
-import ProfilContainer from '../components/pages/Profil/ProfilContainer'
-import ReimbursementsContainer from '../components/pages/Reimbursements/ReimbursementsContainer'
 import SigninContainer from '../components/pages/Signin/SigninContainer'
 import SignupContainer from '../components/pages/Signup/SignupContainer'
 import SignupValidationContainer from '../components/pages/Signup/SignupValidation/SignupValidationContainer'
-import VenueCreationContainer from '../components/pages/Venue/VenueCreation/VenueCreationContainer'
-import VenueEditionContainer from '../components/pages/Venue/VenueEdition/VenueEditionContainer'
 import Unavailable from '../components/pages/Errors/Unavailable/Unavailable'
 import { UNAVAILABLE_ERROR_PAGE } from './routes'
-import StyleguideContainer from '../components/pages/Styleguide/StyleguideContainer'
+
+const BookingsRecapContainer = lazy(() =>
+  import('../components/pages/Bookings/BookingsRecapContainer')
+)
+const CsvDetailViewContainer = lazy(() => import('../components/layout/CsvTable/CsvTableContainer'))
+const DeskContainer = lazy(() => import('../components/pages/Desk/DeskContainer'))
+const HomeContainer = lazy(() => import('../components/pages/Home/HomeContainer'))
+const Mediation = lazy(() => import('../components/pages/Mediation/MediationContainer'))
+const Offers = lazy(() => import('../components/pages/Offers/OffersContainer'))
+const OfferCreation = lazy(() =>
+  import('../components/pages/Offer/OfferCreation/OfferCreationContainer')
+)
+const OfferEdition = lazy(() =>
+  import('../components/pages/Offer/OfferEdition/OfferEditionContainer')
+)
+const Offerers = lazy(() => import('../components/pages/Offerers/OfferersContainer'))
+const OffererCreationContainer = lazy(() =>
+  import('../components/pages/Offerer/OffererCreation/OffererCreationContainer')
+)
+const OffererDetailsContainer = lazy(() =>
+  import('../components/pages/Offerer/OffererDetails/OffererDetailsContainer')
+)
+const ProfilContainer = lazy(() => import('../components/pages/Profil/ProfilContainer'))
+const ReimbursementsContainer = lazy(() =>
+  import('../components/pages/Reimbursements/ReimbursementsContainer')
+)
+const VenueCreationContainer = lazy(() =>
+  import('../components/pages/Venue/VenueCreation/VenueCreationContainer')
+)
+const VenueEditionContainer = lazy(() =>
+  import('../components/pages/Venue/VenueEdition/VenueEditionContainer')
+)
+const StyleguideContainer = lazy(() => import('../components/pages/Styleguide/StyleguideContainer'))
 
 const RedirectToConnexionComponent = () => <Redirect to="/connexion" />
 
