@@ -84,7 +84,7 @@ export function getObjectWithMappedKeys(obj, keysMap) {
 export const mapBrowserToApi = {
   de: 'from',
   lieu: 'venueId',
-  [`mots-cles`]: 'keywords',
+  ['mots-cles']: 'keywords',
   nom: 'name',
   remboursements: 'reimbursements',
   reservations: 'bookings',
@@ -92,6 +92,7 @@ export const mapBrowserToApi = {
   stock: 'stockIdOrNew',
   active: 'active',
   inactive: 'inactive',
+  epuisee: 'soldOut',
 }
 
 export const mapApiToBrowser = invert(mapBrowserToApi)

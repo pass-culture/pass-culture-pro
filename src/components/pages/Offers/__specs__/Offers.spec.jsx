@@ -127,6 +127,7 @@ describe('src | components | pages | Offers | Offers', () => {
         statusFilters: {
           active: true,
           inactive: true,
+          soldOut: true,
         },
       })
     })
@@ -286,6 +287,7 @@ describe('src | components | pages | Offers | Offers', () => {
           expect(screen.queryByText('Afficher les statuts')).toBeNull()
           expect(screen.queryByText('Active', { selector: 'label' })).toBeNull()
           expect(screen.queryByText('Inactive', { selector: 'label' })).toBeNull()
+          expect(screen.queryByText('Épuisée', { selector: 'label' })).toBeNull()
           expect(screen.queryByText('Appliquer', { selector: 'button' })).toBeNull()
         })
 
@@ -301,6 +303,7 @@ describe('src | components | pages | Offers | Offers', () => {
           expect(screen.queryByText('Afficher les statuts')).toBeInTheDocument()
           expect(screen.queryByLabelText('Active')).toBeChecked()
           expect(screen.queryByLabelText('Inactive')).toBeChecked()
+          expect(screen.queryByLabelText('Épuisée')).toBeChecked()
           expect(screen.queryByText('Appliquer', { selector: 'button' })).toBeInTheDocument()
         })
 
@@ -323,8 +326,26 @@ describe('src | components | pages | Offers | Offers', () => {
             statusFilters: {
               active: false,
               inactive: true,
+              soldOut: true,
             },
           })
+        })
+
+        it('should not allow to uncheck the last checked status filter', async () => {
+          // Given
+          props.offers = [{ id: 'KE', availabilityMessage: 'Pas de stock', venueId: 'JI' }]
+          await renderOffers(props, store)
+          fireEvent.click(screen.queryByAltText('Afficher ou masquer les filtres par statut'))
+
+          // When
+          fireEvent.click(screen.queryByLabelText('Active'))
+          fireEvent.click(screen.queryByLabelText('Inactive'))
+          fireEvent.click(screen.queryByLabelText('Épuisée'))
+
+          // Then
+          expect(screen.queryByLabelText('Active')).not.toBeChecked()
+          expect(screen.queryByLabelText('Inactive')).not.toBeChecked()
+          expect(screen.queryByLabelText('Épuisée')).toBeChecked()
         })
 
         it('should hide status filters when clicking outside the modal', async () => {
@@ -361,6 +382,7 @@ describe('src | components | pages | Offers | Offers', () => {
           statusFilters: {
             active: true,
             inactive: true,
+            soldOut: true,
           },
         })
       })
@@ -386,6 +408,7 @@ describe('src | components | pages | Offers | Offers', () => {
           statusFilters: {
             active: true,
             inactive: true,
+            soldOut: true,
           },
         })
       })
@@ -412,6 +435,7 @@ describe('src | components | pages | Offers | Offers', () => {
           statusFilters: {
             active: true,
             inactive: true,
+            soldOut: true,
           },
         })
       })
@@ -570,6 +594,7 @@ describe('src | components | pages | Offers | Offers', () => {
           structure: null,
           active: null,
           inactive: null,
+          epuisee: null,
         })
       })
     })
@@ -596,6 +621,7 @@ describe('src | components | pages | Offers | Offers', () => {
           structure: null,
           active: null,
           inactive: null,
+          epuisee: null,
         })
       })
     })
@@ -621,6 +647,7 @@ describe('src | components | pages | Offers | Offers', () => {
           structure: null,
           active: null,
           inactive: null,
+          epuisee: null,
         })
       })
     })
@@ -643,6 +670,7 @@ describe('src | components | pages | Offers | Offers', () => {
           page: DEFAULT_PAGE,
           active: false,
           inactive: false,
+          soldOut: false,
         })
       })
     })
@@ -668,6 +696,7 @@ describe('src | components | pages | Offers | Offers', () => {
           structure: null,
           active: null,
           inactive: null,
+          epuisee: null,
         })
       })
     })
@@ -692,6 +721,7 @@ describe('src | components | pages | Offers | Offers', () => {
           structure: null,
           active: null,
           inactive: null,
+          epuisee: null,
         })
       })
     })
@@ -716,6 +746,7 @@ describe('src | components | pages | Offers | Offers', () => {
           structure: null,
           active: null,
           inactive: null,
+          epuisee: null,
         })
       })
     })
@@ -739,6 +770,7 @@ describe('src | components | pages | Offers | Offers', () => {
           active: null,
           inactive: EXCLUDING_STATUS_VALUE,
           structure: null,
+          epuisee: null,
         })
       })
     })
@@ -761,6 +793,7 @@ describe('src | components | pages | Offers | Offers', () => {
           active: null,
           inactive: null,
           structure: null,
+          epuisee: null,
         })
       })
     })
@@ -849,6 +882,7 @@ describe('src | components | pages | Offers | Offers', () => {
         statusFilters: {
           active: true,
           inactive: true,
+          soldOut: true,
         },
       })
     })
@@ -873,6 +907,7 @@ describe('src | components | pages | Offers | Offers', () => {
         statusFilters: {
           active: true,
           inactive: true,
+          soldOut: true,
         },
       })
     })

@@ -33,11 +33,13 @@ class Offers extends PureComponent {
       name: nameKeywords,
       offererId,
       page,
+      soldOut,
       venueId: selectedVenueId,
     } = translateQueryParamsToApiParams(props.query.parse())
 
     const isFilteredByActiveStatus = active === EXCLUDING_STATUS_VALUE
     const isFilteredByInactiveStatus = inactive === EXCLUDING_STATUS_VALUE
+    const isFilteredBySoldOutStatus = soldOut === EXCLUDING_STATUS_VALUE
 
     this.state = {
       isLoading: false,
@@ -52,6 +54,7 @@ class Offers extends PureComponent {
       statusFilters: {
         active: !isFilteredByActiveStatus,
         inactive: !isFilteredByInactiveStatus,
+        soldOut: !isFilteredBySoldOutStatus,
       },
       areStatusFiltersVisible: false,
       isFilteredByStatus: isFilteredByActiveStatus || isFilteredByInactiveStatus,
@@ -88,6 +91,7 @@ class Offers extends PureComponent {
       [mapApiToBrowser.offererId]: offererId === ALL_OFFERERS ? null : offererId,
       [mapApiToBrowser.active]: statusFilters.active ? null : EXCLUDING_STATUS_VALUE,
       [mapApiToBrowser.inactive]: statusFilters.inactive ? null : EXCLUDING_STATUS_VALUE,
+      [mapApiToBrowser.soldOut]: statusFilters.soldOut ? null : EXCLUDING_STATUS_VALUE,
     })
   }
 
@@ -118,7 +122,8 @@ class Offers extends PureComponent {
   loadAndUpdateOffers() {
     const { loadOffers } = this.props
     const { nameSearchValue, selectedVenueId, offererId, page, statusFilters } = this.state
-    const isFilteredByStatus = !statusFilters.active || !statusFilters.inactive
+    const isFilteredByStatus =
+      !statusFilters.active || !statusFilters.inactive || !statusFilters.soldOut
 
     loadOffers({ nameSearchValue, selectedVenueId, offererId, page, statusFilters })
       .then(({ page, pageCount, offersCount }) => {
@@ -152,6 +157,7 @@ class Offers extends PureComponent {
       page,
       active: !statusFilters.active && EXCLUDING_STATUS_VALUE,
       inactive: !statusFilters.inactive && EXCLUDING_STATUS_VALUE,
+      soldOut: !statusFilters.soldOut && EXCLUDING_STATUS_VALUE,
     })
 
     shouldTriggerSpinner && this.setState({ isLoading: true })

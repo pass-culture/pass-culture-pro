@@ -79,7 +79,7 @@ describe('pcapi', () => {
 
     it('should call offers route with filters when provided', async () => {
       // Given
-      const statusFilters = { active: false, inactive: false }
+      const statusFilters = { active: false, inactive: false, soldOut: false }
       const filters = { nameSearchValue: 'OCS', selectedVenueId: 'AA', page: 2, statusFilters }
 
       // When
@@ -87,7 +87,7 @@ describe('pcapi', () => {
 
       // Then
       expect(client.get).toHaveBeenCalledWith(
-        '/offers?name=OCS&venueId=AA&page=2&active=false&inactive=false'
+        '/offers?name=OCS&venueId=AA&page=2&active=false&inactive=false&sold-out=false'
       )
     })
 
