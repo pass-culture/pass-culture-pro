@@ -192,6 +192,42 @@ describe('src | components | pages | Offers | Offers', () => {
       await waitFor(() => expect(screen.queryByText('My other offer')).not.toBeNull())
     })
 
+    it('should display a checkbox to select all offers', async () => {
+      // Given
+      props.offers = [
+        {
+          id: 'M4',
+          isActive: true,
+          isEditable: true,
+          isFullyBooked: false,
+          isEvent: true,
+          isThing: false,
+          hasBookingLimitDatetimesPassed: false,
+          name: 'My little offer',
+          thumbUrl: '/my-fake-thumb',
+          venueId: 'JI',
+        },
+        {
+          id: 'AE3',
+          isActive: true,
+          isEditable: true,
+          isFullyBooked: true,
+          isEvent: false,
+          isThing: true,
+          hasBookingLimitDatetimesPassed: false,
+          name: 'My other offer',
+          thumbUrl: '/my-other-fake-thumb',
+          venueId: 'JI',
+        },
+      ]
+
+      // When
+      renderOffers(props, store)
+
+      // Then
+      await waitFor(() => expect(screen.queryByText('Tout sélectionner')).not.toBeNull())
+    })
+
     describe('total number of offers', () => {
       it('should display total number of offers in plural if multiple offers', async () => {
         // Given
@@ -547,6 +583,108 @@ describe('src | components | pages | Offers | Offers', () => {
       await waitFor(() =>
         expect(props.handleOnDeactivateAllVenueOffersClick).toHaveBeenCalledWith('GY')
       )
+    })
+  })
+
+  describe('on click on select all offers checkbox', () => {
+    it('should display "Tout déselectionner" when initial label was "Tout sélectionner"', async () => {
+      // Given
+      await renderOffers(props, store)
+
+      // When
+      fireEvent.click(screen.getByLabelText('Tout sélectionner'))
+
+      // Then
+      expect(screen.queryByText('Tout déselectionner')).not.toBeNull()
+    })
+
+    it('should display "Tout sélectionner" when initial label was "Tout déselectionner"', async () => {
+      // Given
+      await renderOffers(props, store)
+      fireEvent.click(screen.getByLabelText('Tout sélectionner'))
+
+      // When
+      fireEvent.click(screen.getByLabelText('Tout déselectionner'))
+
+      // Then
+      expect(screen.queryByText('Tout sélectionner')).not.toBeNull()
+    })
+
+    it('should check all offers checkboxes', async () => {
+      // Given
+      props.offers = [
+        {
+          id: 'M4',
+          isActive: true,
+          isEditable: true,
+          isFullyBooked: false,
+          isEvent: true,
+          isThing: false,
+          hasBookingLimitDatetimesPassed: false,
+          name: 'My little offer',
+          thumbUrl: '/my-fake-thumb',
+          venueId: 'JI',
+        },
+        {
+          id: 'AE3',
+          isActive: true,
+          isEditable: true,
+          isFullyBooked: true,
+          isEvent: false,
+          isThing: true,
+          hasBookingLimitDatetimesPassed: false,
+          name: 'My other offer',
+          thumbUrl: '/my-other-fake-thumb',
+          venueId: 'JI',
+        },
+      ]
+      await renderOffers(props, store)
+
+      // When
+      await waitFor(() => {
+        fireEvent.click(screen.getByLabelText('Tout sélectionner'))
+      })
+
+      // Then
+      expect(props.setSelectedOfferIds).toHaveBeenCalledWith(['M4', 'AE3'])
+    })
+
+    it('should uncheck all offers checkboxes when already checked', async () => {
+      // Given
+      props.offers = [
+        {
+          id: 'M4',
+          isActive: true,
+          isEditable: true,
+          isFullyBooked: false,
+          isEvent: true,
+          isThing: false,
+          hasBookingLimitDatetimesPassed: false,
+          name: 'My little offer',
+          thumbUrl: '/my-fake-thumb',
+          venueId: 'JI',
+        },
+        {
+          id: 'AE3',
+          isActive: true,
+          isEditable: true,
+          isFullyBooked: true,
+          isEvent: false,
+          isThing: true,
+          hasBookingLimitDatetimesPassed: false,
+          name: 'My other offer',
+          thumbUrl: '/my-other-fake-thumb',
+          venueId: 'JI',
+        },
+      ]
+      await renderOffers(props, store)
+      fireEvent.click(screen.getByLabelText('Tout sélectionner'))
+
+      // When
+      fireEvent.click(screen.getByLabelText('Tout déselectionner'))
+
+      // Then
+      expect(props.setSelectedOfferIds).toHaveBeenCalledWith([])
     })
   })
 
@@ -909,7 +1047,7 @@ describe('src | components | pages | Offers | Offers', () => {
   })
 
   describe('offers selection', () => {
-    it('should display actionBar when at lest one offer is selected', async () => {
+    it('should display actionBar when at least one offer is selected', async () => {
       // Given
       renderOffers(props, store)
       let checkbox

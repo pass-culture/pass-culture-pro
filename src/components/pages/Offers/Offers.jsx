@@ -402,7 +402,7 @@ class Offers extends PureComponent {
                         <input
                           checked={areAllOffersSelected}
                           className="select-offer-checkbox"
-                          onClick={this.selectAllOffers}
+                          onChange={this.selectAllOffers}
                           type="checkbox"
                         />
                         {areAllOffersSelected ? 'Tout déselectionner' : 'Tout sélectionner'}
