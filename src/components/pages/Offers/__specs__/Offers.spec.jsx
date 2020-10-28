@@ -285,12 +285,12 @@ describe('src | components | pages | Offers | Offers', () => {
 
           // Then
           expect(screen.queryByText('Statut')).toBeInTheDocument()
-          expect(screen.queryByText('Afficher les statuts')).toBeNull()
-          expect(screen.queryByText('Active', { selector: 'label' })).toBeNull()
-          expect(screen.queryByText('Inactive', { selector: 'label' })).toBeNull()
-          expect(screen.queryByText('Épuisée', { selector: 'label' })).toBeNull()
-          expect(screen.queryByText('Expirée', { selector: 'label' })).toBeNull()
-          expect(screen.queryByText('Appliquer', { selector: 'button' })).toBeNull()
+          expect(screen.queryByText('Afficher les statuts')).not.toBeInTheDocument()
+          expect(screen.queryByLabelText('Active')).not.toBeInTheDocument()
+          expect(screen.queryByLabelText('Inactive')).not.toBeInTheDocument()
+          expect(screen.queryByLabelText('Épuisée')).not.toBeInTheDocument()
+          expect(screen.queryByLabelText('Expirée')).not.toBeInTheDocument()
+          expect(screen.queryByLabelText('Appliquer')).not.toBeInTheDocument()
         })
 
         it('should display status filters checked by default when clicking on "Statut" filter icon', async () => {
@@ -299,7 +299,7 @@ describe('src | components | pages | Offers | Offers', () => {
           await renderOffers(props, store)
 
           // When
-          fireEvent.click(screen.queryByAltText('Afficher ou masquer les filtres par statut'))
+          fireEvent.click(screen.getByAltText('Afficher ou masquer les filtres par statut'))
 
           // Then
           expect(screen.queryByText('Afficher les statuts')).toBeInTheDocument()
@@ -314,11 +314,11 @@ describe('src | components | pages | Offers | Offers', () => {
           // Given
           props.offers = [{ id: 'KE', availabilityMessage: 'Pas de stock', venueId: 'JI' }]
           await renderOffers(props, store)
-          fireEvent.click(screen.queryByAltText('Afficher ou masquer les filtres par statut'))
-          fireEvent.click(screen.queryByLabelText('Active'))
+          fireEvent.click(screen.getByAltText('Afficher ou masquer les filtres par statut'))
+          fireEvent.click(screen.getByLabelText('Active'))
 
           // When
-          fireEvent.click(screen.queryByText('Appliquer'))
+          fireEvent.click(screen.getByText('Appliquer'))
 
           // Then
           expect(props.loadOffers).toHaveBeenLastCalledWith({
@@ -339,13 +339,13 @@ describe('src | components | pages | Offers | Offers', () => {
           // Given
           props.offers = [{ id: 'KE', availabilityMessage: 'Pas de stock', venueId: 'JI' }]
           await renderOffers(props, store)
-          fireEvent.click(screen.queryByAltText('Afficher ou masquer les filtres par statut'))
+          fireEvent.click(screen.getByAltText('Afficher ou masquer les filtres par statut'))
 
           // When
-          fireEvent.click(screen.queryByLabelText('Active'))
-          fireEvent.click(screen.queryByLabelText('Inactive'))
-          fireEvent.click(screen.queryByLabelText('Épuisée'))
-          fireEvent.click(screen.queryByLabelText('Expirée'))
+          fireEvent.click(screen.getByLabelText('Active'))
+          fireEvent.click(screen.getByLabelText('Inactive'))
+          fireEvent.click(screen.getByLabelText('Épuisée'))
+          fireEvent.click(screen.getByLabelText('Expirée'))
 
           // Then
           expect(screen.queryByLabelText('Active')).not.toBeChecked()
@@ -358,10 +358,10 @@ describe('src | components | pages | Offers | Offers', () => {
           // Given
           props.offers = [{ id: 'KE', availabilityMessage: 'Pas de stock', venueId: 'JI' }]
           await renderOffers(props, store)
-          fireEvent.click(screen.queryByAltText('Afficher ou masquer les filtres par statut'))
+          fireEvent.click(screen.getByAltText('Afficher ou masquer les filtres par statut'))
 
           // When
-          fireEvent.click(screen.queryByText('5 offres'))
+          fireEvent.click(screen.getByText('5 offres'))
 
           // Then
           expect(screen.queryByText('Afficher les statuts')).toBeNull()

@@ -31,16 +31,16 @@ export const loadFilteredOffers = async ({
     queryParams.push(`page=${page}`)
   }
   if (statusFilters && statusFilters.active === false) {
-    queryParams.push(`active=false`)
+    queryParams.push('active=false')
   }
   if (statusFilters && statusFilters.inactive === false) {
-    queryParams.push(`inactive=false`)
+    queryParams.push('inactive=false')
   }
   if (statusFilters && statusFilters.soldOut === false) {
-    queryParams.push(`sold-out=false`)
+    queryParams.push('sold-out=false')
   }
   if (statusFilters && statusFilters.expired === false) {
-    queryParams.push(`expired=false`)
+    queryParams.push('expired=false')
   }
 
   return client.get(`/offers?${queryParams.join('&')}`)
