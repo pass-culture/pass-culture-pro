@@ -73,6 +73,15 @@ export const OffersStatusFiltersModal = ({
         />
         {'Épuisée'}
       </label>
+      <label>
+        <input
+          checked={statusFilters.expired}
+          name="expired"
+          onChange={handleStatusFilterChange}
+          type="checkbox"
+        />
+        {'Expirée'}
+      </label>
       <button
         className="primary-button"
         onClick={refreshOffers}
@@ -88,6 +97,7 @@ OffersStatusFiltersModal.propTypes = {
   refreshOffers: PropTypes.func.isRequired,
   statusFilters: PropTypes.shape({
     active: PropTypes.bool.isRequired,
+    expired: PropTypes.bool.isRequired,
     inactive: PropTypes.bool.isRequired,
     soldOut: PropTypes.bool.isRequired,
   }).isRequired,

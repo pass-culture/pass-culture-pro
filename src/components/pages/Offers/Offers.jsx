@@ -34,12 +34,14 @@ class Offers extends PureComponent {
       offererId,
       page,
       soldOut,
+      expired,
       venueId: selectedVenueId,
     } = translateQueryParamsToApiParams(props.query.parse())
 
     const isFilteredByActiveStatus = active === EXCLUDING_STATUS_VALUE
     const isFilteredByInactiveStatus = inactive === EXCLUDING_STATUS_VALUE
     const isFilteredBySoldOutStatus = soldOut === EXCLUDING_STATUS_VALUE
+    const isFilteredByExpiredStatus = expired === EXCLUDING_STATUS_VALUE
 
     this.state = {
       isLoading: false,
@@ -55,6 +57,7 @@ class Offers extends PureComponent {
         active: !isFilteredByActiveStatus,
         inactive: !isFilteredByInactiveStatus,
         soldOut: !isFilteredBySoldOutStatus,
+        expired: !isFilteredByExpiredStatus,
       },
       areStatusFiltersVisible: false,
       isFilteredByStatus: isFilteredByActiveStatus || isFilteredByInactiveStatus,
@@ -92,6 +95,7 @@ class Offers extends PureComponent {
       [mapApiToBrowser.active]: statusFilters.active ? null : EXCLUDING_STATUS_VALUE,
       [mapApiToBrowser.inactive]: statusFilters.inactive ? null : EXCLUDING_STATUS_VALUE,
       [mapApiToBrowser.soldOut]: statusFilters.soldOut ? null : EXCLUDING_STATUS_VALUE,
+      [mapApiToBrowser.expired]: statusFilters.expired ? null : EXCLUDING_STATUS_VALUE,
     })
   }
 
@@ -123,7 +127,10 @@ class Offers extends PureComponent {
     const { loadOffers } = this.props
     const { nameSearchValue, selectedVenueId, offererId, page, statusFilters } = this.state
     const isFilteredByStatus =
-      !statusFilters.active || !statusFilters.inactive || !statusFilters.soldOut
+      !statusFilters.active ||
+      !statusFilters.inactive ||
+      !statusFilters.soldOut ||
+      !statusFilters.expired
 
     loadOffers({ nameSearchValue, selectedVenueId, offererId, page, statusFilters })
       .then(({ page, pageCount, offersCount }) => {
@@ -158,6 +165,7 @@ class Offers extends PureComponent {
       active: !statusFilters.active && EXCLUDING_STATUS_VALUE,
       inactive: !statusFilters.inactive && EXCLUDING_STATUS_VALUE,
       soldOut: !statusFilters.soldOut && EXCLUDING_STATUS_VALUE,
+      expired: !statusFilters.expired && EXCLUDING_STATUS_VALUE,
     })
 
     shouldTriggerSpinner && this.setState({ isLoading: true })

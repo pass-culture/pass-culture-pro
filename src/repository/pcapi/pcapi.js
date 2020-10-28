@@ -39,6 +39,9 @@ export const loadFilteredOffers = async ({
   if (statusFilters && statusFilters.soldOut === false) {
     queryParams.push(`sold-out=false`)
   }
+  if (statusFilters && statusFilters.expired === false) {
+    queryParams.push(`expired=false`)
+  }
 
   return client.get(`/offers?${queryParams.join('&')}`)
 }

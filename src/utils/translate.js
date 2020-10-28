@@ -93,6 +93,7 @@ export const mapBrowserToApi = {
   active: 'active',
   inactive: 'inactive',
   epuisee: 'soldOut',
+  expiree: 'expired',
 }
 
 export const mapApiToBrowser = invert(mapBrowserToApi)
