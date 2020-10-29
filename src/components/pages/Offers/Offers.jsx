@@ -376,7 +376,7 @@ class Offers extends PureComponent {
                     <th>
                       {'Stock'}
                     </th>
-                    {true ? (
+                    {false ? (
                       <th>
                         {'Statut'}
                       </th>
