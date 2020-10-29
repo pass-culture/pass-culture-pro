@@ -162,3 +162,8 @@ export const createStock = stock => {
 export const getURLErrors = url => {
   return client.post('/offers/thumbnail-url-validation', { url: url })
 }
+
+//
+// user
+//
+export const signout = () => client.get('/users/signout')
