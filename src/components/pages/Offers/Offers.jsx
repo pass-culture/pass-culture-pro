@@ -438,7 +438,7 @@ class Offers extends PureComponent {
                           onChange={this.selectAllOffers}
                           type="checkbox"
                         />
-                        {areAllOffersSelected ? 'Tout désélectionner' : 'Tout sélectionner'}
+                        {areAllOffersSelected ? 'Tout déselectionner' : 'Tout sélectionner'}
                       </label>
                     </th>
                     <th />
