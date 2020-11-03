@@ -81,12 +81,15 @@ class Offers extends PureComponent {
 
   componentWillUnmount() {
     const { closeNotification, notification, setSelectedOfferIds, hideActionsBar } = this.props
+    const { areAllOffersSelected } = this.state
     if (notification && notification.tag === 'offers-activation') {
       closeNotification()
     }
 
-    setSelectedOfferIds([])
-    hideActionsBar()
+    if (areAllOffersSelected) {
+      setSelectedOfferIds([])
+      hideActionsBar()
+    }
   }
 
   updateUrlMatchingState = () => {
