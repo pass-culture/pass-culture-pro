@@ -96,7 +96,7 @@ const OfferItem = ({
     <tr className={`offer-item ${isOfferInactiveOrExpired ? 'inactive' : ''} offer-row`}>
       <td className="select-column">
         <input
-          checked={isSelected || areAllOffersSelected}
+          checked={isSelected}
           className="select-offer-checkbox"
           data-testid={`select-offer-${offer.id}`}
           disabled={areAllOffersSelected}

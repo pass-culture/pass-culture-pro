@@ -11,7 +11,6 @@ import ActionsBar from './ActionsBar'
 export const mapStateToProps = state => {
   return {
     selectedOfferIds: state.offers.selectedOfferIds,
-    searchFilters: state.offers.searchFilters,
   }
 }
 
