@@ -25,10 +25,12 @@ const ActionsBar = props => {
     trackActivateOffers,
     trackDeactivateOffers,
     toggleSelectAllCheckboxes,
+    allOffersLength,
     areAllOffersSelected,
     searchFilters,
-    nbSelectedOffers,
   } = props
+
+  const nbSelectedOffers = selectedOfferIds.length
 
   const handleClose = useCallback(() => {
     setSelectedOfferIds([])
@@ -36,60 +38,80 @@ const ActionsBar = props => {
     areAllOffersSelected && toggleSelectAllCheckboxes()
   }, [hideActionsBar, setSelectedOfferIds, areAllOffersSelected, toggleSelectAllCheckboxes])
 
-  const handleUpdateOffersStatus = useCallback(
-    isActivating => {
-      const bodyAllActiveStatus = {
+  const handleActivate = useCallback(async () => {
+    const body = {
+      ids: selectedOfferIds,
+      isActive: true,
+    }
+
+    if (areAllOffersSelected) {
+      await fetchFromApiWithCredentials('/offers/all-active-status', 'PATCH', {
         ...searchFilters,
-        isActive: isActivating,
-      }
-      const bodySomeActiveStatus = {
-        ids: selectedOfferIds,
-        isActive: isActivating,
-      }
-      const body = areAllOffersSelected ? bodyAllActiveStatus : bodySomeActiveStatus
-      const apiPath = areAllOffersSelected ? '/offers/all-active-status' : '/offers/active-status'
-
-      fetchFromApiWithCredentials(apiPath, 'PATCH', body).then(() => {
-        refreshOffers({ shouldTriggerSpinner: false })
-        showSuccessNotification(
-          isActivating
-            ? computeActivationSuccessMessage(nbSelectedOffers)
-            : computeDeactivationSuccessMessage(nbSelectedOffers)
-        )
-        handleClose()
-        if (!areAllOffersSelected) {
-          isActivating
-            ? trackActivateOffers(selectedOfferIds)
-            : trackDeactivateOffers(selectedOfferIds)
-        }
+        isActive: true,
       })
-    },
-    [
-      areAllOffersSelected,
-      searchFilters,
-      refreshOffers,
-      showSuccessNotification,
-      trackActivateOffers,
-      trackDeactivateOffers,
-      handleClose,
-      nbSelectedOffers,
-      selectedOfferIds,
-    ]
-  )
+      refreshOffers({ shouldTriggerSpinner: false })
+      showSuccessNotification(computeActivationSuccessMessage(allOffersLength))
+      handleClose()
+    } else {
+      await fetchFromApiWithCredentials('/offers/active-status', 'PATCH', body)
+      refreshOffers({ shouldTriggerSpinner: false })
+      showSuccessNotification(computeActivationSuccessMessage(nbSelectedOffers))
+      handleClose()
+      trackActivateOffers(selectedOfferIds)
+      handleClose()
+    }
+  }, [
+    selectedOfferIds,
+    refreshOffers,
+    showSuccessNotification,
+    nbSelectedOffers,
+    handleClose,
+    trackActivateOffers,
+    allOffersLength,
+  ])
 
-  const handleActivate = useCallback(() => {
-    handleUpdateOffersStatus(true)
-  }, [handleUpdateOffersStatus])
+  const handleDeactivate = useCallback(async () => {
+    const body = {
+      ids: selectedOfferIds,
+      isActive: false,
+    }
 
-  const handleDeactivate = useCallback(() => {
-    handleUpdateOffersStatus(false)
-  }, [handleUpdateOffersStatus])
+    if (areAllOffersSelected) {
+      await fetchFromApiWithCredentials('/offers/all-active-status', 'PATCH', {
+        ...searchFilters,
+        isActive: false,
+      })
+      refreshOffers({ shouldTriggerSpinner: false })
+      showSuccessNotification(computeDeactivationSuccessMessage(allOffersLength))
+      handleClose()
+    } else {
+      await fetchFromApiWithCredentials('/offers/active-status', 'PATCH', body)
+      refreshOffers({ shouldTriggerSpinner: false })
+      showSuccessNotification(computeDeactivationSuccessMessage(nbSelectedOffers))
+      handleClose()
+      trackDeactivateOffers(selectedOfferIds)
+      handleClose()
+    }
+  }, [
+    selectedOfferIds,
+    refreshOffers,
+    showSuccessNotification,
+    nbSelectedOffers,
+    handleClose,
+    trackDeactivateOffers,
+    allOffersLength,
+  ])
 
   const computeSelectedOffersLabel = () => {
+    if (areAllOffersSelected) {
+      return allOffersLength > 1
+        ? `${allOffersLength} offres sélectionnées`
+        : `${allOffersLength} offre sélectionnée`
+    }
+
     if (nbSelectedOffers > 1) {
       return `${nbSelectedOffers} offres sélectionnées`
     }
-
     return `${nbSelectedOffers} offre sélectionnée`
   }
 

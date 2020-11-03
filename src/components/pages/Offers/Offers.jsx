@@ -278,14 +278,22 @@ class Offers extends PureComponent {
       showActionsBar,
       setSelectedOfferIds,
       hideActionsBar,
+      selectedOfferIds,
     } = this.props
     const { areAllOffersSelected } = this.state
 
-    const selectedOfferIds = areAllOffersSelected ? [] : offers.map((offer) => offer.id)
-    selectedOfferIds.length ? showActionsBar() : hideActionsBar()
-    setSelectedOfferIds(selectedOfferIds)
+    this.setState({ areAllOffersSelected: !areAllOffersSelected })
+    let newSelectedOfferIds = [...selectedOfferIds]
 
-    this.toggleSelectAllCheckboxes()
+    if (!areAllOffersSelected) {
+      offers.forEach(offer => newSelectedOfferIds.push(offer.id))
+      showActionsBar()
+    } else {
+      newSelectedOfferIds.length = 0
+      hideActionsBar()
+    }
+
+    setSelectedOfferIds(newSelectedOfferIds)
   }
 
   toggleSelectAllCheckboxes = () => {
@@ -294,13 +302,12 @@ class Offers extends PureComponent {
   }
 
   getOffersActionsBar = () => {
-    const { selectedOfferIds } = this.props
     const { areAllOffersSelected, offersCount } = this.state
 
     return (
       <ActionsBarContainer
+        allOffersLength={offersCount}
         areAllOffersSelected={areAllOffersSelected}
-        nbSelectedOffers={areAllOffersSelected ? offersCount : selectedOfferIds.length}
         refreshOffers={this.getPaginatedOffersWithFilters}
         toggleSelectAllCheckboxes={this.toggleSelectAllCheckboxes}
       />
@@ -424,19 +431,17 @@ class Offers extends PureComponent {
                 <thead>
                   <tr>
                     <th className="th-checkbox">
-                      <input
-                        checked={areAllOffersSelected}
-                        className="select-offer-checkbox"
-                        id="select-offer-checkbox"
-                        onChange={this.selectAllOffers}
-                        type="checkbox"
-                      />
-                    </th>
-                    <th className="th-checkbox-label">
-                      <label htmlFor="select-offer-checkbox">
+                      <label>
+                        <input
+                          checked={areAllOffersSelected}
+                          className="select-offer-checkbox"
+                          onChange={this.selectAllOffers}
+                          type="checkbox"
+                        />
                         {areAllOffersSelected ? 'Tout désélectionner' : 'Tout sélectionner'}
                       </label>
                     </th>
+                    <th />
                     <th />
                     <th>
                       {'Lieu'}
@@ -482,8 +487,8 @@ class Offers extends PureComponent {
                 <tbody className="offers-list">
                   {offers.map(offer => (
                     <OfferItemContainer
-                      disabled={areAllOffersSelected}
-                      isSelected={areAllOffersSelected || selectedOfferIds.includes(offer.id)}
+                      areAllOffersSelected={areAllOffersSelected}
+                      isSelected={selectedOfferIds.includes(offer.id)}
                       key={offer.id}
                       offer={offer}
                       refreshOffers={this.getPaginatedOffersWithFilters}
