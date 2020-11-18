@@ -10,6 +10,7 @@ import Main from 'components/layout/Main'
 import PageTitle from 'components/layout/PageTitle/PageTitle'
 import Spinner from 'components/layout/Spinner'
 import Titles from 'components/layout/Titles/Titles'
+import { NoOfferPage } from 'components/pages/Offers/NoOfferPage/NoOfferPage'
 import * as pcapi from 'repository/pcapi/pcapi'
 import { fetchAllVenuesByProUser, formatAndOrderVenues } from 'repository/venuesService'
 import { mapApiToBrowser, mapBrowserToApi, translateQueryParamsToApiParams } from 'utils/translate'
@@ -19,11 +20,11 @@ import PeriodSelector from '../../layout/inputs/PeriodSelector/PeriodSelector'
 import {
   DEFAULT_SEARCH_FILTERS,
   ALL_VENUES_OPTION,
+  ADMINS_DISABLED_FILTERS_MESSAGE,
   ALL_TYPES_OPTION,
   CREATION_MODES_FILTERS,
   DEFAULT_CREATION_MODE,
   DEFAULT_PAGE,
-  ADMINS_DISABLED_FILTERS_MESSAGE,
 } from './_constants'
 import ActionsBarContainer from './ActionsBar/ActionsBarContainer'
 import OfferItemContainer from './OfferItem/OfferItemContainer'
@@ -408,32 +409,6 @@ class Offers extends PureComponent {
     )
   }
 
-  renderNoOffers = () => {
-    return (
-      <div className="no-search-results">
-        <Icon
-          className="image"
-          svg="ico-ticket-gray"
-        />
-
-        <p className="highlight">
-          {'Aucune offre'}
-        </p>
-        <p>
-          {"Vous n'avez pas encore créé d'offre."}
-        </p>
-
-        <Link
-          className="primary-button with-icon"
-          to="/offres/creation"
-        >
-          <Icon svg="ico-plus" />
-          {'Créer ma première offre'}
-        </Link>
-      </div>
-    )
-  }
-
   renderTableHead = () => {
     const { offers, savedSearchFilters } = this.props
     const { areAllOffersSelected, isStatusFiltersVisible, searchFilters } = this.state
@@ -660,7 +635,7 @@ class Offers extends PureComponent {
             </div>
           </Fragment>
         ) : (
-          this.renderNoOffers()
+          <NoOfferPage />
         )}
       </Main>
     )
