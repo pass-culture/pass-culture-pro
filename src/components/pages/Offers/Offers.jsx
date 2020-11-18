@@ -10,6 +10,7 @@ import Main from 'components/layout/Main'
 import PageTitle from 'components/layout/PageTitle/PageTitle'
 import Spinner from 'components/layout/Spinner'
 import Titles from 'components/layout/Titles/Titles'
+import { CreateOfferActionLink } from 'components/pages/Offers/CreateOfferActionLink/CreateOfferActionLink'
 import { NoOfferPage } from 'components/pages/Offers/NoOfferPage/NoOfferPage'
 import { ResetFiltersLink } from 'components/pages/Offers/ResetFiltersLink/ResetFiltersLink'
 import * as pcapi from 'repository/pcapi/pcapi'
@@ -579,22 +580,6 @@ class Offers extends PureComponent {
     const { isAdmin } = currentUser || {}
 
     const hasOffers = !!offers.length || this.hasSearchFilters(savedSearchFilters)
-    const displayOffers = isLoading || hasOffers
-
-    const actionLink =
-      !displayOffers || isAdmin ? null : (
-        <Link
-          className="cta button is-primary"
-          to="/offres/creation"
-        >
-          <span className="icon">
-            <Icon svg="ico-offres-w" />
-          </span>
-          <span>
-            {'Créer une offre'}
-          </span>
-        </Link>
-      )
 
     return (
       <Main
@@ -603,12 +588,12 @@ class Offers extends PureComponent {
         name="offers"
       >
         <PageTitle title="Vos offres" />
-        <Titles
-          action={actionLink}
-          title="Offres"
-        />
-        {displayOffers ? (
+        {isLoading || hasOffers ? (
           <Fragment>
+            <Titles
+              action={!isAdmin && <CreateOfferActionLink />}
+              title="Offres"
+            />
             <span className="subtitle-container">
               <h3 className="subtitle">
                 {'Rechercher une offre'}
