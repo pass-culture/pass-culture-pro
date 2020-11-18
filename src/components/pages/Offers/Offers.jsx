@@ -1,11 +1,8 @@
-import moment from 'moment/moment'
 import PropTypes from 'prop-types'
 import React, { Fragment, PureComponent } from 'react'
 import { Link } from 'react-router-dom'
 
 import Icon from 'components/layout/Icon'
-import Select from 'components/layout/inputs/Select'
-import TextInput from 'components/layout/inputs/TextInput/TextInput'
 import Main from 'components/layout/Main'
 import PageTitle from 'components/layout/PageTitle/PageTitle'
 import Spinner from 'components/layout/Spinner'
@@ -13,20 +10,15 @@ import Titles from 'components/layout/Titles/Titles'
 import { CreateOfferActionLink } from 'components/pages/Offers/CreateOfferActionLink/CreateOfferActionLink'
 import { NoOfferPage } from 'components/pages/Offers/NoOfferPage/NoOfferPage'
 import { ResetFiltersLink } from 'components/pages/Offers/ResetFiltersLink/ResetFiltersLink'
+import { SearchFilters } from 'components/pages/Offers/SearchFilters/SearchFilters'
 import * as pcapi from 'repository/pcapi/pcapi'
 import { fetchAllVenuesByProUser, formatAndOrderVenues } from 'repository/venuesService'
 import { mapApiToBrowser, mapBrowserToApi, translateQueryParamsToApiParams } from 'utils/translate'
 
-import PeriodSelector from '../../layout/inputs/PeriodSelector/PeriodSelector'
-
 import {
-  DEFAULT_SEARCH_FILTERS,
-  ALL_VENUES_OPTION,
   ADMINS_DISABLED_FILTERS_MESSAGE,
-  ALL_TYPES_OPTION,
-  CREATION_MODES_FILTERS,
-  DEFAULT_CREATION_MODE,
   DEFAULT_PAGE,
+  DEFAULT_SEARCH_FILTERS,
 } from './_constants'
 import ActionsBarContainer from './ActionsBar/ActionsBarContainer'
 import OfferItemContainer from './OfferItem/OfferItemContainer'
@@ -329,88 +321,6 @@ class Offers extends PureComponent {
     this.setSearchFilters({ periodEndingDate: dateToFilter })
   }
 
-  renderSearchFilters = () => {
-    const { searchFilters, typeOptions, venueOptions, offerer } = this.state
-    const formattedPeriodBeginningDate =
-      searchFilters.periodBeginningDate && moment(searchFilters.periodBeginningDate)
-    const formattedPeriodEndingDate =
-      searchFilters.periodEndingDate && moment(searchFilters.periodEndingDate)
-
-    return (
-      <Fragment>
-        {offerer && (
-          <span className="offerer-filter">
-            {offerer.name}
-            <button
-              onClick={this.handleOffererFilterRemoval}
-              type="button"
-            >
-              <Icon
-                alt="Supprimer le filtre par structure"
-                svg="ico-close-b"
-              />
-            </button>
-          </span>
-        )}
-        <form onSubmit={this.handleOnSubmit}>
-          <TextInput
-            label="Nom de l’offre"
-            name="offre"
-            onChange={this.storeNameSearchValue}
-            placeholder="Rechercher par nom d’offre"
-            value={searchFilters.name}
-          />
-          <div className="form-row">
-            <Select
-              defaultOption={ALL_VENUES_OPTION}
-              handleSelection={this.storeSelectedVenue}
-              label="Lieu"
-              name="lieu"
-              options={venueOptions}
-              selectedValue={searchFilters.venueId}
-            />
-            <Select
-              defaultOption={ALL_TYPES_OPTION}
-              handleSelection={this.storeSelectedType}
-              label="Catégories"
-              name="type"
-              options={typeOptions}
-              selectedValue={searchFilters.typeId}
-            />
-            <Select
-              defaultOption={DEFAULT_CREATION_MODE}
-              handleSelection={this.storeCreationMode}
-              label="Mode de création"
-              name="creationMode"
-              options={CREATION_MODES_FILTERS}
-              selectedValue={searchFilters.creationMode}
-            />
-            <PeriodSelector
-              changePeriodBeginningDateValue={this.changePeriodBeginningDateValue}
-              changePeriodEndingDateValue={this.changePeriodEndingDateValue}
-              isDisabled={false}
-              label="Période de l’évènement"
-              maxDateBeginning={formattedPeriodEndingDate}
-              minDateEnding={formattedPeriodBeginningDate}
-              periodBeginningDate={formattedPeriodBeginningDate}
-              periodEndingDate={formattedPeriodEndingDate}
-            />
-          </div>
-          <div className="search-separator">
-            <div className="separator" />
-            <button
-              className="primary-button"
-              type="submit"
-            >
-              {'Lancer la recherche'}
-            </button>
-            <div className="separator" />
-          </div>
-        </form>
-      </Fragment>
-    )
-  }
-
   renderTableHead = () => {
     const { offers, savedSearchFilters } = this.props
     const { areAllOffersSelected, isStatusFiltersVisible, searchFilters } = this.state
@@ -576,7 +486,7 @@ class Offers extends PureComponent {
 
   render() {
     const { currentUser, offers, savedSearchFilters } = this.props
-    const { isLoading } = this.state
+    const { isLoading, searchFilters, typeOptions, venueOptions, offerer } = this.state
     const { isAdmin } = currentUser || {}
 
     const hasOffers = !!offers.length || this.hasSearchFilters(savedSearchFilters)
@@ -591,7 +501,7 @@ class Offers extends PureComponent {
         {isLoading || hasOffers ? (
           <Fragment>
             <Titles
-              action={!isAdmin && <CreateOfferActionLink />}
+              action={!isAdmin ? <CreateOfferActionLink /> : undefined}
               title="Offres"
             />
             <span className="subtitle-container">
@@ -603,9 +513,20 @@ class Offers extends PureComponent {
                 resetFilters={this.resetFilters}
               />
             </span>
-
-            {this.renderSearchFilters()}
-
+            <SearchFilters
+              changePeriodBeginningDateValue={this.changePeriodBeginningDateValue}
+              changePeriodEndingDateValue={this.changePeriodEndingDateValue}
+              currentSearchFilters={searchFilters}
+              handleCreationModeSelection={this.storeCreationMode}
+              handleNameSearchValue={this.storeNameSearchValue}
+              handleOffererFilterRemoval={this.handleOffererFilterRemoval}
+              handleOnSubmit={this.handleOnSubmit}
+              handleTypeSelection={this.storeSelectedType}
+              handleVenueSelection={this.storeSelectedVenue}
+              offererName={offerer ? offerer.name : undefined}
+              typeOptions={typeOptions}
+              venueOptions={venueOptions}
+            />
             <div className="section">
               {this.renderSearchResults()}
             </div>
