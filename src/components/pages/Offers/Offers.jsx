@@ -11,6 +11,7 @@ import PageTitle from 'components/layout/PageTitle/PageTitle'
 import Spinner from 'components/layout/Spinner'
 import Titles from 'components/layout/Titles/Titles'
 import { NoOfferPage } from 'components/pages/Offers/NoOfferPage/NoOfferPage'
+import { ResetFiltersLink } from 'components/pages/Offers/ResetFiltersLink/ResetFiltersLink'
 import * as pcapi from 'repository/pcapi/pcapi'
 import { fetchAllVenuesByProUser, formatAndOrderVenues } from 'repository/venuesService'
 import { mapApiToBrowser, mapBrowserToApi, translateQueryParamsToApiParams } from 'utils/translate'
@@ -519,8 +520,7 @@ class Offers extends PureComponent {
   }
 
   resetFilters = () => {
-    this.setState({ offerer: null })
-    this.setState({ searchFilters: { ...DEFAULT_SEARCH_FILTERS } }, () => {
+    this.setState({ offerer: null, searchFilters: { ...DEFAULT_SEARCH_FILTERS } }, () => {
       this.getPaginatedOffersWithFilters({ shouldTriggerSpinner: true })
     })
   }
@@ -613,19 +613,10 @@ class Offers extends PureComponent {
               <h3 className="subtitle">
                 {'Rechercher une offre'}
               </h3>
-              {this.hasSearchFilters(savedSearchFilters) ? (
-                <Link
-                  className="reset-filters-link"
-                  onClick={this.resetFilters}
-                  to="/offres"
-                >
-                  {'Réinitialiser les filtres'}
-                </Link>
-              ) : (
-                <span className="reset-filters-link disabled">
-                  {'Réinitialiser les filtres'}
-                </span>
-              )}
+              <ResetFiltersLink
+                hasActiveSearchFilter={this.hasSearchFilters(savedSearchFilters)}
+                resetFilters={this.resetFilters}
+              />
             </span>
 
             {this.renderSearchFilters()}
