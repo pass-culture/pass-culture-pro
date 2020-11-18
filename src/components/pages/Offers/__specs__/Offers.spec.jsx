@@ -1280,7 +1280,7 @@ describe('src | components | pages | Offers | Offers', () => {
   })
 
   describe('when leaving page', () => {
-    it('should close offers activation / deactivation notification', () => {
+    it('should close offers activation / deactivation notification', async () => {
       // Given
       props = {
         ...props,
@@ -1289,7 +1289,7 @@ describe('src | components | pages | Offers | Offers', () => {
           tag: 'offers-activation',
         },
       }
-      const { unmount } = renderOffers(props, store)
+      const { unmount } = await renderOffers(props, store)
 
       // When
       unmount()
@@ -1298,14 +1298,14 @@ describe('src | components | pages | Offers | Offers', () => {
       expect(props.closeNotification).toHaveBeenCalledWith()
     })
 
-    it('should not fail on null notification', () => {
+    it('should not fail on null notification', async () => {
       // Given
       props = {
         ...props,
         closeNotification: jest.fn(),
         notification: null,
       }
-      const { unmount } = renderOffers(props, store)
+      const { unmount } = await renderOffers(props, store)
 
       // When
       unmount()
@@ -1314,7 +1314,7 @@ describe('src | components | pages | Offers | Offers', () => {
       expect(props.closeNotification).not.toHaveBeenCalledWith()
     })
 
-    it('should deselect all offers', () => {
+    it('should deselect all offers', async () => {
       // Given
       props = {
         ...props,
@@ -1323,7 +1323,7 @@ describe('src | components | pages | Offers | Offers', () => {
           tag: 'offers-activation',
         },
       }
-      const { unmount } = renderOffers(props, store)
+      const { unmount } = await renderOffers(props, store)
 
       // When
       unmount()
@@ -1332,7 +1332,7 @@ describe('src | components | pages | Offers | Offers', () => {
       expect(props.setSelectedOfferIds).toHaveBeenLastCalledWith([])
     })
 
-    it('should hide action bar', () => {
+    it('should hide action bar', async () => {
       // Given
       props = {
         ...props,
@@ -1341,7 +1341,7 @@ describe('src | components | pages | Offers | Offers', () => {
           tag: 'offers-activation',
         },
       }
-      const { unmount } = renderOffers(props, store)
+      const { unmount } = await renderOffers(props, store)
 
       // When
       unmount()
