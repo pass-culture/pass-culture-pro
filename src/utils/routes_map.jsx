@@ -114,12 +114,6 @@ export const routesWithMain = [
     title: 'Lieu',
   },
   {
-    component: Offers,
-    exact: true,
-    path: '/structures/:offererId/lieux/:venueId/offres',
-    title: 'Offres',
-  },
-  {
     component: ReimbursementsContainer,
     exact: true,
     path: '/remboursements',
@@ -154,18 +148,6 @@ export const routesWithMain = [
     exact: true,
     path: '/offres/:offerId/accroches/:mediationId',
     title: 'Accroche',
-  },
-  {
-    component: OfferCreation,
-    exact: true,
-    path: '/structures/:offererId/offres/:offerId',
-    title: 'Offres',
-  },
-  {
-    component: OfferCreation,
-    exact: true,
-    path: '/structures/:offererId/lieux/:venueId/offres/:offerId',
-    title: 'Offres',
   },
   {
     component: ProfilContainer,
