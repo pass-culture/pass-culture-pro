@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { Link } from 'react-router-dom'
 
-import { SVGStars } from "../../../svg/SVGStars"
+import { SVGStars } from '../../../svg/SVGStars'
 
 import MediationItem from './MediationItem/MediationItem'
 
@@ -25,24 +25,6 @@ class MediationsManager extends PureComponent {
         )}
 
         <div className="box content has-text-centered">
-          <div className="section small-text align-left">
-            <p>
-              <b>
-                {'L’accroche permet d’afficher votre offre "à la une" de l’app'}
-              </b>
-              {', et la rend visuellement plus attrayante. C’est une image (et bientôt '}
-              {
-                'une phrase ou une vidéo) intrigante, percutante, séduisante... en un mot : accrocheuse.'
-              }
-            </p>
-            <p>
-              {'Les accroches font la '}
-              <b>
-                {'spécificité du pass Culture'}
-              </b>
-              {'. Prenez le temps de les choisir avec soin !'}
-            </p>
-          </div>
           <ul className="mediations-list">
             {mediations.map(m => (
               <MediationItem

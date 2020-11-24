@@ -80,6 +80,7 @@ const StyleguideInputText = () => {
       type="text"
     />
   `
+
   const inputTextWithCaracterCount = `
     <TextInput
       countCharacters

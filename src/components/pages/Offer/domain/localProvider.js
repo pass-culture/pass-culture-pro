@@ -8,16 +8,18 @@ export const localProvidersNames = [
   'titelive stocks (epagine / place des libraires.com)',
 ]
 
-const isOfferFromStockProvider = (offer = null) => {
+export const isSyncronizableProvider = (offer = null) => {
+  return isOfferFromStockProvider(offer) || isAllocineOffer(offer)
+}
+
+export const isOfferFromStockProvider = (offer = null) => {
   return doesLastProviderExists(offer)
     ? localProvidersNames.includes(offer.lastProvider.name.toLowerCase())
     : false
 }
 
-const isAllocineOffer = (offer = null) => {
+export const isAllocineOffer = (offer = null) => {
   return doesLastProviderExists(offer)
     ? offer.lastProvider.name.toLowerCase() === 'allociné'
     : false
 }
-
-export { isAllocineOffer, isOfferFromStockProvider }
