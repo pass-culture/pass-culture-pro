@@ -8,6 +8,16 @@ export const loadOffer = async offerId => {
   return client.get(`/offers/${offerId}`)
 }
 
+export const createOffer = (offer) => {
+  console.log('createOffer::offer', offer)
+  return Promise.resolve({})
+}
+
+export const updateOffer = (offerId, offer) => {
+  console.log('updateOffer::offer', offer)
+  return Promise.resolve({})
+}
+
 export const loadFilteredOffers = async ({
   name = DEFAULT_SEARCH_FILTERS.name,
   offererId = DEFAULT_SEARCH_FILTERS.offererId,
