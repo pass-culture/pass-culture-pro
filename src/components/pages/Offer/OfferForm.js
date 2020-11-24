@@ -36,13 +36,89 @@ const OfferForm = (props) => {
   }
 
   const submitFormButtonText = offer ? 'Enregistrer' : 'Enregistrer et passer au stocks'
+  import { Field } from 'react-final-form'
+  import TextAreaInput from 'components/layout/form/fields/TextAreaInput'
+
+  import TitleField from './fields/TitleField'
+
+  const TitleField = (props) => {
+
+    return (
+      <Field render={() => (
+          <TextAreaInput
+            // configure "Titre de l’offre" field
+          />
+        )}
+      />
+    )
+  }
+  const formLevelValidation = () => {
+    // validation interchamps
+  }
+  const validationFunctions = {
+    required: () => null,
+    maxLength: () => null,
+  }
+  const handleOnChange = (value) => {
+    setFormValues({value})
+  }
+
+  const handleOnChangeInput = () => {
+    const required = () => null
+    const maxLength = () => null
+    if (!required(event.value)) {
+      return error
+    }
+    /// validation
+
+    setFormValues({value})
+  }
+
   return (
-    <Form className="offer-form">
+    <Form
+      className="offer-form"
+      validation={formLevelValidation}
+    >
       <section>
-        {/* <Field render={TypeField}/> */}
+        <SelectInput
+          onChange={handleOnChangeInput}
+        />
+        <TextField
+          // ...
+        />
+        {/* select */}
+        <Field
+          validate={composeValidation(...validationFunctions)}
+          onChange={handleOnChange}
+          render={() => (
+              <input
+                // configure "Titre de l’offre" field
+              />
+            )}
+        />
+
+
+        <Field render={() => (
+            <TextAreaInput
+              // configure "Titre de l’offre" field
+            />
+          )}
+        />
+
+
+        <TitleField
+          // configure "Titre de l’offre" field
+        />
 
 
       </section>
+
+      { formValues.type && (
+        <ArtisticalInformationsSection
+          type={formValues.type}
+        />
+      ) /* other fields from offer ...*/}
+      { formValues.type && <PracticalInformationsSection /> /* venue offerer ...*/}
 
       <section>
         { offer ? <button type="button">{ 'Annuler' }</button> : null }

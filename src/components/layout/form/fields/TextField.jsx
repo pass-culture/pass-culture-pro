@@ -61,6 +61,9 @@ function TextField(props) {
                   props.innerClassName
                 )}
               >
+                <TextInput
+                  // ...
+                />
                 <input
                   id={props.name}
                   {...input}
