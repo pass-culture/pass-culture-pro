@@ -4,10 +4,10 @@ import PageTitle from 'components/layout/PageTitle/PageTitle'
 import Titles from 'components/layout/Titles/Titles'
 import * as pcapi from 'repository/pcapi/pcapi'
 
-import OfferForm from './OfferForm'
+import OfferForm from './OfferForm/OfferForm'
 
-const OfferEdit = (props) => {
-  // TODO (rlecellier) : plugé sur un container avec withRouter, a therme utilisé le hook useRouter
+const OfferDetails = (props) => {
+  // TODO (rlecellier) : plugé sur un container avec withRouter, à terme utiliser le hook useRouter
   const { match } = props
 
   const [offer, setOffer] = useState(null)
@@ -17,7 +17,7 @@ const OfferEdit = (props) => {
       return
     }
     // fetch offer using pcapi client
-    const editOffer = await pcapi.loadOffer(offerId)
+    const editOffer = await pcapi.loadOffer(match.params.offerId)
     setOffer(editOffer)
   }, [match.params.offerId])
 
@@ -29,7 +29,7 @@ const OfferEdit = (props) => {
     pageTitle = 'Éditer une offre'
   }
 
-  const handleSubmitOffer = (values) => {
+  function handleSubmitOffer(values) {
     if (offer) {
       pcapi.createOffer(values)
     } else {
@@ -41,16 +41,15 @@ const OfferEdit = (props) => {
     <div>
       <PageTitle title={pageTitle} />
       <Titles
-        action={actionLink}
-        subtitle={offerId && offer.name}
+        subtitle={offer && offer.name}
         title={title}
       />
       <OfferForm
-        offer={offer}
         handleSubmit={handleSubmitOffer}
+        offer={offer}
       />
     </div>
   )
 }
 
-export default OfferEdit
+export default OfferDetails

@@ -9,7 +9,7 @@ import HomeContainer from 'components/pages/Home/HomeContainer'
 import LostPasswordContainer from 'components/pages/LostPassword/LostPasswordContainer'
 import Mediation from 'components/pages/Mediation/MediationContainer'
 import OfferCreation from 'components/pages/Offer/OfferCreation/OfferCreationContainer'
-import OfferEdit from 'components/pages/Offer/OfferEdit'
+import OfferDetailsContainer from 'components/pages/Offer/OfferDetails/OfferDetailsContainer'
 import OfferEdition from 'components/pages/Offer/OfferEdition/OfferEditionContainer'
 import OffererCreationContainer from 'components/pages/Offerer/OffererCreation/OffererCreationContainer'
 import OffererDetailsContainer from 'components/pages/Offerer/OffererDetails/OffererDetailsContainer'
@@ -133,16 +133,6 @@ export const routesWithMain = [
     title: 'Offres',
   },
   {
-    component: OfferEdit,
-    path: 'offres/creation',
-    title: 'Offre',
-  },
-  {
-    component: OfferEdit,
-    path: 'offres/:offerId',
-    title: 'Offre',
-  },
-  {
     component: OfferCreation,
     exact: true,
     path: '/offres/:offerId',
@@ -209,15 +199,15 @@ const routes = [
     },
   },
   {
-    component: EditOffer,
+    component: OfferDetailsContainer,
     exact: true,
-    path: '/offres/creation',
+    path: '/offres/v2/creation',
     title: 'Offre',
   },
   {
-    component: EditOffer,
+    component: OfferDetailsContainer,
     exact: true,
-    path: '/offres/:offerId',
+    path: '/offres/v2/:offerId/edition',
     title: 'Offre',
   },
 ]

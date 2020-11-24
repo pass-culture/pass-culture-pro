@@ -19,7 +19,7 @@ const AppLayout = props => {
     fullscreen: false,
     header: {},
     pageName: 'Acceuil',
-    whiteHeader: true,
+    whiteHeader: false,
   }
 
   const { backTo, fullscreen, header, pageName, whiteHeader } = {
