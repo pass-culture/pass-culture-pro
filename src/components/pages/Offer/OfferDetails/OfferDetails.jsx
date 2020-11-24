@@ -12,13 +12,14 @@ const OfferDetails = (props) => {
 
   const [offer, setOffer] = useState(null)
 
-  useEffect(async () => {
-    if (!match.params.offerId) {
-      return
+  useEffect(() => {
+    async function loadOffer(offerId) {
+      const editOffer = await pcapi.loadOffer(offerId)
+      setOffer(editOffer)
     }
-    // fetch offer using pcapi client
-    const editOffer = await pcapi.loadOffer(match.params.offerId)
-    setOffer(editOffer)
+    if (match.params.offerId) {
+      loadOffer(match.params.offerId)
+    }
   }, [match.params.offerId])
 
 
