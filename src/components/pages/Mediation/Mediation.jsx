@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom'
 import Main from 'components/layout/Main'
 import Titles from 'components/layout/Titles/Titles'
 import UploadThumbContainer from 'components/layout/UploadThumb/UploadThumbContainer'
+import { resetForm } from 'store/reducers/form'
 import { ASSETS_URL } from 'utils/config'
 
 import CanvasTools from '../../../utils/canvas'
@@ -80,9 +81,10 @@ class Mediation extends PureComponent {
   }
 
   handleSuccessData = () => {
-    const { history, offer, showOfferModificationValidationNotification } = this.props
+    const { dispatch, history, offer, showOfferModificationValidationNotification } = this.props
 
     this.setState({ isLoading: false }, () => {
+      dispatch(resetForm())
       history.push(`/offres/${offer.id}`)
       showOfferModificationValidationNotification()
     })

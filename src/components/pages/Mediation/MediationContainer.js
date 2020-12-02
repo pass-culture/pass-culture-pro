@@ -31,6 +31,7 @@ export const mapStateToProps = (state, ownProps) => {
 
 export const mapDispatchToProps = dispatch => {
   return {
+    dispatch,
     getMediation: (mediationId, handleSuccess, handleFail) => {
       dispatch(
         requestData({

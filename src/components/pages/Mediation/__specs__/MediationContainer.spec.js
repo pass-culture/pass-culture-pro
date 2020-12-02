@@ -19,6 +19,7 @@ describe('src | components | pages | MediationContainer', () => {
 
       // then
       expect(result).toStrictEqual({
+        dispatch: expect.any(Function),
         loadOffer: expect.any(Function),
         getMediation: expect.any(Function),
         showOfferModificationErrorNotification: expect.any(Function),

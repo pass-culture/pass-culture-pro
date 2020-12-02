@@ -20,9 +20,11 @@ describe('src | components | pages | Mediation', () => {
 
     props = {
       createOrUpdateMediation,
+      dispatch: jest.fn(),
       getMediation,
       getOffer,
       history: { push: jest.fn() },
+      loadOffer: jest.fn(),
       match: {
         params: {
           offerId: 'AGKA',
