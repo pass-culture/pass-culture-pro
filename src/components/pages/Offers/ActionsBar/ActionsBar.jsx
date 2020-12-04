@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { useCallback } from 'react'
 
+import LayoutActionsBar from 'components/layout/ActionsBar'
 import Icon from 'components/layout/Icon'
 
 import { updateOffersActiveStatus } from '../../../../repository/pcapi/pcapi'
@@ -94,40 +95,42 @@ const ActionsBar = props => {
   }
 
   return (
-    <div
-      className="offers-actions-bar"
-      data-testid="offers-actions-bar"
-    >
-      <span className="nb-offers-description">
-        {computeSelectedOffersLabel()}
-      </span>
+    <LayoutActionsBar>
+      <div
+        className="offers-actions-bar"
+        data-testid="offers-actions-bar"
+      >
+        <span className="nb-offers-description">
+          {computeSelectedOffersLabel()}
+        </span>
 
-      <div className="actions-container">
-        <button
-          className="primary-button with-icon"
-          onClick={handleDeactivate}
-          type="button"
-        >
-          <Icon svg="ico-status-inactive" />
-          {'Désactiver'}
-        </button>
-        <button
-          className="primary-button with-icon"
-          onClick={handleActivate}
-          type="button"
-        >
-          <Icon svg="ico-status-validated" />
-          {'Activer'}
-        </button>
-        <button
-          className="button"
-          onClick={handleClose}
-          type="button"
-        >
-          {'Annuler'}
-        </button>
+        <div className="actions-container">
+          <button
+            className="primary-button with-icon"
+            onClick={handleDeactivate}
+            type="button"
+          >
+            <Icon svg="ico-status-inactive" />
+            {'Désactiver'}
+          </button>
+          <button
+            className="primary-button with-icon"
+            onClick={handleActivate}
+            type="button"
+          >
+            <Icon svg="ico-status-validated" />
+            {'Activer'}
+          </button>
+          <button
+            className="button"
+            onClick={handleClose}
+            type="button"
+          >
+            {'Annuler'}
+          </button>
+        </div>
       </div>
-    </div>
+    </LayoutActionsBar>
   )
 }
 

@@ -4,6 +4,7 @@ import React, { Fragment, PureComponent } from 'react'
 import { Link } from 'react-router-dom'
 
 import AppLayout from 'app/AppLayout'
+import { PortalRenderer } from 'app/PortalProvider'
 import Icon from 'components/layout/Icon'
 import Select from 'components/layout/inputs/Select'
 import TextInput from 'components/layout/inputs/TextInput/TextInput'
@@ -630,11 +631,13 @@ class Offers extends PureComponent {
 
     return (
       <AppLayout
-        PageActionsBar={this.getOffersActionsBar}
         layoutConfig={{
           pageName: 'offers',
         }}
       >
+        <PortalRenderer>
+          {this.getOffersActionsBar()}
+        </PortalRenderer>
         <PageTitle title="Vos offres" />
         <Titles
           action={actionLink}
