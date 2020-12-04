@@ -1,13 +1,21 @@
 import '@testing-library/jest-dom'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import React from 'react'
+import { Provider } from 'react-redux'
 
 import { updateOffersActiveStatus } from 'repository/pcapi/pcapi'
+import { configureTestStore } from 'store/testUtils'
 
 import ActionsBar from '../ActionsBar'
 
 const renderActionsBar = props => {
-  return render(<ActionsBar {...props} />)
+  const store = configureTestStore({})
+
+  return render(
+    <Provider store={store}>
+      <ActionsBar {...props} />
+    </Provider>
+  )
 }
 
 jest.mock('repository/pcapi/pcapi', () => ({
