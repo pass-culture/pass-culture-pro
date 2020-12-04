@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import React, { Fragment, PureComponent } from 'react'
 import { Link } from 'react-router-dom'
 
+import AppLayout from 'app/AppLayout'
 import Main from 'components/layout/Main'
 import Titles from 'components/layout/Titles/Titles'
 import UploadThumbContainer from 'components/layout/UploadThumb/UploadThumbContainer'
@@ -374,13 +375,13 @@ class Mediation extends PureComponent {
     const $imageSections = (image || imageUrl) && fragment
 
     return (
-      <Main
-        handleDataRequest={this.onHandleDataRequest}
+      <AppLayout
         layoutConfig={{
           backTo: { path: backPath, label: 'Revenir à l’offre' },
           pageName: 'mediation',
         }}
       >
+        <Main handleDataRequest={this.onHandleDataRequest} />
         <PageTitle title="Ajouter une accroche" />
         <Titles title={`${isNew ? 'Créez' : 'Modifiez'} une accroche`} />
         <p className="advice">
@@ -448,7 +449,7 @@ class Mediation extends PureComponent {
           </label>
         </div>
         {$imageSections}
-      </Main>
+      </AppLayout>
     )
   }
 }
