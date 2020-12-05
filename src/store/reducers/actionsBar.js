@@ -13,6 +13,10 @@ const actionsBarReducers = (state = initialState, action) => {
   }
 }
 
+/**
+ * @deprecated Action bar no longer needs to take its state from redux :
+ * It state can directly be controller at render
+ */
 export const hideActionsBar = () => {
   return {
     type: SET_ACTIONS_BAR_VISIBILITY,

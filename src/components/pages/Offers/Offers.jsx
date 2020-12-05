@@ -300,12 +300,6 @@ class Offers extends PureComponent {
     const { areAllOffersSelected, offersCount } = this.state
 
     return (
-      <ActionsBarContainer
-        areAllOffersSelected={areAllOffersSelected}
-        nbSelectedOffers={areAllOffersSelected ? offersCount : selectedOfferIds.length}
-        refreshOffers={this.getPaginatedOffersWithFilters}
-        toggleSelectAllCheckboxes={this.toggleSelectAllCheckboxes}
-      />
     )
   }
 
@@ -607,8 +601,8 @@ class Offers extends PureComponent {
   }
 
   render() {
-    const { currentUser, offers, savedSearchFilters } = this.props
-    const { isLoading } = this.state
+    const { currentUser, offers, savedSearchFilters, selectedOfferIds } = this.props
+    const { isLoading, areAllOffersSelected, offersCount } = this.state
     const { isAdmin } = currentUser || {}
 
     const hasOffers = !!offers.length || this.hasSearchFilters(savedSearchFilters)
@@ -635,9 +629,6 @@ class Offers extends PureComponent {
           pageName: 'offers',
         }}
       >
-        <PortalRenderer>
-          {this.getOffersActionsBar()}
-        </PortalRenderer>
         <PageTitle title="Vos offres" />
         <Titles
           action={actionLink}
@@ -673,6 +664,14 @@ class Offers extends PureComponent {
         ) : (
           this.renderNoOffers()
         )}
+        <PortalRenderer>
+          <ActionsBarContainer
+            areAllOffersSelected={areAllOffersSelected}
+            nbSelectedOffers={areAllOffersSelected ? offersCount : selectedOfferIds.length}
+            refreshOffers={this.getPaginatedOffersWithFilters}
+            toggleSelectAllCheckboxes={this.toggleSelectAllCheckboxes}
+          />
+        </PortalRenderer>
       </AppLayout>
     )
   }
