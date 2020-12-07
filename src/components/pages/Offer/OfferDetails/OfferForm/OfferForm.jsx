@@ -15,6 +15,7 @@ import MediationsManager from '../../MediationsManager/MediationsManagerContaine
 import { SELECT_DEFAULT_VALUE, TEXT_INPUT_DEFAULT_VALUE } from '../_constants'
 
 import OfferRefundWarning from './OfferRefundWarning'
+import StockButton from './StockButton'
 import SynchronizableProviderInformation from './SynchronizableProviderInformation'
 import TypeTreeSelects from './TypeTreeSelects'
 
@@ -120,9 +121,10 @@ const OfferForm = props => {
         'type',
         'musicType',
         'musicSubType',
+        'offererId',
         'showType',
         'showSubType',
-        'offererId',
+        'stocks',
       ])
     } else {
       values = { ...DEFAULT_FORM_VALUES, ...initialValues }
@@ -314,7 +316,7 @@ const OfferForm = props => {
     [formValues, handleFormUpdate]
   )
 
-  const handleDurationChange = useCallback((value) => handleFormUpdate({ durationMinutes: value }), [
+  const handleDurationChange = useCallback(value => handleFormUpdate({ durationMinutes: value }), [
     handleFormUpdate,
   ])
 
@@ -586,45 +588,13 @@ const OfferForm = props => {
                 <MediationsManager offer={offer} />
               </div>
 
-              {/*<div className="form-row">*/}
-              {/*  <div className="field-label">*/}
-              {/*    <label*/}
-              {/*      className="label"*/}
-              {/*      htmlFor="input_offers_name"*/}
-              {/*    >*/}
-              {/*      <div className="subtitle">*/}
-              {/*        {offerType.type === 'Event' ? 'Dates :' : 'Stocks :'}*/}
-              {/*      </div>*/}
-              {/*    </label>*/}
-              {/*  </div>*/}
-              {/*  <div className="field-body">*/}
-              {/*    <div*/}
-              {/*      className="control"*/}
-              {/*      style={{ paddingTop: '0.25rem' }}*/}
-              {/*    >*/}
-              {/*      <span*/}
-              {/*        className="nb-dates"*/}
-              {/*        style={{ paddingTop: '0.25rem' }}*/}
-              {/*      >*/}
-              {/*        {pluralize(get(stocks, 'length'), isEventType ? 'date' : 'stock')}*/}
-              {/*      </span>*/}
-              {/*      <button*/}
-              {/*        className="button is-primary is-outlined is-small manage-stock"*/}
-              {/*        disabled={offerFromNonEditableLocalProvider ? 'disabled' : ''}*/}
-              {/*        id="manage-stocks"*/}
-              {/*        onClick={this.handleOnClick(query)}*/}
-              {/*        type="button"*/}
-              {/*      >*/}
-              {/*        <span className="icon">*/}
-              {/*          <Icon svg="ico-calendar-red" />*/}
-              {/*        </span>*/}
-              {/*        <span>*/}
-              {/*          {isEventType ? 'Gérer les dates et les stocks' : 'Gérer les stocks'}*/}
-              {/*        </span>*/}
-              {/*      </button>*/}
-              {/*    </div>*/}
-              {/*  </div>*/}
-              {/*</div>*/}
+              <div className="form-row">
+                <StockButton
+                  disabled={readOnlyFields.includes('stocks') ? 'disabled' : ''}
+                  offerTypeType={offerType ? offerType.type : null}
+                  stocks={offer ? offer.stocks : null}
+                />
+              </div>
             </section>
           )}
 
