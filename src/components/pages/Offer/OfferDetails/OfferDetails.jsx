@@ -9,11 +9,12 @@ import OfferForm from './OfferForm/OfferForm'
 import OfferPreviewLink from './OfferPreviewLink/OfferPreviewLink'
 
 const OfferDetails = props => {
-  const { match, isUserAdmin, location } = props
+  const { history, isUserAdmin, location, match } = props
 
   const [offer, setOffer] = useState(null)
   const [formInitialValues, setFormInitialValues] = useState({})
   const [formValues, setFormValues] = useState({})
+  const [formErrors, setFormErrors] = useState({})
 
   useEffect(() => {
     async function loadOffer(offerId) {
@@ -35,24 +36,51 @@ const OfferDetails = props => {
       }))
     }
     if (queryParams.get('lieu')) {
-      setFormInitialValues(oldFormInitialValues => ({ ...oldFormInitialValues, venueId: queryParams.get('lieu') }))
+      setFormInitialValues(oldFormInitialValues => ({
+        ...oldFormInitialValues,
+        venueId: queryParams.get('lieu'),
+      }))
     }
   }, [setFormInitialValues, location.search])
 
-
-  const handleFormValuesChanges = useCallback((updatedFormValues) => {
-    setFormValues(updatedFormValues)
-  }, [setFormValues])
+  const handleFormValuesChanges = useCallback(
+    updatedFormValues => {
+      setFormValues(updatedFormValues)
+    },
+    [setFormValues]
+  )
 
   const handleSubmitOffer = useCallback(
-    offerValues => {
-      if (offer) {
-        pcapi.updateOffer(offerValues)
-      } else {
-        pcapi.createOffer(offerValues)
+    async offerValues => {
+      try {
+        let redirectId
+        if (offer) {
+          await pcapi.updateOffer(offer.id, offerValues)
+          redirectId = offer.id
+        } else {
+          const response = await pcapi.createOffer(offerValues)
+          redirectId = response.id
+        }
+        history.push(`/offres/v2/${redirectId}/edition`)
+      } catch (error) {
+        if (error && 'errors' in error) {
+          const mapApiErrorsToFormErrors = {
+            venue: 'venueId',
+          }
+          let newFormErrors = {}
+          let formFieldName
+          for (let apiFieldName in error.errors) {
+            formFieldName = apiFieldName
+            if (apiFieldName in mapApiErrorsToFormErrors) {
+              formFieldName = mapApiErrorsToFormErrors[apiFieldName]
+            }
+            newFormErrors[formFieldName] = error.errors[apiFieldName]
+          }
+          setFormErrors(newFormErrors)
+        }
       }
     },
-    [offer]
+    [history, offer, setFormErrors]
   )
 
   let pageTitle = 'Nouvelle offre'
@@ -88,6 +116,7 @@ const OfferDetails = props => {
           offer={offer}
           onChange={handleFormValuesChanges}
           onSubmit={handleSubmitOffer}
+          submitErrors={formErrors}
         />
       </div>
       <div className="debug">

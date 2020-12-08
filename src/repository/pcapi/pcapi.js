@@ -10,13 +10,11 @@ export const loadOffer = async offerId => {
 }
 
 export const createOffer = offer => {
-  console.log('createOffer::offer', offer)
-  return Promise.resolve({})
+  return client.post(`/offers`, offer)
 }
 
 export const updateOffer = (offerId, offer) => {
-  console.log('updateOffer::offer', offer)
-  return Promise.resolve({})
+  return client.patch(`/offers/${offerId}`, offer)
 }
 
 export const loadFilteredOffers = async ({
@@ -116,7 +114,7 @@ export const getValidatedOfferers = () => {
   return client.get('/offerers?validated=true')
 }
 
-export const getVenuesForOfferer = (offererId) => {
+export const getVenuesForOfferer = offererId => {
   if (offererId) {
     return client.get(`/venues?offererId=${offererId}`)
   } else {

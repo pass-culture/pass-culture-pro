@@ -72,7 +72,7 @@ const getOfferConditionalFields = ({
 }
 
 const OfferForm = props => {
-  const { offer, initialValues, onSubmit, onChange, isUserAdmin } = props
+  const { offer, initialValues, onSubmit, onChange, isUserAdmin, submitErrors } = props
 
   const [formValues, setFormValues] = useState({})
   const [offererOptions, setOffererOptions] = useState([])
@@ -85,7 +85,7 @@ const OfferForm = props => {
   const [hasSyncStocks, setHasSyncStocks] = useState(false)
   const [formFields, setFormFields] = useState(Object.keys(DEFAULT_FORM_VALUES))
   const [readOnlyFields, setReadOnlyFields] = useState([''])
-  const [formErrors, setFormErrors] = useState({})
+  const [formErrors, setFormErrors] = useState(submitErrors)
   const [isBuzy, setIsBuzy] = useState(true)
 
   useEffect(() => {
@@ -94,9 +94,16 @@ const OfferForm = props => {
     pcapi.loadTypes().then(receivedTypes => setTypes(receivedTypes))
     pcapi
       .getValidatedOfferers()
-      .then(offerers => buildSelectOptions('id', 'name', offerers))
+      .then(offerers => {
+        console.log('offerers', offerers)
+        return buildSelectOptions('id', 'name', offerers)
+      })
       .then(offererOptions => setOffererOptions(offererOptions))
   }, [])
+
+  useEffect(() => {
+    setFormErrors(submitErrors)
+  }, [submitErrors])
 
   useEffect(() => {
     // Initialize creation / edition form data
@@ -204,14 +211,7 @@ const OfferForm = props => {
   useEffect(() => {
     // build form fields
 
-    const baseOfferFields = [
-      'description',
-      'name',
-      'offererId',
-      'type',
-      'venueId',
-      'withdrawalDetails',
-    ]
+    const baseOfferFields = ['description', 'name', 'type', 'venueId', 'withdrawalDetails']
 
     const offerConditionalFields = getOfferConditionalFields({
       offerType,
@@ -240,6 +240,7 @@ const OfferForm = props => {
     const optionalFields = [
       'author',
       'isDuo',
+      'isNational',
       'musicType',
       'musicSubType',
       'showType',
