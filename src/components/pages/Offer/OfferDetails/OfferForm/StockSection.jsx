@@ -35,7 +35,7 @@ const StockSection = (props) => {
 
   return (
     <div className="form-row">
-      <label className="label">
+      <label>
         { labelText }
       </label>
 

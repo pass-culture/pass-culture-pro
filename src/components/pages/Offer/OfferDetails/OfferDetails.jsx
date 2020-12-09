@@ -103,6 +103,7 @@ const OfferDetails = props => {
 
       <div className="content">
         <OfferForm
+          history={history}
           initialValues={formInitialValues}
           isUserAdmin={isUserAdmin}
           offer={offer}

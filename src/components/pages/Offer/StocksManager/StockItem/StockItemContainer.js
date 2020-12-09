@@ -73,6 +73,7 @@ export const mapStateToProps = (state, ownProps) => {
 
 export const mapDispatchToProps = (dispatch, ownProps) => {
   return {
+    dispatch,
     updateStockInformations: (stockId, body, handleSuccess, handleFail) => {
       const { query } = ownProps
       const context = query.context({ id: stockId, key: 'stock' })

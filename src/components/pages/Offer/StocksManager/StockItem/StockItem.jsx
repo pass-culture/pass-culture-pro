@@ -3,6 +3,8 @@ import React, { PureComponent } from 'react'
 import { Form } from 'react-final-form'
 import { getCanSubmit } from 'react-final-form-utils'
 
+import { loadOffer } from 'store/offers/thunks'
+
 import Offer from '../ValueObjects/Offer'
 
 import adaptBookingLimitDatetimeGivenBeginningDatetime from './decorators/adaptBookingLimitDatetimeGivenBeginningDatetime'
@@ -34,6 +36,11 @@ class StockItem extends PureComponent {
     this.tbodyElement = element
   }
 
+  updateStore = () => {
+    const { dispatch, offer } = this.props
+    dispatch(loadOffer(offer.id))
+  }
+
   handleRequestFail = (state, action) => {
     const { handleSetErrors } = this.props
     const {
@@ -61,6 +68,8 @@ class StockItem extends PureComponent {
     if (isEdition) {
       handleEditSuccess()
     }
+
+    this.updateStore()
   }
 
   handleOnFormSubmit = formValues => {

@@ -12,7 +12,7 @@ import StocksManager from './StocksManager'
 
 export const mapStateToProps = (state, ownProps) => {
   const { offerId } = ownProps
-  const offer = selectOfferById(state, offerId)
+  const offer = ownProps.offer ? ownProps.offer : selectOfferById(state, offerId)
 
   if (!offer) {
     return {}

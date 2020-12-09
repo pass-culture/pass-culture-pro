@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import React, { PureComponent, Fragment } from 'react'
 
 import Titles from 'components/layout/Titles/Titles'
+import { setOffersRecap } from 'store/offers/thunks'
 import { closeModal } from 'store/reducers/modal'
 
 import StockItemContainer from './StockItem/StockItemContainer'
@@ -20,6 +21,11 @@ class StocksManager extends PureComponent {
   }
 
   componentDidMount() {
+    const { dispatch, offer, selfInit } = this.props
+    if (selfInit) {
+      dispatch(setOffersRecap([offer]))
+    }
+
     this.handleShouldPreventCreationOfSecondNotEventStock()
 
     if (this.elem) {
@@ -317,6 +323,7 @@ class StocksManager extends PureComponent {
 
 StocksManager.defaultProps = {
   provider: null,
+  selfInit: false,
   stocks: [],
 }
 
@@ -328,6 +335,7 @@ StocksManager.propTypes = {
   product: PropTypes.shape().isRequired,
   provider: PropTypes.shape(),
   query: PropTypes.shape().isRequired,
+  selfInit: PropTypes.bool,
   stocks: PropTypes.arrayOf(PropTypes.shape()),
 }
 

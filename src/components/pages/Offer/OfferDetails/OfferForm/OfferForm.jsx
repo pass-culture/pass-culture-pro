@@ -15,6 +15,7 @@ import MediationsManager from '../../MediationsManager/MediationsManagerContaine
 import { SELECT_DEFAULT_VALUE, TEXT_INPUT_DEFAULT_VALUE } from '../_constants'
 
 import OfferRefundWarning from './OfferRefundWarning'
+import StockButton from './StockButton/StockButtonContainer'
 import SynchronizableProviderInformation from './SynchronizableProviderInformation'
 import TypeTreeSelects from './TypeTreeSelects'
 
@@ -71,7 +72,15 @@ const getOfferConditionalFields = ({
 }
 
 const OfferForm = props => {
-  const { offer, initialValues, onSubmit, onChange, isUserAdmin, submitErrors } = props
+  const {
+    history,
+    initialValues,
+    isUserAdmin,
+    offer,
+    onSubmit,
+    onChange,
+    submitErrors
+  } = props
 
   const [formValues, setFormValues] = useState({})
   const [offererOptions, setOffererOptions] = useState([])
@@ -120,6 +129,7 @@ const OfferForm = props => {
         // in the 10 offerers received by getValidatedOfferers() ?!
         values.offererId = offer.venue.managingOffererId
       }
+
 
       const isSynchronized = isSynchronizedOffer(offer)
       setHasSynchronizedStocks(isSynchronized)
@@ -590,6 +600,15 @@ const OfferForm = props => {
               </h2>
               <div className="form-row">
                 <MediationsManager offer={offer} />
+              </div>
+              <div className="form-row">
+                <StockButton
+                  disabled={readOnlyFields.includes('stocks') ? 'disabled' : ''}
+                  history={history}
+                  offer={offer}
+                  offerTypeType={offerType ? offerType.type : null}
+                  stocks={offer ? offer.stocks : null}
+                />
               </div>
             </section>
           )}
