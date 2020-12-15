@@ -1,8 +1,8 @@
 import get from 'lodash.get'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
+import withQueryRouter from 'with-query-router'
 
-import withFrenchQueryRouter from 'components/hocs/withFrenchQueryRouter'
 import { selectOfferById } from 'store/offers/selectors'
 import { selectProductById } from 'store/selectors/data/productsSelectors'
 import { selectProviderById } from 'store/selectors/data/providersSelectors'
@@ -33,4 +33,4 @@ export const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default compose(withFrenchQueryRouter, connect(mapStateToProps))(StocksManager)
+export default compose(withQueryRouter, connect(mapStateToProps))(StocksManager)

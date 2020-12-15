@@ -2,8 +2,8 @@ import createCachedSelector from 're-reselect'
 import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { requestData } from 'redux-saga-data'
+import withQueryRouter from 'with-query-router'
 
-import withFrenchQueryRouter from 'components/hocs/withFrenchQueryRouter'
 import { selectOfferById } from 'store/offers/selectors'
 import { selectOffererById } from 'store/selectors/data/offerersSelectors'
 import { selectVenueById } from 'store/selectors/data/venuesSelectors'
@@ -100,7 +100,4 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
   }
 }
 
-export default compose(
-  withFrenchQueryRouter,
-  connect(mapStateToProps, mapDispatchToProps)
-)(StockItem)
+export default compose(withQueryRouter(), connect(mapStateToProps, mapDispatchToProps))(StockItem)

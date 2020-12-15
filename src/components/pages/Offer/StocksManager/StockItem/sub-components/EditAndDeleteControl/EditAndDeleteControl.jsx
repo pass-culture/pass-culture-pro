@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types'
 import React, { Fragment, PureComponent } from 'react'
 import { Portal } from 'react-portal'
+import withQueryRouter from 'with-query-router'
 
-import withFrenchQueryRouter from 'components/hocs/withFrenchQueryRouter'
 import Icon from 'components/layout/Icon'
+import { mapBrowserToApi } from 'utils/translate'
 
 import { errorKeyToFrenchKey } from '../../utils/utils'
 import DeleteDialog from '../DeleteDialog/DeleteDialog'
@@ -132,4 +133,4 @@ EditAndDeleteControl.propTypes = {
   stock: PropTypes.shape().isRequired,
 }
 
-export default withFrenchQueryRouter(EditAndDeleteControl)
+export default withQueryRouter({ mapper: mapBrowserToApi })(EditAndDeleteControl)
