@@ -31,6 +31,7 @@ test('je clique sur "mot de passe égaré", je remplis le formulaire avec une ad
 
   // then
   await t
+    .wait(2000)
     .expect(getPathname())
     .eql('/mot-de-passe-perdu')
     .expect(getUrlParams())
