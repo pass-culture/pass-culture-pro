@@ -10,7 +10,7 @@ import Signin from './Signin'
 
 export const mapStateToProps = state => {
   return {
-    currentUser: selectCurrentUser(state),
+    currentUser: state.users.currentUser,
     isAccountCreationAvailable: isAPISireneAvailable(state),
   }
 }

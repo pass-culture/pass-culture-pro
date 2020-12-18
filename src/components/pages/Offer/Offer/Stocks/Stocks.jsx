@@ -4,7 +4,7 @@ import React, { Fragment, useCallback, useEffect, useState } from 'react'
 
 import Icon from 'components/layout/Icon'
 import PageTitle from 'components/layout/PageTitle/PageTitle'
-import * as pcapi from 'repository/pcapi/pcapi'
+import pcapi from 'repository/pcapi/pcapi'
 import { getDepartmentTimezone } from 'utils/timezone'
 
 import StockItemContainer from './StockItem/StockItemContainer'

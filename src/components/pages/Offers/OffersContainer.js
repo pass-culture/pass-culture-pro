@@ -17,7 +17,7 @@ import Offers from './Offers'
 
 export const mapStateToProps = state => {
   return {
-    currentUser: selectCurrentUser(state),
+    currentUser: state.users.currentUser,
     getOfferer: fetchOffererById,
     notification: state.notification,
     offers: selectOffers(state),

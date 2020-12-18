@@ -6,7 +6,7 @@ import React, { Fragment } from 'react'
 import { Provider } from 'react-redux'
 
 import NotificationV2Container from 'components/layout/NotificationV2/NotificationV2Container'
-import * as pcapi from 'repository/pcapi/pcapi'
+import pcapi from 'repository/pcapi/pcapi'
 import { configureTestStore } from 'store/testUtils'
 
 import StockItemContainer from './StockItemContainer'

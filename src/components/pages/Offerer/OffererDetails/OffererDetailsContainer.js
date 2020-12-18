@@ -17,7 +17,7 @@ export const mapStateToProps = (state, ownProps) => {
   const {
     params: { offererId },
   } = match
-  const currentUser = selectCurrentUser(state)
+  const currentUser = state.users.currentUser
   return {
     currentUser,
     offerer: makeOffererComponentValueObject(

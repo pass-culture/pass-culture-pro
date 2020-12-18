@@ -5,7 +5,7 @@ import { selectCurrentUser } from 'store/selectors/data/usersSelectors'
 import Profil from './Profil'
 
 export const mapStateToProps = state => ({
-  currentUser: selectCurrentUser(state),
+  currentUser: state.users.currentUser,
 })
 
 export default connect(mapStateToProps)(Profil)

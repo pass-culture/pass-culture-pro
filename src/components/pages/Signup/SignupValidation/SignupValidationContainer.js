@@ -8,7 +8,7 @@ import SignupValidation from './SignupValidation'
 
 export function mapStateToProps(state) {
   return {
-    currentUser: selectCurrentUser(state),
+    currentUser: state.users.currentUser,
   }
 }
 

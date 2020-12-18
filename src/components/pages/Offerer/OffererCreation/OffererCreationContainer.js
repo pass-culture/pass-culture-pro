@@ -11,7 +11,7 @@ import OffererCreation from './OffererCreation'
 
 export function mapStateToProps(state) {
   return {
-    currentUser: selectCurrentUser(state),
+    currentUser: state.users.currentUser,
   }
 }
 

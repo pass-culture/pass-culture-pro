@@ -23,7 +23,7 @@ export const mapStateToProps = (state, ownProps) => {
   const offer = selectOfferById(state, offerId)
   const venue = selectVenueById(state, get(offer, 'venueId'))
   return {
-    currentUser: selectCurrentUser(state),
+    currentUser: state.users.currentUser,
     offer,
     offerer: selectOffererById(state, venue.managingOffererId),
     venue,

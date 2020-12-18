@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
 
 import { isAllocineOffer, isSynchronizedOffer } from 'components/pages/Offer/domain/localProvider'
-import * as pcapi from 'repository/pcapi/pcapi'
+import pcapi from 'repository/pcapi/pcapi'
 
 import { computeOffersUrl } from '../../../utils/computeOffersUrl'
 

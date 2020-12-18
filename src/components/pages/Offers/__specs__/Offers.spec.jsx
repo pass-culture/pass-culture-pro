@@ -6,7 +6,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { MemoryRouter } from 'react-router'
 
-import * as pcapi from 'repository/pcapi/pcapi'
+import pcapi from 'repository/pcapi/pcapi'
 import { fetchAllVenuesByProUser } from 'repository/venuesService'
 import { configureTestStore } from 'store/testUtils'
 import { queryByTextTrimHtml, renderWithStyles } from 'utils/testHelpers'

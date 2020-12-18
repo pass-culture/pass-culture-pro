@@ -26,7 +26,7 @@ export const mapStateToProps = (
     },
   }
 ) => ({
-  currentUser: selectCurrentUser(state),
+  currentUser: state.users.currentUser,
   venueTypes: selectVenueTypes(state).map(type => new VenueType(type)),
   venueLabels: selectVenueLabels(state).map(label => new VenueLabel(label)),
   venue: selectVenueById(state, venueId),

@@ -6,7 +6,7 @@ import BookingsRecap from './BookingsRecap'
 
 export function mapStateToProps(state) {
   return {
-    currentUser: selectCurrentUser(state),
+    currentUser: state.users.currentUser,
   }
 }
 

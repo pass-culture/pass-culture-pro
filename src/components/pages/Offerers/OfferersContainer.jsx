@@ -29,7 +29,7 @@ export const createApiPath = searchKeyWords => {
 
 export const mapStateToProps = state => {
   return {
-    currentUser: selectCurrentUser(state),
+    currentUser: state.users.currentUser,
     isOffererCreationAvailable: isAPISireneAvailable(state),
     notification: state.notification,
     offerers: selectOfferers(state),

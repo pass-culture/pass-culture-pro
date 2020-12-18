@@ -16,7 +16,7 @@ export const mapStateToProps = (state, ownProps) => {
   const { change, envoye, token } = searchSelector(state, search)
   return {
     change,
-    currentUser: selectCurrentUser(state),
+    currentUser: state.users.currentUser,
     errors: userErrors,
     envoye,
     token,

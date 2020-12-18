@@ -91,7 +91,7 @@ export const mapStateToProps = (state, ownProps) => {
   const offerTypeError = get(state, 'errors.offer.type')
 
   return {
-    currentUser: selectCurrentUser(state),
+    currentUser: state.users.currentUser,
     formInitialValues,
     formOffererId,
     formVenueId,

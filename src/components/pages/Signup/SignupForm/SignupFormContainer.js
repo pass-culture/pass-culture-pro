@@ -14,7 +14,7 @@ import SignupForm from './SignupForm'
 const STATE_ERROR_NAME = 'user'
 
 export const mapStateToProps = state => ({
-  currentUser: selectCurrentUser(state),
+  currentUser: state.users.currentUser,
   errors: get(state, `errors["${STATE_ERROR_NAME}"]`),
 })
 

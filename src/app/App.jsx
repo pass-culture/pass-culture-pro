@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { matchPath } from 'react-router'
 
 import Spinner from 'components/layout/Spinner'
+import pcapi from 'repository/pcapi/pcapi'
 import routes, { routesWithMain } from 'utils/routes_map'
 
 import RedirectToMaintenance from './RedirectToMaintenance'
@@ -29,18 +30,17 @@ export const App = props => {
 
     if (!currentUser) {
       setIsBusy(true)
-      getCurrentUser({
-        handleSuccess: () => {
+      getCurrentUser()
+        .then(() => {
           setIsBusy(false)
-        },
-        handleFail: () => {
+        })
+        .catch(() => {
           if (!isPublicRoute) {
             const fromUrl = encodeURIComponent(`${location.pathname}${location.search}`)
             history.push(`/connexion?de=${fromUrl}`)
           }
           setIsBusy(false)
-        },
-      })
+        })
     }
   }, [currentUser, currentPathname, getCurrentUser, history, location])
 

@@ -67,7 +67,7 @@ describe('users selectors', () => {
         }
 
         // when
-        const user = selectCurrentUser(state)
+        const user = state.users.currentUser
 
         // then
         expect(user).toBeUndefined()
@@ -88,7 +88,7 @@ describe('users selectors', () => {
         }
 
         // when
-        const user = selectCurrentUser(state)
+        const user = state.users.currentUser
 
         // then
         expect(user).toStrictEqual({ id: 'EF' })

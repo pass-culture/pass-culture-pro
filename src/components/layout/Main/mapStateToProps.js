@@ -2,7 +2,7 @@ import { selectCurrentUser } from 'store/selectors/data/usersSelectors'
 
 function mapStateToProps(state) {
   return {
-    currentUser: selectCurrentUser(state),
+    currentUser: state.users.currentUser,
   }
 }
 

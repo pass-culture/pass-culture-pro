@@ -6,7 +6,7 @@ import Icon from 'components/layout/Icon'
 import DateInput from 'components/layout/inputs/DateInput/DateInput'
 import TimeInput from 'components/layout/inputs/TimeInput/TimeInput'
 import DeleteStockDialogContainer from 'components/pages/Offer/Offer/Stocks/DeleteStockDialog/DeleteStockDialogContainer'
-import * as pcapi from 'repository/pcapi/pcapi'
+import pcapi from 'repository/pcapi/pcapi'
 
 const StockItem = ({
   departmentCode,

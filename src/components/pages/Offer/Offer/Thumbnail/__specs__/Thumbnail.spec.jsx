@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import { MemoryRouter, Route } from 'react-router'
 
 import OfferLayoutContainer from 'components/pages/Offer/Offer/OfferLayoutContainer'
-import * as pcapi from 'repository/pcapi/pcapi'
+import pcapi from 'repository/pcapi/pcapi'
 import { configureTestStore } from 'store/testUtils'
 
 import { MIN_IMAGE_HEIGHT, MIN_IMAGE_WIDTH } from '../_constants'

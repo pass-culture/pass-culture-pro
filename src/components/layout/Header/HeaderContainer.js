@@ -8,7 +8,7 @@ import Header from './Header'
 
 export const mapStateToProps = state => {
   const { data } = state
-  const user = selectCurrentUser(state)
+  const user = state.users.currentUser
   const { publicName: name } = user
   const { offerers } = data
 

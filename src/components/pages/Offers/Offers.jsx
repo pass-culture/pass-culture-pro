@@ -11,7 +11,7 @@ import TextInput from 'components/layout/inputs/TextInput/TextInput'
 import PageTitle from 'components/layout/PageTitle/PageTitle'
 import Spinner from 'components/layout/Spinner'
 import Titles from 'components/layout/Titles/Titles'
-import * as pcapi from 'repository/pcapi/pcapi'
+import pcapi from 'repository/pcapi/pcapi'
 import { fetchAllVenuesByProUser, formatAndOrderVenues } from 'repository/venuesService'
 import { mapApiToBrowser, mapBrowserToApi, translateQueryParamsToApiParams } from 'utils/translate'
 

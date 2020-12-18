@@ -6,7 +6,7 @@ import Reimbursements from './Reimbursements'
 
 export function mapStateToProps(state) {
   return {
-    currentUser: selectCurrentUser(state),
+    currentUser: state.users.currentUser,
   }
 }
 
