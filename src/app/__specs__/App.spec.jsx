@@ -1,48 +1,43 @@
-import { mount, shallow } from 'enzyme/build'
+import '@testing-library/jest-dom'
+import { act, render, screen } from '@testing-library/react'
 import React from 'react'
 
 import { App } from '../App'
-import RedirectToMaintenance from '../RedirectToMaintenance'
 
-const getCurrentUser = ({ handleSuccess }) => {
-  handleSuccess()
+const getCurrentUser = async () => Promise.resolve()
+
+const renderApp = async props => {
+  return await act(async () => {
+    await render(
+      <App {...props}>
+        <p>
+          {'Sub component'}
+        </p>
+      </App>
+    )
+  })
 }
 
 describe('src | App', () => {
-  it('should render App and children components when isMaintenanceActivated is false', () => {
+  it('should render App and children components when isMaintenanceActivated is false', async () => {
     // Given
     const props = { modalOpen: false, isMaintenanceActivated: false, getCurrentUser }
 
     // When
-    const wrapper = mount(
-      <App {...props}>
-        <p>
-          {'Sub component'}
-        </p>
-      </App>
-    )
+    await renderApp(props)
 
     // Then
-    const appNode = wrapper.find(App)
-    expect(appNode).toHaveLength(1)
-    expect(appNode.text()).toBe('Sub component')
+    expect(screen.getByText('Sub component')).toBeInTheDocument()
   })
 
-  it('should render a Redirect component when isMaintenanceActivated is true', () => {
+  it('should render a Redirect component when isMaintenanceActivated is true', async () => {
     // Given
     const props = { modalOpen: false, isMaintenanceActivated: true, getCurrentUser }
 
     // When
-    const wrapper = shallow(
-      <App {...props}>
-        <p>
-          {'Sub component'}
-        </p>
-      </App>
-    )
+    await renderApp(props)
 
     // Then
-    const redirectToMaintenanceElement = wrapper.find(RedirectToMaintenance)
-    expect(redirectToMaintenanceElement).toHaveLength(1)
+    expect(screen.queryByText('Sub component')).toBeNull()
   })
 })

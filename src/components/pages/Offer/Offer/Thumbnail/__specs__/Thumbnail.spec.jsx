@@ -15,7 +15,7 @@ import {
   MIN_IMAGE_WIDTH,
 } from 'components/pages/Offer/Offer/Thumbnail/_constants'
 import ThumbnailDialog from 'components/pages/Offer/Offer/Thumbnail/ThumbnailDialog'
-import * as pcapi from 'repository/pcapi/pcapi'
+import pcapi from 'repository/pcapi/pcapi'
 import CanvasTools from 'utils/canvas.js'
 
 jest.mock('utils/canvas.js')

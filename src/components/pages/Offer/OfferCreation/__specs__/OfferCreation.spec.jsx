@@ -30,6 +30,11 @@ const buildStore = (store = {}) => {
     publicName: 'USER',
   }
   return getStubStore({
+    users: (
+      state = {
+        currentUser,
+      }
+    ) => state,
     data: (
       state = {
         offerers: [],

@@ -2,7 +2,7 @@ import '@testing-library/jest-dom'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import React from 'react'
 
-import { updateOffersActiveStatus } from 'repository/pcapi/pcapi'
+import pcapi from 'repository/pcapi/pcapi'
 
 import ActionsBar from '../ActionsBar'
 
@@ -79,7 +79,7 @@ describe('src | components | pages | Offers | ActionsBar', () => {
 
       // then
       await waitFor(() => {
-        expect(updateOffersActiveStatus).toHaveBeenLastCalledWith(false, expectedBody)
+        expect(pcapi.updateOffersActiveStatus).toHaveBeenLastCalledWith(false, expectedBody)
         expect(props.clearSelectedOfferIds).toHaveBeenCalledTimes(1)
         expect(props.refreshOffers).toHaveBeenCalledWith({ shouldTriggerSpinner: false })
         expect(props.trackActivateOffers).toHaveBeenCalledWith(['testId1', 'testId2'])
@@ -128,7 +128,7 @@ describe('src | components | pages | Offers | ActionsBar', () => {
 
       // then
       await waitFor(() => {
-        expect(updateOffersActiveStatus).toHaveBeenLastCalledWith(false, expectedBody)
+        expect(pcapi.updateOffersActiveStatus).toHaveBeenLastCalledWith(false, expectedBody)
         expect(props.clearSelectedOfferIds).toHaveBeenCalledTimes(1)
         expect(props.refreshOffers).toHaveBeenCalledWith({ shouldTriggerSpinner: false })
         expect(props.trackDeactivateOffers).toHaveBeenCalledWith(['testId1', 'testId2'])
@@ -194,7 +194,7 @@ describe('src | components | pages | Offers | ActionsBar', () => {
 
       // then
       await waitFor(() => {
-        expect(updateOffersActiveStatus).toHaveBeenLastCalledWith(true, expectedBody)
+        expect(pcapi.updateOffersActiveStatus).toHaveBeenLastCalledWith(true, expectedBody)
         expect(props.clearSelectedOfferIds).toHaveBeenCalledTimes(1)
         expect(props.refreshOffers).toHaveBeenCalledWith({ shouldTriggerSpinner: false })
       })
@@ -218,7 +218,7 @@ describe('src | components | pages | Offers | ActionsBar', () => {
 
       // then
       await waitFor(() => {
-        expect(updateOffersActiveStatus).toHaveBeenLastCalledWith(true, expectedBody)
+        expect(pcapi.updateOffersActiveStatus).toHaveBeenLastCalledWith(true, expectedBody)
         expect(props.clearSelectedOfferIds).toHaveBeenCalledTimes(1)
         expect(props.refreshOffers).toHaveBeenCalledWith({ shouldTriggerSpinner: false })
       })

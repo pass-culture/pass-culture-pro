@@ -7,7 +7,7 @@ import { Provider } from 'react-redux'
 import { MemoryRouter, Route } from 'react-router'
 
 import NotificationV2Container from 'components/layout/NotificationV2/NotificationV2Container'
-import * as pcapi from 'repository/pcapi/pcapi'
+import pcapi from 'repository/pcapi/pcapi'
 import { configureTestStore } from 'store/testUtils'
 
 import OfferLayoutContainer from '../../OfferLayoutContainer'
@@ -53,7 +53,9 @@ describe('offerDetails - Creation - pro user', () => {
   let venues
 
   beforeEach(() => {
-    store = configureTestStore({ data: { users: [{ publicName: 'François', isAdmin: false }] } })
+    store = configureTestStore({
+      users: { currentUser: { publicName: 'François', isAdmin: false } },
+    })
     props = {
       setShowThumbnailForm: jest.fn(),
     }

@@ -2,8 +2,7 @@ import PropTypes from 'prop-types'
 import React, { useCallback } from 'react'
 
 import Icon from 'components/layout/Icon'
-
-import { updateOffersActiveStatus } from '../../../../repository/pcapi/pcapi'
+import pcapi from 'repository/pcapi/pcapi'
 
 const computeActivationSuccessMessage = nbSelectedOffers => {
   const successMessage =
@@ -47,7 +46,7 @@ const ActionsBar = props => {
       }
       const body = areAllOffersSelected ? bodyAllActiveStatus : bodySomeActiveStatus
 
-      updateOffersActiveStatus(areAllOffersSelected, body).then(() => {
+      pcapi.updateOffersActiveStatus(areAllOffersSelected, body).then(() => {
         refreshOffers({ shouldTriggerSpinner: false })
         showSuccessNotification(
           isActivating

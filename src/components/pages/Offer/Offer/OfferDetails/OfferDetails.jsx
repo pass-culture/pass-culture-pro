@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState, Fragment } from 'react'
 
 import PageTitle from 'components/layout/PageTitle/PageTitle'
 import Spinner from 'components/layout/Spinner'
-import * as pcapi from 'repository/pcapi/pcapi'
+import pcapi from 'repository/pcapi/pcapi'
 
 import OfferCreation from './OfferForm/OfferCreation'
 import OfferEditionContainer from './OfferForm/OfferEditionContainer'

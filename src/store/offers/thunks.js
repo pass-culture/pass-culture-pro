@@ -1,4 +1,4 @@
-import * as pcapi from 'repository/pcapi/pcapi'
+import pcapi from 'repository/pcapi/pcapi'
 import { setMediations, setStocks, setVenues } from 'store/reducers/data'
 
 import { setOffers } from './actions'

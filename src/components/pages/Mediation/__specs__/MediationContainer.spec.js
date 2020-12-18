@@ -202,7 +202,7 @@ describe('src | components | pages | MediationContainer', () => {
 
       // then
       expect(result).toStrictEqual({
-        currentUser: undefined,
+        currentUser: null,
         mediation: overrideState.data.mediations[0],
         offer: overrideState.offers.list[0],
         offerer: overrideState.data.offerers[0],

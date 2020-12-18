@@ -1,14 +1,7 @@
 import { DEFAULT_SEARCH_FILTERS } from 'components/pages/Offers/_constants'
 import { client } from 'repository/pcapi/pcapiClient'
 
-import {
-  createStock,
-  deleteStock,
-  getURLErrors,
-  loadFilteredOffers,
-  updateOffersActiveStatus,
-  updateStock,
-} from '../pcapi'
+import pcapi from '../pcapi'
 
 jest.mock('repository/pcapi/pcapiClient', () => ({
   client: {
@@ -59,7 +52,7 @@ describe('pcapi', () => {
 
     it('should return api response', async () => {
       // When
-      const response = await loadFilteredOffers({})
+      const response = await pcapi.loadFilteredOffers({})
 
       // Then
       expect(response).toBe(returnedResponse)
@@ -70,7 +63,7 @@ describe('pcapi', () => {
       const filters = {}
 
       // When
-      await loadFilteredOffers(filters)
+      await pcapi.loadFilteredOffers(filters)
 
       // Then
       expect(client.get).toHaveBeenCalledWith('/offers?page=1')
@@ -86,7 +79,7 @@ describe('pcapi', () => {
       }
 
       // When
-      await loadFilteredOffers(filters)
+      await pcapi.loadFilteredOffers(filters)
 
       // Then
       expect(client.get).toHaveBeenCalledWith('/offers?page=1')
@@ -103,7 +96,7 @@ describe('pcapi', () => {
       }
 
       // When
-      await loadFilteredOffers(filters)
+      await pcapi.loadFilteredOffers(filters)
 
       // Then
       expect(client.get).toHaveBeenCalledWith(
@@ -121,7 +114,7 @@ describe('pcapi', () => {
         }
 
         // when
-        await updateOffersActiveStatus(true, body)
+        await pcapi.updateOffersActiveStatus(true, body)
 
         // then
         expect(client.patch).toHaveBeenCalledWith('/offers/all-active-status', {
@@ -143,7 +136,7 @@ describe('pcapi', () => {
         }
 
         // when
-        await updateOffersActiveStatus(true, body)
+        await pcapi.updateOffersActiveStatus(true, body)
 
         // then
         expect(client.patch).toHaveBeenCalledWith('/offers/all-active-status', {
@@ -167,7 +160,7 @@ describe('pcapi', () => {
         }
 
         // when
-        await updateOffersActiveStatus(false, body)
+        await pcapi.updateOffersActiveStatus(false, body)
 
         // then
         expect(client.patch).toHaveBeenCalledWith('/offers/active-status', {
@@ -181,7 +174,7 @@ describe('pcapi', () => {
   describe('deleteStock', () => {
     it('should delete stock given its id', () => {
       // When
-      deleteStock('2E')
+      pcapi.deleteStock('2E')
 
       // Then
       expect(client.delete).toHaveBeenCalledWith('/stocks/2E')
@@ -191,7 +184,7 @@ describe('pcapi', () => {
   describe('updateStock', () => {
     it('should update stock given its id and changes', () => {
       // When
-      updateStock({
+      pcapi.updateStock({
         beginningDatetime: '2020-12-26T23:00:00Z',
         bookingLimitDatetime: '2020-12-25T22:00:00Z',
         stockId: '2E',
@@ -212,7 +205,7 @@ describe('pcapi', () => {
   describe('createStock', () => {
     it('should create stock given its offerId and properties', () => {
       // when
-      createStock({
+      pcapi.createStock({
         offerId: 'AE',
         beginningDatetime: '2020-12-24T23:00:00Z',
         bookingLimitDatetime: '2020-12-22T23:59:59Z',
@@ -237,7 +230,7 @@ describe('pcapi', () => {
       const url = 'http://ma-mauvaise-url'
 
       // when
-      getURLErrors(url)
+      pcapi.getURLErrors(url)
 
       // then
       expect(client.post).toHaveBeenCalledWith(`/offers/thumbnail-url-validation`, {

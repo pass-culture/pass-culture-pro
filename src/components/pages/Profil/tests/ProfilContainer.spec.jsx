@@ -6,7 +6,7 @@ describe('src | components | pages | Profil | ProfilContainer', () => {
       // given
       const id = '1'
       const state = {
-        data: { users: [{ id }] },
+        users: { currentUser: { id } },
       }
 
       // when

@@ -735,24 +735,6 @@ const state = {
         lastProviderId: 123,
       },
     ],
-    users: [
-      {
-        id: 'FE',
-        canBookFeeOffers: false,
-        dateCreated: '2019-03-07T10:39:23.560374Z',
-        dateOfBirth: '2001-01-01T00:00:00Z',
-        departementCode: '93',
-        email: 'pctest.admin93.0@example.com',
-        firstName: 'PC Test Admin',
-        isAdmin: true,
-        lastName: '93 0',
-        modelName: 'User',
-        phoneNumber: '0612345678',
-        postalCode: '93100',
-        publicName: 'PC Test Admin 93 0',
-        thumbCount: 0,
-      },
-    ],
     userOfferers: [
       {
         offererId: 'FE',
@@ -868,6 +850,24 @@ const state = {
   },
   notification: null,
   tracker: {},
+  users: {
+    currentUser: {
+      id: 'FE',
+      canBookFeeOffers: false,
+      dateCreated: '2019-03-07T10:39:23.560374Z',
+      dateOfBirth: '2001-01-01T00:00:00Z',
+      departementCode: '93',
+      email: 'pctest.admin93.0@example.com',
+      firstName: 'PC Test Admin',
+      isAdmin: true,
+      lastName: '93 0',
+      modelName: 'User',
+      phoneNumber: '0612345678',
+      postalCode: '93100',
+      publicName: 'PC Test Admin 93 0',
+      thumbCount: 0,
+    },
+  },
   offers: {
     list: [
       {

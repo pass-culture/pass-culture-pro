@@ -12,12 +12,12 @@ describe('src | components | pages | Offerer | OffererDetails | OffererDetailsCo
     it('should return an object of props', () => {
       // given
       const state = {
+        users: {
+          currentUser: {
+            id: 'TY56er',
+          },
+        },
         data: {
-          users: [
-            {
-              id: 'TY56er',
-            },
-          ],
           userOfferers: [
             {
               id: 'AEKQ',
@@ -78,12 +78,12 @@ describe('src | components | pages | Offerer | OffererDetails | OffererDetailsCo
     it('should return offerer id from url', () => {
       // given
       const state = {
+        users: {
+          currentUser: {
+            id: 'TY56er',
+          },
+        },
         data: {
-          users: [
-            {
-              id: 'TY56er',
-            },
-          ],
           userOfferers: [
             {
               id: 'AEKQ',

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React, { useCallback, useRef } from 'react'
 
 import { DialogBox } from 'components/layout/DialogBox/DialogBox'
-import * as pcapi from 'repository/pcapi/pcapi'
+import pcapi from 'repository/pcapi/pcapi'
 
 import { ReactComponent as DeletionIcon } from './assets/deletion.svg'
 

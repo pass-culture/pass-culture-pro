@@ -117,6 +117,14 @@ describe('src | components | pages | VenueEdition', () => {
         }
 
         const store = getStubStore({
+          users: (
+            state = {
+              currentUser: {
+                id: 'test_id',
+                name: 'John Do',
+              },
+            }
+          ) => state,
           data: (
             state = {
               offerers: [],
@@ -192,6 +200,14 @@ describe('src | components | pages | VenueEdition', () => {
           }
 
           const store = getStubStore({
+            users: (
+              state = {
+                currentUser: {
+                  id: 'test_id',
+                  name: 'John Do',
+                },
+              }
+            ) => state,
             data: (
               state = {
                 offerers: [],

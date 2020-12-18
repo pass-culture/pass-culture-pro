@@ -39,11 +39,11 @@ describe('src | components | pages | VenueContainer | mapStateToProps', () => {
       // given
       const currentUser = { id: 1, email: 'john.doe@email.com' }
       const state = {
+        users: { currentUser },
         data: {
           offerers: [{ id: 1 }],
           userOfferers: [{ offererId: 1, rights: 'admin', userId: 1 }],
           venues: [],
-          users: [currentUser],
         },
       }
 
@@ -66,6 +66,11 @@ describe('src | components | pages | VenueContainer | mapStateToProps', () => {
     it('should map venue types for the component', () => {
       // given
       const state = {
+        users: {
+          currentUser: {
+            email: 'john.doe@example.net',
+          },
+        },
         data: {
           offerers: [],
           userOfferers: [],
@@ -73,11 +78,6 @@ describe('src | components | pages | VenueContainer | mapStateToProps', () => {
           'venue-types': [
             { id: 'AE', label: 'Patrimoine et tourisme' },
             { id: 'AF', label: 'Autre' },
-          ],
-          users: [
-            {
-              email: 'john.doe@example.net',
-            },
           ],
         },
       }
@@ -100,6 +100,11 @@ describe('src | components | pages | VenueContainer | mapStateToProps', () => {
     it('should map venue labels for the component', () => {
       // given
       const state = {
+        users: {
+          currentUser: {
+            email: 'john.doe@example.net',
+          },
+        },
         data: {
           offerers: [],
           userOfferers: [],
@@ -107,11 +112,6 @@ describe('src | components | pages | VenueContainer | mapStateToProps', () => {
           'venue-labels': [
             { id: 'AE', label: "CAC - Centre d'art contemporain d'intérêt national" },
             { id: 'AF', label: "Ville et Pays d'art et d'histoire" },
-          ],
-          users: [
-            {
-              email: 'john.doe@example.net',
-            },
           ],
         },
       }

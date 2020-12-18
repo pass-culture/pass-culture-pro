@@ -4,8 +4,8 @@ describe('src | AppContainer', () => {
   it('should map maintenance status to App', () => {
     // Given
     const state = {
-      data: {
-        users: [],
+      users: {
+        currentUser: null,
       },
       modal: { isActive: true },
       maintenance: { isActivated: true },
@@ -21,8 +21,8 @@ describe('src | AppContainer', () => {
   it('should map the modal status to App', () => {
     // Given
     const state = {
-      data: {
-        users: [],
+      users: {
+        currentUser: null,
       },
       modal: { isActive: false },
       maintenance: { isActivated: true },

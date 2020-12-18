@@ -7,7 +7,6 @@ import { OFFERERS_API_PATH } from 'config/apiPaths'
 import { closeNotification, showNotificationV1 } from 'store/reducers/notificationReducer'
 import { isAPISireneAvailable } from 'store/selectors/data/featuresSelectors'
 import { selectOfferers } from 'store/selectors/data/offerersSelectors'
-import { selectCurrentUser } from 'store/selectors/data/usersSelectors'
 import { offererNormalizer } from 'utils/normalizers'
 import { stringify } from 'utils/query-string'
 
@@ -29,7 +28,7 @@ export const createApiPath = searchKeyWords => {
 
 export const mapStateToProps = state => {
   return {
-    currentUser: selectCurrentUser(state),
+    currentUser: state.users.currentUser,
     isOffererCreationAvailable: isAPISireneAvailable(state),
     notification: state.notification,
     offerers: selectOfferers(state),

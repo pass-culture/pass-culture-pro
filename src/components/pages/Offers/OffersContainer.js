@@ -10,14 +10,13 @@ import {
   setAllVenueOffersInactivate,
 } from 'store/offers/thunks'
 import { closeNotification, showNotificationV1 } from 'store/reducers/notificationReducer'
-import { selectCurrentUser } from 'store/selectors/data/usersSelectors'
 import { fetchFromApiWithCredentials } from 'utils/fetch'
 
 import Offers from './Offers'
 
 export const mapStateToProps = state => {
   return {
-    currentUser: selectCurrentUser(state),
+    currentUser: state.users.currentUser,
     getOfferer: fetchOffererById,
     notification: state.notification,
     offers: selectOffers(state),

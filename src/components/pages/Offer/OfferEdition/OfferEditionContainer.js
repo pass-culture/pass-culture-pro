@@ -13,7 +13,6 @@ import { selectProductById } from 'store/selectors/data/productsSelectors'
 import { selectProviders } from 'store/selectors/data/providersSelectors'
 import { selectStocksByOfferId } from 'store/selectors/data/stocksSelectors'
 import { selectTypesByIsVenueVirtual } from 'store/selectors/data/typesSelectors'
-import { selectCurrentUser } from 'store/selectors/data/usersSelectors'
 import {
   selectVenueById,
   selectVenuesByOffererIdAndOfferType,
@@ -88,7 +87,7 @@ export const mapStateToProps = (state, ownProps) => {
   const offerTypeError = get(state, 'errors.offer.type')
 
   return {
-    currentUser: selectCurrentUser(state),
+    currentUser: state.users.currentUser,
     formInitialValues,
     formOffererId,
     formVenueId,

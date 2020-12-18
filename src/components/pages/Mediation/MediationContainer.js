@@ -7,10 +7,8 @@ import { loadOffer } from 'store/offers/thunks'
 import { showNotificationV1 } from 'store/reducers/notificationReducer'
 import { selectMediationById } from 'store/selectors/data/mediationsSelectors'
 import { selectOffererById } from 'store/selectors/data/offerersSelectors'
-import { selectCurrentUser } from 'store/selectors/data/usersSelectors'
 import { selectVenueById } from 'store/selectors/data/venuesSelectors'
 import { mediationNormalizer, offererNormalizer } from 'utils/normalizers'
-
 
 import Mediation from './Mediation'
 
@@ -23,7 +21,7 @@ export const mapStateToProps = (state, ownProps) => {
   const offer = selectOfferById(state, offerId)
   const venue = selectVenueById(state, get(offer, 'venueId'))
   return {
-    currentUser: selectCurrentUser(state),
+    currentUser: state.users.currentUser,
     offer,
     offerer: selectOffererById(state, venue.managingOffererId),
     venue,

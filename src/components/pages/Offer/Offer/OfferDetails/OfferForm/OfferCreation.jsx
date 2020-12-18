@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 
-import * as pcapi from 'repository/pcapi/pcapi'
+import pcapi from 'repository/pcapi/pcapi'
 
 import OfferForm from './OfferForm'
 

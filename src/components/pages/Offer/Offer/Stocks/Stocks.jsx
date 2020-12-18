@@ -6,7 +6,7 @@ import { v4 as generateRandomUuid } from 'uuid'
 
 import Icon from 'components/layout/Icon'
 import PageTitle from 'components/layout/PageTitle/PageTitle'
-import * as pcapi from 'repository/pcapi/pcapi'
+import pcapi from 'repository/pcapi/pcapi'
 import { getDepartmentTimezone } from 'utils/timezone'
 
 import { EVENT_CANCELLATION_INFORMATION, THING_CANCELLATION_INFORMATION } from './_constants'

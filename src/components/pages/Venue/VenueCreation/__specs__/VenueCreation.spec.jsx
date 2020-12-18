@@ -165,6 +165,13 @@ describe('src | components | pages | Venue', () => {
         }
 
         const store = getStubStore({
+          users: (
+            state = {
+              currentUser: {
+                name: 'test name',
+              },
+            }
+          ) => state,
           data: (
             state = {
               offerers: [],

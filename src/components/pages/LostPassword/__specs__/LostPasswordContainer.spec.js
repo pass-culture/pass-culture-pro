@@ -11,9 +11,7 @@ describe('src | components | pages | LostPassword', () => {
       },
     }
     state = {
-      data: {
-        users: [],
-      },
+      users: { currentUser: null },
       errors: {
         user: null,
       },
@@ -27,7 +25,7 @@ describe('src | components | pages | LostPassword', () => {
 
       // then
       expect(result).toStrictEqual({
-        currentUser: undefined,
+        currentUser: null,
         change: '1',
         envoye: undefined,
         errors: [],

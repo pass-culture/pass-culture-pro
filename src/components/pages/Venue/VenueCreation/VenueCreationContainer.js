@@ -7,7 +7,6 @@ import { CREATION } from 'components/hocs/withFrenchQueryRouter'
 import withTracking from 'components/hocs/withTracking'
 import { showNotificationV1 } from 'store/reducers/notificationReducer'
 import { selectOffererById } from 'store/selectors/data/offerersSelectors'
-import { selectCurrentUser } from 'store/selectors/data/usersSelectors'
 import { selectVenueLabels } from 'store/selectors/data/venueLabelsSelectors'
 import { selectVenueTypes } from 'store/selectors/data/venueTypesSelectors'
 
@@ -26,7 +25,7 @@ export const mapStateToProps = (state, ownProps) => {
     },
   } = ownProps
 
-  const currentUser = selectCurrentUser(state)
+  const currentUser = state.users.currentUser
   return {
     currentUser: currentUser,
     venueTypes: selectVenueTypes(state).map(type => new VenueType(type)),

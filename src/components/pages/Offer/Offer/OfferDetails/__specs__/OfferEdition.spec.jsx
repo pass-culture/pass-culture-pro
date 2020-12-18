@@ -7,7 +7,7 @@ import { MemoryRouter, Route } from 'react-router'
 
 import NotificationV2Container from 'components/layout/NotificationV2/NotificationV2Container'
 import { getProviderInfo } from 'components/pages/Offer/LocalProviderInformation/getProviderInfo'
-import * as pcapi from 'repository/pcapi/pcapi'
+import pcapi from 'repository/pcapi/pcapi'
 import { configureTestStore } from 'store/testUtils'
 
 import * as computeUrl from '../../../utils/computeOffersUrl'
@@ -56,7 +56,7 @@ describe('offerDetails - Edition', () => {
   let editedOfferVenue
 
   beforeEach(() => {
-    store = configureTestStore({ data: { users: [{ publicName: 'François', isAdmin: false }] } })
+    store = configureTestStore({ users: { currentUser: { publicName: 'François', isAdmin: false } } })
     types = [
       {
         conditionalFields: [],

@@ -5,13 +5,12 @@ import { requestData } from 'redux-saga-data'
 
 import withTracking from 'components/hocs/withTracking'
 import { closeNotification, showNotificationV1 } from 'store/reducers/notificationReducer'
-import { selectCurrentUser } from 'store/selectors/data/usersSelectors'
 
 import OffererCreation from './OffererCreation'
 
 export function mapStateToProps(state) {
   return {
-    currentUser: selectCurrentUser(state),
+    currentUser: state.users.currentUser,
   }
 }
 

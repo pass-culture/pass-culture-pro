@@ -2,7 +2,6 @@ import { connect } from 'react-redux'
 import { compose } from 'redux'
 import { requestData } from 'redux-saga-data'
 
-import { selectCurrentUser } from 'store/selectors/data/usersSelectors'
 import { searchSelector } from 'store/selectors/search'
 import { getReCaptchaToken } from 'utils/recaptcha'
 
@@ -18,7 +17,7 @@ export const mapStateToProps = (state, ownProps) => {
   const { change, envoye, token } = searchSelector(state, search)
   return {
     change,
-    currentUser: selectCurrentUser(state),
+    currentUser: state.users.currentUser,
     errors: userErrors,
     envoye,
     token,

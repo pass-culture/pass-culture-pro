@@ -21,6 +21,11 @@ describe('src | components | Matomo', () => {
     }
     window._paq = fakeMatomo
     store = getStubStore({
+      users: (
+        state = {
+          currentUser: null,
+        }
+      ) => state,
       data: (state = {}) => state,
     })
   })
@@ -96,13 +101,11 @@ describe('src | components | Matomo', () => {
     it('should dispatch setUserId with current user id', () => {
       // given
       const store = getStubStore({
-        data: (
+        users: (
           state = {
-            users: [
-              {
-                id: 'TY',
-              },
-            ],
+            currentUser: {
+              id: 'TY',
+            },
           }
         ) => state,
       })

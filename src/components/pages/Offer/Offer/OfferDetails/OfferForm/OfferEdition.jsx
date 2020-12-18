@@ -5,7 +5,7 @@ import {
   isFieldReadOnlyForSynchronizedOffer,
   isSynchronizedOffer,
 } from 'components/pages/Offer/domain/localProvider'
-import * as pcapi from 'repository/pcapi/pcapi'
+import pcapi from 'repository/pcapi/pcapi'
 
 import { computeOffersUrl } from '../../../utils/computeOffersUrl'
 

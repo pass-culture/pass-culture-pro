@@ -5,6 +5,9 @@ describe('pages | Signin | SigninContainer', () => {
     it('should mark account creation as disabled', () => {
       // given
       const state = {
+        users: {
+          currentUser: null,
+        },
         data: {
           features: [
             {
@@ -27,6 +30,9 @@ describe('pages | Signin | SigninContainer', () => {
     it('should mark account creation as disabled', () => {
       // given
       const state = {
+        users: {
+          currentUser: null,
+        },
         data: {
           features: [
             {

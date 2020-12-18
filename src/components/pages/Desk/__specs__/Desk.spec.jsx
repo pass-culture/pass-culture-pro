@@ -11,6 +11,11 @@ import Desk from '../Desk'
 
 const renderDesk = props => {
   const stubbedStore = getStubStore({
+    users: (
+      state = {
+        currentUser: { publicName: 'USER' },
+      }
+    ) => state,
     data: (
       state = {
         users: [{ publicName: 'USER' }],

@@ -32,8 +32,8 @@ describe('src | components | pages | Profil', () => {
       dispatch,
     }
     store = configureStore({
+      users: { currentUser: { id: 'CMOI', publicName: 'user' } },
       data: {
-        users: [{ id: 'CMOI', publicName: 'user' }],
         offerers: [],
       },
     }).store
