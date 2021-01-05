@@ -99,7 +99,7 @@ describe('offerDetails - Edition', () => {
     describe('when thumbnail exists', () => {
       it('should display the actived image', async () => {
         // Given
-        editedOffer.thumbUrl = 'http://fake-url/active-image.png'
+        editedOffer.thumbUrl = 'http://example.net/active-image.png'
 
         // When
         renderOffers({}, store)
@@ -108,7 +108,7 @@ describe('offerDetails - Edition', () => {
         const button = await screen.findByTitle('Modifier l’image', { selector: 'button' })
         const image = await screen.findByAltText('Image de l’offre')
         expect(button).toBeInTheDocument()
-        expect(image).toHaveAttribute('src', 'http://fake-url/active-image.png')
+        expect(image).toHaveAttribute('src', 'http://example.net/active-image.png')
       })
     })
 
