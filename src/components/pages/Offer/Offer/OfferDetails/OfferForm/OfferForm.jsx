@@ -333,7 +333,7 @@ const OfferForm = ({
       )}
 
       <section className="form-section">
-        <h3 className="section-title">
+        <h3>
           {"Type d'offre"}
         </h3>
         <p className="section-description">
@@ -361,7 +361,7 @@ const OfferForm = ({
       {displayFullForm && (
         <Fragment>
           <section className="form-section">
-            <h3 className="section-title">
+            <h3>
               {'Infos artistiques'}
             </h3>
 
@@ -499,7 +499,7 @@ const OfferForm = ({
           </section>
 
           <section className="form-section">
-            <h3 className="section-title">
+            <h3>
               {'Informations pratiques'}
             </h3>
             <p className="section-description">
@@ -584,7 +584,7 @@ const OfferForm = ({
           </section>
 
           <section className="form-section">
-            <h3 className="section-title">
+            <h3>
               {'Autre'}
             </h3>
 

@@ -58,7 +58,7 @@ const Stocks = ({ offer }) => {
   return (
     <div className="stocks-page">
       <PageTitle title="Vos stocks" />
-      <h3 className="section-title">
+      <h3>
         {'Stock et prix'}
       </h3>
 

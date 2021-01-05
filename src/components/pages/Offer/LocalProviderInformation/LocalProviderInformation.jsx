@@ -33,9 +33,9 @@ class LocalProviderInformation extends Component {
               width="64px"
             />
             <div className="provider-title">
-              <h3>
+              <span className="provider-name">
                 {`Offre synchronisée avec ${providerInfo.name}`}
-              </h3>
+              </span>
               <span
                 className="button"
                 data-place="bottom"

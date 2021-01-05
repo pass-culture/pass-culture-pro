@@ -193,7 +193,7 @@ describe('offerDetails - Creation', () => {
       await renderOffers(props, store)
 
       // Then
-      expect(screen.getByText("Type d'offre", { selector: '.section-title' })).toBeInTheDocument()
+      expect(screen.getByText("Type d'offre", { selector: 'h3' })).toBeInTheDocument()
     })
 
     it('should not display a placeholder for preview', async () => {
@@ -227,12 +227,12 @@ describe('offerDetails - Creation', () => {
 
         // Then
         expect(
-          screen.getByText('Infos artistiques', { selector: '.section-title' })
+          screen.getByText('Infos artistiques', { selector: 'h3' })
         ).toBeInTheDocument()
         expect(
-          screen.getByText('Informations pratiques', { selector: '.section-title' })
+          screen.getByText('Informations pratiques', { selector: 'h3' })
         ).toBeInTheDocument()
-        expect(screen.getByText('Autre', { selector: '.section-title' })).toBeInTheDocument()
+        expect(screen.getByText('Autre', { selector: 'h3' })).toBeInTheDocument()
       })
 
       it('should display an offerer selection and a venue selection when user is pro', async () => {

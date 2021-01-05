@@ -36,7 +36,7 @@ describe('src | LocalProviderInformationContainer', () => {
     const wrapper = mount(<LocalProviderInformation {...props} />)
 
     // then
-    const tooltip = wrapper.find('span')
+    const tooltip = wrapper.find('span').at(1)
     expect(tooltip.prop('data-tip')).toContain('<a href="/structures/ABCD/lieux/EARZ">')
   })
 

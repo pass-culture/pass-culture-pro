@@ -19,13 +19,15 @@
   .provider-title {
     padding-left: 0.75rem;
 
-    h3 {
+    .provider-name {
       display: inline-block;
+      font-size: rem(18px);
+      font-weight: 700;
       padding-bottom: rem(1px);
       vertical-align: middle;
     }
 
-    span {
+    .button {
       padding-left: 0.5rem;
       padding-top: rem(2px);
       vertical-align: middle;

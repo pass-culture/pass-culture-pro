@@ -10,3 +10,7 @@ h2 {
 
   line-height: rem(22px);
 }
+
+h3 {
+  @include title3();
+}

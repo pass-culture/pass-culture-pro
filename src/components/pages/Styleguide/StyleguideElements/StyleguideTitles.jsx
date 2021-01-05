@@ -10,7 +10,7 @@ const StyleguideTitles = () => {
   `
 
   const sectionTitle = String.raw`
-    <h3 class="section-title">{"Ceci est un titre de section"}</h3>
+    <h3>{"Ceci est un titre de section"}</h3>
   `
 
   return (
@@ -43,7 +43,7 @@ const StyleguideTitles = () => {
       </div>
 
       <div className="flex-block">
-        <h3 className="section-title">
+        <h3>
           {'Ceci est un titre de section'}
         </h3>
         <div className="it-description">
