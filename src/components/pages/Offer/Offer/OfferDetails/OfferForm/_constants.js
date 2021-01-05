@@ -48,3 +48,7 @@ export const EXTRA_DATA_FIELDS = [
   'visa',
 ]
 export const MANDATORY_FIELDS = ['name', 'venueId', 'offererId', 'url', 'bookingEmail']
+export const FIELDS_WITH_VALIDATION_ERROR_MESSAGES = {
+  durationMinutes:
+    'La durée n\'est pas valide, elle doit être au format "HH:MM" avec "HH" les heures et "MM" les minutes',
+}

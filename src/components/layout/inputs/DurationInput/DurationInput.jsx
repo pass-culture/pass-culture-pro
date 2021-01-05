@@ -1,16 +1,15 @@
+import moment from 'moment'
 import PropTypes from 'prop-types'
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 import InputError from '../Errors/InputError'
 
-const translateMinutesToHours = durationInMinutes => {
-  if (durationInMinutes === null) return ''
-  const hours = Math.floor(durationInMinutes / 60)
-  const minutes = (durationInMinutes % 60).toString().padStart(2, '0')
-  return `${hours}:${minutes}`
+const getPaddedDigits = number => {
+  if (number.toString().length === 1) {
+    number = `0${number}`
+  }
+  return number
 }
-
-const validHoursDuration = durationInHours => durationInHours.match(/[0-9]*:[0-5][0-9]/)
 
 const DurationInput = ({
   disabled,
@@ -22,45 +21,76 @@ const DurationInput = ({
   subLabel,
   initialDurationInMinutes,
 }) => {
-  const [durationInHours, setDurationInHours] = useState(
-    translateMinutesToHours(initialDurationInMinutes)
-  )
+  const [duration, setDuration] = useState(null)
+  const [displayedDuration, setDisplayedDuration] = useState('')
 
-  const onDurationChange = useCallback(
-    event => {
-      const updatedHoursDuration = event.target.value
-      let correctedHoursDuration
+  useEffect(() => {
+    if (initialDurationInMinutes !== null) {
+      const newDuration = moment.duration(initialDurationInMinutes, 'minutes')
+      const hours = Math.floor(newDuration.asHours())
+      const minutes = newDuration.minutes()
+      setDuration(newDuration)
+      setDisplayedDuration(`${hours}:${getPaddedDigits(minutes)}`)
+    }
+  }, [initialDurationInMinutes])
 
-      const hasFinishedWritingHours = /[0-9]+:/.test(updatedHoursDuration)
-      if (hasFinishedWritingHours) {
-        const hasFinishedWritingMinutes = /[0-9]+:[0-5][0-9]/.test(updatedHoursDuration)
-        const hasBegunWritingMinutes = /[0-9]+:[0-5]/.test(updatedHoursDuration)
-
-        if (hasFinishedWritingMinutes) {
-          correctedHoursDuration = updatedHoursDuration.match(/[0-9]+:[0-5][0-9]/)[0]
-          setDurationInHours(correctedHoursDuration)
-        } else if (hasBegunWritingMinutes) {
-          correctedHoursDuration = updatedHoursDuration.match(/[0-9]+:[0-5]/)[0]
-          setDurationInHours(correctedHoursDuration)
-        } else {
-          correctedHoursDuration = updatedHoursDuration.match(/[0-9]+:/)[0]
-          setDurationInHours(correctedHoursDuration)
-        }
-      } else {
-        correctedHoursDuration = updatedHoursDuration.match(/[0-9]*/)[0]
-        setDurationInHours(correctedHoursDuration)
+  useEffect(() => {
+    if (duration) {
+      const durationInMinutes = duration.asMinutes()
+      if (durationInMinutes !== initialDurationInMinutes) {
+        onChange(duration.asMinutes())
       }
+    } else {
+      onChange(null)
+    }
+  }, [duration, initialDurationInMinutes, onChange])
 
-      if (validHoursDuration(correctedHoursDuration)) {
-        const [updatedHours, updatedMinutes] = correctedHoursDuration.split(':')
-        const updatedDurationInMinutes = parseInt(updatedHours) * 60 + parseInt(updatedMinutes)
-        onChange(updatedDurationInMinutes)
-      } else if (correctedHoursDuration === '') {
-        onChange(null)
-      }
-    },
-    [onChange]
-  )
+  // Add a pretty format when we leave the input.
+  // 1:2 will become 1:02
+  const onDurationBlur = useCallback(() => {
+    const hours = Math.floor(duration.asHours())
+    const minutes = duration.minutes()
+    setDisplayedDuration(`${hours}:${getPaddedDigits(minutes)}`)
+  }, [duration, setDisplayedDuration])
+
+  const onDurationChange = useCallback(event => {
+    // Handle empty value
+    if (event.target.value === '') {
+      setDuration(null)
+      setDisplayedDuration('')
+    }
+
+    let newDisplayedValue = event.target.value
+    const valueParts = newDisplayedValue.split(':')
+    let [newHours, newMinutes] = valueParts
+
+    // Ignore seconds or milliseconds by keeping hours and minutes only.
+    if (valueParts.length > 2) {
+      newDisplayedValue = `${newHours}:${newMinutes}`
+    }
+    // Use 0 as default minutes, when the user enter 1, we'll have hours: 1, minute: 0
+    if (!newMinutes) {
+      newMinutes = 0
+    }
+    // Do not update either duration or displayed duration if hours or minutes aren't numbers.
+    const isValid = parseInt(newHours) == newHours && parseInt(newMinutes) == newMinutes
+    if (!isValid) {
+      return
+    }
+    // force maximum minutes value
+    if (parseInt(newMinutes) > 59) {
+      newMinutes = 59
+      newDisplayedValue = `${newHours}:${newMinutes}`
+    }
+
+    setDisplayedDuration(newDisplayedValue)
+    setDuration(
+      moment.duration({
+        hours: newHours,
+        minutes: newMinutes,
+      })
+    )
+  }, [])
 
   return (
     <label className="input-time">
@@ -75,11 +105,12 @@ const DurationInput = ({
           className="itime-field"
           disabled={disabled}
           name={name}
+          onBlur={onDurationBlur}
           onChange={onDurationChange}
           placeholder="HH:MM"
           required={required}
           type="text"
-          value={durationInHours}
+          value={displayedDuration}
         />
       </span>
       {error && (
@@ -96,7 +127,6 @@ DurationInput.defaultProps = {
   disabled: false,
   error: null,
   initialDurationInMinutes: null,
-  onChange: null,
   required: false,
   subLabel: '',
 }
@@ -107,7 +137,7 @@ DurationInput.propTypes = {
   initialDurationInMinutes: PropTypes.number,
   label: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  onChange: PropTypes.func,
+  onChange: PropTypes.func.isRequired,
   required: PropTypes.bool,
   subLabel: PropTypes.string,
 }

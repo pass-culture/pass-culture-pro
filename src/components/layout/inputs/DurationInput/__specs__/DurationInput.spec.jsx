@@ -64,21 +64,7 @@ describe('src | components | inputs | DurationInput', () => {
     expect(durationInput).toHaveValue('1:00')
   })
 
-  it('should not call onChange prop function while text is not a correct duration in hours', async () => {
-    // Given
-    await renderDurationInput(props)
-    const durationInput = screen.getByRole('textbox')
-
-    // When
-    userEvent.type(durationInput, '1:2')
-
-    // Then
-    expect(props.onChange).toHaveBeenCalledTimes(0)
-    expect(durationInput).toHaveValue('1:2')
-  })
-
   it('should call onChange prop function with updated duration in minutes', async () => {
-    // Given
     await renderDurationInput(props)
     const durationInput = screen.getByRole('textbox')
 
@@ -87,11 +73,9 @@ describe('src | components | inputs | DurationInput', () => {
 
     // Then
     expect(props.onChange).toHaveBeenCalledWith(85)
-    expect(durationInput).toHaveValue('1:25')
   })
 
   it('should call onChange prop function with null when user remove the duration', async () => {
-    // Given
     await renderDurationInput(props)
     const durationInput = screen.getByRole('textbox')
     await userEvent.type(durationInput, '1:25')
@@ -101,7 +85,6 @@ describe('src | components | inputs | DurationInput', () => {
 
     // Then
     expect(props.onChange).toHaveBeenLastCalledWith(null)
-    expect(durationInput).toHaveValue('')
   })
 
   it('should accept only numeric caracters', async () => {
@@ -114,7 +97,6 @@ describe('src | components | inputs | DurationInput', () => {
 
     // Then
     expect(props.onChange).toHaveBeenCalledWith(73)
-    expect(durationInput).toHaveValue('1:13')
   })
 
   it('should accept only one hours-minutes separator', async () => {
@@ -126,24 +108,10 @@ describe('src | components | inputs | DurationInput', () => {
     await userEvent.type(durationInput, '1:34:23')
 
     // Then
-    expect(props.onChange).toHaveBeenCalledWith(94)
-    expect(durationInput).toHaveValue('1:34')
+    expect(props.onChange).toHaveBeenCalledWith(119)
   })
 
-  it('should accept only minutes with two digits', async () => {
-    // Given
-    await renderDurationInput(props)
-    const durationInput = screen.getByRole('textbox')
-
-    // When
-    await userEvent.type(durationInput, '1:346')
-
-    // Then
-    expect(props.onChange).toHaveBeenCalledWith(94)
-    expect(durationInput).toHaveValue('1:34')
-  })
-
-  it('should accept only 0 to 5 for ten of minutes":"', async () => {
+  it('should have a maximum of 59 minutes":"', async () => {
     // Given
     await renderDurationInput(props)
     const durationInput = screen.getByRole('textbox')
@@ -152,7 +120,6 @@ describe('src | components | inputs | DurationInput', () => {
     await userEvent.type(durationInput, '1:734')
 
     // Then
-    expect(props.onChange).toHaveBeenCalledWith(94)
-    expect(durationInput).toHaveValue('1:34')
+    expect(props.onChange).toHaveBeenCalledWith(119)
   })
 })

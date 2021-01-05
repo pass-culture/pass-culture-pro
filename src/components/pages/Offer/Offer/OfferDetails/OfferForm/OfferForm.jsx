@@ -19,6 +19,7 @@ import {
   EDITED_OFFER_READ_ONLY_FIELDS,
   EXTRA_DATA_FIELDS,
   MANDATORY_FIELDS,
+  FIELDS_WITH_VALIDATION_ERROR_MESSAGES,
 } from './_constants'
 import OfferRefundWarning from './OfferRefundWarning'
 import TypeTreeSelects from './TypeTreeSelects'
@@ -72,6 +73,7 @@ const OfferForm = ({
   const [offererOptions, setOffererOptions] = useState([])
   const isBusy = useRef(true)
   const readOnlyFields = useRef([])
+  const validFields = useRef(Object.keys(FIELDS_WITH_VALIDATION_ERROR_MESSAGES))
 
   const handleFormUpdate = useCallback(
     newFormValues => setFormValues(oldFormValues => ({ ...oldFormValues, ...newFormValues })),
@@ -241,6 +243,17 @@ const OfferForm = ({
       }
     })
 
+    for (const [fieldWithValidation, errorMessage] of Object.entries(
+      FIELDS_WITH_VALIDATION_ERROR_MESSAGES
+    )) {
+      if (
+        formFields.includes(fieldWithValidation) &&
+        !validFields.current.includes(fieldWithValidation)
+      ) {
+        newFormErrors[fieldWithValidation] = errorMessage
+      }
+    }
+
     setFormErrors(newFormErrors)
     return Object.keys(newFormErrors).length === 0
   }, [offerFormFields, formValues])
@@ -296,9 +309,13 @@ const OfferForm = ({
     [formValues, handleFormUpdate]
   )
 
-  const handleDurationChange = useCallback(value => handleFormUpdate({ durationMinutes: value }), [
-    handleFormUpdate,
-  ])
+  const handleDurationChange = useCallback(
+    value => {
+      validFields.current.push('durationMinutes')
+      handleFormUpdate({ durationMinutes: value })
+    },
+    [handleFormUpdate]
+  )
 
   // TODO rlecellier: see if it can be moved in offer default value (as offerer)
   const toggleReceiveNotification = useCallback(
