@@ -11,6 +11,7 @@ import { isAllocineOffer, isSynchronizedOffer } from 'components/pages/Offer/dom
 import offerIsRefundable from 'components/pages/Offer/domain/offerIsRefundable'
 import * as pcapi from 'repository/pcapi/pcapi'
 
+import { computeOffersUrl } from '../../../utils/computeOffersUrl'
 import SynchronizedProviderInformation from '../SynchronizedProviderInformation'
 
 import {
@@ -55,6 +56,7 @@ const OfferForm = ({
   initialValues,
   isUserAdmin,
   offer,
+  offersSearchFilters,
   onSubmit,
   showErrorNotification,
   setShowThumbnailForm,
@@ -644,12 +646,12 @@ const OfferForm = ({
 
       <section className="actions-section">
         {offer ? (
-          <button
-            className="secondary-button"
-            type="button"
+          <a
+            className="secondary-link"
+            href={computeOffersUrl(offersSearchFilters)}
           >
             {'Annuler'}
-          </button>
+          </a>
         ) : null}
         <button
           className="primary-button"
@@ -673,6 +675,7 @@ OfferForm.propTypes = {
   initialValues: PropTypes.shape(),
   isUserAdmin: PropTypes.bool,
   offer: PropTypes.shape(),
+  offersSearchFilters: PropTypes.shape().isRequired,
   onSubmit: PropTypes.func.isRequired,
   setShowThumbnailForm: PropTypes.func.isRequired,
   showErrorNotification: PropTypes.func.isRequired,
