@@ -132,6 +132,13 @@ export const loadTypes = () => {
 //
 // stocks
 //
+export const bulkCreateOrEditStock = (offerId, stocks) => {
+  return client.post(`/stocks/bulk`, {
+    offer_id: offerId,
+    stocks,
+  })
+}
+
 export const updateStock = stock => {
   const { stockId, ...stockWithoutId } = stock
   return client.patch(`/stocks/${stockId}`, stockWithoutId)

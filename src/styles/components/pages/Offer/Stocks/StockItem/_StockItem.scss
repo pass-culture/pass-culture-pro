@@ -47,25 +47,26 @@
       height: rem(25px);
     }
   }
+  .action-column {
+    .secondary-button {
+      border-radius: 50%;
+      line-height: 0;
+      padding: 0;
+      width: rem(40px);
 
-  .secondary-button {
-    border-radius: 50%;
-    line-height: 0;
-    padding: 0;
-    width: rem(40px);
+      &:disabled {
+        border-width: 2px;
 
-    &:disabled {
-      border-width: 2px;
-
-      img {
-        opacity: 0.5;
+        img {
+          opacity: 0.5;
+        }
       }
-    }
 
-    &:hover:disabled,
-    &:focus:disabled {
-      img {
-        filter: none;
+      &:hover:disabled,
+      &:focus:disabled {
+        img {
+          filter: none;
+        }
       }
     }
   }

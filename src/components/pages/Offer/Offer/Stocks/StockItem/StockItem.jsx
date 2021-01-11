@@ -6,51 +6,33 @@ import Icon from 'components/layout/Icon'
 import DateInput from 'components/layout/inputs/DateInput/DateInput'
 import TimeInput from 'components/layout/inputs/TimeInput/TimeInput'
 import DeleteStockDialogContainer from 'components/pages/Offer/Offer/Stocks/DeleteStockDialog/DeleteStockDialogContainer'
-import * as pcapi from 'repository/pcapi/pcapi'
 
 const StockItem = ({
   departmentCode,
   isEvent,
   isNewStock,
   isOfferSynchronized,
-  notifyCreateSuccess,
   notifyError,
-  notifyUpdateSuccess,
   offerId,
+  onChange,
+  onRemove,
   refreshOffer,
   stock,
-  setIsAddingNewStock,
-  setParentIsEditing,
 }) => {
   const today = new Date().toISOString()
-
   const [formErrors, setFormErrors] = useState({})
-  const [isEditing, setIsEditing] = useState(isNewStock)
   const [isDeleting, setIsDeleting] = useState(false)
   const [beginningDatetime, setBeginningDatetime] = useState(stock.beginningDatetime)
   const [bookingLimitDatetime, setBookingLimitDatetime] = useState(stock.bookingLimitDatetime)
   const [price, setPrice] = useState(stock.price)
   const [totalQuantity, setTotalQuantity] = useState(stock.quantity)
 
-  const enableUpdatableFields = useCallback(() => {
-    setIsEditing(true)
-  }, [])
-
-  const refreshStock = useCallback(() => {
-    setIsEditing(isNewStock)
+  useEffect(() => {
     setBeginningDatetime(stock.beginningDatetime)
     setBookingLimitDatetime(stock.bookingLimitDatetime)
     setPrice(stock.price)
     setTotalQuantity(stock.quantity)
-  }, [isNewStock, stock])
-
-  useEffect(() => {
-    refreshStock()
-  }, [refreshStock])
-
-  useEffect(() => {
-    setParentIsEditing(isEditing)
-  }, [setParentIsEditing, isEditing])
+  }, [stock.beginningDatetime, stock.bookingLimitDatetime, stock.price, stock.quantity])
 
   const getSelectedDatetime = useCallback(
     momentDateTime => {
@@ -81,6 +63,7 @@ const StockItem = ({
 
   const changeBookingLimitDatetime = useCallback(momentDateTime => {
     const utcDateIsoFormat = momentDateTime ? momentDateTime.utc().format() : ''
+    console.log('utcDateIsoFormat', utcDateIsoFormat)
     setBookingLimitDatetime(utcDateIsoFormat)
   }, [])
 
@@ -103,9 +86,13 @@ const StockItem = ({
     return null
   }, [bookingLimitDatetime])
 
-  const changePrice = useCallback(event => setPrice(event.target.value), [])
+  const changePrice = useCallback(event => {
+    setPrice(event.target.value)
+  }, [])
 
-  const changeTotalQuantity = useCallback(event => setTotalQuantity(event.target.value), [])
+  const changeTotalQuantity = useCallback(event => {
+    setTotalQuantity(event.target.value)
+  }, [])
 
   const askDeletionConfirmation = useCallback(() => {
     setIsDeleting(true)
@@ -115,17 +102,10 @@ const StockItem = ({
   const totalQuantityValue = totalQuantity !== null ? totalQuantity : ''
   const computedRemainingQuantity = totalQuantityValue - stock.bookingsQuantity
   const remainingQuantityValue = totalQuantityValue !== '' ? computedRemainingQuantity : 'Illimité'
-  const isEventStockEditable = beginningDatetime > today
+  const isEventStockEditable = isNewStock || beginningDatetime > today
   const isThingStockEditable = !isOfferSynchronized
   const isStockEditable = isEvent ? isEventStockEditable : isThingStockEditable
-  const isStockDeletable = isEvent ? stock.isEventDeletable : !isOfferSynchronized
-
-  useEffect(() => {
-    const errorMessages = Object.values(formErrors)
-    if (errorMessages.length > 0) {
-      notifyError(errorMessages)
-    }
-  }, [formErrors, notifyError])
+  const isStockDeletable = isNewStock || (isEvent ? stock.isEventDeletable : !isOfferSynchronized)
 
   const isValid = useCallback(() => {
     let errors = []
@@ -161,100 +141,56 @@ const StockItem = ({
     return !hasErrors
   }, [isNewStock, price, remainingQuantityValue, setFormErrors, totalQuantity])
 
-  const saveChanges = useCallback(() => {
-    if (isValid()) {
-      const payload = {
-        stockId: stock.id,
-        price: price ? price : 0,
-        quantity: totalQuantity ? totalQuantity : null,
-      }
-      const thingPayload = {
-        ...payload,
-        bookingLimitDatetime: getBookingLimitDatetimeForThing(),
-      }
-      const eventPayload = {
-        ...payload,
-        beginningDatetime: beginningDatetime,
-        bookingLimitDatetime: getBookingLimitDatetimeForEvent(),
-      }
-      pcapi
-        .updateStock(isEvent ? eventPayload : thingPayload)
-        .then(async () => {
-          await refreshOffer()
-          notifyUpdateSuccess()
-        })
-        .catch(errors => {
-          const submitErrors = {
-            global: 'Impossible de modifier le stock.',
-            ...('errors' in errors ? errors.errors : []),
-          }
-          setFormErrors(submitErrors)
-        })
+  useEffect(() => {
+    let updatedStock = {
+      price: price ? parseInt(price) : 0,
+      quantity: totalQuantity ? parseInt(totalQuantity) : null,
+      bookingLimitDatetime: getBookingLimitDatetimeForEvent(),
+    }
+
+    if (isNewStock) {
+      updatedStock.tmpId = stock.tmpId
+      updatedStock.offerId = offerId
+    } else {
+      updatedStock.id = stock.id
+    }
+
+    if (isEvent) {
+      updatedStock.beginningDatetime = beginningDatetime
+    }
+
+    let hasChange = false
+    Object.keys(stock).forEach(
+      field => (hasChange = hasChange || stock[field] !== updatedStock[field])
+    )
+
+    if (hasChange && isValid()) {
+      onChange(updatedStock)
     }
   }, [
-    stock.id,
     beginningDatetime,
-    isEvent,
-    isValid,
     getBookingLimitDatetimeForEvent,
     getBookingLimitDatetimeForThing,
-    notifyUpdateSuccess,
+    isEvent,
+    isNewStock,
+    isValid,
+    onChange,
+    offerId,
     price,
-    setFormErrors,
+    stock,
     totalQuantity,
-    refreshOffer,
   ])
+
+  useEffect(() => {
+    const errorMessages = Object.values(formErrors)
+    if (errorMessages.length > 0) {
+      notifyError(errorMessages)
+    }
+  }, [formErrors, notifyError])
 
   const removeNewStockLine = useCallback(() => {
-    setIsAddingNewStock(false)
-  }, [setIsAddingNewStock])
-
-  const saveNewStock = useCallback(() => {
-    if (isValid()) {
-      const payload = {
-        offerId: offerId,
-        price: price ? price : 0,
-        quantity: totalQuantity ? totalQuantity : null,
-      }
-      const thingPayload = {
-        ...payload,
-        bookingLimitDatetime: getBookingLimitDatetimeForThing(),
-      }
-      const eventPayload = {
-        ...payload,
-        beginningDatetime: beginningDatetime,
-        bookingLimitDatetime: getBookingLimitDatetimeForEvent(),
-      }
-
-      pcapi
-        .createStock(isEvent ? eventPayload : thingPayload)
-        .then(() => {
-          refreshOffer()
-          removeNewStockLine()
-          notifyCreateSuccess()
-        })
-        .catch(errors => {
-          const submitErrors = {
-            global: 'Impossible d’ajouter le stock.',
-            ...('errors' in errors ? errors.errors : []),
-          }
-          setFormErrors(submitErrors)
-        })
-    }
-  }, [
-    offerId,
-    beginningDatetime,
-    isEvent,
-    getBookingLimitDatetimeForEvent,
-    getBookingLimitDatetimeForThing,
-    isValid,
-    notifyCreateSuccess,
-    price,
-    setFormErrors,
-    totalQuantity,
-    refreshOffer,
-    removeNewStockLine,
-  ])
+    onRemove(stock.tmpId)
+  }, [onRemove, stock.tmpId])
 
   return (
     <tr>
@@ -264,7 +200,7 @@ const StockItem = ({
             <DateInput
               ariaLabel="Date de l’événement"
               departmentCode={departmentCode}
-              disabled={!isEditing || isOfferSynchronized}
+              disabled={!isStockEditable || isDeleting || isOfferSynchronized}
               minUtcDateIsoFormat={today}
               onChange={changeBeginningDatetime}
               openingUtcDateIsoFormat={today}
@@ -276,7 +212,7 @@ const StockItem = ({
             <TimeInput
               ariaLabel="Heure de l’événement"
               departmentCode={departmentCode}
-              disabled={!isEditing || isOfferSynchronized}
+              disabled={!isStockEditable || isDeleting || isOfferSynchronized}
               onChange={changeBeginningDatetime}
               stock={stock}
               utcDateIsoFormat={beginningDatetime}
@@ -290,7 +226,7 @@ const StockItem = ({
           className={`it-input ${priceValue ? 'with-euro-icon' : ''} ${
             'price' in formErrors ? 'error' : ''
           }`}
-          disabled={!isEditing}
+          disabled={!isStockEditable || isDeleting}
           name="price"
           onChange={changePrice}
           placeholder="Gratuit"
@@ -302,7 +238,7 @@ const StockItem = ({
         <DateInput
           ariaLabel="Date limite de réservation"
           departmentCode={departmentCode}
-          disabled={!isEditing}
+          disabled={!isStockEditable || isDeleting}
           maxUtcDateIsoFormat={beginningDatetime}
           onChange={changeBookingLimitDatetime}
           openingUtcDateIsoFormat={today}
@@ -314,7 +250,7 @@ const StockItem = ({
         <input
           aria-label="Quantité"
           className={`it-input ${'quantity' in formErrors ? 'error' : ''}`}
-          disabled={!isEditing}
+          disabled={!isStockEditable || isDeleting}
           name="quantity"
           onChange={changeTotalQuantity}
           placeholder="Illimité"
@@ -329,57 +265,17 @@ const StockItem = ({
         {!isNewStock && stock.bookingsQuantity}
       </td>
       <td className="action-column">
-        {!isEditing ? (
-          <button
-            className="secondary-button"
-            disabled={!isStockEditable || isDeleting}
-            onClick={enableUpdatableFields}
-            type="button"
-          >
-            <Icon
-              alt="Modifier le stock"
-              svg="ico-pen"
-            />
-          </button>
-        ) : (
-          <button
-            className="secondary-button validate-button"
-            disabled={isEvent && !beginningDatetime}
-            onClick={isNewStock ? saveNewStock : saveChanges}
-            type="button"
-          >
-            <Icon
-              alt="Valider les modifications"
-              svg="ico-validate-p"
-            />
-          </button>
-        )}
-      </td>
-      <td className="action-column">
-        {!isEditing ? (
-          <button
-            className="secondary-button"
-            disabled={!isStockDeletable || isDeleting}
-            onClick={askDeletionConfirmation}
-            type="button"
-          >
-            <Icon
-              alt="Supprimer le stock"
-              svg="ico-close-r"
-            />
-          </button>
-        ) : (
-          <button
-            className="secondary-button"
-            onClick={isNewStock ? removeNewStockLine : refreshStock}
-            type="button"
-          >
-            <Icon
-              alt="Annuler les modifications"
-              svg="ico-back"
-            />
-          </button>
-        )}
+        <button
+          className="secondary-button"
+          disabled={!isStockDeletable || isDeleting}
+          onClick={isNewStock ? removeNewStockLine : askDeletionConfirmation}
+          type="button"
+        >
+          <Icon
+            alt="Supprimer le stock"
+            svg="ico-close-r"
+          />
+        </button>
         {isDeleting && (
           <DeleteStockDialogContainer
             refreshOffer={refreshOffer}
@@ -395,7 +291,6 @@ const StockItem = ({
 StockItem.defaultProps = {
   isNewStock: false,
   stock: {
-    id: '',
     bookingsQuantity: 0,
     isEventDeletable: false,
     beginningDatetime: '',
@@ -410,15 +305,14 @@ StockItem.propTypes = {
   isEvent: PropTypes.bool.isRequired,
   isNewStock: PropTypes.bool,
   isOfferSynchronized: PropTypes.bool.isRequired,
-  notifyCreateSuccess: PropTypes.func.isRequired,
   notifyError: PropTypes.func.isRequired,
-  notifyUpdateSuccess: PropTypes.func.isRequired,
   offerId: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  onRemove: PropTypes.func.isRequired,
   refreshOffer: PropTypes.func.isRequired,
-  setIsAddingNewStock: PropTypes.func.isRequired,
-  setParentIsEditing: PropTypes.func.isRequired,
   stock: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    id: PropTypes.string,
+    tmpId: PropTypes.string,
     bookingsQuantity: PropTypes.number.isRequired,
     isEventDeletable: PropTypes.bool.isRequired,
     beginningDatetime: PropTypes.string,
