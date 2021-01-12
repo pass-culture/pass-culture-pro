@@ -286,10 +286,28 @@ describe('thumbnail edition', () => {
         fireEvent.click(screen.getByText('Utiliser une URL'))
 
         // When
-        fireEvent.change(screen.getByLabelText('URL de l’image'), { target: { value: 'MEFA' } })
+        fireEvent.change(screen.getByLabelText('URL de l’image'), {target: {value: 'MEFA'}})
 
         // Then
-        expect(screen.getByText('Valider', { selector: 'button' })).not.toHaveAttribute('disabled')
+        expect(screen.getByText('Valider', {selector: 'button'})).not.toHaveAttribute('disabled')
+      })
+
+      it('should display error if the image imported from the URL is not a jpg or png', async () => {
+        // Given
+        await renderThumbnail({}, store)
+        fireEvent.click(screen.getByText('Utiliser une URL'))
+        const exampleURL = 'https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg'
+        fireEvent.change(screen.getByLabelText('URL de l’image'), { target: { value: exampleURL } })
+
+        // When
+        fireEvent.click(screen.getByText('Valider', { selector: 'button' }))
+
+        // Then
+        expect(
+          await screen.findByText('Formats supportés : JPG, PNG', {
+            selector: 'strong',
+          })
+        ).toBeInTheDocument()
       })
     })
   })

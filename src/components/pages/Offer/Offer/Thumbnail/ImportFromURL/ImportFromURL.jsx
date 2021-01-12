@@ -14,6 +14,13 @@ const ImportFromURL = () => {
     setUrl(url)
   }, [])
 
+  const validateImage = useCallback(async () => {
+    const currentURLResponse = await fetch(url)
+    console.log(currentURLResponse)
+  }, []
+  )
+
+
   return (
     <form className="tnf-form">
       <ThumbnailSampleIcon />
@@ -32,6 +39,7 @@ const ImportFromURL = () => {
         className="primary-button tnf-url-button"
         disabled={isButtonDisabled}
         type="submit"
+        onClick={validateImage}
       >
         {'Valider'}
       </button>
