@@ -53,7 +53,6 @@ const ThumbnailDialog = ({ setIsModalOpened }) => {
       <ImportTab
         activeStep={activeStep}
         changeTab={changeTab}
-        ref={fileInputRef}
       />
       {tabId === IMPORT_TAB_ID ? <ImportFromComputer /> : <ImportFromURL />}
       <hr className="tnd-hr" />
