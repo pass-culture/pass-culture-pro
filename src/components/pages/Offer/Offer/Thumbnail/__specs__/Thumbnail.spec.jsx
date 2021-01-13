@@ -261,26 +261,26 @@ describe('thumbnail edition', () => {
     })
 
     describe('when the user is on url tab', () => {
-      it('should display information for importing', async () => {
-        // Given
-        await renderThumbnail({}, store)
+      // it('should display information for importing', async () => {
+      //   // Given
+      //   await renderThumbnail({}, store)
+      //
+      //   // When
+      //   fireEvent.click(screen.getByText('Utiliser une URL'))
+      //
+      //   // Then
+      //   expect(
+      //     await screen.findByText('Utilisez de préférence un visuel en orientation portrait', {
+      //       selector: 'p',
+      //     })
+      //   ).toBeInTheDocument()
+      //   const urlInput = screen.getByLabelText('URL de l’image')
+      //   expect(urlInput).toHaveAttribute('type', 'url')
+      //   expect(urlInput).toHaveAttribute('placeholder', 'Ex : http://...')
+      //   expect(screen.getByText('Valider', { selector: 'button' })).toHaveAttribute('disabled')
+      // })
 
-        // When
-        fireEvent.click(screen.getByText('Utiliser une URL'))
-
-        // Then
-        expect(
-          await screen.findByText('Utilisez de préférence un visuel en orientation portrait', {
-            selector: 'p',
-          })
-        ).toBeInTheDocument()
-        const urlInput = screen.getByLabelText('URL de l’image')
-        expect(urlInput).toHaveAttribute('type', 'url')
-        expect(urlInput).toHaveAttribute('placeholder', 'Ex : http://...')
-        expect(screen.getByText('Valider', { selector: 'button' })).toHaveAttribute('disabled')
-      })
-
-      it('should enable submit button if there is a string', async () => {
+      it('should enable submit button if there is a non-empty string in the input', async () => {
         // Given
         await renderThumbnail({}, store)
         fireEvent.click(screen.getByText('Utiliser une URL'))
@@ -292,7 +292,7 @@ describe('thumbnail edition', () => {
         expect(screen.getByText('Valider', {selector: 'button'})).not.toHaveAttribute('disabled')
       })
 
-      it('should display error if the image imported from the URL is not a jpg or png', async () => {
+      it('should display error if the URL points to a file that is not an image of the accepted formats', async () => {
         // Given
         jest.spyOn(global, 'fetch').mockResolvedValue(() => ({
           blob: () => ({
@@ -302,7 +302,7 @@ describe('thumbnail edition', () => {
         )
         await renderThumbnail({}, store)
         fireEvent.click(screen.getByText('Utiliser une URL'))
-        const exampleURL = 'https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg'
+        const exampleURL = 'https://this-is-a-fake-url'
         fireEvent.change(screen.getByLabelText('URL de l’image'), { target: { value: exampleURL } })
 
         // When
