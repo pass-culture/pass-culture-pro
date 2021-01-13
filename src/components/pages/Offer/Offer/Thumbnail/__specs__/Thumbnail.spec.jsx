@@ -294,6 +294,12 @@ describe('thumbnail edition', () => {
 
       it('should display error if the image imported from the URL is not a jpg or png', async () => {
         // Given
+        jest.spyOn(global, 'fetch').mockResolvedValue(() => ({
+          blob: () => ({
+            type: 'application/json',
+          }),
+        }),
+        )
         await renderThumbnail({}, store)
         fireEvent.click(screen.getByText('Utiliser une URL'))
         const exampleURL = 'https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg'

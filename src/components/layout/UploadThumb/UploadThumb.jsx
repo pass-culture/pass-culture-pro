@@ -95,6 +95,7 @@ class UploadThumb extends PureComponent {
               borderRadius={borderRadius}
               className="avatar editor"
               color={[255, 255, 255, readOnly || !image ? 1 : 0.6]}
+              crossOrigin=''
               height={height}
               image={image}
               onImageChange={this.handleOnImageChange}
