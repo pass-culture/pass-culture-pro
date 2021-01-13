@@ -12,6 +12,7 @@ import { configureTestStore } from 'store/testUtils'
 import { MIN_IMAGE_HEIGHT, MIN_IMAGE_WIDTH } from '../_constants'
 
 global.createImageBitmap = () => Promise.resolve({})
+global.createImageBitmap = () => Promise.resolve({})
 
 const createImageFile = ({
   name = 'example.png',
@@ -261,49 +262,24 @@ describe('thumbnail edition', () => {
     })
 
     describe('when the user is on url tab', () => {
-      // it('should display information for importing', async () => {
-      //   // Given
-      //   await renderThumbnail({}, store)
-      //
-      //   // When
-      //   fireEvent.click(screen.getByText('Utiliser une URL'))
-      //
-      //   // Then
-      //   expect(
-      //     await screen.findByText('Utilisez de préférence un visuel en orientation portrait', {
-      //       selector: 'p',
-      //     })
-      //   ).toBeInTheDocument()
-      //   const urlInput = screen.getByLabelText('URL de l’image')
-      //   expect(urlInput).toHaveAttribute('type', 'url')
-      //   expect(urlInput).toHaveAttribute('placeholder', 'Ex : http://...')
-      //   expect(screen.getByText('Valider', { selector: 'button' })).toHaveAttribute('disabled')
-      // })
-
       it('should enable submit button if there is a non-empty string in the input', async () => {
         // Given
         await renderThumbnail({}, store)
         fireEvent.click(screen.getByText('Utiliser une URL'))
 
         // When
-        fireEvent.change(screen.getByLabelText('URL de l’image'), {target: {value: 'MEFA'}})
+        fireEvent.change(screen.getByLabelText('URL de l’image'), { target: { value: 'MEFA' } })
 
         // Then
-        expect(screen.getByText('Valider', {selector: 'button'})).not.toHaveAttribute('disabled')
+        expect(screen.getByText('Valider', { selector: 'button' })).not.toHaveAttribute('disabled')
       })
 
       it('should display error if the URL points to a file that is not an image of the accepted formats', async () => {
         // Given
-        jest.spyOn(global, 'fetch').mockResolvedValue(() => ({
-          blob: () => ({
-            type: 'application/json',
-          }),
-        }),
-        )
+        const xml_blob = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E"
         await renderThumbnail({}, store)
         fireEvent.click(screen.getByText('Utiliser une URL'))
-        const exampleURL = 'https://this-is-a-fake-url'
-        fireEvent.change(screen.getByLabelText('URL de l’image'), { target: { value: exampleURL } })
+        fireEvent.change(screen.getByLabelText('URL de l’image'), { target: { value: xml_blob } })
 
         // When
         fireEvent.click(screen.getByText('Valider', { selector: 'button' }))
@@ -311,6 +287,27 @@ describe('thumbnail edition', () => {
         // Then
         expect(
           await screen.findByText('Formats supportés : JPG, PNG', {
+            selector: 'strong',
+          })
+        ).toBeInTheDocument()
+      })
+
+      it('should display error if the URL points to a file of low resolution', async () => {
+        // Given
+        // const xml blob : data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E
+        const blob =
+          'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVQYV2NgYAAAAAMAAWgmWQ0AAAAASUVORK5CYII=\n'
+        await renderThumbnail({}, store)
+
+        fireEvent.click(screen.getByText('Utiliser une URL'))
+        fireEvent.change(screen.getByLabelText('URL de l’image'), { target: { value: blob } })
+
+        // When
+        fireEvent.click(screen.getByText('Valider', { selector: 'button' }))
+
+        // Then
+        expect(
+          await screen.findByText('La taille de l’image doit être supérieure à 400 x 400px URL', {
             selector: 'strong',
           })
         ).toBeInTheDocument()

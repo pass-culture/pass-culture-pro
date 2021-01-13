@@ -1,36 +1,27 @@
-import React, { Fragment, useCallback, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 
 import TextInput from 'components/layout/inputs/TextInput/TextInput'
 import { ReactComponent as ThumbnailSampleIcon } from 'components/pages/Offer/Offer/Thumbnail/assets/thumbnail-sample.svg'
-import {constraints} from "../_error_validator";
-import Icon from "../../../../../layout/Icon";
 
+import Icon from '../../../../../layout/Icon'
+import { constraints, isOfPoorQualityURL } from '../_error_validator'
 
-const loadImageURL = (imageURL) => {
+const loadImageURL = async (imageURL, crossOrigin) => {
   return new Promise((resolve, reject) => {
     const image = new Image()
     image.onload = () => resolve(image)
     image.onerror = reject
-    image.crossOrigin = ''
+    if (crossOrigin) {
+      image.crossOrigin = crossOrigin
+    }
     image.src = imageURL
   })
 }
 
-
 const ImportFromURL = () => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true)
   const [url, setUrl] = useState('')
-  const [image, setImage] = useState('')
-  const [height, setHeight] = useState('')
-  const [width, setWidth] = useState('')
   const [error, setError] = useState('')
-
-  const getError = async file => {
-    for (const constraint of constraints) {
-      if (await constraint.validator(file)) return Promise.resolve(constraint.id)
-    }
-    return Promise.resolve('')
-  }
 
   const fileConstraint = () =>
     constraints.map(constraint => {
@@ -62,62 +53,58 @@ const ImportFromURL = () => {
     setUrl(url)
   }, [])
 
+  const validateImage = useCallback(
+    async event => {
+      event.preventDefault()
+      setError('')
 
-  const validateImage = useCallback(event => {
-    event.preventDefault()
-
-    loadImageURL(url).then((e) => {
-      setImage(e)
-      setWidth(e.width)
-      setHeight(e.height)
-      // const error = getError(e)
-      // setError(error)
-      console.log('On est dans loadImageURL')
-    }).catch(
-      (imageCreationError) => {
+      try {
+        const image = await loadImageURL(url, '')
+        const dimensions = {
+          width: image.width,
+          height: image.height,
+        }
+        if (isOfPoorQualityURL(dimensions)) {
+          setError('dimensionsURL')
+          return
+        }
+      } catch {
         setError('format')
-        console.log(imageCreationError)
       }
-    )
-
-
-    setUrl(url)
-  }, [url],
+      console.log('no error yolo')
+      setUrl(url)
+    },
+    [url]
   )
 
   return (
-    <Fragment>
-      <form className="tnf-form">
-        <ThumbnailSampleIcon/>
-        <p className="tnf-info">
-          {'Utilisez de préférence un visuel en orientation portrait'}
-        </p>
-        <TextInput
-          label="URL de l’image"
-          name="url"
-          onChange={checkUrl}
-          placeholder="Ex : http://..."
-          type="url"
-          value={url}
-        />
-        <button
-          className="primary-button tnf-url-button"
-          disabled={isButtonDisabled}
-          onClick={validateImage}
-          type="submit"
-        >
-          {'Valider'}
-        </button>
-      </form>
+    <form className="tnf-form">
+      <ThumbnailSampleIcon />
+      <p className="tnf-info">
+        {'Utilisez de préférence un visuel en orientation portrait'}
+      </p>
+      <TextInput
+        label="URL de l’image"
+        name="url"
+        onChange={checkUrl}
+        placeholder="Ex : http://..."
+        type="url"
+        value={url}
+      />
+      <button
+        className="primary-button tnf-url-button"
+        disabled={isButtonDisabled}
+        onClick={validateImage}
+        type="submit"
+      >
+        {'Valider'}
+      </button>
       {error && (
-        <ul>
+        <ul className="tnf-mandatory">
           {fileConstraint()}
         </ul>
-      )
-      }
-
-    </Fragment>
+      )}
+    </form>
   )
-
 }
 export default ImportFromURL
