@@ -1,10 +1,12 @@
-import { RECAPTCHA_SITE_KEY } from './config'
+import { RECAPTCHA_SITE_KEY, IS_TESTING } from './config'
 
 export const initReCaptchaScript = () => {
   const script = document.createElement('script')
 
   script.src = `https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`
-  script.async = true
+  if (!IS_TESTING) {
+    script.async = true
+  }
 
   return document.body.appendChild(script)
 }
