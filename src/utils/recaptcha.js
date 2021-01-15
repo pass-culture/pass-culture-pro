@@ -4,7 +4,6 @@ export const initReCaptchaScript = () => {
   const script = document.createElement('script')
 
   script.src = `https://www.google.com/recaptcha/api.js?render=${RECAPTCHA_SITE_KEY}`
-  script.async = true
 
   return document.body.appendChild(script)
 }
