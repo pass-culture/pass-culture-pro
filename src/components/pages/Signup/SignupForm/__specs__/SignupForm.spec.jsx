@@ -165,9 +165,7 @@ describe('src | components | pages | Signup | SignupForm', () => {
 
       // then
       const field = wrapper.find('label').at(0)
-      expect(field.text()).toBe(
-        'Adresse e-mail'
-      )
+      expect(field.text()).toBe('Adresse e-mail')
       const input = field.find('input')
       expect(input.prop('name')).toBe('email')
       expect(input.prop('placeholder')).toBe('nom@exemple.fr')
@@ -267,7 +265,7 @@ describe('src | components | pages | Signup | SignupForm', () => {
       // then
       const field = wrapper.find('label').at(6)
       expect(field.text()).toBe(
-        'J’accepte d’être contacté par e-mail pour donner mon avis sur le pass Culture'
+        "J'accepte d'être contacté par e-mail pour recevoir les nouveautés du pass Culture et contribuer à son amélioration"
       )
       const input = field.find('input')
       expect(input.prop('name')).toBe('contact_ok')
@@ -286,7 +284,7 @@ describe('src | components | pages | Signup | SignupForm', () => {
       )
 
       // then
-      const error = wrapper.find({ children : "erreur sur le mail" })
+      const error = wrapper.find({ children: 'erreur sur le mail' })
       expect(error).toHaveLength(1)
     })
 
