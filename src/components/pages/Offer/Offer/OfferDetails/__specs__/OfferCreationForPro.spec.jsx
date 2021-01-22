@@ -223,7 +223,7 @@ describe('offerDetails - Creation - pro user', () => {
           await setOfferValues({ type: 'EventType.CINEMA' })
 
           // when
-          const titleInput = await screen.findByLabelText("Titre de l'offre")
+          const titleInput = await screen.findByLabelText("Titre de l'offre", { exact: false })
           userEvent.type(titleInput, 'Mon joli titre')
 
           // then

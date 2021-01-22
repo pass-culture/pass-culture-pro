@@ -169,7 +169,7 @@ describe('offerDetails - Edition', () => {
         await renderOffers({}, store)
 
         // then
-        expect(await screen.queryByText('My edited offer')).toBeInTheDocument()
+        expect(await screen.queryByDisplayValue('My edited offer')).toBeInTheDocument()
       })
 
       it('should display description', async () => {
