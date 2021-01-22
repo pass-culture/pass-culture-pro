@@ -4,6 +4,7 @@ import React, { Fragment, useCallback, useEffect, useState } from 'react'
 
 import { CheckboxInput } from 'components/layout/inputs/CheckboxInput/CheckboxInput'
 import DurationInput from 'components/layout/inputs/DurationInput/DurationInput'
+import InputError from 'components/layout/inputs/Errors/InputError'
 import Select, { buildSelectOptions } from 'components/layout/inputs/Select'
 import TextareaInput from 'components/layout/inputs/TextareaInput'
 import TextInput from 'components/layout/inputs/TextInput/TextInput'
@@ -608,6 +609,7 @@ const OfferForm = ({
             <CheckboxInput
               SvgElement={VisualDisabilitySvg}
               checked={formValues.visualDisabilityCompliant}
+              isError={!!getErrorMessage('disabilityCompliant')}
               label="Handicap visuel"
               name="visualDisabilityCompliant"
               onChange={handleDisabilityCompliantUpdate}
@@ -615,6 +617,7 @@ const OfferForm = ({
             <CheckboxInput
               SvgElement={MentalDisabilitySvg}
               checked={formValues.mentalDisabilityCompliant}
+              isError={!!getErrorMessage('disabilityCompliant')}
               label="Handicap mental"
               name="mentalDisabilityCompliant"
               onChange={handleDisabilityCompliantUpdate}
@@ -622,6 +625,7 @@ const OfferForm = ({
             <CheckboxInput
               SvgElement={MotorDisabilitySvg}
               checked={formValues.motorDisabilityCompliant}
+              isError={!!getErrorMessage('disabilityCompliant')}
               label="Handicap moteur"
               name="motorDisabilityCompliant"
               onChange={handleDisabilityCompliantUpdate}
@@ -629,16 +633,24 @@ const OfferForm = ({
             <CheckboxInput
               SvgElement={AudioDisabilitySvg}
               checked={formValues.audioDisabilityCompliant}
+              isError={!!getErrorMessage('disabilityCompliant')}
               label="Handicap auditif"
               name="audioDisabilityCompliant"
               onChange={handleDisabilityCompliantUpdate}
             />
             <CheckboxInput
               checked={formValues.noDisabilityCompliant}
+              isError={!!getErrorMessage('disabilityCompliant')}
               label="Non accessible"
               name="noDisabilityCompliant"
               onChange={handleDisabilityCompliantUpdate}
             />
+
+            {!!getErrorMessage('disabilityCompliant') && (
+              <InputError
+                message="Vous devez cocher l'une des options ci-dessus"
+              />
+            )}
           </section>
 
           <section className="form-section">
