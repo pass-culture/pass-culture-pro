@@ -97,7 +97,7 @@ const StockItem = ({
   const getSelectedDatetime = useCallback(
     momentDateTime => {
       if (momentDateTime.creationData().format === 'HH:mm') {
-        const momentBeginningDatetime = moment(beginningDate)
+        const momentBeginningDatetime = beginningDate ? moment(beginningDate) : moment()
         momentBeginningDatetime.hours(momentDateTime.hours())
         momentBeginningDatetime.minutes(momentDateTime.minutes())
 
@@ -140,11 +140,15 @@ const StockItem = ({
   const getBookingLimitDatetimeForEvent = useCallback(() => {
     const momentBookingLimitDatetime = moment(bookingLimitDatetime)
     if (bookingLimitDatetime === '' || momentBookingLimitDatetime.isSame(beginningDate, 'day')) {
-      return beginningDate
+      const newBookingLimitDatetime = moment(beginningDate)
+      newBookingLimitDatetime.hours(moment(beginningTime).hours())
+      newBookingLimitDatetime.minutes(moment(beginningTime).minutes())
+
+      return newBookingLimitDatetime.utc().format()
     } else {
       return momentBookingLimitDatetime.utc().endOf('day').format()
     }
-  }, [bookingLimitDatetime, beginningDate])
+  }, [bookingLimitDatetime, beginningDate, beginningTime])
 
   const getBookingLimitDatetimeForThing = useCallback(() => {
     if (bookingLimitDatetime) {
