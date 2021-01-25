@@ -533,6 +533,20 @@ describe('stocks page', () => {
             expect(screen.getByDisplayValue('18:30')).toBeInTheDocument()
           })
 
+          it('should be able to fill hour field when date and hour fields are empty', async () => {
+            // given
+            await renderStocks(props, store)
+            fireEvent.click(screen.getByAltText('Modifier le stock'))
+
+            // when
+            fireEvent.change(screen.getByDisplayValue('20/12/2020'), { target: { value: '' } })
+            fireEvent.change(screen.getByDisplayValue('19:00'), { target: { value: '' } })
+            fireEvent.change(screen.getByPlaceholderText('HH:MM'), { target: { value: '02:00' } })
+
+            // then
+            expect(screen.queryByDisplayValue('02:00')).toBeInTheDocument()
+          })
+
           it('should be able to edit price field', async () => {
             // given
             await renderStocks(props, store)
@@ -800,6 +814,44 @@ describe('stocks page', () => {
               expect(screen.getByLabelText('Heure de l’événement').value).toBe('20:00')
               expect(screen.getByLabelText('Prix').value).toBe('14.01')
               expect(screen.getByLabelText('Date limite de réservation').value).toBe('25/12/2020')
+              expect(screen.getByLabelText('Quantité').value).toBe('6')
+            })
+
+            it('should correctly format booking limit datetime based on date and hour when day is same as beginning datetime', async () => {
+              // Given
+              pcapi.updateStock.mockResolvedValue({})
+              await renderStocks(props, store)
+              fireEvent.click(screen.getByAltText('Modifier le stock'))
+
+              fireEvent.click(screen.getByLabelText('Date de l’événement'))
+              fireEvent.click(screen.getByLabelText('day-26'))
+
+              fireEvent.change(screen.getByLabelText('Heure de l’événement'), {
+                target: { value: '10:37' },
+              })
+
+              fireEvent.change(screen.getByLabelText('Prix'), { target: { value: 14.01 } })
+
+              fireEvent.click(screen.getByLabelText('Date limite de réservation'))
+              fireEvent.click(screen.getByLabelText('day-26'))
+
+              fireEvent.change(screen.getByLabelText('Quantité'), { target: { value: 6 } })
+
+              // When
+              fireEvent.click(screen.getByAltText('Valider les modifications'))
+
+              // Then
+              expect(pcapi.updateStock).toHaveBeenCalledWith({
+                beginningDatetime: '2020-12-26T13:37:00Z',
+                bookingLimitDatetime: '2020-12-26T13:37:00Z',
+                stockId: '2E',
+                price: '14.01',
+                quantity: '6',
+              })
+              expect(screen.getByLabelText('Date de l’événement').value).toBe('26/12/2020')
+              expect(screen.getByLabelText('Heure de l’événement').value).toBe('10:37')
+              expect(screen.getByLabelText('Prix').value).toBe('14.01')
+              expect(screen.getByLabelText('Date limite de réservation').value).toBe('26/12/2020')
               expect(screen.getByLabelText('Quantité').value).toBe('6')
             })
 
@@ -1631,6 +1683,20 @@ describe('stocks page', () => {
         expect(screen.getByLabelText('Prix').value).toBe('')
         expect(screen.getByLabelText('Date limite de réservation').value).toBe('')
         expect(screen.getByLabelText('Quantité').value).toBe('')
+      })
+
+      it('should be able to fill hour field before beginning date field', async () => {
+        // given
+        await renderStocks(props, store)
+
+        // when
+        fireEvent.click(screen.getByText('Ajouter une date'))
+        fireEvent.change(screen.getByLabelText('Heure de l’événement'), {
+          target: { value: '02:10' },
+        })
+
+        // then
+        expect(screen.getByDisplayValue('02:10')).toBeInTheDocument()
       })
 
       it('should not have remaining stocks and bookings columns', async () => {
