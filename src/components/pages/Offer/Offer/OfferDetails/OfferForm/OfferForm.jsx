@@ -1,6 +1,6 @@
 import isEqual from 'lodash.isequal'
 import PropTypes from 'prop-types'
-import React, { Fragment, useCallback, useEffect, useState } from 'react'
+import React, { Fragment, useCallback, useEffect, useMemo, useState } from 'react'
 
 import InternalBanner from 'components/layout/Banner/InternalBanner'
 import { CheckboxInput } from 'components/layout/inputs/CheckboxInput/CheckboxInput'
@@ -82,6 +82,10 @@ const OfferForm = ({
   const [offerFormFields, setOfferFormFields] = useState(Object.keys(DEFAULT_FORM_VALUES))
   const [formErrors, setFormErrors] = useState(submitErrors)
 
+  const defaultFormValues = useMemo(() => ({ ...DEFAULT_FORM_VALUES, ...initialValues }), [
+    initialValues,
+  ])
+
   const handleFormUpdate = useCallback(
     newFormValues =>
       setFormValues(oldFormValues => {
@@ -103,9 +107,9 @@ const OfferForm = ({
       ) {
         setReceiveNotificationEmails(true)
       }
-      setFormValues({ ...DEFAULT_FORM_VALUES, ...initialValues })
+      setFormValues(defaultFormValues)
     },
-    [initialValues, setFormValues]
+    [defaultFormValues, initialValues.bookingEmail, setFormValues]
   )
   useEffect(
     function buildFormFields() {
@@ -133,6 +137,16 @@ const OfferForm = ({
     },
     [offerType, isUserAdmin, receiveNotificationEmails, venue]
   )
+  useEffect(() => {
+    const newFormValues = offerFormFields.reduce((acc, field) => {
+      acc[field] = field in formValues ? formValues[field] : defaultFormValues[field]
+      return acc
+    }, {})
+
+    setFormValues(oldFormValues => {
+      return isEqual(oldFormValues, newFormValues) ? oldFormValues : newFormValues
+    })
+  }, [defaultFormValues, formValues, offerFormFields, setFormValues])
   useEffect(
     function storeOfferTypeAndVenueWhenSelected() {
       if (formValues.type) {

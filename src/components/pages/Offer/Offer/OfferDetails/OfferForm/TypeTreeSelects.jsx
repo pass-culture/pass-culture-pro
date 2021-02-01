@@ -61,6 +61,7 @@ const TypeTreeSelects = props => {
           }
           case 'musicSubType': {
             if (
+              typeValues.musicType &&
               typeValues.musicType !== DEFAULT_FORM_VALUES.musicType &&
               hasConditionalField(typeValues.type, 'musicType')
             ) {
@@ -73,6 +74,7 @@ const TypeTreeSelects = props => {
           }
           case 'showSubType': {
             if (
+              typeValues.showType &&
               typeValues.showType !== DEFAULT_FORM_VALUES.musicType &&
               hasConditionalField(typeValues.type, 'showType')
             ) {
