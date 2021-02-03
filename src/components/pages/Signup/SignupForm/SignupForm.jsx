@@ -25,7 +25,7 @@ class SignupForm extends PureComponent {
   constructor(props) {
     super(props)
     const { history, currentUser } = props
-    redirectLoggedUser(history, currentUser)
+    redirectLoggedUser(history, currentUser, props.isNewHomepageActive)
   }
 
   componentDidMount() {
