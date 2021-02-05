@@ -6,24 +6,22 @@ import * as pcapi from 'repository/pcapi/pcapi'
 import OfferForm from './OfferForm'
 
 const OfferCreation = ({
-  formValues,
   initialValues,
   isLoading,
   isUserAdmin,
   onSubmit,
   showErrorNotification,
   setIsLoading,
-  setShowThumbnailForm,
-  setFormValues,
+  onFormValuesChange,
   submitErrors,
 }) => {
   const venues = useRef([])
   const types = useRef([])
   const offerers = useRef([])
   const [displayedVenues, setDisplayedVenues] = useState([])
-  const [selectedOfferer, setSelectedOfferer] = useState(initialValues.offererId)
+  const [selectedOffererId, setSelectedOffererId] = useState(initialValues.offererId)
 
-  useEffect(() => setSelectedOfferer(initialValues.offererId), [initialValues.offererId])
+  useEffect(() => setSelectedOffererId(initialValues.offererId), [initialValues.offererId])
   useEffect(
     function retrieveDataOnMount() {
       const typesRequest = pcapi.loadTypes().then(receivedTypes => (types.current = receivedTypes))
@@ -47,22 +45,26 @@ const OfferCreation = ({
   )
 
   const getVenuesForAdmin = useCallback(() => {
-    if (selectedOfferer) {
-      pcapi.getVenuesForOfferer(selectedOfferer).then(receivedVenues => {
+    console.log('OfferCreation::useCallback::getVenuesForAdmin')
+    if (selectedOffererId) {
+      pcapi.getVenuesForOfferer(selectedOffererId).then(receivedVenues => {
         venues.current = receivedVenues
         setDisplayedVenues(receivedVenues)
+        console.log('OfferCreation::useCallback::getVenuesForAdmin::receivedVenues', receivedVenues)
       })
     } else {
       setDisplayedVenues([])
     }
-  }, [selectedOfferer])
+  }, [selectedOffererId])
 
   const filterVenuesForPro = useCallback(() => {
-    const venuesToDisplay = selectedOfferer
-      ? venues.current.filter(venue => venue.managingOffererId === selectedOfferer)
+    console.log('OfferCreation::useCallback::filterVenuesForPro')
+    const venuesToDisplay = selectedOffererId
+      ? venues.current.filter(venue => venue.managingOffererId === selectedOffererId)
       : venues.current
     setDisplayedVenues(venuesToDisplay)
-  }, [selectedOfferer])
+    console.log('OfferCreation::useCallback::filterVenuesForPro::venuesToDisplay', venuesToDisplay)
+  }, [selectedOffererId])
 
   useEffect(() => {
     if (isUserAdmin) {
@@ -73,11 +75,18 @@ const OfferCreation = ({
   }, [filterVenuesForPro, getVenuesForAdmin, isUserAdmin])
 
   const isComingFromOffererPage = initialValues.offererId !== undefined
-
+  console.log(
+    'are offer truc much',
+    isComingFromOffererPage &&
+      initialValues.offererId == selectedOffererId &&
+      selectedOffererId === initialValues.offererId
+  )
   const areAllVenuesVirtual =
-    isComingFromOffererPage && selectedOfferer === initialValues.offererId
+    isComingFromOffererPage &&
+    initialValues.offererId == selectedOffererId &&
+    selectedOffererId === initialValues.offererId
       ? venues.current
-          .filter(venue => venue.managingOffererId === selectedOfferer)
+          .filter(venue => venue.managingOffererId === selectedOffererId)
           .every(venue => venue.isVirtual)
       : venues.current.every(venue => venue.isVirtual)
 
@@ -88,15 +97,13 @@ const OfferCreation = ({
   return (
     <OfferForm
       areAllVenuesVirtual={areAllVenuesVirtual}
-      formValues={formValues}
       initialValues={initialValues}
       isUserAdmin={isUserAdmin}
       offerers={offerers.current}
+      onFormValuesChange={onFormValuesChange}
       onSubmit={onSubmit}
-      setFormValues={setFormValues}
       setIsLoading={setIsLoading}
-      setSelectedOfferer={setSelectedOfferer}
-      setShowThumbnailForm={setShowThumbnailForm}
+      setSelectedOffererId={setSelectedOffererId}
       showErrorNotification={showErrorNotification}
       submitErrors={submitErrors}
       types={types.current}
@@ -111,14 +118,12 @@ OfferCreation.defaultProps = {
 }
 
 OfferCreation.propTypes = {
-  formValues: PropTypes.shape().isRequired,
   initialValues: PropTypes.shape(),
   isLoading: PropTypes.bool.isRequired,
   isUserAdmin: PropTypes.bool,
+  onFormValuesChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  setFormValues: PropTypes.func.isRequired,
   setIsLoading: PropTypes.func.isRequired,
-  setShowThumbnailForm: PropTypes.func.isRequired,
   showErrorNotification: PropTypes.func.isRequired,
   submitErrors: PropTypes.shape().isRequired,
 }

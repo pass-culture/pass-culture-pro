@@ -8,7 +8,6 @@ export const DEFAULT_FORM_VALUES = {
   durationMinutes: null,
   isbn: TEXT_INPUT_DEFAULT_VALUE,
   isDuo: true,
-  noDisabilityCompliant: false,
   audioDisabilityCompliant: false,
   mentalDisabilityCompliant: false,
   motorDisabilityCompliant: false,
@@ -42,6 +41,7 @@ export const BASE_OFFER_FIELDS = [
   'type',
   'venueId',
   'withdrawalDetails',
+  'offererId',
 ]
 export const EDITED_OFFER_READ_ONLY_FIELDS = [
   'type',

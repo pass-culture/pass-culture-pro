@@ -30,25 +30,19 @@ const computeNoDisabilityComplianceValue = offer => {
 }
 
 const OfferEdition = ({
-  formValues,
   isUserAdmin,
   isLoading,
   offer,
   offersSearchFilters,
   onSubmit,
-  setFormValues,
+  onFormValuesChange,
   setIsLoading,
-  setShowThumbnailForm,
   showErrorNotification,
   submitErrors,
 }) => {
   const [types, setTypes] = useState([])
   const [readOnlyFields, setReadOnlyFields] = useState([])
   const [initialValues, setInitialValues] = useState([])
-
-  useEffect(function retrieveDataOnMount() {
-    pcapi.loadTypes().then(receivedTypes => setTypes(receivedTypes))
-  }, [])
 
   const computeInitialValues = offer => {
     const initialValues = Object.keys(DEFAULT_FORM_VALUES).reduce((acc, field) => {
@@ -62,7 +56,6 @@ const OfferEdition = ({
 
     initialValues.offererId = offer.venue.managingOffererId
     initialValues.noDisabilityCompliant = computeNoDisabilityComplianceValue(offer)
-
     return initialValues
   }
 
@@ -81,8 +74,11 @@ const OfferEdition = ({
     const readOnlyFields = computeReadOnlyFields(offer)
     setInitialValues(initialValues)
     setReadOnlyFields(readOnlyFields)
-    setIsLoading(false)
-  }, [offer, setIsLoading])
+    pcapi
+      .loadTypes()
+      .then(receivedTypes => setTypes(receivedTypes))
+      .then(() => setIsLoading(false))
+  }, [offer, setIsLoading, setTypes])
 
   let providerName = null
   if (isSynchronizedOffer(offer)) {
@@ -96,16 +92,14 @@ const OfferEdition = ({
   return (
     <OfferForm
       backUrl={computeOffersUrl(offersSearchFilters)}
-      formValues={formValues}
       initialValues={initialValues}
       isEdition
       isUserAdmin={isUserAdmin}
       offerers={[offer.venue.managingOfferer]}
+      onFormValuesChange={onFormValuesChange}
       onSubmit={onSubmit}
       providerName={providerName}
       readOnlyFields={readOnlyFields}
-      setFormValues={setFormValues}
-      setShowThumbnailForm={setShowThumbnailForm}
       showErrorNotification={showErrorNotification}
       submitErrors={submitErrors}
       types={types}
@@ -120,7 +114,6 @@ OfferEdition.defaultProps = {
 }
 
 OfferEdition.propTypes = {
-  formValues: PropTypes.shape().isRequired,
   isLoading: PropTypes.bool.isRequired,
   isUserAdmin: PropTypes.bool,
   offer: PropTypes.shape(),
@@ -135,10 +128,9 @@ OfferEdition.propTypes = {
     periodEndingDate: PropTypes.string,
     page: PropTypes.number,
   }).isRequired,
+  onFormValuesChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  setFormValues: PropTypes.func.isRequired,
   setIsLoading: PropTypes.func.isRequired,
-  setShowThumbnailForm: PropTypes.func.isRequired,
   showErrorNotification: PropTypes.func.isRequired,
   submitErrors: PropTypes.shape().isRequired,
 }

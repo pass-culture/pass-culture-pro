@@ -1,6 +1,6 @@
 import isEqual from 'lodash.isequal'
 import PropTypes from 'prop-types'
-import React, { Fragment, useCallback, useEffect, useState } from 'react'
+import React, { Fragment, useCallback, useEffect, useLayoutEffect, useMemo, useState } from 'react'
 
 import InternalBanner from 'components/layout/Banner/InternalBanner'
 import { CheckboxInput } from 'components/layout/inputs/CheckboxInput/CheckboxInput'
@@ -56,10 +56,33 @@ const getOfferConditionalFields = ({
   return offerConditionalFields
 }
 
+const computeOfferFormFields = (offerType, isUserAdmin, receiveNotificationEmails, venue) => {
+  const offerConditionalFields = getOfferConditionalFields({
+    offerType,
+    isUserAdmin,
+    receiveNotificationEmails,
+    venue,
+  })
+  let offerTypeConditionalFields = offerType ? [...offerType.conditionalFields] : []
+  if (offerTypeConditionalFields.includes('musicType')) {
+    offerTypeConditionalFields.push('musicSubType')
+  }
+  if (offerTypeConditionalFields.includes('showType')) {
+    offerTypeConditionalFields.push('showSubType')
+  }
+
+  return [...BASE_OFFER_FIELDS, ...offerTypeConditionalFields, ...offerConditionalFields]
+}
+
+const applyFieldsToFormValues = (formValues, formFields, defaultFormValues) => {
+  return formFields.reduce((acc, field) => {
+    return { ...acc, [field]: field in formValues ? formValues[field] : defaultFormValues[field] }
+  }, {})
+}
+
 const OfferForm = ({
   areAllVenuesVirtual,
   backUrl,
-  formValues,
   initialValues,
   isEdition,
   isUserAdmin,
@@ -67,132 +90,194 @@ const OfferForm = ({
   onSubmit,
   providerName,
   readOnlyFields,
-  setFormValues,
-  setSelectedOfferer,
-  setShowThumbnailForm,
+  onFormValuesChange,
+  setSelectedOffererId,
   showErrorNotification,
   submitErrors,
   types,
   venues,
 }) => {
-  const [offerType, setOfferType] = useState(null)
+  const offererOptions = buildSelectOptions('id', 'name', offerers)
+  const [formErrors, setFormErrors] = useState(submitErrors)
+  const [isLoading, setIsLoading] = useState(true)
   const [receiveNotificationEmails, setReceiveNotificationEmails] = useState(false)
+
+  const defaultFormValues = useMemo(() => {
+    let extraValues = {}
+    if (offerers.length === 1) {
+      extraValues.offererId = offerers[0].id
+    }
+    return { ...DEFAULT_FORM_VALUES, ...extraValues, ...initialValues }
+  }, [initialValues, offerers])
+  const [formValues, setFormValues] = useState(defaultFormValues)
+
+  useEffect(
+    function initializeReceiveNotificationEmails() {
+      if (
+        defaultFormValues.bookingEmail &&
+        defaultFormValues.bookingEmail !== DEFAULT_FORM_VALUES.bookingEmail
+      ) {
+        setReceiveNotificationEmails(true)
+      }
+    },
+    [defaultFormValues]
+  )
+
+  const [offerType, setOfferType] = useState(null)
   const [venue, setVenue] = useState(null)
   const [venueOptions, setVenueOptions] = useState(buildSelectOptions('id', 'name', venues))
   const [offerFormFields, setOfferFormFields] = useState(Object.keys(DEFAULT_FORM_VALUES))
-  const [formErrors, setFormErrors] = useState(submitErrors)
+  const [noDisabilityCompliant, setNoDisabilityCompliant] = useState(false)
+
+  useLayoutEffect(
+    function initializeOfferForm() {
+      let initialOfferType = null
+      if (defaultFormValues.type) {
+        initialOfferType = types.find(type => type.value === defaultFormValues.type)
+        setOfferType(initialOfferType)
+      }
+
+      let initialVenue = null
+      if (defaultFormValues.venueId) {
+        initialVenue = venues.find(venue => venue.id === defaultFormValues.venueId)
+        setVenue(initialVenue)
+      }
+
+      let venueOptionFilter = null
+      if (initialOfferType && initialOfferType.offlineOnly) {
+        venueOptionFilter = venue => !venue.isVirtual
+      } else if (initialOfferType && initialOfferType.onlineOnly) {
+        venueOptionFilter = venue => venue.isVirtual
+      }
+      if (venueOptionFilter) {
+        setVenueOptions(buildSelectOptions('id', 'name', venues.filter(venueOptionFilter)))
+      }
+
+      // setDisplayRefundWarning(!offerIsRefundable(initialOfferType, initialVenue))
+
+      const initialOfferFormFields = computeOfferFormFields(
+        initialOfferType,
+        isUserAdmin,
+        receiveNotificationEmails,
+        initialVenue
+      )
+      setOfferFormFields(initialOfferFormFields)
+      setNoDisabilityCompliant(defaultFormValues.noDisabilityCompliant)
+      setFormValues(
+        applyFieldsToFormValues(defaultFormValues, initialOfferFormFields, defaultFormValues)
+      )
+      setIsLoading(false)
+    },
+    [] /* eslint-disable-line react-hooks/exhaustive-deps */
+  )
 
   const handleFormUpdate = useCallback(
     newFormValues =>
       setFormValues(oldFormValues => {
-        const updatedFormValues = { ...oldFormValues, ...newFormValues }
+        console.log('handleFormUpdate::setFormValues')
+        let updatedFormValues = { ...oldFormValues, ...newFormValues }
         return isEqual(oldFormValues, updatedFormValues) ? oldFormValues : updatedFormValues
       }),
     [setFormValues]
   )
-  const offererOptions = buildSelectOptions('id', 'name', offerers)
 
-  useEffect(() => {
-    setFormErrors(submitErrors)
-  }, [submitErrors])
   useEffect(
-    function initializeFormData() {
-      if (
-        initialValues.bookingEmail &&
-        initialValues.bookingEmail !== DEFAULT_FORM_VALUES.bookingEmail
-      ) {
-        setReceiveNotificationEmails(true)
+    function handleVenueChange() {
+      if (isLoading) return
+
+      if (!venue || formValues.venueId !== venue.id) {
+        const newVenue = venues.find(venue => venue.id === formValues.venueId)
+        setVenue(newVenue ? newVenue : null)
+        if (newVenue && newVenue.managingOffererId !== formValues.offererId) {
+          handleFormUpdate({ offererId: newVenue.managingOffererId })
+        }
+        // setDisplayRefundWarning(!offerIsRefundable(offerType, newVenue))
       }
-      setFormValues({ ...DEFAULT_FORM_VALUES, ...initialValues })
     },
-    [initialValues, setFormValues]
+    [
+      formValues.offererId,
+      formValues.venueId,
+      handleFormUpdate,
+      isLoading,
+      offerType,
+      // setDisplayRefundWarning,
+      setVenue,
+      venue,
+      venues,
+    ]
   )
   useEffect(
-    function buildFormFields() {
-      const offerConditionalFields = getOfferConditionalFields({
+    function handleVenueOptionsChange() {
+      if (isLoading) return
+
+      let venueOptionFilter = null
+      if (offerType && offerType.offlineOnly) {
+        venueOptionFilter = venue => !venue.isVirtual
+      } else if (offerType && offerType.onlineOnly) {
+        venueOptionFilter = venue => venue.isVirtual
+      } else {
+        venueOptionFilter = () => true
+      }
+      const newVenueOptions = buildSelectOptions('id', 'name', venues.filter(venueOptionFilter))
+      setVenueOptions(oldVenueOptions =>
+        isEqual(oldVenueOptions, newVenueOptions) ? oldVenueOptions : newVenueOptions
+      )
+      setFormErrors(oldFormErrors => {
+        let newFormErrors = oldFormErrors
+        if (newVenueOptions.length === 0 && venues.length > 0) {
+          newFormErrors.venueId = 'Il faut obligatoirement une structure avec un lieu.'
+        } else {
+          delete newFormErrors.venueId
+        }
+        return newFormErrors
+      })
+
+      if (newVenueOptions.length === 1) {
+        handleFormUpdate({ venueId: newVenueOptions[0].id })
+      }
+    },
+    [handleFormUpdate, isLoading, offerType, setFormErrors, setVenueOptions, venues]
+  )
+  useEffect(
+    function updateOfferFormFields() {
+      console.log('updateOfferFormFields::receiveNotificationEmails', receiveNotificationEmails)
+      console.log('updateOfferFormFields::isLoading', isLoading)
+
+      if (isLoading) return
+
+      const newOfferFormFields = computeOfferFormFields(
         offerType,
         isUserAdmin,
         receiveNotificationEmails,
-        venue,
+        venue
+      )
+      setOfferFormFields(oldOfferFormFields => {
+        return isEqual(oldOfferFormFields, newOfferFormFields)
+          ? oldOfferFormFields
+          : newOfferFormFields
       })
-      let offerTypeConditionalFields = offerType ? offerType.conditionalFields : []
-      if (offerTypeConditionalFields.includes('musicType')) {
-        offerTypeConditionalFields.push('musicSubType')
-      }
-      if (offerTypeConditionalFields.includes('showType')) {
-        offerTypeConditionalFields.push('showSubType')
-      }
-
-      const newFormFields = [
-        ...BASE_OFFER_FIELDS,
-        ...offerTypeConditionalFields,
-        ...offerConditionalFields,
-      ]
-
-      setOfferFormFields(newFormFields)
-    },
-    [offerType, isUserAdmin, receiveNotificationEmails, venue]
-  )
-  useEffect(
-    function storeOfferTypeAndVenueWhenSelected() {
-      if (formValues.type) {
-        setOfferType(types.find(type => type.value === formValues.type))
-      }
-
-      if (
-        formValues.venueId &&
-        venueOptions.find(showedVenue => showedVenue.id === formValues.venueId)
-      ) {
-        const selectedVenue = venues.find(venue => venue.id === formValues.venueId)
-        setVenue(selectedVenue)
-        handleFormUpdate({ offererId: selectedVenue.managingOffererId })
-      } else {
-        setVenue(null)
+      console.log('updateOfferFormFields::newOfferFormFields', newOfferFormFields)
+      console.log('updateOfferFormFields::Object.keys(formValues)', Object.keys(formValues))
+      if (!isEqual(newOfferFormFields, Object.keys(formValues))) {
+        const newOfferValues = applyFieldsToFormValues(
+          formValues,
+          newOfferFormFields,
+          defaultFormValues
+        )
+        console.log('updateOfferFormFields::newOfferValues', newOfferValues)
+        setFormValues(newOfferValues)
       }
     },
-    [formValues.type, formValues.venueId, handleFormUpdate, venues, venueOptions, types]
-  )
-  useEffect(
-    function filterVenueOptionsForSelectedType() {
-      let venuesToShow = venues
-      if (offerType?.offlineOnly) {
-        venuesToShow = venuesToShow.filter(venue => !venue.isVirtual)
-      } else if (offerType?.onlineOnly) {
-        venuesToShow = venuesToShow.filter(venue => venue.isVirtual)
-      }
-      setVenueOptions(buildSelectOptions('id', 'name', venuesToShow))
-
-      if (venuesToShow.length === 0 && venues.length > 0) {
-        setFormErrors(oldFormErrors => ({
-          ...oldFormErrors,
-          venueId: 'Il faut obligatoirement une structure avec un lieu.',
-        }))
-      } else {
-        setFormErrors(oldFormErrors => {
-          delete oldFormErrors.venueId
-          return oldFormErrors
-        })
-      }
-
-      if (venuesToShow.length === 1) {
-        handleFormUpdate({ venueId: venuesToShow[0].id })
-      }
-    },
-    [offerType, handleFormUpdate, venues]
-  )
-  useEffect(
-    function selectOffererWhenUnique() {
-      if (offerers.length === 1) {
-        handleFormUpdate({ offererId: offerers[0].id })
-      }
-    },
-    [handleFormUpdate, offerers]
-  )
-  useEffect(
-    function showThumbnail() {
-      setShowThumbnailForm(formValues.type !== DEFAULT_FORM_VALUES.type)
-    },
-    [formValues.type, setShowThumbnailForm]
+    [
+      defaultFormValues,
+      formValues,
+      isLoading,
+      isUserAdmin,
+      offerType,
+      receiveNotificationEmails,
+      setFormValues,
+      venue,
+    ]
   )
 
   const selectOfferer = useCallback(
@@ -200,16 +285,31 @@ const OfferForm = ({
       const selectedOffererId = event.target.value
       if (selectedOffererId !== formValues.offererId) {
         handleFormUpdate({ offererId: selectedOffererId, venueId: DEFAULT_FORM_VALUES.venueId })
-        setSelectedOfferer(selectedOffererId)
+
+        // Change selectedOffererId in OfferCreation, it will update venues
+        setSelectedOffererId(selectedOffererId)
       }
     },
-    [formValues.offererId, handleFormUpdate, setSelectedOfferer]
+    [formValues.offererId, handleFormUpdate, setSelectedOffererId]
+  )
+
+  const onTypeChange = useCallback(
+    newType => {
+      if (formValues.type !== newType) {
+        console.log('onTypeChange', newType)
+        const newOfferType = types.find(type => type.value === newType) || null
+        setOfferType(newOfferType)
+        handleFormUpdate({ type: newType })
+      }
+    },
+    [formValues.type, handleFormUpdate, setOfferType, types]
   )
 
   const isValid = useCallback(() => {
     let newFormErrors = {}
     const formFields = [...offerFormFields, 'offererId']
 
+    console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>><  formValue inside isValid', formValues)
     MANDATORY_FIELDS.forEach(fieldName => {
       if (
         formFields.includes(fieldName) &&
@@ -221,7 +321,7 @@ const OfferForm = ({
 
     if (
       ![
-        formValues.noDisabilityCompliant,
+        noDisabilityCompliant,
         formValues.audioDisabilityCompliant,
         formValues.mentalDisabilityCompliant,
         formValues.motorDisabilityCompliant,
@@ -233,7 +333,7 @@ const OfferForm = ({
 
     setFormErrors(newFormErrors)
     return Object.keys(newFormErrors).length === 0
-  }, [offerFormFields, formValues])
+  }, [noDisabilityCompliant, offerFormFields, formValues])
 
   const submitForm = useCallback(() => {
     if (isValid()) {
@@ -278,6 +378,11 @@ const OfferForm = ({
     showErrorNotification,
   ])
 
+  useEffect(() => {
+    setFormErrors(submitErrors)
+  }, [submitErrors])
+  useEffect(() => onFormValuesChange(formValues), [formValues, onFormValuesChange])
+
   const handleSingleFormUpdate = useCallback(
     event => {
       const field = event.target.name
@@ -290,7 +395,6 @@ const OfferForm = ({
   const handleDisabilityCompliantUpdate = useCallback(
     event => {
       let disabilityCompliantValues = {
-        noDisabilityCompliant: formValues.noDisabilityCompliant,
         audioDisabilityCompliant: formValues.audioDisabilityCompliant,
         mentalDisabilityCompliant: formValues.mentalDisabilityCompliant,
         motorDisabilityCompliant: formValues.motorDisabilityCompliant,
@@ -299,9 +403,12 @@ const OfferForm = ({
 
       const field = event.target.name
       disabilityCompliantValues[field] = !formValues[field]
+      let newNoDisabilityCompliant = noDisabilityCompliant
 
       if (field === 'noDisabilityCompliant') {
-        if (disabilityCompliantValues[field]) {
+        newNoDisabilityCompliant = !newNoDisabilityCompliant
+
+        if (newNoDisabilityCompliant) {
           disabilityCompliantValues.audioDisabilityCompliant = false
           disabilityCompliantValues.mentalDisabilityCompliant = false
           disabilityCompliantValues.motorDisabilityCompliant = false
@@ -314,14 +421,14 @@ const OfferForm = ({
             disabilityCompliantValues.visualDisabilityCompliant,
           ].includes(true)
           if (hasNoDisabilityCompliance) {
-            disabilityCompliantValues[field] = true
+            newNoDisabilityCompliant = true
           }
         }
       } else {
         if (Object.values(disabilityCompliantValues).includes(true)) {
-          disabilityCompliantValues.noDisabilityCompliant = false
+          newNoDisabilityCompliant = false
         } else {
-          disabilityCompliantValues.noDisabilityCompliant = true
+          newNoDisabilityCompliant = true
         }
       }
 
@@ -334,19 +441,28 @@ const OfferForm = ({
         setFormErrors(newFormErrors)
       }
 
+      setNoDisabilityCompliant(newNoDisabilityCompliant)
       handleFormUpdate(disabilityCompliantValues)
     },
-    [formErrors, formValues, handleFormUpdate, setFormErrors]
+    [formErrors, formValues, handleFormUpdate, noDisabilityCompliant, setFormErrors]
   )
 
   const handleDurationChange = useCallback(value => handleFormUpdate({ durationMinutes: value }), [
     handleFormUpdate,
   ])
 
-  const toggleReceiveNotification = useCallback(
-    () => setReceiveNotificationEmails(!receiveNotificationEmails),
-    [setReceiveNotificationEmails, receiveNotificationEmails]
-  )
+  const toggleReceiveNotification = useCallback(() => {
+    const newReceiveNotificationEmails = !receiveNotificationEmails
+    setReceiveNotificationEmails(newReceiveNotificationEmails)
+    console.log(
+      'toggleReceiveNotification',
+      receiveNotificationEmails,
+      newReceiveNotificationEmails
+    )
+    if (!newReceiveNotificationEmails) {
+      handleFormUpdate({ bookingEmail: '' })
+    }
+  }, [handleFormUpdate, setReceiveNotificationEmails, receiveNotificationEmails])
 
   const displayRefundWarning = !offerIsRefundable(offerType, venue)
 
@@ -354,7 +470,17 @@ const OfferForm = ({
     return fieldName in formErrors ? formErrors[fieldName] : null
   }
 
-  const isTypeOfflineButOnlyVirtualVenues = offerType?.offlineOnly && areAllVenuesVirtual
+  const isTypeOfflineButOnlyVirtualVenues =
+    offerType && offerType.offlineOnly && areAllVenuesVirtual
+
+  console.log('RENDER formValues', formValues)
+  console.log('isTypeOfflineButOnlyVirtualVenues', isTypeOfflineButOnlyVirtualVenues)
+  console.log('areAllVenuesVirtual', areAllVenuesVirtual)
+  // console.log('receiveNotificationEmails', receiveNotificationEmails)
+  // console.log('offerFormFields', offerFormFields)
+  if (isLoading) {
+    return null
+  }
 
   return (
     <form className="offer-form">
@@ -380,6 +506,8 @@ const OfferForm = ({
           <TypeTreeSelects
             areSubtypesVisible={!isTypeOfflineButOnlyVirtualVenues}
             isReadOnly={readOnlyFields.includes('type')}
+            onSubTypeChange={handleFormUpdate}
+            onTypeChange={onTypeChange}
             typeValues={{
               type: formValues.type,
               musicType: formValues.musicType,
@@ -388,7 +516,6 @@ const OfferForm = ({
               showSubType: formValues.showSubType,
             }}
             types={types}
-            updateTypeValues={handleFormUpdate}
           />
           {isTypeOfflineButOnlyVirtualVenues && (
             <InternalBanner
@@ -565,7 +692,7 @@ const OfferForm = ({
                 label="Structure"
                 name="offererId"
                 options={offererOptions}
-                selectedValue={formValues.offererId || DEFAULT_FORM_VALUES.offererId}
+                selectedValue={formValues.offererId}
                 subLabel={!MANDATORY_FIELDS.includes('offererId') ? 'Optionnel' : ''}
               />
             </div>
@@ -670,7 +797,7 @@ const OfferForm = ({
               onChange={handleDisabilityCompliantUpdate}
             />
             <CheckboxInput
-              checked={formValues.noDisabilityCompliant}
+              checked={noDisabilityCompliant}
               isInError={Boolean(getErrorMessage('disabilityCompliant'))}
               label="Non accessible"
               name="noDisabilityCompliant"
@@ -793,15 +920,13 @@ OfferForm.defaultProps = {
 
 OfferForm.propTypes = {
   backUrl: PropTypes.string,
-  formValues: PropTypes.shape().isRequired,
   initialValues: PropTypes.shape(),
   isEdition: PropTypes.bool,
   isUserAdmin: PropTypes.bool,
+  onFormValuesChange: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   providerName: PropTypes.string,
   readOnlyFields: PropTypes.arrayOf(PropTypes.string),
-  setFormValues: PropTypes.func.isRequired,
-  setShowThumbnailForm: PropTypes.func.isRequired,
   showErrorNotification: PropTypes.func.isRequired,
   submitErrors: PropTypes.shape().isRequired,
 }

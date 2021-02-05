@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types'
-import React from 'react'
+import React, { useCallback } from 'react'
 
 import InputError from './Errors/InputError'
 
@@ -23,49 +23,59 @@ const Select = ({
   required,
   selectedValue,
   subLabel,
-}) => (
-  <div className="input-select">
-    <label
-      className="labels"
-      htmlFor={name}
-    >
-      {label}
-      {subLabel && (
-        <span className="it-sub-label">
-          {subLabel}
-        </span>
-      )}
-    </label>
-    <select
-      className={`${error ? 'error' : ''}`}
-      disabled={isDisabled}
-      id={name}
-      name={name}
-      onBlur={handleSelection}
-      onChange={handleSelection}
-      required={required}
-      value={selectedValue || defaultOption.id}
-    >
-      <option value={defaultOption.id}>
-        {defaultOption.displayName}
-      </option>
-      {options.map(option => (
-        <option
-          key={option.id}
-          value={option.id}
-        >
-          {option.displayName}
-        </option>
-      ))}
-    </select>
-    {error && (
-      <InputError
-        message={error}
+}) => {
+  const onChange = useCallback(
+    event => {
+      if (event.target.value !== selectedValue) {
+        handleSelection(event)
+      }
+    },
+    [handleSelection, selectedValue]
+  )
+  return (
+    <div className="input-select">
+      <label
+        className="labels"
+        htmlFor={name}
+      >
+        {label}
+        {subLabel && (
+          <span className="it-sub-label">
+            {subLabel}
+          </span>
+        )}
+      </label>
+      <select
+        className={`${error ? 'error' : ''}`}
+        disabled={isDisabled}
+        id={name}
         name={name}
-      />
-    )}
-  </div>
-)
+        onBlur={onChange}
+        onChange={onChange}
+        required={required}
+        value={selectedValue || defaultOption.id}
+      >
+        <option value={defaultOption.id}>
+          {defaultOption.displayName}
+        </option>
+        {options.map(option => (
+          <option
+            key={option.id}
+            value={option.id}
+          >
+            {option.displayName}
+          </option>
+        ))}
+      </select>
+      {error && (
+        <InputError
+          message={error}
+          name={name}
+        />
+      )}
+    </div>
+  )
+}
 
 Select.defaultProps = {
   error: null,

@@ -8,7 +8,7 @@ import * as pcapi from 'repository/pcapi/pcapi'
 
 const PREVIEW_TEXT_MAX_LENGTH = 300
 
-const OfferPreview = ({ formValues }) => {
+const OfferPreview = ({ offerData }) => {
   const [venue, setVenue] = useState(null)
 
   const buildPreviewText = previewText => {
@@ -19,12 +19,12 @@ const OfferPreview = ({ formValues }) => {
   }
 
   useEffect(() => {
-    formValues.venueId
-      ? pcapi.getVenue(formValues.venueId).then(venue => {
+    offerData.venueId
+      ? pcapi.getVenue(offerData.venueId).then(venue => {
           setVenue(venue)
         })
       : setVenue(null)
-  }, [formValues.venueId])
+  }, [offerData.venueId])
 
   const venueName = useMemo(() => venue?.publicName || venue?.name, [venue])
 
@@ -34,9 +34,9 @@ const OfferPreview = ({ formValues }) => {
       data-testid="offer-preview-section"
     >
       <div className="op-section">
-        {formValues.name && (
+        {offerData.name && (
           <div className="title-preview">
-            {formValues.name}
+            {offerData.name}
           </div>
         )}
         <div className="op-options-summary">
@@ -50,7 +50,7 @@ const OfferPreview = ({ formValues }) => {
             </span>
           </div>
 
-          <div className={`op-option${!formValues.isDuo ? ' disabled' : ''}`}>
+          <div className={`op-option${!offerData.isDuo ? ' disabled' : ''}`}>
             <DuoSvg
               aria-hidden
               className="op-option-ico"
@@ -70,9 +70,9 @@ const OfferPreview = ({ formValues }) => {
             </span>
           </div>
         </div>
-        {formValues.description && (
+        {offerData.description && (
           <div className="op-section-text">
-            {buildPreviewText(formValues.description)}
+            {buildPreviewText(offerData.description)}
           </div>
         )}
       </div>
@@ -97,13 +97,13 @@ const OfferPreview = ({ formValues }) => {
         </div>
       )}
 
-      {formValues.withdrawalDetails && (
+      {offerData.withdrawalDetails && (
         <div className="op-section">
           <div className="op-section-title">
             {'Modalités de retrait'}
           </div>
           <div className="op-section-text">
-            {buildPreviewText(formValues.withdrawalDetails)}
+            {buildPreviewText(offerData.withdrawalDetails)}
           </div>
         </div>
       )}
@@ -111,8 +111,24 @@ const OfferPreview = ({ formValues }) => {
   )
 }
 
+// OfferPreview.defaultProps = {
+//   offerData: PropTypes.shape({
+//     description: '',
+//     isDuo: false,
+//     name: '',
+//     venueId: null,
+//     withdrawalDetails: '',
+//   }).isRequired,
+// }
+
 OfferPreview.propTypes = {
-  formValues: PropTypes.shape().isRequired,
+  offerData: PropTypes.shape({
+    description: PropTypes.string,
+    isDuo: PropTypes.bool,
+    name: PropTypes.string,
+    venueId: PropTypes.string,
+    withdrawalDetails: PropTypes.string,
+  }).isRequired,
 }
 
 export default OfferPreview

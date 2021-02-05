@@ -59,6 +59,7 @@ export const setOfferValues = values => {
     let input
     const { label, exact } = fieldLabels[field]
     input = screen.getByLabelText(label, { exact })
+
     if (checkboxes.includes(field)) {
       userEvent.click(input)
     } else if (field === 'durationMinutes') {

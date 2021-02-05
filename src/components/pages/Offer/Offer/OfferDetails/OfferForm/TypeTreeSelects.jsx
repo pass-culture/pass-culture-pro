@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types'
 import React, { Fragment, useCallback, useEffect, useState } from 'react'
 
 import Select, { buildSelectOptions } from 'components/layout/inputs/Select'
@@ -8,7 +9,7 @@ import { musicOptionsTree, showOptionsTree } from '../subTypes'
 import { DEFAULT_FORM_VALUES } from './_constants'
 
 const TypeTreeSelects = props => {
-  const { areSubtypesVisible, isReadOnly, types, typeValues, updateTypeValues } = props
+  const { areSubtypesVisible, isReadOnly, onTypeChange, onSubTypeChange, types, typeValues } = props
 
   const typeOptions = buildSelectOptions('value', 'proLabel', types)
   const [subTypeOptions, setSubTypeOptions] = useState({
@@ -61,6 +62,7 @@ const TypeTreeSelects = props => {
           }
           case 'musicSubType': {
             if (
+              typeValues.musicType !== undefined &&
               typeValues.musicType !== DEFAULT_FORM_VALUES.musicType &&
               hasConditionalField(typeValues.type, 'musicType')
             ) {
@@ -73,6 +75,7 @@ const TypeTreeSelects = props => {
           }
           case 'showSubType': {
             if (
+              typeValues.showType !== undefined &&
               typeValues.showType !== DEFAULT_FORM_VALUES.musicType &&
               hasConditionalField(typeValues.type, 'showType')
             ) {
@@ -104,7 +107,7 @@ const TypeTreeSelects = props => {
     event => {
       const fieldName = event.target.name
       const fieldValue = event.target.value
-      const newTypeValues = {
+      let newTypeValues = {
         ...typeValues,
         [fieldName]: fieldValue,
       }
@@ -124,9 +127,11 @@ const TypeTreeSelects = props => {
         newTypeValues[fieldName] = DEFAULT_FORM_VALUES[fieldName]
       })
 
-      updateTypeValues(newTypeValues)
+      onTypeChange(newTypeValues.type)
+      delete newTypeValues.type
+      onSubTypeChange(newTypeValues)
     },
-    [updateTypeValues, typeValues]
+    [onTypeChange, onSubTypeChange, typeValues]
   )
 
   return (
@@ -155,6 +160,15 @@ const TypeTreeSelects = props => {
       />
     </Fragment>
   )
+}
+
+TypeTreeSelects.propTypes = {
+  areSubtypesVisible: PropTypes.bool.isRequired,
+  isReadOnly: PropTypes.bool.isRequired,
+  onSubTypeChange: PropTypes.func.isRequired,
+  onTypeChange: PropTypes.func.isRequired,
+  typeValues: PropTypes.shape().isRequired,
+  types: PropTypes.arrayOf(PropTypes.string).isRequired,
 }
 
 export default TypeTreeSelects

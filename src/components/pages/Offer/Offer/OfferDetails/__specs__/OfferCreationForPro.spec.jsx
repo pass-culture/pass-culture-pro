@@ -58,7 +58,7 @@ describe('offerDetails - Creation - pro user', () => {
   beforeEach(() => {
     store = configureTestStore({ data: { users: [{ publicName: 'François', isAdmin: false }] } })
     props = {
-      setShowThumbnailForm: jest.fn(),
+      onFormValuesChange: jest.fn(),
     }
     types = [
       {
@@ -150,6 +150,13 @@ describe('offerDetails - Creation - pro user', () => {
         isVirtual: true,
         managingOffererId: offerer2Id,
         name: "L'autre lieu (Offre numérique)",
+        offererName: "L'autre structure",
+      },
+      {
+        id: 'ABCDE',
+        isVirtual: true,
+        managingOffererId: offerer2Id,
+        name: "L'autre lieu numérique (Offre numérique)",
         offererName: "L'autre structure",
       },
     ]
@@ -1126,7 +1133,7 @@ describe('offerDetails - Creation - pro user', () => {
           await setOfferValues({ venueId: venues[2].id })
 
           // When
-          await setOfferValues({ type: 'EventType.SPECTACLE_VIVANT' })
+          await setOfferValues({ type: 'EventType.LIVRE_EDITION' })
 
           // Then
           expect(
@@ -1334,6 +1341,7 @@ describe('offerDetails - Creation - pro user', () => {
         },
         venueId: venues[0].id,
         withdrawalDetails: 'À venir chercher sur place.',
+        offererId: offerers[0].id,
       }
 
       await renderOffers(props, store)

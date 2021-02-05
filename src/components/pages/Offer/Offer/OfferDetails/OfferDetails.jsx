@@ -22,7 +22,7 @@ const OfferDetails = ({
   showErrorNotification,
 }) => {
   const [formInitialValues, setFormInitialValues] = useState({})
-  const [formValues, setFormValues] = useState({})
+  const [previewOfferData, setPreviewOfferData] = useState({})
   const [formErrors, setFormErrors] = useState({})
   const [showThumbnailForm, setShowThumbnailForm] = useState(offer !== null)
   const [isLoading, setIsLoading] = useState(true)
@@ -42,6 +42,14 @@ const OfferDetails = ({
       }))
     }
   }, [location.search])
+
+  const handleFormValuesChange = useCallback(
+    formValues => {
+      setShowThumbnailForm(Boolean(formValues.type))
+      setPreviewOfferData(formValues)
+    },
+    [setPreviewOfferData, setShowThumbnailForm]
+  )
 
   const handleSubmitOffer = useCallback(
     async offerValues => {
@@ -95,27 +103,23 @@ const OfferDetails = ({
         <div className="content">
           {offer ? (
             <OfferEditionContainer
-              formValues={formValues}
               isLoading={isLoading}
               isUserAdmin={isUserAdmin}
               offer={offer}
+              onFormValuesChange={handleFormValuesChange}
               onSubmit={handleSubmitOffer}
-              setFormValues={setFormValues}
               setIsLoading={setIsLoading}
-              setShowThumbnailForm={setShowThumbnailForm}
               showErrorNotification={showErrorNotification}
               submitErrors={formErrors}
             />
           ) : (
             <OfferCreation
-              formValues={formValues}
               initialValues={formInitialValues}
               isLoading={isLoading}
               isUserAdmin={isUserAdmin}
+              onFormValuesChange={handleFormValuesChange}
               onSubmit={handleSubmitOffer}
-              setFormValues={setFormValues}
               setIsLoading={setIsLoading}
-              setShowThumbnailForm={setShowThumbnailForm}
               showErrorNotification={showErrorNotification}
               submitErrors={formErrors}
             />
@@ -128,12 +132,12 @@ const OfferDetails = ({
               {offer?.thumbUrl ? (
                 <Fragment>
                   <OfferThumbnail url={offer.thumbUrl} />
-                  <OfferPreview formValues={formValues} />
+                  <OfferPreview offerData={previewOfferData} />
                 </Fragment>
               ) : (
                 <Fragment>
                   <OfferThumbnailPlaceholder />
-                  <OfferPreview formValues={formValues} />
+                  <OfferPreview offerData={previewOfferData} />
                 </Fragment>
               )}
             </div>
