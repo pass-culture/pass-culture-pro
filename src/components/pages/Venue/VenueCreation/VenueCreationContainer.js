@@ -3,7 +3,6 @@ import { compose } from 'redux'
 import { requestData } from 'redux-saga-data'
 import withQueryRouter from 'with-query-router'
 
-import { CREATION } from 'components/hocs/withFrenchQueryRouter'
 import withTracking from 'components/hocs/withTracking'
 import { showNotificationV1 } from 'store/reducers/notificationReducer'
 import { selectOffererById } from 'store/selectors/data/offerersSelectors'
@@ -52,7 +51,7 @@ export const mapDispatchToProps = (dispatch, ownProps) => {
         requestData({
           apiPath: `/offerers/${offererId}`,
           handleSuccess: () => {
-            if (!venueId || venueId === CREATION) {
+            if (!venueId || venueId === 'creation') {
               return
             }
             dispatch(
