@@ -1,0 +1,40 @@
+.expandable-box {
+  border: rem(1px) solid $grey-medium;
+  border-radius: rem(8px);
+  box-shadow: 0 rem(2px) rem(6px) 0 rgba($black, 0.15);
+  flex: 1;
+
+  .eb-content {
+    display: none;
+  }
+
+  &.expanded {
+    .eb-arrow {
+      transform: rotate(180deg);
+    }
+
+    .eb-content {
+      display: block;
+      padding: rem(16px);
+      padding-top: 0;
+    }
+
+    .eb-title {
+      color: $secondary;
+    }
+  }
+
+  .eb-title-container {
+    display: flex;
+    padding: rem(16px);
+
+    &:focus,
+    &:active {
+      outline: transparent;
+    }
+
+    .eb-title {
+      flex: 1 1 auto;
+    }
+  }
+}

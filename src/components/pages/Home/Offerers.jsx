@@ -94,9 +94,9 @@ const Offerers = () => {
                     {'Siège social : '}
                   </dt>
                   <dd>
-                    {selectedOfferer.address} 
+                    {selectedOfferer.address}
                     {' '}
-                    {selectedOfferer.postalCode} 
+                    {selectedOfferer.postalCode}
                     {' '}
                     {selectedOfferer.city}
                   </dd>

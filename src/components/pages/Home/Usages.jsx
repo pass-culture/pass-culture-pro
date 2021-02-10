@@ -1,5 +1,6 @@
 import React from 'react'
 
+import ExpandableBox from './ExpandableBox/ExpandableBox'
 import { steps, STEP_ID_USAGES } from './HomepageBreadcrumb'
 
 const Usages = () => {
@@ -13,11 +14,21 @@ const Usages = () => {
       </h2>
 
       <div className="h-section-row">
-        {'1. Découvrir les offres éligibles pour votre structure'}
+        <ExpandableBox
+          tabIndex={0}
+          title="1. Découvrir les offres éligibles pour votre structure"
+        >
+          {'Hello world'}
+        </ExpandableBox>
       </div>
 
       <div className="h-section-row">
-        {'2. Comment créer ou synchroniser une offre physique'}
+        <ExpandableBox
+          tabIndex={-1}
+          title="2. Comment créer ou synchroniser une offre physique"
+        >
+          {'Hello world'}
+        </ExpandableBox>
       </div>
     </>
   )
