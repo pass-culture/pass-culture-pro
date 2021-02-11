@@ -168,6 +168,20 @@ export const validateDistantImage = url => {
   return client.post('/offers/thumbnail-url-validation', { url: url })
 }
 
+export const postThumbnail = (offerer, offer, credit, thumb, thumbUrl, x, y, height) => {
+  const body = new FormData()
+  body.append('offerId', offer)
+  body.append('offererId', offerer)
+  body.append('credit', credit)
+  body.append('croppingRect[x]', x)
+  body.append('croppingRect[y]', y)
+  body.append('croppingRect[height]', height)
+  body.append('thumb', thumb)
+  body.append('thumbUrl', thumbUrl)
+
+  return client.postWithFormData('/mediations', body)
+}
+
 //
 // user
 //
@@ -180,17 +194,9 @@ export const setPassword = (token, newPassword) => {
   return client.post('/users/new-password', { token, newPassword })
 }
 
-export const postThumbnail = (offerer, offer, credit, thumb, thumbUrl, x, y, height) => {
-  // /thumbnails
-  const body = new FormData()
-  body.append('offerId', offer)
-  body.append('offererId', offerer)
-  body.append('credit', credit)
-  body.append('croppingRect[x]', x)
-  body.append('croppingRect[y]', y)
-  body.append('croppingRect[height]', height)
-  body.append('thumb', thumb)
-  body.append('thumbUrl', thumbUrl)
-
-  return client.postWithFormData('/mediations', body)
+//
+// tutos
+//
+export const setHasSeenTutos = userId => {
+  return client.patch(`/users/${userId}/tuto-seen`)
 }
