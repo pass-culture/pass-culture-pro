@@ -12,7 +12,10 @@ const Offerers = () => {
   const [offerers, setOfferers] = useState([])
   const [offererOptions, setOffererOptions] = useState([])
   const [selectedOfferer, setSelectedOfferer] = useState(null)
+  const [offlineVenues, setOfflineVenues] = useState([])
+  const [onlineVenue, setOnlineVenue] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [isLoadingVenues, setIsLoadingVenues] = useState(true)
 
   useEffect(function fetchData() {
     pcapi.getValidatedOfferers().then(receivedOfferers => {
@@ -23,6 +26,17 @@ const Offerers = () => {
       setIsLoading(false)
     })
   }, [])
+
+  useEffect(() => {
+    if (isLoading) return
+    setIsLoadingVenues(true)
+    pcapi.getVenuesForOfferer(selectedOfferer.id).then((venues) => {
+      console.log('venues !!!!', venues)
+      setOnlineVenue(venues.find((venue) => venue.isVirtual === true))
+      setOfflineVenues(venues.filter((venue) => venue.isVirtual === false))
+      setIsLoadingVenues(false)
+    })
+  }, [isLoading, selectedOfferer])
 
   const handleChangeOfferer = useCallback(
     event => {
@@ -94,9 +108,9 @@ const Offerers = () => {
                     {'Siège social : '}
                   </dt>
                   <dd>
-                    {selectedOfferer.address} 
+                    {selectedOfferer.address}
                     {' '}
-                    {selectedOfferer.postalCode} 
+                    {selectedOfferer.postalCode}
                     {' '}
                     {selectedOfferer.city}
                   </dd>
@@ -116,17 +130,37 @@ const Offerers = () => {
         </div>
       </div>
 
-      <div className="h-section-row nested">
-        <div className="h-card h-card-primary">
-          <div className="h-card-inner">
-            <h3 className="h-card-secondary-title">
-              {'Votre lieu numérique'}
-            </h3>
-            <div className="h-card-content">
-              {'Hello world !'}
+      <div className="h-venue-list">
+        <div className="h-section-row nested">
+          <div className="h-card h-card-primary">
+            <div className="h-card-inner">
+              <h3 className="h-card-title">
+                { !isLoadingVenues &&  onlineVenue.name }
+              </h3>
             </div>
           </div>
         </div>
+
+        { offlineVenues && offlineVenues.map((venue) => (
+          <div className="h-section-row nested" key={venue.id}>
+            <div className="h-card h-card-secondary">
+              <div className="h-card-inner">
+                <div className="h-card-header-row">
+                  <h3 className="h-card-title">
+                    { venue.name }
+                  </h3>
+                  <Link
+                    className="tertiary-button"
+                    to={`/structures/${selectedOfferer.id}/lieux/${venue.id}`}
+                  >
+                    <Icon svg="ico-outer-pen" />
+                    {'Modifier'}
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </>
   )

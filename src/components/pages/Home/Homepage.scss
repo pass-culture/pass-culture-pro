@@ -43,7 +43,7 @@
       padding-top: 0;
 
       > *:first-child {
-        margin-top: 16px;
+        margin-top: rem(16px);
       }
     }
 
@@ -203,6 +203,20 @@
           margin-left: 0;
         }
       }
+    }
+  }
+
+  .h-venue-list {
+    margin-top: rem(16px);
+
+    .loading-spinner {
+      img {
+        margin-bottom: 0;
+      }
+    }
+
+    .h-card-inner {
+      padding-bottom: rem(16px); // FIXME: remove this fix when venue list card get content.
     }
   }
 }
