@@ -79,6 +79,14 @@ describe('homepage : Tabs : Offerers', () => {
         offererName: 'Bar des amis',
         publicName: null,
       },
+      {
+        id: 'test_venue_id_2',
+        isVirtual: false,
+        managingOffererId: baseOfferers[0].id,
+        name: 'Le deuxième Sous-sol (Offre physique)',
+        offererName: 'Bar des amis',
+        publicName: 'Le deuxième Sous-sol',
+      },
     ]
 
     pcapi.getOfferers.mockResolvedValue(baseOfferers)
@@ -147,6 +155,9 @@ describe('homepage : Tabs : Offerers', () => {
       expect(
         within(offlineVenueContainer).getByText('Modifier', { exact: false })
       ).toBeInTheDocument()
+
+      const secondOfflineVenueTitle = await screen.findByText(baseVenues[2].publicName)
+      expect(secondOfflineVenueTitle).toBeInTheDocument()
     })
 
     describe('when selected offerer change', () => {
@@ -171,6 +182,14 @@ describe('homepage : Tabs : Offerers', () => {
             name: 'New venue (Offre physique)',
             offererName: newSelectedOfferer.name,
             publicName: null,
+          },
+          {
+            id: 'test_venue_id_5',
+            isVirtual: false,
+            managingOffererId: newSelectedOfferer.id,
+            name: 'Second new venue (Offre physique)',
+            offererName: newSelectedOfferer.name,
+            publicName: 'Second new venue public name',
           },
         ]
         pcapi.getVenuesForOfferer.mockResolvedValue(newSelectedOffererVenues)
@@ -202,6 +221,11 @@ describe('homepage : Tabs : Offerers', () => {
         expect(
           within(offlineVenueContainer).getByText('Modifier', { exact: false })
         ).toBeInTheDocument()
+
+        const secondOfflineVenueTitle = await screen.findByText(
+          newSelectedOffererVenues[2].publicName
+        )
+        expect(secondOfflineVenueTitle).toBeInTheDocument()
       })
     })
   })
