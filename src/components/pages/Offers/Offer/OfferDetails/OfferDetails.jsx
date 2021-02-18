@@ -21,6 +21,7 @@ const OfferDetails = ({
   showCreationSuccessNotification,
   showEditionSuccessNotification,
   showErrorNotification,
+  userEmail,
 }) => {
   const [formInitialValues, setFormInitialValues] = useState({})
   const [formValues, setFormValues] = useState({})
@@ -154,6 +155,7 @@ const OfferDetails = ({
               setShowThumbnailForm={setShowThumbnailForm}
               showErrorNotification={showErrorNotification}
               submitErrors={formErrors}
+              userEmail={userEmail}
             />
           )}
         </div>
@@ -201,6 +203,7 @@ OfferDetails.propTypes = {
   showCreationSuccessNotification: PropTypes.func.isRequired,
   showEditionSuccessNotification: PropTypes.func.isRequired,
   showErrorNotification: PropTypes.func.isRequired,
+  userEmail: PropTypes.string.isRequired,
 }
 
 export default OfferDetails
