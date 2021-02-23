@@ -141,6 +141,7 @@ const OfferDetails = ({
               setShowThumbnailForm={setShowThumbnailForm}
               showErrorNotification={showErrorNotification}
               submitErrors={formErrors}
+              userEmail={userEmail}
             />
           ) : (
             <OfferCreation
