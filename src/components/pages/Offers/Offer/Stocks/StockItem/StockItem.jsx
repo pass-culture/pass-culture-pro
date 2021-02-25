@@ -231,6 +231,7 @@ const StockItem = ({
 }
 
 StockItem.defaultProps = {
+  departmentCode: '',
   errors: {},
   isNewStock: false,
   lastProvider: null,
@@ -238,7 +239,7 @@ StockItem.defaultProps = {
 }
 
 StockItem.propTypes = {
-  departmentCode: PropTypes.string.isRequired,
+  departmentCode: PropTypes.string,
   errors: PropTypes.shape(),
   initialStock: PropTypes.shape({
     id: PropTypes.string,
@@ -247,8 +248,8 @@ StockItem.propTypes = {
     isEventDeletable: PropTypes.bool,
     beginningDatetime: PropTypes.string,
     bookingLimitDatetime: PropTypes.string,
-    price: PropTypes.number.isRequired,
-    quantity: PropTypes.number,
+    price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    quantity: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   }).isRequired,
   isEvent: PropTypes.bool.isRequired,
   isNewStock: PropTypes.bool,
