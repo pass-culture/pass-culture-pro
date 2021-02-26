@@ -218,12 +218,12 @@ export const updateUserInformations = body => {
   return client.patch('/users/current', body)
 }
 
-export const setPassword = (token, newPassword) => {
-  return client.post('/users/new-password', { token, newPassword })
+export const getCurrentUser = () => {
+  return client.get('/users/users/current')
 }
 
-export const getCurrentUser = () => {
-  return Promise.reject('getCurrentUser is not yet implemented')
+export const setPassword = (token, newPassword) => {
+  return client.post('/users/new-password', { token, newPassword })
 }
 
 export const resetPassword = () => {

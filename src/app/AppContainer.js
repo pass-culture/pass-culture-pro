@@ -1,33 +1,19 @@
 import { connect } from 'react-redux'
-import { withRouter } from 'react-router'
-import { compose } from 'redux'
-import { requestData } from 'redux-saga-data'
 
-import { selectCurrentUser, resolveCurrentUser } from 'store/selectors/data/usersSelectors'
 import { maintenanceSelector } from 'store/selectors/maintenanceSelector'
+import { getCurrentUser } from 'store/users/thunks'
 
-import { App } from './App'
+import App from './App'
 
 export function mapStateToProps(state) {
   return {
-    currentUser: selectCurrentUser(state),
+    currentUser: state.users.currentUser,
     isMaintenanceActivated: maintenanceSelector(state),
   }
 }
 
-export function mapDispatchToProps(dispatch) {
-  return {
-    getCurrentUser: ({ handleFail, handleSuccess }) => {
-      dispatch(
-        requestData({
-          apiPath: '/users/current',
-          resolve: resolveCurrentUser,
-          handleFail,
-          handleSuccess,
-        })
-      )
-    },
-  }
+export const mapDispatchToProps = {
+  getCurrentUser,
 }
 
-export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App)

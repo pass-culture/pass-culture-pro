@@ -1,16 +1,21 @@
 import PropTypes from 'prop-types'
 import React, { useEffect, useState } from 'react'
 import { matchPath } from 'react-router'
+import { useHistory, useLocation } from 'react-router-dom'
 
 import Spinner from 'components/layout/Spinner'
+import { URL_FOR_MAINTENANCE } from 'utils/config'
 import routes, { routesWithMain } from 'utils/routes_map'
 
-import RedirectToMaintenance from './RedirectToMaintenance'
 
 export const App = props => {
-  const { children, currentUser, getCurrentUser, history, isMaintenanceActivated, location } = props
+  const { children, currentUser, getCurrentUser, isMaintenanceActivated } = props
 
   const [isBusy, setIsBusy] = useState(false)
+
+  const history = useHistory()
+  const location = useLocation()
+
   const currentPathname = window.location.pathname
   useEffect(() => {
     const publicRouteList = [...routes, ...routesWithMain].filter(
@@ -20,18 +25,17 @@ export const App = props => {
 
     if (!currentUser) {
       setIsBusy(true)
-      getCurrentUser({
-        handleSuccess: () => {
+      getCurrentUser()
+        .then(() => {
           setIsBusy(false)
-        },
-        handleFail: () => {
+        })
+        .catch(() => {
           if (!isPublicRoute) {
             const fromUrl = encodeURIComponent(`${location.pathname}${location.search}`)
             history.push(`/connexion?de=${fromUrl}`)
           }
           setIsBusy(false)
-        },
-      })
+        })
     }
   }, [currentUser, currentPathname, getCurrentUser, history, location])
 
@@ -40,7 +44,8 @@ export const App = props => {
   }, [currentPathname])
 
   if (isMaintenanceActivated) {
-    return <RedirectToMaintenance />
+    history.push(URL_FOR_MAINTENANCE)
+    return null
   }
 
   if (isBusy) {
@@ -54,8 +59,16 @@ export const App = props => {
   return children
 }
 
+App.defaultProps = {
+  currentUser: null,
+}
+
 App.propTypes = {
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.shape()), PropTypes.shape()])
     .isRequired,
+  currentUser: PropTypes.shape(),
+  getCurrentUser: PropTypes.func.isRequired,
   isMaintenanceActivated: PropTypes.bool.isRequired,
 }
+
+export default App

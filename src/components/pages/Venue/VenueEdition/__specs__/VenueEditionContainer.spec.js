@@ -35,6 +35,9 @@ describe('src | components | pages | VenueContainer | mapStateToProps', () => {
     it('should return an object with props', () => {
       // given
       const state = {
+        users: {
+          currentUser: null,
+        },
         data: {
           offerers: [{ id: 1 }],
           userOfferers: [{ offererId: 1, rights: 'admin', userId: 1 }],
@@ -44,7 +47,6 @@ describe('src | components | pages | VenueContainer | mapStateToProps', () => {
               managingOffererId: 'M4',
             },
           ],
-          users: [],
         },
       }
 
@@ -53,7 +55,7 @@ describe('src | components | pages | VenueContainer | mapStateToProps', () => {
 
       // then
       expect(result).toStrictEqual({
-        currentUser: undefined,
+        currentUser: null,
         isNewHomepageActive: false,
         offerer: { id: 1 },
         venue: {
@@ -76,11 +78,12 @@ describe('src | components | pages | VenueContainer | mapStateToProps', () => {
             { id: 'AE', label: 'Patrimoine et tourisme' },
             { id: 'AF', label: 'Autre' },
           ],
-          users: [
-            {
-              email: 'john.doe@example.net',
-            },
-          ],
+        },
+        users: {
+          currentUser: {
+            id: 'fake_user_id',
+            email: 'john.doe@example.net',
+          },
         },
       }
 
@@ -109,11 +112,12 @@ describe('src | components | pages | VenueContainer | mapStateToProps', () => {
             { id: 'AE', label: "CAC - Centre d'art contemporain d'intérêt national" },
             { id: 'AF', label: "Ville et Pays d'art et d'histoire" },
           ],
-          users: [
-            {
-              email: 'john.doe@example.net',
-            },
-          ],
+        },
+        users: {
+          currentUser: {
+            id: 'fake_user_id',
+            email: 'john.doe@example.net',
+          },
         },
       }
 

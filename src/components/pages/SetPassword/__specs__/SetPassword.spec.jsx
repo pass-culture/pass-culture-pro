@@ -48,7 +48,9 @@ describe('src | components | pages | SetPassword', () => {
     // Given
 
     store = configureTestStore({
-      data: { users: [{ publicName: 'Bosetti' }] },
+      users: {
+        currentUser: { publicName: 'Bosetti' },
+      },
     })
     renderSetPassword(store, history)
 

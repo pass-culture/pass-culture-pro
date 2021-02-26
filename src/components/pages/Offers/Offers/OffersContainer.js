@@ -5,14 +5,14 @@ import { withQueryRouter } from 'components/hocs/with-query-router/withQueryRout
 import { saveSearchFilters } from 'store/offers/actions'
 import { selectOffers } from 'store/offers/selectors'
 import { loadOffers } from 'store/offers/thunks'
-import { selectCurrentUser } from 'store/selectors/data/usersSelectors'
+
 import { fetchFromApiWithCredentials } from 'utils/fetch'
 
 import Offers from './Offers'
 
 export const mapStateToProps = state => {
   return {
-    currentUser: selectCurrentUser(state),
+    currentUser: state.users.currentUser,
     getOfferer: fetchOffererById,
     offers: selectOffers(state),
     savedSearchFilters: state.offers.searchFilters,

@@ -1,15 +1,7 @@
 import { connect } from 'react-redux'
 
 import TutorialDialog from 'components/layout/Tutorial/TutorialDialog'
-import { selectCurrentUser } from 'store/selectors/data/usersSelectors'
-
-import { setUsers } from '../../../store/reducers/data'
-
-const mapStateToProps = state => {
-  return {
-    currentUser: selectCurrentUser(state),
-  }
-}
+import { setUsers } from 'store/reducers/data'
 
 const mapDispatchToProps = dispatch => ({
   setUserHasSeenTuto: currentUser => {
@@ -18,4 +10,4 @@ const mapDispatchToProps = dispatch => ({
   },
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(TutorialDialog)
+export default connect(null, mapDispatchToProps)(TutorialDialog)

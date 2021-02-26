@@ -4,7 +4,6 @@ import { requestData } from 'redux-saga-data'
 
 import { showNotification } from 'store/reducers/notificationReducer'
 import { selectIsFeatureActive } from 'store/selectors/data/featuresSelectors'
-import { selectCurrentUser } from 'store/selectors/data/usersSelectors'
 import { searchSelector } from 'store/selectors/search'
 import { IS_DEV } from 'utils/config'
 import { getReCaptchaToken } from 'utils/recaptcha'
@@ -19,7 +18,7 @@ export const mapStateToProps = (state, ownProps) => {
   const { change, envoye, token } = searchSelector(state, search)
   return {
     change,
-    currentUser: selectCurrentUser(state),
+    currentUser: state.users.currentUser,
     errors: userErrors,
     envoye,
     isNewHomepageActive: selectIsFeatureActive(state, 'PRO_HOMEPAGE'),

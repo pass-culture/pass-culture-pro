@@ -3,6 +3,7 @@ import { combineReducers } from 'redux'
 import { tracker } from 'store/reducers/tracker'
 
 import { offersReducer } from '../offers/reducer'
+import { usersReducer } from '../users/reducer'
 
 import bookingSummary from './bookingSummary/bookingSummary'
 import data from './data'
@@ -14,10 +15,11 @@ const rootReducer = combineReducers({
   bookingSummary,
   data,
   errors,
-  offers: offersReducer,
-  notification: notificationReducer,
-  tracker,
   maintenance: maintenanceReducer,
+  notification: notificationReducer,
+  offers: offersReducer,
+  tracker,
+  users: usersReducer,
 })
 
 export default rootReducer
