@@ -200,18 +200,46 @@ export const postThumbnail = (offerer, offer, credit, thumb, thumbUrl, x, y, hei
 
 //
 // user
-//
+// @TODO:
+// src/components/layout/Header/Signout/SignoutButton.jsx:        apiPath: '/users/signout',
+// src/components/pages/LostPassword/LostPasswordContainer.js:          apiPath: '/users/reset-password',
+// src/components/pages/LostPassword/LostPasswordContainer.js:        apiPath: '/users/new-password',
+// src/components/pages/Profil/Profil.jsx:      apiPath: '/users/current',
+// src/components/pages/Profil/tests/Profil.spec.jsx:        apiPath: '/users/current',
+// src/components/pages/Signin/SigninContainer.js:        apiPath: '/users/signin',
+// src/components/pages/Signup/SignupForm/SignupFormContainer.js:        apiPath: '/users/signup/pro',
+// src/components/pages/Signup/SignupForm/__specs__/SignupFormContainer.spec.js:            apiPath: '/users/signup/pro',
+// src/components/pages/Signup/SignupForm/__specs__/SignupFormContainer.spec.js:            apiPath: '/users/signup/pro',
+// src/components/pages/Signup/SignupForm/__specs__/SignupFormContainer.spec.js:            apiPath: '/users/signup/pro',
+
 export const signout = () => client.get('/users/signout')
 
 export const updateUserInformations = body => {
   return client.patch('/users/current', body)
 }
 
-//
-// set password
-//
 export const setPassword = (token, newPassword) => {
   return client.post('/users/new-password', { token, newPassword })
+}
+
+export const getCurrentUser = () => {
+  return Promise.reject('getCurrentUser is not yet implemented')
+}
+
+export const resetPassword = () => {
+  return Promise.reject('resetPassword is not yet implemented')
+}
+
+export const newPassword = () => {
+  return Promise.reject('newPassword is not yet implemented')
+}
+
+export const signIn = () => {
+  return Promise.reject('signIn is not yet implemented')
+}
+
+export const signUpPro = () => {
+  return Promise.reject('signUpPro is not yet implemented')
 }
 
 //
