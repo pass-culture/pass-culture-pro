@@ -7,6 +7,11 @@ import configureStore from 'store'
 
 import Signin from '../Signin'
 
+// const signIn = async () => Promise.resolve()
+// jest.mock('repository/pcapi/pcapi', () => ({
+//   signIn,
+// }))
+
 describe('src | components | pages | Signin | Signin', () => {
   let submit
   let props
@@ -22,11 +27,12 @@ describe('src | components | pages | Signin | Signin', () => {
       },
       isAccountCreationAvailable: true,
       showErrorNotification: jest.fn(),
+      signIn: jest.fn().mockResolvedValue(Promise.resolve()),
     }
 
     store = configureStore({
-      data: {
-        users: [{ id: 'CMOI' }],
+      users: {
+        currentUser: { id: 'CMOI' },
       },
     }).store
   })
@@ -151,12 +157,7 @@ describe('src | components | pages | Signin | Signin', () => {
       submitButton.invoke('onSubmit')({ preventDefault: jest.fn() })
 
       // then
-      expect(props.submit).toHaveBeenCalledWith(
-        'un email',
-        'un mot de passe',
-        expect.any(Function),
-        expect.any(Function)
-      )
+      expect(props.signIn).toHaveBeenCalledWith('un email', 'un mot de passe')
     })
 
     describe('when user is signed in', () => {

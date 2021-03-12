@@ -10,3 +10,12 @@ export const getCurrentUser = () => {
     })
   }
 }
+
+export const signIn = (identifier, password) => {
+  return dispatch => {
+    return pcapi.signIn(identifier, password).then(rawUser => {
+      const user = rawUser ? rawUser : null
+      return dispatch(setCurrentUser(user))
+    })
+  }
+}

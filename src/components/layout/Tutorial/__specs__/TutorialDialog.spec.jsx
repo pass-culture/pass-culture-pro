@@ -41,7 +41,6 @@ describe('tutorial modal', () => {
 
   it('should show tutorial dialog if user has not seen it yet', async () => {
     store = configureTestStore({
-      data: {
       users: {
         currentUser: {
           id: 'test_id',
@@ -58,7 +57,6 @@ describe('tutorial modal', () => {
 
   it("shouldn't show tutorial dialog if user has already seen it", async () => {
     store = configureTestStore({
-      data: {
       users: {
         currentUser: {
           id: 'test_id',
@@ -77,7 +75,6 @@ describe('tutorial modal', () => {
     let buttonNext
     beforeEach(async () => {
       store = configureTestStore({
-        data: {
         users: {
           currentUser: {
             id: 'test_id',

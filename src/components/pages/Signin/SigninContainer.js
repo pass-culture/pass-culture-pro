@@ -1,10 +1,10 @@
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom'
 import { compose } from 'redux'
-import { requestData } from 'redux-saga-data'
 
 import { showNotification } from 'store/reducers/notificationReducer'
 import { isAPISireneAvailable, selectIsFeatureActive } from 'store/selectors/data/featuresSelectors'
+import { signIn } from 'store/users/thunks'
 
 import Signin from './Signin'
 
@@ -24,17 +24,7 @@ export const mapDispatchToProps = dispatch => ({
         text: errorText,
       })
     ),
-  submit: (emailValue, passwordValue, success, fail) => {
-    dispatch(
-      requestData({
-        apiPath: '/users/signin',
-        body: { identifier: emailValue, password: passwordValue },
-        handleFail: fail,
-        handleSuccess: success,
-        method: 'POST',
-      })
-    )
-  },
+  signIn: (identifier, password) => dispatch(signIn(identifier, password)),
 })
 
 export default compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(Signin)

@@ -234,8 +234,8 @@ export const newPassword = () => {
   return Promise.reject('newPassword is not yet implemented')
 }
 
-export const signIn = () => {
-  return Promise.reject('signIn is not yet implemented')
+export const signIn = (identifier, password) => {
+  return client.post('/users/signin', { identifier, password })
 }
 
 export const signUpPro = () => {
