@@ -9,11 +9,6 @@
 }
 
 .page {
-  &.red-bg {
-    background-color: $primary;
-    color: $white;
-  }
-
   .section {
     margin-bottom: 2rem;
     padding-bottom: 0;
@@ -29,25 +24,6 @@
       span {
         margin-top: 3.5px;
       }
-    }
-  }
-
-  footer {
-    align-items: center;
-    bottom: 0;
-    display: flex;
-    flex-direction: row-reverse;
-    height: 3.5rem;
-    left: 0;
-    padding: 1rem 4rem;
-    padding-left: 3em;
-    position: absolute;
-    right: 0;
-    text-align: right;
-
-    a,
-    button {
-      font-size: rem(20px);
     }
   }
 
@@ -112,16 +88,6 @@
             left: 0;
             position: absolute;
           }
-        }
-      }
-    }
-
-    &.white-header {
-      .page-content {
-        box-shadow: none;
-
-        .after-notification-content {
-          padding: 0;
         }
       }
     }
