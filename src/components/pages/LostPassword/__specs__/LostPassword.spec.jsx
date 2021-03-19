@@ -19,8 +19,8 @@ describe('src | components | pages | LostPassword', () => {
         push: jest.fn(),
       },
       showErrorNotification: jest.fn(),
-      submitResetPassword: jest.fn(),
-      submitResetPasswordRequest: jest.fn(),
+      setPassword: jest.fn(),
+      setPasswordRequest: jest.fn(),
     }
   })
 
@@ -176,18 +176,13 @@ describe('src | components | pages | LostPassword', () => {
     describe('when user does not succeed password change', () => {
       it('should display error message', () => {
         // given
-        const action = {
-          payload: {
-            errors: {
-              errorMessage: 'Server error',
-            },
-          },
+        const errors = {
+          errorMessage: 'Server error',
         }
-        const state = {}
 
         // when
         const wrapper = shallow(<LostPassword {...props} />)
-        wrapper.instance().displayPasswordResetErrorMessages(state, action)
+        wrapper.instance().displayPasswordResetErrorMessages(errors)
 
         // then
         expect(props.showErrorNotification).toHaveBeenCalledWith(

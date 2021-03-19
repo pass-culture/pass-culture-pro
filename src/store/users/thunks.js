@@ -19,3 +19,15 @@ export const signIn = (identifier, password) => {
     })
   }
 }
+
+export const setPassword = (identifier, password) => {
+  return () => {
+    return pcapi.setPassword(identifier, password).then(() => Promise.resolve())
+  }
+}
+
+export const setPasswordRequest = ({ email, token }) => {
+  return () => {
+    return pcapi.setPassword(email, token).then(() => Promise.resolve())
+  }
+}

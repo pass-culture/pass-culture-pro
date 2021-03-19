@@ -201,12 +201,7 @@ export const postThumbnail = (offerer, offer, credit, thumb, thumbUrl, x, y, hei
 //
 // user
 // @TODO:
-// src/components/layout/Header/Signout/SignoutButton.jsx:        apiPath: '/users/signout',
-// src/components/pages/LostPassword/LostPasswordContainer.js:          apiPath: '/users/reset-password',
-// src/components/pages/LostPassword/LostPasswordContainer.js:        apiPath: '/users/new-password',
-// src/components/pages/Profil/Profil.jsx:      apiPath: '/users/current',
-// src/components/pages/Profil/tests/Profil.spec.jsx:        apiPath: '/users/current',
-// src/components/pages/Signin/SigninContainer.js:        apiPath: '/users/signin',
+
 // src/components/pages/Signup/SignupForm/SignupFormContainer.js:        apiPath: '/users/signup/pro',
 // src/components/pages/Signup/SignupForm/__specs__/SignupFormContainer.spec.js:            apiPath: '/users/signup/pro',
 // src/components/pages/Signup/SignupForm/__specs__/SignupFormContainer.spec.js:            apiPath: '/users/signup/pro',
@@ -222,19 +217,15 @@ export const getCurrentUser = () => {
   return client.get('/users/users/current')
 }
 
-export const setPassword = (token, newPassword) => {
-  return client.post('/users/new-password', { token, newPassword })
+export const setPassword = ({ newPassword, token }) => {
+  return client.post('/users/new-password', { newPassword, token })
 }
 
-export const resetPassword = () => {
-  return Promise.reject('resetPassword is not yet implemented')
+export const setPasswordRequest = ({ email, token }) => {
+  return client.post('/reset-password', { email, token })
 }
 
-export const newPassword = () => {
-  return Promise.reject('newPassword is not yet implemented')
-}
-
-export const signIn = (identifier, password) => {
+export const signIn = ({ identifier, password }) => {
   return client.post('/users/signin', { identifier, password })
 }
 
