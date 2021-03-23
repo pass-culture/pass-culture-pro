@@ -51,9 +51,9 @@ export const mapDispatchToProps = (dispatch, ownProps) => ({
     let apiPath = createApiPath(searchKeyWords)
 
     if (apiPath.includes('?')) {
-      apiPath = `${apiPath}&page=${pageParams}`
+      apiPath = `${apiPath}&page=${pageParams}&is_active=true`
     } else {
-      apiPath = `${apiPath}?page=${pageParams}`
+      apiPath = `${apiPath}?page=${pageParams}&is_active=true`
     }
 
     dispatch(

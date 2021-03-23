@@ -146,7 +146,7 @@ describe('src | components | pages | Offerers | OfferersContainer', () => {
         // then
         expect(dispatch).toHaveBeenCalledWith({
           config: {
-            apiPath: '/offerers?page=0',
+            apiPath: '/offerers?page=0&is_active=true',
             handleFail,
             handleSuccess,
             method: 'GET',
@@ -159,7 +159,7 @@ describe('src | components | pages | Offerers | OfferersContainer', () => {
               },
             },
           },
-          type: 'REQUEST_DATA_GET_/OFFERERS?PAGE=0',
+          type: 'REQUEST_DATA_GET_/OFFERERS?PAGE=0&IS_ACTIVE=TRUE',
         })
       })
 
@@ -178,7 +178,7 @@ describe('src | components | pages | Offerers | OfferersContainer', () => {
           // then
           expect(dispatch).toHaveBeenCalledWith({
             config: {
-              apiPath: '/offerers?keywords=Honor%C3%A9+Justice&page=0',
+              apiPath: '/offerers?keywords=Honor%C3%A9+Justice&page=0&is_active=true',
               handleFail,
               handleSuccess,
               method: 'GET',
@@ -191,7 +191,7 @@ describe('src | components | pages | Offerers | OfferersContainer', () => {
                 },
               },
             },
-            type: 'REQUEST_DATA_GET_/OFFERERS?KEYWORDS=HONOR%C3%A9+JUSTICE&PAGE=0',
+            type: 'REQUEST_DATA_GET_/OFFERERS?KEYWORDS=HONOR%C3%A9+JUSTICE&PAGE=0&IS_ACTIVE=TRUE',
           })
         })
       })
@@ -211,7 +211,7 @@ describe('src | components | pages | Offerers | OfferersContainer', () => {
           // then
           expect(dispatch).toHaveBeenCalledWith({
             config: {
-              apiPath: '/offerers?keywords=Club+Dorothy&page=0',
+              apiPath: '/offerers?keywords=Club+Dorothy&page=0&is_active=true',
               handleFail,
               handleSuccess,
               method: 'GET',
@@ -224,7 +224,7 @@ describe('src | components | pages | Offerers | OfferersContainer', () => {
                 },
               },
             },
-            type: 'REQUEST_DATA_GET_/OFFERERS?KEYWORDS=CLUB+DOROTHY&PAGE=0',
+            type: 'REQUEST_DATA_GET_/OFFERERS?KEYWORDS=CLUB+DOROTHY&PAGE=0&IS_ACTIVE=TRUE',
           })
         })
       })
