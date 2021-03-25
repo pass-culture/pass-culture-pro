@@ -282,7 +282,7 @@ describe('stocks page', () => {
       // given
       const offer = {
         ...defaultOffer,
-        validation: 'REJECTED',
+        status: 'REJECTED',
         isActive: false,
       }
       pcapi.loadOffer.mockResolvedValue(offer)
@@ -302,7 +302,7 @@ describe('stocks page', () => {
       // given
       const offer = {
         ...defaultOffer,
-        validation: 'AWAITING',
+        status: 'AWAITING',
         isActive: true,
       }
       pcapi.loadOffer.mockResolvedValue(offer)
