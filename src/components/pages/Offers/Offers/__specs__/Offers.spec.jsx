@@ -187,7 +187,9 @@ describe('src | components | pages | Offers | Offers', () => {
 
     it('should display column titles when offers are returned', async () => {
       // Given
-      props.offers = [{ id: 'KE', availabilityMessage: 'Pas de stock', venueId: 'JI', status: 'ACTIVE' }]
+      props.offers = [
+        { id: 'KE', availabilityMessage: 'Pas de stock', venueId: 'JI', status: 'ACTIVE' },
+      ]
 
       // When
       await renderOffers(props, store)
@@ -426,7 +428,9 @@ describe('src | components | pages | Offers | Offers', () => {
       describe('status filters', () => {
         it('should not display status filters modal', async () => {
           // Given
-          props.offers = [{ id: 'KE', availabilityMessage: 'Pas de stock', venueId: 'JI', status: 'ACTIVE' }]
+          props.offers = [
+            { id: 'KE', availabilityMessage: 'Pas de stock', venueId: 'JI', status: 'ACTIVE' },
+          ]
 
           // When
           await renderOffers(props, store)
@@ -446,7 +450,9 @@ describe('src | components | pages | Offers | Offers', () => {
 
         it('should display status filters with "Tous" as default value when clicking on "Statut" filter icon', async () => {
           // Given
-          props.offers = [{ id: 'KE', availabilityMessage: 'Pas de stock', venueId: 'JI', status: 'ACTIVE' }]
+          props.offers = [
+            { id: 'KE', availabilityMessage: 'Pas de stock', venueId: 'JI', status: 'ACTIVE' },
+          ]
           await renderOffers(props, store)
 
           // When
@@ -466,7 +472,9 @@ describe('src | components | pages | Offers | Offers', () => {
 
         it('should filter offers given status filter when clicking on "Appliquer"', async () => {
           // Given
-          props.offers = [{ id: 'KE', availabilityMessage: 'Pas de stock', venueId: 'JI', status: 'ACTIVE' }]
+          props.offers = [
+            { id: 'KE', availabilityMessage: 'Pas de stock', venueId: 'JI', status: 'ACTIVE' },
+          ]
           await renderOffers(props, store)
           fireEvent.click(screen.getByAltText('Afficher ou masquer le filtre par statut'))
           fireEvent.click(screen.getByLabelText('Expirée'))
@@ -484,13 +492,15 @@ describe('src | components | pages | Offers | Offers', () => {
             typeId: DEFAULT_SEARCH_FILTERS.typeId,
             periodBeginningDate: DEFAULT_SEARCH_FILTERS.periodBeginningDate,
             periodEndingDate: DEFAULT_SEARCH_FILTERS.periodEndingDate,
-            status: 'expired',
+            status: 'EXPIRED',
           })
         })
 
         it('should hide status filters when clicking outside the modal', async () => {
           // Given
-          props.offers = [{ id: 'KE', availabilityMessage: 'Pas de stock', venueId: 'JI', status: 'ACTIVE' }]
+          props.offers = [
+            { id: 'KE', availabilityMessage: 'Pas de stock', venueId: 'JI', status: 'ACTIVE' },
+          ]
           await renderOffers(props, store)
           fireEvent.click(screen.getByAltText('Afficher ou masquer le filtre par statut'))
 
@@ -617,7 +627,7 @@ describe('src | components | pages | Offers | Offers', () => {
               venueId: DEFAULT_SEARCH_FILTERS.venueId,
               typeId: DEFAULT_SEARCH_FILTERS.typeId,
               offererId: 'EF',
-              status: 'inactive',
+              status: 'INACTIVE',
               creationMode: DEFAULT_SEARCH_FILTERS.creationMode,
               periodBeginningDate: DEFAULT_SEARCH_FILTERS.periodBeginningDate,
               periodEndingDate: DEFAULT_SEARCH_FILTERS.periodEndingDate,
@@ -678,7 +688,7 @@ describe('src | components | pages | Offers | Offers', () => {
               venueId: venueId,
               typeId: DEFAULT_SEARCH_FILTERS.typeId,
               offererId: DEFAULT_SEARCH_FILTERS.offererId,
-              status: 'inactive',
+              status: 'INACTIVE',
               creationMode: DEFAULT_SEARCH_FILTERS.creationMode,
               periodBeginningDate: DEFAULT_SEARCH_FILTERS.periodBeginningDate,
               periodEndingDate: DEFAULT_SEARCH_FILTERS.periodEndingDate,
