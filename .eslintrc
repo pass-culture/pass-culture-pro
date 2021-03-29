@@ -50,6 +50,7 @@
     "react/jsx-indent-props": [2, 2],
     "react/jsx-handler-names": "off",
     "react/jsx-max-depth": "off",
+    "react/jsx-newline": "off",
     "react/jsx-props-no-spreading": "off",
     "react/jsx-wrap-multilines": [
       "warn",
@@ -89,9 +90,11 @@
     },
     // JavaScript (non-TypeScript) files overrides
     {
-      "files": ["**/*.js", "**/*.jsx", "**/*.test.js", "**/*.test.jsx"],
+      "files": ["**/*.js", "**/*.jsx", "**/*.spec.js", "**/*.spec.jsx"],
       "rules": {
-        "@typescript-eslint/no-var-requires": "off"
+        "@typescript-eslint/no-var-requires": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
+        "@typescript-eslint/no-empty-function": "off"
       }
     }
   ],
