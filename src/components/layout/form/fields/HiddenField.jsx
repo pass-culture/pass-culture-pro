@@ -4,8 +4,6 @@ import { Field } from 'react-final-form'
 
 import FieldErrors from '../FieldErrors'
 
-const noOperation = () => {}
-
 class HiddenField extends PureComponent {
   renderField = ({ input, meta }) => (
     <div>
@@ -31,7 +29,7 @@ class HiddenField extends PureComponent {
 }
 
 HiddenField.defaultProps = {
-  validator: noOperation,
+  validator: null,
 }
 
 HiddenField.propTypes = {
