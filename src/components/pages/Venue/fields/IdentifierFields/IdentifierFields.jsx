@@ -21,54 +21,66 @@ const parseSiret = value => {
   return value.replace(/[^[0-9]/g, '')
 }
 
+const siretRenderValue = (fieldReadOnlyBecauseFrozenFormSiret, readOnly) => {
+  if (readOnly) {
+    return null
+  }
+  if (fieldReadOnlyBecauseFrozenFormSiret) {
+    return (
+      <span
+        className="button"
+        data-place="bottom"
+        data-tip="<p>Il n’est pas possible de modifier le nom, l’addresse et la géolocalisation du lieu quand un siret est renseigné.</p>"
+        data-type="info"
+      >
+        <Icon svg="picto-info" />
+      </span>
+    )
+  }
+  return (
+    <span
+      className="button"
+      data-place="bottom"
+      data-tip="<div><p>Saisissez ici le SIRET du lieu lié à votre structure pour retrouver ses informations automatiquement.</p>
+      <p>Si les informations ne correspondent pas au SIRET saisi, <a href='mailto:support@passculture.app?subject=Question%20SIRET'> contactez notre équipe</a>.</p></div>"
+      data-type="info"
+    >
+      <Icon svg="picto-info" />
+    </span>
+  )
+}
+
+const bookingEmailRenderValue = readOnly => {
+  if (readOnly) {
+    return null
+  }
+  return (
+    <span
+      className="button"
+      data-place="bottom"
+      data-tip="<p>Cette adresse recevra les e-mails de notification de réservation (sauf si une adresse différente est saisie lors de la création d’une offre)</p>"
+      data-type="info"
+    >
+      <Icon svg="picto-info" />
+    </span>
+  )
+}
+
+const handleSiretRenderValue = (fieldReadOnlyBecauseFrozenFormSiret, readOnly) => {
+  return () => siretRenderValue(fieldReadOnlyBecauseFrozenFormSiret, readOnly)
+}
+const handleBookingEmailRenderValue = readOnly => () => bookingEmailRenderValue(readOnly)
+
+const venueTypeValidate = venueType => {
+  if (venueType === undefined || venueType === '') {
+    return 'Ce champ est obligatoire'
+  }
+  return ''
+}
+
 class IdentifierFields extends PureComponent {
   componentDidUpdate() {
     ReactTooltip.rebuild()
-  }
-
-  handleRenderValue = (fieldReadOnlyBecauseFrozenFormSiret, readOnly) => () => {
-    if (readOnly) {
-      return null
-    }
-    if (fieldReadOnlyBecauseFrozenFormSiret) {
-      return (
-        <span
-          className="button"
-          data-place="bottom"
-          data-tip="<p>Il n’est pas possible de modifier le nom, l’addresse et la géolocalisation du lieu quand un siret est renseigné.</p>"
-          data-type="info"
-        >
-          <Icon svg="picto-info" />
-        </span>
-      )
-    }
-    return (
-      <span
-        className="button"
-        data-place="bottom"
-        data-tip="<div><p>Saisissez ici le SIRET du lieu lié à votre structure pour retrouver ses informations automatiquement.</p>
-        <p>Si les informations ne correspondent pas au SIRET saisi, <a href='mailto:support@passculture.app?subject=Question%20SIRET'> contactez notre équipe</a>.</p></div>"
-        data-type="info"
-      >
-        <Icon svg="picto-info" />
-      </span>
-    )
-  }
-
-  handleRender = readOnly => () => {
-    if (readOnly) {
-      return null
-    }
-    return (
-      <span
-        className="button"
-        data-place="bottom"
-        data-tip="<p>Cette adresse recevra les e-mails de notification de réservation (sauf si une adresse différente est saisie lors de la création d’une offre)</p>"
-        data-type="info"
-      >
-        <Icon svg="picto-info" />
-      </span>
-    )
   }
 
   commentValidate = comment => {
@@ -80,13 +92,6 @@ class IdentifierFields extends PureComponent {
       return ''
     }
     if (comment === undefined || comment === '') {
-      return 'Ce champ est obligatoire'
-    }
-    return ''
-  }
-
-  venueTypeValidate = venueType => {
-    if (venueType === undefined || venueType === '') {
       return 'Ce champ est obligatoire'
     }
     return ''
@@ -133,7 +138,7 @@ class IdentifierFields extends PureComponent {
             name="siret"
             parse={parseSiret}
             readOnly={readOnly || initialSiret !== null}
-            renderValue={this.handleRenderValue(fieldReadOnlyBecauseFrozenFormSiret, readOnly)}
+            renderValue={handleSiretRenderValue(fieldReadOnlyBecauseFrozenFormSiret, readOnly)}
             type="siret"
             validate={initialSiret ? undefined : siretValidate}
           />
@@ -152,7 +157,7 @@ class IdentifierFields extends PureComponent {
             label="E-mail : "
             name="bookingEmail"
             readOnly={readOnly}
-            renderValue={this.handleRender(readOnly)}
+            renderValue={handleBookingEmailRenderValue(readOnly)}
             required
             type="email"
           />
@@ -191,7 +196,7 @@ class IdentifierFields extends PureComponent {
                       id="venue-type"
                       name="venueTypeId"
                       required
-                      validate={this.venueTypeValidate}
+                      validate={venueTypeValidate}
                     >
                       <option value="">
                         {'Choisissez un type de lieu dans la liste'}
