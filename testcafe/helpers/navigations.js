@@ -2,6 +2,17 @@ import { Selector } from 'testcafe'
 
 import { createUserRole } from './roles'
 
+export const navigateToHomeAs = (user, userRole) => async t => {
+  const navBrandLogo = Selector('.nav-item').withText('Accueil')
+
+  if (!userRole) {
+    await t.useRole(createUserRole(user))
+  } else {
+    await t.useRole(userRole)
+  }
+  await t.click(navBrandLogo)
+}
+
 export const navigateToOfferersAs = (user, userRole) => async t => {
   const dropdownMenu = Selector('button').withText(user.publicName).filterVisible()
   const offerersMenuItem = Selector("a[role='menuitem']").withText(/Structure[s]? juridique[s]?/)
