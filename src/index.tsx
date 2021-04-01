@@ -20,7 +20,7 @@ if (SENTRY_SERVER_URL) {
     environment: ENVIRONMENT_NAME,
     release: version,
     integrations: [new TracingIntegrations.BrowserTracing()],
-    tracesSampleRate: parseFloat(SENTRY_SAMPLE_RATE),
+    tracesSampleRate: SENTRY_SAMPLE_RATE ? parseFloat(SENTRY_SAMPLE_RATE) : undefined,
   })
 }
 

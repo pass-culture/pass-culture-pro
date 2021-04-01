@@ -20,6 +20,26 @@ import { sortByBeneficiaryName, sortByBookingDate, sortByOfferName } from './uti
 
 const FIRST_PAGE_INDEX = 0
 
+const renderBookingOfferCell = offer => <BookingOfferCell offer={offer} />
+const renderBookingIsDuoCell = isDuo => <BookingIsDuoCell isDuo={isDuo} />
+const renderBeneficiaryCell = beneficiaryInfos => (
+  <BeneficiaryCell beneficiaryInfos={beneficiaryInfos} />
+)
+const renderBookingDateCell = bookingDateTime => (
+  <BookingDateCell bookingDateTimeIsoString={bookingDateTime} />
+)
+const renderBookingTokenCell = bookingToken => <BookingTokenCell bookingToken={bookingToken} />
+const renderBookingStatusCell = bookingRecapInfo => (
+  <BookingStatusCell bookingRecapInfo={bookingRecapInfo} />
+)
+const renderFilterByBookingStatus = (bookingStatus, bookingsRecap, updateGlobalFilters) => (
+  <FilterByBookingStatus
+    bookingStatuses={bookingStatus}
+    bookingsRecap={bookingsRecap}
+    updateGlobalFilters={updateGlobalFilters}
+  />
+)
+
 class BookingsRecapTable extends Component {
   constructor(props) {
     super(props)
@@ -30,7 +50,7 @@ class BookingsRecapTable extends Component {
           id: 1,
           headerTitle: "Nom de l'offre",
           accessor: 'stock',
-          Cell: ({ value }) => <BookingOfferCell offer={value} />,
+          Cell: ({ value }) => renderBookingOfferCell(value),
           className: 'column-offer-name',
           defaultCanSort: true,
           sortType: sortByOfferName,
@@ -39,7 +59,7 @@ class BookingsRecapTable extends Component {
           id: 2,
           headerTitle: '',
           accessor: 'booking_is_duo',
-          Cell: ({ value }) => <BookingIsDuoCell isDuo={value} />,
+          Cell: ({ value }) => renderBookingIsDuoCell(value),
           className: 'column-booking-duo',
           disableSortBy: true,
         },
@@ -47,7 +67,7 @@ class BookingsRecapTable extends Component {
           id: 3,
           headerTitle: 'Bénéficiaire',
           accessor: 'beneficiary',
-          Cell: ({ value }) => <BeneficiaryCell beneficiaryInfos={value} />,
+          Cell: ({ value }) => renderBeneficiaryCell(value),
           className: 'column-beneficiary',
           defaultCanSort: true,
           sortType: sortByBeneficiaryName,
@@ -56,7 +76,7 @@ class BookingsRecapTable extends Component {
           id: 4,
           headerTitle: 'Réservation',
           accessor: 'booking_date',
-          Cell: ({ value }) => <BookingDateCell bookingDateTimeIsoString={value} />,
+          Cell: ({ value }) => renderBookingDateCell(value),
           className: 'column-booking-date',
           defaultCanSort: true,
           sortType: sortByBookingDate,
@@ -65,7 +85,7 @@ class BookingsRecapTable extends Component {
           id: 5,
           headerTitle: 'Contremarque',
           accessor: 'booking_token',
-          Cell: ({ value }) => <BookingTokenCell bookingToken={value} />,
+          Cell: ({ value }) => renderBookingTokenCell(value),
           className: 'column-booking-token',
           disableSortBy: true,
         },
@@ -73,16 +93,15 @@ class BookingsRecapTable extends Component {
           id: 6,
           accessor: 'booking_status',
           headerTitle: 'Statut',
-          Cell: ({ row }) => <BookingStatusCell bookingRecapInfo={row} />,
+          Cell: ({ row }) => renderBookingStatusCell(row),
           className: 'column-booking-status',
           disableSortBy: true,
-          Filter: () => (
-            <FilterByBookingStatus
-              bookingStatuses={this.state.filters.bookingStatus}
-              bookingsRecap={props.bookingsRecap}
-              updateGlobalFilters={this.updateGlobalFilters}
-            />
-          ),
+          Filter: () =>
+            renderFilterByBookingStatus(
+              this.state.filters.bookingStatus,
+              props.bookingsRecap,
+              this.updateGlobalFilters
+            ),
         },
       ],
       currentPage: FIRST_PAGE_INDEX,
