@@ -1,48 +1,77 @@
-import { mount, shallow } from 'enzyme/build'
+import '@testing-library/jest-dom'
+import { act, render, screen } from '@testing-library/react'
 import React from 'react'
+import { MemoryRouter } from 'react-router'
 
-import { App } from '../App'
-import RedirectToMaintenance from '../RedirectToMaintenance'
+import { URL_FOR_MAINTENANCE } from 'utils/config'
 
-const getCurrentUser = ({ handleSuccess }) => {
-  handleSuccess()
+import App from '../App'
+
+jest.spyOn(window, 'scrollTo').mockImplementation()
+
+const getCurrentUser = async () => Promise.resolve()
+jest.mock('repository/pcapi/pcapi', () => ({
+  getCurrentUser,
+}))
+
+const mockHistoryPush = jest.fn()
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useHistory: () => ({
+    push: mockHistoryPush,
+  }),
+  useLocation: () => ({
+    pathname: '',
+  }),
+}))
+
+const renderApp = async props => {
+  return await act(async () => {
+    await render(
+      <MemoryRouter>
+        <App {...props}>
+          <p>
+            {'Sub component'}
+          </p>
+        </App>
+      </MemoryRouter>
+    )
+  })
 }
 
 describe('src | App', () => {
-  it('should render App and children components when isMaintenanceActivated is false', () => {
+  it('should render App and children components when isMaintenanceActivated is false', async () => {
     // Given
-    const props = { isMaintenanceActivated: false, getCurrentUser }
+    const props = {
+      currentUser: {
+        id: 'fake_user_id',
+      },
+      isMaintenanceActivated: false,
+      getCurrentUser,
+    }
 
     // When
-    const wrapper = mount(
-      <App {...props}>
-        <p>
-          {'Sub component'}
-        </p>
-      </App>
-    )
+    await renderApp(props)
 
     // Then
-    const appNode = wrapper.find(App)
-    expect(appNode).toHaveLength(1)
-    expect(appNode.text()).toBe('Sub component')
+    expect(mockHistoryPush).not.toHaveBeenCalledWith(URL_FOR_MAINTENANCE)
+    expect(screen.getByText('Sub component')).toBeInTheDocument()
   })
 
-  it('should render a Redirect component when isMaintenanceActivated is true', () => {
+  it('should render a Redirect component when isMaintenanceActivated is true', async () => {
     // Given
-    const props = { isMaintenanceActivated: true, getCurrentUser }
+    const props = {
+      currentUser: {
+        id: 'fake_user_id',
+      },
+      isMaintenanceActivated: true,
+      getCurrentUser,
+    }
 
     // When
-    const wrapper = shallow(
-      <App {...props}>
-        <p>
-          {'Sub component'}
-        </p>
-      </App>
-    )
+    await renderApp(props)
 
     // Then
-    const redirectToMaintenanceElement = wrapper.find(RedirectToMaintenance)
-    expect(redirectToMaintenanceElement).toHaveLength(1)
+    expect(mockHistoryPush).toHaveBeenCalledWith(URL_FOR_MAINTENANCE)
   })
 })

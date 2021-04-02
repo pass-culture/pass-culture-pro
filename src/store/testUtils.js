@@ -7,6 +7,7 @@ import { initialState as dataInitialState } from 'store/reducers/data'
 import { initialState as errorsInitialState } from 'store/reducers/errors'
 import { initialState as maintenanceInitialState } from 'store/reducers/maintenanceReducer'
 import { initialState as notificationInitialState } from 'store/reducers/notificationReducer'
+import { initialState as usersInitialState } from 'store/users/reducer'
 
 export const configureTestStore = overrideData => {
   const initialData = {
@@ -16,6 +17,7 @@ export const configureTestStore = overrideData => {
     maintenance: maintenanceInitialState,
     notification: notificationInitialState,
     offers: offersInitialState,
+    users: usersInitialState,
   }
 
   return configureStore(merge({}, initialData, overrideData)).store

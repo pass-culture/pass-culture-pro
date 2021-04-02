@@ -41,13 +41,11 @@ describe('tutorial modal', () => {
 
   it('should show tutorial dialog if user has not seen it yet', async () => {
     store = configureTestStore({
-      data: {
-        users: [
-          {
-            id: 'test_id',
-            hasSeenProTutorials: false,
-          },
-        ],
+      users: {
+        currentUser: {
+          id: 'test_id',
+          hasSeenProTutorials: false,
+        },
       },
     })
 
@@ -59,13 +57,11 @@ describe('tutorial modal', () => {
 
   it("shouldn't show tutorial dialog if user has already seen it", async () => {
     store = configureTestStore({
-      data: {
-        users: [
-          {
-            id: 'test_id',
-            hasSeenProTutorials: true,
-          },
-        ],
+      users: {
+        currentUser: {
+          id: 'test_id',
+          hasSeenProTutorials: true,
+        },
       },
     })
     const props = {}
@@ -79,13 +75,11 @@ describe('tutorial modal', () => {
     let buttonNext
     beforeEach(async () => {
       store = configureTestStore({
-        data: {
-          users: [
-            {
-              id: 'test_id',
-              hasSeenProTutorials: false,
-            },
-          ],
+        users: {
+          currentUser: {
+            id: 'test_id',
+            hasSeenProTutorials: false,
+          },
         },
       })
 

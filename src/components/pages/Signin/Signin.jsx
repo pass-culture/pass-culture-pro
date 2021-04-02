@@ -29,17 +29,6 @@ class Signin extends PureComponent {
     redirectLoggedUser(history, currentUser, isNewHomepageActive)
   }
 
-  onHandleFail = (state, action) => {
-    const { showErrorNotification } = this.props
-    if (action.payload.errors.password || action.payload.errors.identifier) {
-      showErrorNotification('Identifiant ou mot de passe incorrect.')
-    } else if (action.payload.status === 429) {
-      showErrorNotification(
-        'Nombre de tentatives de connexion dépassé. Veuillez réessayer dans 1 minute.'
-      )
-    }
-  }
-
   handleInputEmailChange = event => {
     this.setState({ emailValue: event.target.value })
   }
@@ -57,10 +46,20 @@ class Signin extends PureComponent {
 
   handleOnSubmit = event => {
     event.preventDefault()
-    const { submit } = this.props
+    const { showErrorNotification, signIn } = this.props
     const { emailValue, passwordValue } = this.state
 
-    return submit(emailValue, passwordValue, this.onHandleSuccessRedirect, this.onHandleFail)
+    signIn(emailValue, passwordValue)
+      .then(this.onHandleSuccessRedirect)
+      .catch(errors => {
+        if (action.payload.errors.password || action.payload.errors.identifier) {
+          showErrorNotification('Identifiant ou mot de passe incorrect.')
+        } else if (action.payload.status === 429) {
+          showErrorNotification(
+            'Nombre de tentatives de connexion dépassé. Veuillez réessayer dans 1 minute.'
+          )
+        }
+      })
   }
 
   render() {
@@ -162,7 +161,7 @@ Signin.propTypes = {
   isAccountCreationAvailable: PropTypes.bool.isRequired,
   isNewHomepageActive: PropTypes.bool.isRequired,
   showErrorNotification: PropTypes.func.isRequired,
-  submit: PropTypes.func.isRequired,
+  signIn: PropTypes.func.isRequired,
 }
 
 export default Signin

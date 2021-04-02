@@ -2,14 +2,13 @@ import { connect } from 'react-redux'
 import { compose } from 'redux'
 
 import { withTracking } from 'components/hocs'
-import { selectCurrentUser } from 'store/selectors/data/usersSelectors'
 import { fetchFromApiWithCredentials } from 'utils/fetch'
 
 import Desk from './Desk'
 
 export function mapStateToProps(state) {
   return {
-    currentUser: selectCurrentUser(state),
+    currentUser: state.users.currentUser,
   }
 }
 

@@ -6,6 +6,7 @@ import csvConverter from '../CsvTableButton/utils/csvConverter'
 
 import CsvTable from './CsvTable'
 
+
 export const mapDispatchToProps = (dispatch, ownProps) => {
   const { location } = ownProps
   const { state: pathToCsv } = location

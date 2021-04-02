@@ -4,13 +4,12 @@ import { compose } from 'redux'
 
 import { showNotification } from 'store/reducers/notificationReducer'
 import { selectIsFeatureActive } from 'store/selectors/data/featuresSelectors'
-import { selectCurrentUser } from 'store/selectors/data/usersSelectors'
 
 import SignupValidation from './SignupValidation'
 
 export function mapStateToProps(state) {
   return {
-    currentUser: selectCurrentUser(state),
+    currentUser: state.users.currentUser,
     isNewHomepageActive: selectIsFeatureActive(state, 'PRO_HOMEPAGE'),
   }
 }

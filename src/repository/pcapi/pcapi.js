@@ -200,18 +200,37 @@ export const postThumbnail = (offerer, offer, credit, thumb, thumbUrl, x, y, hei
 
 //
 // user
-//
+// @TODO:
+
+// src/components/pages/Signup/SignupForm/SignupFormContainer.js:        apiPath: '/users/signup/pro',
+// src/components/pages/Signup/SignupForm/__specs__/SignupFormContainer.spec.js:            apiPath: '/users/signup/pro',
+// src/components/pages/Signup/SignupForm/__specs__/SignupFormContainer.spec.js:            apiPath: '/users/signup/pro',
+// src/components/pages/Signup/SignupForm/__specs__/SignupFormContainer.spec.js:            apiPath: '/users/signup/pro',
+
 export const signout = () => client.get('/users/signout')
 
 export const updateUserInformations = body => {
   return client.patch('/users/current', body)
 }
 
-//
-// set password
-//
-export const setPassword = (token, newPassword) => {
-  return client.post('/users/new-password', { token, newPassword })
+export const getCurrentUser = () => {
+  return client.get('/users/users/current')
+}
+
+export const setPassword = ({ newPassword, token }) => {
+  return client.post('/users/new-password', { newPassword, token })
+}
+
+export const setPasswordRequest = ({ email, token }) => {
+  return client.post('/reset-password', { email, token })
+}
+
+export const signIn = ({ identifier, password }) => {
+  return client.post('/users/signin', { identifier, password })
+}
+
+export const signUpPro = () => {
+  return Promise.reject('signUpPro is not yet implemented')
 }
 
 //

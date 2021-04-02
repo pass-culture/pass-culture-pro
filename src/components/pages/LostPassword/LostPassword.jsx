@@ -39,10 +39,10 @@ class LostPassword extends PureComponent {
     history.push('/mot-de-passe-perdu?change=1')
   }
 
-  displayPasswordResetErrorMessages = (state, action) => {
+  displayPasswordResetErrorMessages = errors => {
     const { showErrorNotification } = this.props
-    if (action.payload.errors.newPassword) {
-      this.setState({ newPasswordErrorMessage: action.payload.errors.newPassword[0] })
+    if (errors.newPassword) {
+      this.setState({ newPasswordErrorMessage: errors.newPassword[0] })
     } else {
       showErrorNotification("Une erreur s'est produite, veuillez réessayer ultérieurement.")
     }
@@ -53,36 +53,31 @@ class LostPassword extends PureComponent {
     history.push('/mot-de-passe-perdu?envoye=1')
   }
 
-  displayPasswordResetRequestErrorMessage = () => {
-    const { showErrorNotification } = this.props
-    showErrorNotification(
-      'Un problème est survenu pendant la réinitialisation du mot de passe, veuillez réessayer plus tard.'
-    )
-  }
-
   submitResetPasswordRequest = event => {
     event.preventDefault()
-    const { submitResetPasswordRequest } = this.props
+    const { setPasswordRequest, showErrorNotification } = this.props
     const { emailValue } = this.state
 
-    return submitResetPasswordRequest(
-      emailValue,
-      this.redirectToResetPasswordRequestSuccessPage,
-      this.displayPasswordResetRequestErrorMessage
-    )
+    return setPasswordRequest(emailValue)
+      .then(this.redirectToResetPasswordRequestSuccessPage)
+      .catch(() => {
+        showErrorNotification(
+          'Un problème est survenu pendant la réinitialisation du mot de passe, veuillez réessayer plus tard.'
+        )
+      })
   }
 
   submitResetPassword = event => {
     event.preventDefault()
-    const { submitResetPassword, token } = this.props
+    const { setPassword, token } = this.props
     const { newPasswordValue } = this.state
 
-    return submitResetPassword(
-      newPasswordValue,
-      token,
-      this.redirectToResetPasswordSuccessPage,
-      this.displayPasswordResetErrorMessages
-    )
+    return setPassword(newPasswordValue, token)
+      .then(this.redirectToResetPasswordSuccessPage)
+      .catch(errors => {
+        console.log('LostPassword: error', errors)
+        this.displayPasswordResetErrorMessages(errors)
+      })
   }
 
   handleInputEmailChange = event => {
@@ -268,9 +263,9 @@ LostPassword.propTypes = {
   envoye: PropTypes.bool.isRequired,
   history: PropTypes.shape().isRequired,
   isNewHomepageActive: PropTypes.bool.isRequired,
+  setPassword: PropTypes.func.isRequired,
+  setPasswordRequest: PropTypes.func.isRequired,
   showErrorNotification: PropTypes.func.isRequired,
-  submitResetPassword: PropTypes.func.isRequired,
-  submitResetPasswordRequest: PropTypes.func.isRequired,
   token: PropTypes.string.isRequired,
 }
 
