@@ -1,6 +1,7 @@
 import isEqual from 'lodash.isequal'
 import PropTypes from 'prop-types'
 import React, { Fragment, useCallback, useEffect, useState, useRef } from 'react'
+import { Link } from 'react-router-dom'
 
 import InternalBanner from 'components/layout/Banner/InternalBanner'
 import { CheckboxInput } from 'components/layout/inputs/CheckboxInput/CheckboxInput'
@@ -821,21 +822,19 @@ const OfferForm = ({
       )}
 
       <section className="actions-section">
-        {isEdition ? (
-          <a
-            className="secondary-link"
-            href={backUrl}
-          >
-            {'Annuler et quitter'}
-          </a>
-        ) : null}
+        <Link
+          className="secondary-link"
+          to={backUrl}
+        >
+          {'Annuler et quitter'}
+        </Link>
         <button
           className="primary-button"
           disabled={isDisabled}
           onClick={submitForm}
           type="button"
         >
-          {isEdition ? 'Enregistrer' : 'Enregistrer et passer aux stocks'}
+          {isEdition ? 'Enregistrer' : 'Étape suivante'}
         </button>
       </section>
     </form>
@@ -844,7 +843,7 @@ const OfferForm = ({
 
 OfferForm.defaultProps = {
   areAllVenuesVirtual: false,
-  backUrl: null,
+  backUrl: '',
   initialValues: {},
   isDisabled: false,
   isEdition: false,
