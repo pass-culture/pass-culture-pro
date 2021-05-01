@@ -11,6 +11,8 @@ import { redirectLoggedUser } from 'components/router/helpers'
 
 import { UNAVAILABLE_ERROR_PAGE } from '../../../utils/routes'
 
+import TestImport from './TestImport'
+
 class Signin extends PureComponent {
   constructor(props) {
     super(props)
@@ -135,6 +137,7 @@ class Signin extends PureComponent {
                 >
                   {'Créer un compte'}
                 </Link>
+                <TestImport />
                 <button
                   className="primary-button"
                   disabled={isSubmitButtonDisabled}
