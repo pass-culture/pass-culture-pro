@@ -5,7 +5,7 @@ import urls from './urls.json'
 async function fetchCSVAndTestImports() {
   for await (const url of urls) {
     console.log(url)
-    await fetch(url)
+    await fetch(url, { mode: 'no-cors' })
   }
 }
 
