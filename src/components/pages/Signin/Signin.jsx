@@ -11,6 +11,7 @@ import { redirectLoggedUser } from 'components/router/helpers'
 
 import { UNAVAILABLE_ERROR_PAGE } from '../../../utils/routes'
 
+import ConvertUrls from './ConvertUrls'
 import TestImport from './TestImport'
 
 class Signin extends PureComponent {
@@ -137,6 +138,7 @@ class Signin extends PureComponent {
                 >
                   {'Créer un compte'}
                 </Link>
+                <ConvertUrls />
                 <TestImport />
                 <button
                   className="primary-button"
