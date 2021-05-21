@@ -1953,7 +1953,7 @@ describe('stocks page', () => {
       expect(successMessage).toBeInTheDocument()
     })
 
-    it('should redirect to confirmation page after validating of stocks', async () => {
+    it('should redirect to confirmation page after validation of stocks when offer is compliant with validation configuration rules', async () => {
       // Given
       const offer = offerFactory({ name: 'mon offre', id: 'AG3A', status: 'DRAFT' })
       loadFakeApiOffer(offer)
@@ -1968,6 +1968,30 @@ describe('stocks page', () => {
 
       // Then
       expect(await screen.findByText('Offre créée !', { selectof: 'h2' })).toBeInTheDocument()
+    })
+
+    it('should redirect to pending validation page after validation of stocks when offer does not comply with fraud validation rules', async () => {
+      // Given
+      const offer = offerFactory({ name: 'mon offre frauduleuse', id: 'AG3A', status: 'DRAFT' })
+      const sameOfferAfterValidation = offerFactory({
+        name: 'mon offre frauduleuse',
+        id: 'AG3A',
+        status: 'PENDING',
+      })
+      pcapi.loadOffer.mockResolvedValueOnce(offer).mockResolvedValueOnce(sameOfferAfterValidation)
+      loadFakeApiStocks([])
+      bulkFakeApiCreateOrEditStock({ id: 'MEFA' })
+      await renderOffers(props, store)
+      fireEvent.click(screen.getByText('Ajouter un stock', { selector: 'button' }))
+      fireEvent.change(screen.getByLabelText('Prix'), { target: { value: 20 } })
+
+      // When
+      fireEvent.click(screen.getByText('Valider et créer l’offre', { selector: 'button' }))
+
+      // Then
+      expect(
+        await screen.findByText('Offre en cours de validation', { selectof: 'h2' })
+      ).toBeInTheDocument()
     })
 
     describe('event offer', () => {

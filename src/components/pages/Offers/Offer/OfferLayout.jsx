@@ -76,10 +76,10 @@ const OfferLayout = ({ location, match }) => {
   )
 
   useEffect(() => {
-    if (match.params.offerId) {
+    if (location.pathname !== '/offres/creation') {
       loadOffer(match.params.offerId)
     }
-  }, [loadOffer, match.params.offerId])
+  }, [loadOffer, match.params.offerId, location.pathname])
 
   const stepName = location.pathname.match(/[a-z]+$/)
   const activeStep = stepName ? mapPathToStep[stepName[0]] : null

@@ -1,19 +1,15 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import { Redirect } from 'react-router'
 
 import { ReactComponent as PendingIcon } from 'components/pages/Offers/Offer/Confirmation/assets/pending.svg'
 import { ReactComponent as ValidateIcon } from 'components/pages/Offers/Offer/Confirmation/assets/validate.svg'
 import OfferPreviewLink from 'components/pages/Offers/Offer/OfferPreviewLink/OfferPreviewLink'
-import { OFFER_STATUS_DRAFT, OFFER_STATUS_PENDING } from 'components/pages/Offers/Offers/_constants'
+import { OFFER_STATUS_PENDING } from 'components/pages/Offers/Offers/_constants'
 
 import { queryParamsFromOfferer } from '../../utils/queryParamsFromOfferer'
 
 const Confirmation = ({ location, offer }) => {
-  const isPendingOffer = offer.status === OFFER_STATUS_PENDING || offer.name.includes('PENDING')
-  if (![OFFER_STATUS_DRAFT, OFFER_STATUS_PENDING].includes(offer.status)) {
-    return <Redirect to={`/offres/${offer.id}/edition`} />
-  }
+  const isPendingOffer = offer.status === OFFER_STATUS_PENDING
 
   let queryString = ''
   const queryParams = queryParamsFromOfferer(location)
