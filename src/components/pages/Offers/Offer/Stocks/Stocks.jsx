@@ -154,6 +154,8 @@ const Stocks = ({
         .bulkCreateOrEditStock(offer.id, [...stocksToCreate, ...stocksToUpdate])
         .then(() => {
           if (isOfferDraft) {
+            const isCreatingOffer = true
+            reloadOffer(isCreatingOffer)
             showSuccessNotificationStocksAndOffer()
 
             const queryParams = queryParamsFromOfferer(location)
