@@ -2,6 +2,10 @@ import { DEFAULT_PAGE, DEFAULT_SEARCH_FILTERS } from 'components/pages/Offers/Of
 import { client } from 'repository/pcapi/pcapiClient'
 import { stringify } from 'utils/query-string'
 
+export const loadFeatures = async () => {
+  return client.get('/features')
+}
+
 //
 // offers
 //
@@ -225,6 +229,5 @@ export const loadProviders = async venueId => {
 }
 
 export const loadVenueProviders = async venueId => {
-
-  return client.get(`/venueProviders?venueId=${venueId}`).then((response) => response.venue_providers)
+  return client.get(`/venueProviders?venueId=${venueId}`).then(response => response.venue_providers)
 }
