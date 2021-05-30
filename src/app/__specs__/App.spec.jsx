@@ -9,6 +9,8 @@ const getCurrentUser = ({ handleSuccess }) => {
   handleSuccess()
 }
 
+const loadFeatures = jest.fn()
+
 jest.mock('@sentry/browser', () => ({
   setUser: jest.fn(),
 }))
@@ -16,7 +18,7 @@ jest.mock('@sentry/browser', () => ({
 describe('src | App', () => {
   it('should render App and children components when isMaintenanceActivated is false', () => {
     // Given
-    const props = { isMaintenanceActivated: false, getCurrentUser }
+    const props = { isMaintenanceActivated: false, getCurrentUser, loadFeatures }
 
     // When
     const wrapper = mount(
@@ -35,7 +37,7 @@ describe('src | App', () => {
 
   it('should render a Redirect component when isMaintenanceActivated is true', () => {
     // Given
-    const props = { isMaintenanceActivated: true, getCurrentUser }
+    const props = { isMaintenanceActivated: true, getCurrentUser, loadFeatures }
 
     // When
     const wrapper = shallow(
@@ -53,7 +55,12 @@ describe('src | App', () => {
 
   it('should call Sentry setUser if current user is given', () => {
     // Given
-    const props = { isMaintenanceActivated: true, getCurrentUser, currentUser: { pk: 'pk_key' } }
+    const props = {
+      isMaintenanceActivated: true,
+      getCurrentUser,
+      currentUser: { pk: 'pk_key' },
+      loadFeatures,
+    }
 
     // When
     mount(
