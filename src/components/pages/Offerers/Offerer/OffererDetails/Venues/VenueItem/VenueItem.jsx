@@ -3,6 +3,7 @@ import React from 'react'
 import Dotdotdot from 'react-dotdotdot'
 import { Link } from 'react-router-dom'
 
+import useActiveFeature from 'components/hooks/useActiveFeature'
 import Icon from 'components/layout/Icon'
 import { ReactComponent as AddOfferSvg } from 'icons/ico-plus.svg'
 import { pluralize } from 'utils/pluralize'
@@ -13,8 +14,11 @@ const buildLinkIdFromVenue = ({ publicName, name }) => {
 }
 
 const VenueItem = ({ venue }) => {
+  const isVenueV2Enabled = useActiveFeature('ENABLE_NEW_VENUE_PAGES')
   const { address, city, id, managingOffererId, name, postalCode, publicName } = venue || {}
-  const showPath = `/structures/${managingOffererId}/lieux/${id}`
+  const showPath = isVenueV2Enabled ?
+    `/structures/${managingOffererId}/lieux/${id}/edition` :
+    `/structures/${managingOffererId}/lieux/${id}`
 
   return (
     <li className="venue-item">

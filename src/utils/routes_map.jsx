@@ -164,6 +164,17 @@ const routes = [
     path: ['/offres/creation', '/offres/:offerId([A-Z0-9]+)'],
     title: 'Offre',
   },
+  {
+    component: OfferersLayout,
+    exact: false,
+    path: '/structures',
+    title: 'Structures',
+    meta: {
+      layoutConfig: {
+        pageName: 'offerers',
+      },
+    },
+  },
 ]
 
 export default routes
