@@ -2,20 +2,18 @@ import { connect } from 'react-redux'
 import { compose } from 'redux'
 
 import { withQueryRouter } from 'components/hocs/with-query-router/withQueryRouter'
+import * as pcapi from 'repository/pcapi/pcapi'
 import { loadOffers } from 'store/offers/thunks'
 import { selectCurrentUser } from 'store/selectors/data/usersSelectors'
-import { fetchFromApiWithCredentials } from 'utils/fetch'
 
 import Offers from './Offers'
 
 export const mapStateToProps = state => {
   return {
     currentUser: selectCurrentUser(state),
-    getOfferer: fetchOffererById,
+    getOfferer: pcapi.getOfferer,
   }
 }
-
-const fetchOffererById = offererId => fetchFromApiWithCredentials(`/offerers/${offererId}`)
 
 export const mapDispatchToProps = dispatch => ({
   loadOffers: filters => dispatch(loadOffers(filters)),
