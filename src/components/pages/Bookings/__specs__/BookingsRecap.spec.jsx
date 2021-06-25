@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom'
-import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { Provider } from 'react-redux'
@@ -25,60 +25,71 @@ jest.mock('utils/date', () => ({
   getToday: jest.fn().mockReturnValue(new Date('2020-06-15T12:00:00Z')),
 }))
 
-const renderBookingsRecap = async (props, store = {}, routerState) => {
-  await act(async () => {
-    await render(
-      <Provider store={store}>
-        <MemoryRouter initialEntries={[{ pathname: '/reservations', state: routerState }]}>
-          <BookingsRecapContainer {...props} />
-          <NotificationContainer />
-        </MemoryRouter>
-      </Provider>
-    )
-  })
+let venue = venueFactory()
+
+const initialize = (
+  config = {
+    props: {},
+    state: {},
+    routerState: null,
+  }
+) => {
+  const { props, state, routerState } = config
+
+  const defaultState = {
+    features: {
+      list: [
+        {
+          isActive: true,
+          name: 'ENABLE_BOOKINGS_PAGE_FILTERS_FIRST',
+          nameKey: 'ENABLE_BOOKINGS_PAGE_FILTERS_FIRST',
+        },
+      ],
+      users: [{ publicName: 'René', isAdmin: false, email: 'rené@example.com' }],
+    },
+  }
+
+  const store = configureTestStore({ ...defaultState, ...state })
+  const defaultProps = {
+    location: {
+      state: null,
+    },
+  }
+
+  const renderReturs = render(
+    <Provider store={store}>
+      <MemoryRouter initialEntries={[{ pathname: '/reservations', state: routerState }]}>
+        <BookingsRecapContainer {...{ ...defaultProps, ...props }} />
+        <NotificationContainer />
+      </MemoryRouter>
+    </Provider>
+  )
+
+  const waitVenueSelectLoad = () => screen.findByRole('option', venue.publicName)
+
+  return { ...renderReturs, waitVenueSelectLoad }
 }
 
 describe('components | BookingsRecap | Pro user', () => {
-  let props
-  let store
-  let venue
-
   beforeEach(() => {
-    let emptyBookingsRecapPage = {
+    getVenuesForOfferer.mockResolvedValue([venue])
+
+    loadFilteredBookingsRecap.mockResolvedValue({
       bookings_recap: [],
       page: 0,
       pages: 0,
       total: 0,
-    }
-    loadFilteredBookingsRecap.mockResolvedValue(emptyBookingsRecapPage)
-    props = {
-      location: {
-        state: null,
-      },
-    }
-    store = configureTestStore({
-      features: {
-        list: [
-          {
-            isActive: true,
-            name: 'ENABLE_BOOKINGS_PAGE_FILTERS_FIRST',
-            nameKey: 'ENABLE_BOOKINGS_PAGE_FILTERS_FIRST',
-          },
-        ],
-        users: [{ publicName: 'René', isAdmin: false, email: 'rené@example.com' }],
-      },
     })
-    venue = venueFactory()
-    getVenuesForOfferer.mockResolvedValue([venue])
   })
 
   afterEach(() => {
+    getVenuesForOfferer.mockReset()
     loadFilteredBookingsRecap.mockReset()
   })
 
   it('should show a pre-filter section', async () => {
-    // When
-    await renderBookingsRecap(props, store)
+    const { waitVenueSelectLoad } = initialize()
+    await waitVenueSelectLoad()
 
     // Then
     const eventDateFilter = screen.getByLabelText('Date de l’évènement')
@@ -93,9 +104,9 @@ describe('components | BookingsRecap | Pro user', () => {
 
   it('should init venue pre-filter with venueId in router state', async () => {
     // When
-    await renderBookingsRecap(props, store, { venueId: venue.id, statuses: [] })
+    const { waitVenueSelectLoad } = initialize({ routerState: { venueId: venue.id, statuses: [] } })
+    await waitVenueSelectLoad()
 
-    // Then
     const eventVenueFilter = screen.getByLabelText('Lieu')
     expect(eventVenueFilter).toHaveValue(venue.id)
   })
@@ -110,15 +121,18 @@ describe('components | BookingsRecap | Pro user', () => {
     })
 
     // When
-    await renderBookingsRecap(props, store, {
-      venueId: venue.id,
-      statuses: [
-        BOOKING_STATUS.CANCELLED,
-        BOOKING_STATUS.CONFIRMED,
-        BOOKING_STATUS.REIMBURSED,
-        BOOKING_STATUS.VALIDATED,
-      ],
+    const { waitVenueSelectLoad } = initialize({
+      routerState: {
+        venueId: venue.id,
+        statuses: [
+          BOOKING_STATUS.CANCELLED,
+          BOOKING_STATUS.CONFIRMED,
+          BOOKING_STATUS.REIMBURSED,
+          BOOKING_STATUS.VALIDATED,
+        ],
+      },
     })
+    await waitVenueSelectLoad()
     const statusFilterButton = await screen.findByText('Statut')
     fireEvent.click(statusFilterButton)
 
@@ -136,7 +150,8 @@ describe('components | BookingsRecap | Pro user', () => {
 
   it('should ask user to select a pre-filter before clicking on "Afficher"', async () => {
     // When
-    await renderBookingsRecap(props, store)
+    const { waitVenueSelectLoad } = initialize()
+    await waitVenueSelectLoad()
 
     // Then
     expect(loadFilteredBookingsRecap).not.toHaveBeenCalled()
@@ -148,14 +163,15 @@ describe('components | BookingsRecap | Pro user', () => {
 
   it('should request bookings of venue requested by user when user clicks on "Afficher"', async () => {
     // Given
-    let bookingRecap = bookingRecapFactory()
+    const bookingRecap = bookingRecapFactory()
     loadFilteredBookingsRecap.mockResolvedValue({
       page: 1,
       pages: 1,
       total: 1,
       bookings_recap: [bookingRecap],
     })
-    await renderBookingsRecap(props, store)
+    const { waitVenueSelectLoad } = initialize()
+    await waitVenueSelectLoad()
 
     // When
     userEvent.selectOptions(screen.getByLabelText('Lieu'), venue.id)
@@ -174,7 +190,8 @@ describe('components | BookingsRecap | Pro user', () => {
       total: 0,
       bookings_recap: [],
     })
-    await renderBookingsRecap(props, store)
+    const { waitVenueSelectLoad } = initialize()
+    await waitVenueSelectLoad()
 
     // When
     fireEvent.click(screen.getByRole('button', { name: 'Afficher' }))
@@ -186,6 +203,7 @@ describe('components | BookingsRecap | Pro user', () => {
     expect(noBookingsForPreFilters).toBeInTheDocument()
   })
 
+  // FIXME (rlecellier): this is the same user story than previous test, it should be merged
   it('should allow user to reset its pre-filters in the no bookings warning', async () => {
     // Given
     loadFilteredBookingsRecap.mockResolvedValue({
@@ -194,7 +212,8 @@ describe('components | BookingsRecap | Pro user', () => {
       total: 0,
       bookings_recap: [],
     })
-    await renderBookingsRecap(props, store)
+    const { waitVenueSelectLoad } = initialize()
+    await waitVenueSelectLoad()
     userEvent.selectOptions(screen.getByLabelText('Lieu'), venue.id)
     fireEvent.click(screen.getByRole('button', { name: 'Afficher' }))
 
@@ -215,15 +234,18 @@ describe('components | BookingsRecap | Pro user', () => {
       total: 1,
       bookings_recap: [bookingRecap],
     })
-    await renderBookingsRecap(props, store)
+    const { waitVenueSelectLoad } = initialize()
+    await waitVenueSelectLoad()
 
     // When
     fireEvent.click(screen.getByRole('button', { name: 'Afficher' }))
+    await screen.findByRole('cell', { name: bookingRecap.booking_token })
 
     // Then
     expect(screen.queryByText('Réinitialiser les filtres')).not.toBeInTheDocument()
   })
 
+  // FIXME (rlecellier): this is the same user story than previous test, it should be merged
   it('should allow user to reset prefilters when some where applied', async () => {
     // Given
     let bookingRecap = bookingRecapFactory()
@@ -233,7 +255,9 @@ describe('components | BookingsRecap | Pro user', () => {
       total: 1,
       bookings_recap: [bookingRecap],
     })
-    await renderBookingsRecap(props, store)
+    const { waitVenueSelectLoad } = initialize()
+    await waitVenueSelectLoad()
+
     userEvent.selectOptions(screen.getByLabelText('Lieu'), venue.id)
     const defaultBookingPeriodBeginningDateInput = '16/05/2020'
     const defaultBookingPeriodEndingDateInput = '15/06/2020'
@@ -261,6 +285,7 @@ describe('components | BookingsRecap | Pro user', () => {
     expect(await screen.findByDisplayValue(defaultBookingPeriodEndingDateInput)).toBeInTheDocument()
   })
 
+  // FIXME (rlecellier): this is the same user story than previous test, it should be merged
   it('should ask user to select a pre-filter when user reset them', async () => {
     // Given
     let bookingRecap = bookingRecapFactory()
@@ -270,7 +295,9 @@ describe('components | BookingsRecap | Pro user', () => {
       total: 1,
       bookings_recap: [bookingRecap],
     })
-    await renderBookingsRecap(props, store)
+    const { waitVenueSelectLoad } = initialize()
+    await waitVenueSelectLoad()
+
     userEvent.selectOptions(screen.getByLabelText('Lieu'), venue.id)
     fireEvent.click(screen.getByRole('button', { name: 'Afficher' }))
 
@@ -286,44 +313,7 @@ describe('components | BookingsRecap | Pro user', () => {
     expect(choosePreFiltersMessage).toBeInTheDocument()
   })
 
-  it('should fetch bookings for the filtered venue as many times as the number of pages', async () => {
-    // Given
-    const bookings1 = bookingRecapFactory()
-    const bookings2 = bookingRecapFactory()
-    const paginatedBookingRecapReturned = {
-      page: 1,
-      pages: 2,
-      total: 2,
-      bookings_recap: [bookings1],
-    }
-    const secondPaginatedBookingRecapReturned = {
-      page: 2,
-      pages: 2,
-      total: 2,
-      bookings_recap: [bookings2],
-    }
-    loadFilteredBookingsRecap
-      .mockResolvedValueOnce(paginatedBookingRecapReturned)
-      .mockResolvedValueOnce(secondPaginatedBookingRecapReturned)
-    await renderBookingsRecap(props, store)
-
-    // When
-    userEvent.selectOptions(screen.getByLabelText('Lieu'), venue.id)
-    await fireEvent.click(screen.getByRole('button', { name: 'Afficher' }))
-
-    // Then
-    const secondBookingRecap = await screen.findAllByText(bookings2.stock.offer_name)
-    expect(secondBookingRecap).toHaveLength(2)
-    const firstBookingRecap = screen.getAllByText(bookings1.stock.offer_name)
-    expect(firstBookingRecap).toHaveLength(2)
-
-    expect(loadFilteredBookingsRecap).toHaveBeenCalledTimes(2)
-    expect(getNthCallNthArg(loadFilteredBookingsRecap, 1).page).toBe(1)
-    expect(getNthCallNthArg(loadFilteredBookingsRecap, 1).venueId).toBe(venue.id)
-    expect(getNthCallNthArg(loadFilteredBookingsRecap, 2).page).toBe(2)
-    expect(getNthCallNthArg(loadFilteredBookingsRecap, 2).venueId).toBe(venue.id)
-  })
-
+  // FIXME (rlecellier): this is the same user story than previous test, it should be merged
   it('should request bookings of event date requested by user when user clicks on "Afficher"', async () => {
     // Given
     let bookingRecap = bookingRecapFactory()
@@ -333,7 +323,8 @@ describe('components | BookingsRecap | Pro user', () => {
       total: 1,
       bookings_recap: [bookingRecap],
     })
-    await renderBookingsRecap(props, store)
+    const { waitVenueSelectLoad } = initialize()
+    await waitVenueSelectLoad()
 
     // When
     fireEvent.click(screen.getByLabelText('Date de l’évènement'))
@@ -347,6 +338,7 @@ describe('components | BookingsRecap | Pro user', () => {
     )
   })
 
+  // FIXME (rlecellier): this is the same user story than previous test, it should be merged
   it('should request bookings of default period when user clicks on "Afficher" without selecting a period', async () => {
     // Given
     let bookingRecap = bookingRecapFactory()
@@ -356,7 +348,8 @@ describe('components | BookingsRecap | Pro user', () => {
       total: 1,
       bookings_recap: [bookingRecap],
     })
-    await renderBookingsRecap(props, store)
+    const { waitVenueSelectLoad } = initialize()
+    await waitVenueSelectLoad()
 
     // When
     fireEvent.click(screen.getByRole('button', { name: 'Afficher' }))
@@ -371,6 +364,7 @@ describe('components | BookingsRecap | Pro user', () => {
     )
   })
 
+  // FIXME (rlecellier): this is the same user story than previous test, it should be merged
   it('should request bookings of selected period when user clicks on "Afficher"', async () => {
     // Given
     let bookingRecap = bookingRecapFactory()
@@ -380,7 +374,8 @@ describe('components | BookingsRecap | Pro user', () => {
       total: 1,
       bookings_recap: [bookingRecap],
     })
-    await renderBookingsRecap(props, store)
+    const { waitVenueSelectLoad } = initialize()
+    await waitVenueSelectLoad()
 
     const bookingPeriodWrapper = screen.getByLabelText('Période de réservation').closest('label')
     const [beginningPeriodInput, endingPeriodInput] = within(
@@ -404,6 +399,7 @@ describe('components | BookingsRecap | Pro user', () => {
     )
   })
 
+  // FIXME (rlecellier): this is the same user story than previous test, it should be merged
   it('should set default beginning period date when user empties it and clicks on "Afficher"', async () => {
     // Given
     let bookingRecap = bookingRecapFactory()
@@ -413,7 +409,8 @@ describe('components | BookingsRecap | Pro user', () => {
       total: 1,
       bookings_recap: [bookingRecap],
     })
-    await renderBookingsRecap(props, store)
+    const { waitVenueSelectLoad } = initialize()
+    await waitVenueSelectLoad()
 
     const bookingPeriodWrapper = screen.getByLabelText('Période de réservation').closest('label')
     const [beginningPeriodInput, endingPeriodInput] = within(
@@ -434,6 +431,7 @@ describe('components | BookingsRecap | Pro user', () => {
     )
   })
 
+  // FIXME (rlecellier): this is the same user story than previous test, it should be merged
   it('should set default ending period date when user empties it and clicks on "Afficher"', async () => {
     // Given
     let bookingRecap = bookingRecapFactory()
@@ -443,7 +441,8 @@ describe('components | BookingsRecap | Pro user', () => {
       total: 1,
       bookings_recap: [bookingRecap],
     })
-    await renderBookingsRecap(props, store)
+    const { waitVenueSelectLoad } = initialize()
+    await waitVenueSelectLoad()
 
     const bookingPeriodWrapper = screen.getByLabelText('Période de réservation').closest('label')
     const [beginningPeriodInput, endingPeriodInput] = within(
@@ -464,6 +463,7 @@ describe('components | BookingsRecap | Pro user', () => {
     )
   })
 
+  // FIXME (rlecellier): this is the same user story than previous test, it should be merged
   it('should not be possible to select ending period date greater than today', async () => {
     // Given
     let bookingRecap = bookingRecapFactory()
@@ -473,7 +473,8 @@ describe('components | BookingsRecap | Pro user', () => {
       total: 1,
       bookings_recap: [bookingRecap],
     })
-    await renderBookingsRecap(props, store)
+    const { waitVenueSelectLoad } = initialize()
+    await waitVenueSelectLoad()
 
     const bookingPeriodWrapper = screen.getByLabelText('Période de réservation').closest('label')
     const endingPeriodInput = within(bookingPeriodWrapper).getAllByPlaceholderText('JJ/MM/AAAA')[1]
@@ -488,6 +489,45 @@ describe('components | BookingsRecap | Pro user', () => {
     expect(getNthCallNthArg(loadFilteredBookingsRecap, 1).bookingPeriodEndingDate).toStrictEqual(
       DEFAULT_PRE_FILTERS.bookingEndingDate
     )
+  })
+
+  it('should fetch bookings for the filtered venue as many times as the number of pages', async () => {
+    // Given
+    const bookings1 = bookingRecapFactory()
+    const bookings2 = bookingRecapFactory()
+    const paginatedBookingRecapReturned = {
+      page: 1,
+      pages: 2,
+      total: 2,
+      bookings_recap: [bookings1],
+    }
+    const secondPaginatedBookingRecapReturned = {
+      page: 2,
+      pages: 2,
+      total: 2,
+      bookings_recap: [bookings2],
+    }
+    loadFilteredBookingsRecap
+      .mockResolvedValueOnce(paginatedBookingRecapReturned)
+      .mockResolvedValueOnce(secondPaginatedBookingRecapReturned)
+    const { waitVenueSelectLoad } = initialize()
+    await waitVenueSelectLoad()
+
+    // When
+    userEvent.selectOptions(screen.getByLabelText('Lieu'), venue.id)
+    await fireEvent.click(screen.getByRole('button', { name: 'Afficher' }))
+
+    // Then
+    const secondBookingRecap = await screen.findAllByText(bookings2.stock.offer_name)
+    expect(secondBookingRecap).toHaveLength(2)
+    const firstBookingRecap = screen.getAllByText(bookings1.stock.offer_name)
+    expect(firstBookingRecap).toHaveLength(2)
+
+    expect(loadFilteredBookingsRecap).toHaveBeenCalledTimes(2)
+    expect(getNthCallNthArg(loadFilteredBookingsRecap, 1).page).toBe(1)
+    expect(getNthCallNthArg(loadFilteredBookingsRecap, 1).venueId).toBe(venue.id)
+    expect(getNthCallNthArg(loadFilteredBookingsRecap, 2).page).toBe(2)
+    expect(getNthCallNthArg(loadFilteredBookingsRecap, 2).venueId).toBe(venue.id)
   })
 
   it('should reset bookings recap list when applying filters', async () => {
@@ -511,7 +551,9 @@ describe('components | BookingsRecap | Pro user', () => {
     loadFilteredBookingsRecap
       .mockResolvedValueOnce(otherVenuePaginatedBookingRecapReturned)
       .mockResolvedValueOnce(paginatedBookingRecapReturned)
-    await renderBookingsRecap(props, store)
+
+    const { waitVenueSelectLoad } = initialize()
+    await waitVenueSelectLoad()
 
     userEvent.selectOptions(screen.getByLabelText('Lieu'), otherVenue.id)
     fireEvent.click(screen.getByRole('button', { name: 'Afficher' }))
@@ -537,7 +579,8 @@ describe('components | BookingsRecap | Pro user', () => {
       .mockResolvedValueOnce({ ...bookingsRecap, page: 4 })
       .mockResolvedValueOnce({ ...bookingsRecap, page: 5 })
       .mockResolvedValueOnce({ ...bookingsRecap, page: 6 })
-    await renderBookingsRecap(props, store)
+    const { waitVenueSelectLoad } = initialize()
+    await waitVenueSelectLoad()
 
     // when
     userEvent.selectOptions(screen.getByLabelText('Lieu'), venue.id)
@@ -560,7 +603,8 @@ describe('components | BookingsRecap | Pro user', () => {
       .mockResolvedValueOnce({ ...bookingsRecap, page: 3 })
       .mockResolvedValueOnce({ ...bookingsRecap, page: 4 })
       .mockResolvedValueOnce({ ...bookingsRecap, page: 5 })
-    await renderBookingsRecap(props, store)
+    const { waitVenueSelectLoad } = initialize()
+    await waitVenueSelectLoad()
 
     // when
     userEvent.selectOptions(screen.getByLabelText('Lieu'), venue.id)
@@ -576,24 +620,16 @@ describe('components | BookingsRecap | Pro user', () => {
 
   it('should inform the user that the filters have been modified when at least one of them was and before clicking on the "Afficher" button', async () => {
     // Given
-    render(
-      <Provider store={store}>
-        <MemoryRouter initialEntries={[{ pathname: '/reservations', state: undefined }]}>
-          <BookingsRecapContainer {...props} />
-          <NotificationContainer />
-        </MemoryRouter>
-      </Provider>
-    )
+    const { waitVenueSelectLoad } = initialize()
+    await waitVenueSelectLoad()
+
     userEvent.click(screen.getByRole('button', { name: 'Afficher' }))
 
     // When
-    userEvent.selectOptions(
-      screen.getByLabelText('Lieu'),
-      await screen.findByText(venue.publicName)
-    )
+    userEvent.selectOptions(screen.getByLabelText('Lieu'), venue.id)
 
     // Then
-    const informationalMessage = screen.getByText(
+    const informationalMessage = await screen.findByText(
       'Vos filtres ont été modifiés. Veuillez cliquer sur « Afficher » pour actualiser votre recherche.'
     )
     expect(informationalMessage).toBeInTheDocument()
@@ -601,18 +637,8 @@ describe('components | BookingsRecap | Pro user', () => {
 
   it('should not inform the user when the selected filter is the same than the actual filter', async () => {
     // Given
-    render(
-      <Provider store={store}>
-        <MemoryRouter initialEntries={[{ pathname: '/reservations', state: undefined }]}>
-          <BookingsRecapContainer {...props} />
-          <NotificationContainer />
-        </MemoryRouter>
-      </Provider>
-    )
-    userEvent.selectOptions(
-      screen.getByLabelText('Lieu'),
-      await screen.findByText(venue.publicName)
-    )
+    const { waitVenueSelectLoad } = initialize()
+    await waitVenueSelectLoad()
 
     // When
     userEvent.selectOptions(screen.getByLabelText('Lieu'), screen.getByText('Tous les lieux'))
@@ -626,20 +652,8 @@ describe('components | BookingsRecap | Pro user', () => {
 
   it('should not inform the user of pre-filter modifications before first click on "Afficher" button', async () => {
     // Given
-    render(
-      <Provider store={store}>
-        <MemoryRouter initialEntries={[{ pathname: '/reservations', state: undefined }]}>
-          <BookingsRecapContainer {...props} />
-          <NotificationContainer />
-        </MemoryRouter>
-      </Provider>
-    )
-
-    // When
-    userEvent.selectOptions(
-      screen.getByLabelText('Lieu'),
-      await screen.findByText(venue.publicName)
-    )
+    const { waitVenueSelectLoad } = initialize()
+    await waitVenueSelectLoad()
 
     // Then
     const informationalMessage = screen.queryByText(
