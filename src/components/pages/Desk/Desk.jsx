@@ -52,11 +52,29 @@ class Desk extends Component {
     this.tokenInputRef.current.focus()
   }
 
-  validateToken = event => {
+  onChangeToken = event => {
+    this.validateToken(event.target.value)
+  }
+
+  /**
+   * When the input value is set from a codebar scanner it doesn't trigger the onChange event.
+   * We need to validate the token value directly from the input value when ENTER is press.
+   */
+  onKeyDownToken = event => {
+    const { token } = this.state
+    if (event.key.toUpperCase() === 'ENTER') {
+      const inputValue = event.target.value
+      if (inputValue && !token) {
+        this.validateToken(inputValue)
+      }
+    }
+  }
+
+  validateToken = incomingToken => {
     const { getBooking } = this.props
-    const inputValue = event.target.value.toUpperCase()
+    let token = incomingToken.toUpperCase()
     // QRCODE return a prefix that we want to ignore.
-    const token = inputValue.split(':').reverse()[0]
+    token = token.split(':').reverse()[0]
 
     const { canCheckTheToken, level, message } = this.getStatusFromToken(token)
     this.setState({
@@ -139,6 +157,7 @@ class Desk extends Component {
 
   registrationOfToken = token => event => {
     event.preventDefault()
+
     const { validateBooking } = this.props
 
     this.setState({
@@ -172,6 +191,7 @@ class Desk extends Component {
 
   invalidationOfToken = token => event => {
     event.preventDefault()
+
     const { invalidateBooking } = this.props
     this.setState({
       message: 'Invalidation en cours...',
@@ -217,7 +237,8 @@ class Desk extends Component {
             inputRef={this.tokenInputRef}
             label="Contremarque"
             name="token"
-            onChange={this.validateToken}
+            onChange={this.onChangeToken}
+            onKeyDown={this.onKeyDownToken}
             placeholder="ex : AZE123"
             type="text"
             value={token}

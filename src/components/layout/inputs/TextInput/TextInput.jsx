@@ -13,6 +13,7 @@ const TextInput = ({
   maxLength,
   name,
   onChange,
+  onKeyDown,
   placeholder,
   required,
   subLabel,
@@ -40,6 +41,7 @@ const TextInput = ({
       maxLength={maxLength}
       name={name}
       onChange={onChange}
+      onKeyDown={onKeyDown}
       placeholder={placeholder}
       ref={inputRef}
       required={required}
@@ -67,6 +69,7 @@ TextInput.defaultProps = {
   longDescription: null,
   maxLength: null,
   onChange: null,
+  onKeyDown: null,
   placeholder: '',
   required: false,
   subLabel: '',
@@ -84,6 +87,7 @@ TextInput.propTypes = {
   maxLength: PropTypes.number,
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func,
+  onKeyDown: PropTypes.func,
   placeholder: PropTypes.string,
   required: PropTypes.bool,
   subLabel: PropTypes.string,
