@@ -10,6 +10,8 @@ const aliases = {
   'styles': resolve('../src/styles'),
   'images': resolve('../src/images'),
   'icons': resolve('../src/icons'),
+  'utils': resolve('../src/utils'),
+  'repository': resolve('../src/repository'),
 }
 
 const sassResourcesLoader = {
@@ -31,9 +33,26 @@ module.exports = {
   "addons": [
     "@storybook/addon-links",
     "@storybook/addon-essentials",
-    "storybook-svgr-react-component",
   ],
-   "webpackFinal": (config) => {
+  "babel": async (options) => ({
+    ...options,
+    customize: require.resolve('babel-preset-react-app/webpack-overrides'),
+    plugins: [
+      [
+        require.resolve('babel-plugin-named-asset-import'),
+        {
+          loaderMap: {
+            svg: {
+              ReactComponent: '@svgr/webpack?-svgo,+titleProp,+ref![path]',
+            },
+          },
+        },
+      ],
+      ["@babel/plugin-proposal-class-properties", { loose: false }]
+    ],
+    compact: false,
+  }),
+  "webpackFinal": (config) => {
      config.module.rules.push(
       {
         test: /\.scss$/,
@@ -52,8 +71,8 @@ module.exports = {
         ],
         include: path.resolve(__dirname, '../'),
       },
-    );
-
+    )
+    
     return {
      ...config,
       resolve: {

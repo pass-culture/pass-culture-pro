@@ -1,9 +1,16 @@
 import { connect } from 'react-redux'
 
+import * as pcapi from 'repository/pcapi/pcapi'
 import { showNotification } from 'store/reducers/notificationReducer'
 
 import { getRequestErrorStringFromErrors } from './utils/getRequestErrorStringFromErrors'
 import VenueProvidersManager from './VenueProvidersManager'
+
+const mapStateToProps = () => ({
+  loadProviders: pcapi.loadProviders,
+  loadVenueProviders: pcapi.loadVenueProviders,
+  postVenueProvider: pcapi.createVenueProvider,
+})
 
 const mapDispatchToProps = dispatch => ({
   notifyError: errors => {
@@ -24,4 +31,4 @@ const mapDispatchToProps = dispatch => ({
   },
 })
 
-export default connect(null, mapDispatchToProps)(VenueProvidersManager)
+export default connect(mapStateToProps, mapDispatchToProps)(VenueProvidersManager)

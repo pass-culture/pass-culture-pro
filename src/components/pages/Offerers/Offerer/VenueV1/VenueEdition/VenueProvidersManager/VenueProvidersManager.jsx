@@ -4,7 +4,6 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react'
 import Select, { buildSelectOptions } from 'components/layout/inputs/Select'
 import { isAllocineProvider } from 'components/pages/Offers/domain/localProvider'
 import { ReactComponent as AddOfferSvg } from 'icons/ico-plus.svg'
-import * as pcapi from 'repository/pcapi/pcapi'
 
 import AllocineProviderForm from './AllocineProviderForm/AllocineProviderForm'
 import StocksProviderForm from './StocksProviderForm/StocksProviderForm'
@@ -14,7 +13,14 @@ import VenueProviderItem from './VenueProviderItem/VenueProviderItem'
 import './VenueProvidersManager.scss'
 
 
-const VenueProvidersManagerContainer = ({ notifyError, notifySuccess, venue }) => {
+const VenueProvidersManager = ({ 
+  loadProviders,
+  loadVenueProviders,
+  postVenueProvider,
+  notifyError, 
+  notifySuccess, 
+  venue 
+}) => {
   const [isCreationMode, setIsCreationMode] = useState(false)
   const [selectedProviderId, setSelectedProviderId] = useState(DEFAULT_PROVIDER_OPTION.id)
   const [providers, setProviders] = useState([])
@@ -22,9 +28,9 @@ const VenueProvidersManagerContainer = ({ notifyError, notifySuccess, venue }) =
   const [isAllocineProviderSelected, setIsAllocineProviderSelected] = useState(false)
 
   useEffect(() => {
-    pcapi.loadProviders(venue.id).then(providers => setProviders(providers))
-    pcapi.loadVenueProviders(venue.id).then(venueProviders => setVenueProviders(venueProviders))
-  }, [venue.id])
+    loadProviders(venue.id).then(providers => setProviders(providers))
+    loadVenueProviders(venue.id).then(venueProviders => setVenueProviders(venueProviders))
+  }, [loadProviders, loadVenueProviders, venue.id])
 
   useEffect(() => {
     if (venueProviders.length > 0) {
@@ -56,8 +62,7 @@ const VenueProvidersManagerContainer = ({ notifyError, notifySuccess, venue }) =
 
   const createVenueProvider = useCallback(
     payload => {
-      pcapi
-        .createVenueProvider(payload)
+      postVenueProvider(payload)
         .then(createdVenueProvider => {
           setVenueProviders([createdVenueProvider])
           setIsCreationMode(false)
@@ -70,13 +75,7 @@ const VenueProvidersManagerContainer = ({ notifyError, notifySuccess, venue }) =
           }
         })
     },
-    [
-      cancelProviderSelection,
-      notifyError,
-      notifySuccess,
-      isAllocineProviderSelected,
-      postVenueProvider,
-    ]
+    [cancelProviderSelection, notifyError, notifySuccess, isAllocineProviderSelected, postVenueProvider]
   )
 
   const hasAtLeastOneProvider = providers.length > 0
@@ -142,9 +141,12 @@ const VenueProvidersManagerContainer = ({ notifyError, notifySuccess, venue }) =
   )
 }
 
-VenueProvidersManagerContainer.propTypes = {
+VenueProvidersManager.propTypes = {
+  loadProviders: PropTypes.func.isRequired,
+  loadVenueProviders: PropTypes.func.isRequired,
   notifyError: PropTypes.func.isRequired,
   notifySuccess: PropTypes.func.isRequired,
+  postVenueProvider: PropTypes.func.isRequired,
   venue: PropTypes.shape({
     id: PropTypes.string.isRequired,
     managingOffererId: PropTypes.string.isRequired,
@@ -152,4 +154,4 @@ VenueProvidersManagerContainer.propTypes = {
   }).isRequired,
 }
 
-export default VenueProvidersManagerContainer
+export default VenueProvidersManager
