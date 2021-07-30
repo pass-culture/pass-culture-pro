@@ -70,7 +70,13 @@ const VenueProvidersManagerContainer = ({ notifyError, notifySuccess, venue }) =
           }
         })
     },
-    [cancelProviderSelection, notifyError, notifySuccess, isAllocineProviderSelected]
+    [
+      cancelProviderSelection,
+      notifyError,
+      notifySuccess,
+      isAllocineProviderSelected,
+      postVenueProvider,
+    ]
   )
 
   const hasAtLeastOneProvider = providers.length > 0
@@ -79,11 +85,7 @@ const VenueProvidersManagerContainer = ({ notifyError, notifySuccess, venue }) =
   const providersOptions = useMemo(() => buildSelectOptions('id', 'name', providers), [providers])
 
   return (
-    <div className="venue-providers-manager section">
-      <h2 className="main-list-title">
-        {'Importation d’offres'}
-      </h2>
-
+    <div className="venue-providers-manager">
       <ul className="provider-list">
         {venueProviders.map(venueProvider => (
           <VenueProviderItem
