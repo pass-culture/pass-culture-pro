@@ -12,14 +12,13 @@ import VenueProviderItem from './VenueProviderItem/VenueProviderItem'
 
 import './VenueProvidersManager.scss'
 
-
-const VenueProvidersManager = ({ 
+const VenueProvidersManager = ({
   loadProviders,
   loadVenueProviders,
   postVenueProvider,
-  notifyError, 
-  notifySuccess, 
-  venue 
+  notifyError,
+  notifySuccess,
+  venue,
 }) => {
   const [isCreationMode, setIsCreationMode] = useState(false)
   const [selectedProviderId, setSelectedProviderId] = useState(DEFAULT_PROVIDER_OPTION.id)
@@ -75,7 +74,13 @@ const VenueProvidersManager = ({
           }
         })
     },
-    [cancelProviderSelection, notifyError, notifySuccess, isAllocineProviderSelected, postVenueProvider]
+    [
+      cancelProviderSelection,
+      notifyError,
+      notifySuccess,
+      isAllocineProviderSelected,
+      postVenueProvider,
+    ]
   )
 
   const hasAtLeastOneProvider = providers.length > 0
