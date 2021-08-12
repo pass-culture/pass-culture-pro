@@ -5,6 +5,8 @@ import Icon from 'components/layout/Icon'
 import { getProviderInfo } from 'components/pages/Offers/domain/getProviderInfo'
 import { pluralize } from 'utils/pluralize'
 
+import './_VenueProviderItem.scss'
+
 const VenueProviderItem = ({ venueProvider }) => {
   const { lastSyncDate, nOffers, provider, venueIdAtOfferProvider } = venueProvider
   const providerInfo = getProviderInfo(provider.name)

@@ -215,7 +215,15 @@ class VenueEdition extends PureComponent {
           title="Lieu"
         />
 
-        {venue && <VenueProvidersManagerContainer venue={venue} />}
+        {venue && (
+          <div className="section">
+            <h2 className="main-list-title">
+              {'Importation d’offres'}
+            </h2>
+
+            <VenueProvidersManagerContainer venue={venue} />
+          </div>
+        )}
 
         {showForm && (
           <Form
