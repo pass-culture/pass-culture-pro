@@ -69,7 +69,14 @@
     "semi": [
       "warn",
       "never"
-    ]
+    ],
+    "complexity": ["error", 20],
+    "max-depth": ["error", {"max" : 4}],
+    "max-lines": ["error", {"max": 300, "skipBlankLines": true}],
+    "max-statements": ["error", 15],
+    "max-lines-per-function": ["error", 50],
+    "max-params": ["error", 5],
+    "max-nested-callbacks": ["error", 5],
   },
   "overrides": [
     {
@@ -84,6 +91,19 @@
         "jest/prefer-expect-assertions": "off",
         "jest/require-top-level-describe": "off",
         "jest/no-done-callback": "off"
+      }
+    },
+    {
+      "files": ["./src/**/*.jsx"],
+      "rules": {
+          "max-lines-per-function": ["error", 150]
+      }
+    },
+    {
+      "files": ["**.spec.js", "**.spec.jsx"],
+      "rules": {
+          "max-lines-per-function": ["error", 300],
+          "max-nested-callbacks": ["error", 50],
       }
     }
   ],
