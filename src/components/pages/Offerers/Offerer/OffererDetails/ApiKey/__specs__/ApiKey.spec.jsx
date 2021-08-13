@@ -81,7 +81,7 @@ describe('src | Offerer | ApiKey', () => {
     jest.spyOn(navigator.clipboard, 'writeText')
     generateFakeOffererApiKey('new-key')
     fireEvent.click(screen.getByText('Générer une clé API', { selector: 'button' }))
-    await waitFor(() => screen.getByText('Copier', { selector: 'button' }))
+    await screen.findByText('Copier', { selector: 'button' })
 
     // when
     fireEvent.click(screen.getByText('Copier', { selector: 'button' }))
