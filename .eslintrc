@@ -6,7 +6,8 @@
     "plugin:import/errors",
     "plugin:jest/all",
     "plugin:pass-culture/recommended",
-    "plugin:react-hooks/recommended"
+    "plugin:react-hooks/recommended",
+    "plugin:testing-library/react"
   ],
   "env": {
     "browser": true,
@@ -85,7 +86,11 @@
         "jest/require-top-level-describe": "off",
         "jest/no-done-callback": "off"
       }
-    }
+    },
+    {
+      "files": ["./src/**/__tests__/**/*.[jt]s?(x)", ".src/**/?(*.)+(spec|test).[jt]s?(x)"],
+      "extends": ["plugin:testing-library/react"]
+    },
   ],
   "settings": {
     "import/resolver": {
