@@ -32,7 +32,7 @@ const OfferPreviewLink = ({ offerId, mediationId }) => {
       rel="noopener noreferrer"
       target="_blank"
     >
-      {'Prévisualiser dans l’app'}
+      Prévisualiser dans l’app
     </a>
   )
 }

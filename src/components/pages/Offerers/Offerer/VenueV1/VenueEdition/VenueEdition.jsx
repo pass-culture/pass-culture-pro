@@ -194,7 +194,7 @@ class VenueEdition extends PureComponent {
       >
         <AddOfferSvg />
         <span>
-          {'Créer une offre'}
+          Créer une offre
         </span>
       </Link>
     )
@@ -206,7 +206,7 @@ class VenueEdition extends PureComponent {
           to={`/accueil?structure=${offererId}`}
         >
           <Icon svg="ico-back" />
-          {'Accueil'}
+          Accueil
         </NavLink>
         <PageTitle title={pageTitle} />
         <Titles
