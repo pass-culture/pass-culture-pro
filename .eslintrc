@@ -51,6 +51,7 @@
     "react/jsx-max-depth": "off",
     "react/jsx-newline": "off",
     "react/jsx-props-no-spreading": "off",
+    "react/jsx-child-element-spacing": "off",
     "react/jsx-wrap-multilines": [
       "warn",
       {
