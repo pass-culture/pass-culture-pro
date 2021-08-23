@@ -197,7 +197,7 @@ jobs:
           name: Running API server
           command: |
            cd ~/pass-culture-main
-           ./pc start-backend
+           ENV=tests ./pc start-backend
           background: true
       - run:
           name: Running Frontend
