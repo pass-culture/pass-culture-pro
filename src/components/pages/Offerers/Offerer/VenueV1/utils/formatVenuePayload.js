@@ -21,6 +21,10 @@ export const formatVenuePayload = (payload, isCreatedEntity) => {
     'venueLabelId',
     'venueTypeId',
     'withdrawalDetails',
+    'audioDisabilityCompliant',
+    'mentalDisabilityCompliant',
+    'motorDisabilityCompliant',
+    'visualDisabilityCompliant',
   ]
 
   const edition_authorized_input_field = [
@@ -39,6 +43,10 @@ export const formatVenuePayload = (payload, isCreatedEntity) => {
     'venueLabelId',
     'venueTypeId',
     'withdrawalDetails',
+    'audioDisabilityCompliant',
+    'mentalDisabilityCompliant',
+    'motorDisabilityCompliant',
+    'visualDisabilityCompliant',
   ]
 
   const requestPayload = {}
