@@ -1,7 +1,7 @@
 /*
-* @debt directory "Gaël: this file should be migrated within the new directory structure"
-* @debt deprecated "Gaël: deprecated usage of react-final-form"
-*/
+ * @debt directory "Gaël: this file should be migrated within the new directory structure"
+ * @debt deprecated "Gaël: deprecated usage of react-final-form"
+ */
 
 /* eslint react/function-component-definition: 0 */
 import classnames from 'classnames'
@@ -100,7 +100,7 @@ TextField.defaultProps = {
   autoComplete: null,
   className: '',
   disabled: false,
-  format: null,
+  format: undefined,
   id: null,
   innerClassName: null,
   label: '',
