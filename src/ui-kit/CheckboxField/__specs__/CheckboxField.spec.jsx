@@ -44,7 +44,7 @@ describe('components | CheckboxField', () => {
     expect(input.prop('type')).toBe('checkbox')
     expect(input.prop('name')).toBe('checkbox-name')
     expect(input.prop('id')).toBe('checkbox-id')
-    expect(input.prop('defaultChecked')).toBe(true)
+    expect(input.prop('defaultChecked')).toBeUndefined()
   })
 
   it('should have label tag that has htmlFor prop to checkbox id when label is defined', () => {
@@ -80,6 +80,6 @@ describe('components | CheckboxField', () => {
     const label = wrapper.find('label')
     expect(label.prop('htmlFor')).toBe('checkbox-id')
     const input = wrapper.find('input')
-    expect(input.prop('defaultChecked')).toBe(false)
+    expect(input.prop('defaultChecked')).toBeUndefined()
   })
 })
