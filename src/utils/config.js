@@ -19,8 +19,8 @@ export const API_URL = apiUrlBasedOnDomain || 'http://localhost'
 
 // FIXME : Remove when transition to new domain is done
 export const WEBAPP_URL = global.window?.location.hostname.includes('beta.gouv')
-  ? process.env.WEBAPP_URL_OLD
-  : process.env.WEBAPP_URL_NEW
+  ? process.env.WEBAPP_V1_URL
+  : process.env.WEBAPP_V2_URL
 
 export const {
   ENVIRONMENT_NAME,
