@@ -214,6 +214,7 @@ const OfferDetails = ({
             {offer ? (
               <OfferPreviewLink
                 mediationId={offer.activeMediation ? offer.activeMediation.id : null}
+                nonHumanizedOfferId={offer.nonHumanizedId}
                 offerId={offer.id}
               />
             ) : null}
