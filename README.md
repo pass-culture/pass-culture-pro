@@ -36,7 +36,7 @@ Yarn est prometteur, on vous conseille de l'utiliser. Tâchez de l'installer glo
       ```
     - Injection des données de test
       ```shell
-      export DATABASE_URL=postgresql://pass_culture:passq@localhost:5434/pass_culture && python src/pcapi/install_database_extensions.py && alembic upgrade head && rm -rf ./src/pcapi/static/object_store_data
+      export DATABASE_URL=postgresql://pass_culture:passq@localhost:5434/pass_culture && python src/pcapi/install_database_extensions.py && alembic upgrade head && python src/pcapi/scripts/install_database_feature_flags.py && rm -rf ./src/pcapi/static/object_store_data
       python src/pcapi/scripts/pc.py sandbox -n testcafe
       ```
 
