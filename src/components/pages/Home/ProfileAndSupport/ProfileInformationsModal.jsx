@@ -6,8 +6,9 @@ import PropTypes from 'prop-types'
 import React from 'react'
 
 import { DialogBox } from 'components/layout/DialogBox/DialogBox'
+import ProfileForm from 'new_components/forms/'
 
-import ProfileForm from './ProfileForm'
+// import ProfileForm from './ProfileForm'
 
 const ProfileInformationsModal = ({ hideProfileInfoModal, user }) => {
   const initialValues = {
@@ -29,10 +30,16 @@ const ProfileInformationsModal = ({ hideProfileInfoModal, user }) => {
         >
           Profil
         </h1>
-        <ProfileForm
+        {/* <ProfileForm
           initialValues={initialValues}
           onCancel={hideProfileInfoModal}
           onSuccess={hideProfileInfoModal}
+        /> */}
+        <ProfileForm
+          initialValues={initialValues}
+          onCancel={hideProfileInfoModal}
+          onSubmitError={() => null}
+          onSubmitSuccess={hideProfileInfoModal}
         />
       </div>
     </DialogBox>

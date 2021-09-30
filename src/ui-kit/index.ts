@@ -1,3 +1,4 @@
+export { FieldText } from './form'
 export { default as Button } from './Button'
 export { default as CheckboxField } from './CheckboxField'
 export { default as Divider } from './Divider'
