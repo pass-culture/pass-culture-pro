@@ -1,74 +1,38 @@
-/*
-* @debt rtl "Gaël: migration from enzyme to RTL"
-*/
-
-import { shallow } from 'enzyme'
+import '@testing-library/jest-dom'
+import { fireEvent, within } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import React from 'react'
 
 import PeriodSelector from '../PeriodSelector'
 
 describe('components | PeriodSelector', () => {
-  let props
-  beforeEach(() => {
-    props = {
-      changePeriodBeginningDateValue: jest.fn(),
-      changePeriodEndingDateValue: jest.fn(),
-      isDisabled: false,
-      label: 'Fake Label',
-      periodBeginningDate: undefined,
-      periodEndingDate: undefined,
-    }
-  })
+  it('should open second calendar when a date has been selected in first calendar', async () => {
+    render(
+      <PeriodSelector
+        changePeriodBeginningDateValue={jest.fn()}
+        changePeriodEndingDateValue={jest.fn()}
+        label="label"
+        todayDate={new Date('2021/10/14')}
+      />
+    )
 
-  it('should call on changePeriodBeginningDateValue', async () => {
-    // Given
-    const selectedDate = new Date('2020-05-20')
-    const wrapper = shallow(<PeriodSelector {...props} />)
-    const beginningDateInput = wrapper.find({ placeholderText: 'JJ/MM/AAAA' }).at(0)
+    const startingDateWrapper = screen.getByTestId('period-filter-begin-picker')
+    const startingDateInput = within(startingDateWrapper).getByLabelText('début de la période')
 
-    // When
-    beginningDateInput.simulate('change', selectedDate)
+    expect(startingDateWrapper.children).toHaveLength(1)
+    userEvent.click(startingDateInput)
+    expect(startingDateWrapper.children).toHaveLength(2)
 
-    // Then
-    expect(props.changePeriodBeginningDateValue).toHaveBeenCalledTimes(1)
-  })
+    const endDateWrapper = screen.getByTestId('period-filter-end-picker')
+    const beginCalendar = startingDateWrapper.children[1]
 
-  it('should call on changePeriodEndingDateValue', async () => {
-    // Given
-    const selectedDate = new Date('2020-05-20')
-    const wrapper = shallow(<PeriodSelector {...props} />)
-    const endingDateInput = wrapper.find({ placeholderText: 'JJ/MM/AAAA' }).at(1)
+    fireEvent.click(within(beginCalendar).getByLabelText('Choose Thursday, October 21st, 2021'))
+    expect(endDateWrapper.children).toHaveLength(2)
 
-    // When
-    endingDateInput.simulate('change', selectedDate)
+    const endCalendar = endDateWrapper.children[1]
 
-    // Then
-    expect(props.changePeriodEndingDateValue).toHaveBeenCalledTimes(1)
-  })
-
-  it('should not allow to select beginning date superior to ending date value', async () => {
-    // Given
-    const selectedDate = new Date('2020-04-03')
-    props.periodEndingDate = selectedDate
-    const wrapper = shallow(<PeriodSelector {...props} />)
-
-    // When
-    const bookingBeginningDateInput = wrapper.find({ placeholderText: 'JJ/MM/AAAA' }).at(0)
-
-    // Then
-    expect(bookingBeginningDateInput.prop('maxDate')).toStrictEqual(selectedDate)
-  })
-
-  it('should not allow to select ending date inferior to beginning date value', async () => {
-    // Given
-    const selectedDate = new Date('2020-02-18')
-    props.periodBeginningDate = selectedDate
-    const wrapper = shallow(<PeriodSelector {...props} />)
-
-    // When
-    const bookingEndingDateInput = wrapper.find({ placeholderText: 'JJ/MM/AAAA' }).at(1)
-
-    // Then
-    expect(bookingEndingDateInput.prop('minDate')).toStrictEqual(selectedDate)
+    fireEvent.click(within(endCalendar).getByLabelText('Choose Saturday, October 30th, 2021'))
+    expect(endDateWrapper.children).toHaveLength(1)
   })
 })
