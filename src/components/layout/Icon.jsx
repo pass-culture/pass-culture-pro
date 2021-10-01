@@ -1,13 +1,13 @@
 /*
-* @debt directory "Gaël: this file should be migrated within the new directory structure"
-*/
+ * @debt directory "Gaël: this file should be migrated within the new directory structure"
+ */
 
 import PropTypes from 'prop-types'
 import React from 'react'
 
 import { ROOT_PATH } from 'utils/config'
 
-const Icon = ({ png, svg, alt, ...imgProps }) => {
+const Icon = ({ png = null, svg = '', alt = '', ...imgProps }) => {
   const iconUrl = svg ? `${ROOT_PATH}/icons/${svg}.svg` : `${ROOT_PATH}/icons/${png}.png`
   return (
     <img
