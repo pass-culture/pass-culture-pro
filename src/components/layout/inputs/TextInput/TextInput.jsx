@@ -1,6 +1,6 @@
 /*
-* @debt directory "Gaël: this file should be migrated within the new directory structure"
-*/
+ * @debt directory "Gaël: this file should be migrated within the new directory structure"
+ */
 
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -16,6 +16,7 @@ const TextInput = ({
   longDescription,
   maxLength,
   name,
+  onBlur,
   onChange,
   placeholder,
   required,
@@ -43,6 +44,7 @@ const TextInput = ({
       id={name}
       maxLength={maxLength}
       name={name}
+      onBlur={onBlur}
       onChange={onChange}
       placeholder={placeholder}
       ref={inputRef}
@@ -70,6 +72,7 @@ TextInput.defaultProps = {
   inputRef: null,
   longDescription: null,
   maxLength: null,
+  onBlur: null,
   onChange: null,
   placeholder: '',
   required: false,
@@ -87,6 +90,7 @@ TextInput.propTypes = {
   longDescription: PropTypes.string,
   maxLength: PropTypes.number,
   name: PropTypes.string.isRequired,
+  onBlur: PropTypes.func,
   onChange: PropTypes.func,
   placeholder: PropTypes.string,
   required: PropTypes.bool,
