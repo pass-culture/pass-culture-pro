@@ -1,11 +1,11 @@
 /*
-* @debt directory "Gaël: this file should be migrated within the new directory structure"
-*/
+ * @debt directory "Gaël: this file should be migrated within the new directory structure"
+ */
 
 import PropTypes from 'prop-types'
 import React from 'react'
 
-import InputError from './Errors/InputError'
+import InputError from 'ui-kit/InputError'
 
 export const buildSelectOptions = (idField, valueField, data) => {
   return data

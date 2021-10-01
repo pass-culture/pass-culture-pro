@@ -1,7 +1,3 @@
-/*
-* @debt directory "Gaël: SCSS file should be co-located and imported within a component"
-*/
-
 .it-errors {
   @include caption();
 
@@ -21,7 +17,7 @@
     background: none;
     color: $red-error;
     font-family: inherit;
-    font-size: inherit;
+    font-size: inherit; /* stylelint-disable-line pass-culture/no-font-properties */
     padding: 0;
     white-space: pre-wrap;
   }
