@@ -32,18 +32,18 @@ const OfferDetails = ({
   userEmail,
 }) => {
   const dispatch = useDispatch()
-  const initialValues = {}
+  const queryFormValues = {}
   const queryParams = queryParamsFromOfferer(location)
 
   if (queryParams.structure !== '') {
-    initialValues.offererId = queryParams.structure
+    queryFormValues.offererId = queryParams.structure
   }
 
   if (queryParams.lieu !== '') {
-    initialValues.venueId = queryParams.lieu
+    queryFormValues.venueId = queryParams.lieu
   }
 
-  const formInitialValues = useRef(initialValues)
+  const queryFormValuesRef = useRef(queryFormValues)
   const [formValues, setFormValues] = useState({})
   const [offerSubCategory, setOfferSubCategory] = useState({})
   const [formErrors, setFormErrors] = useState({})
@@ -107,12 +107,12 @@ const OfferDetails = ({
 
           let queryString = ''
 
-          if (formInitialValues.current.offererId !== undefined) {
-            queryString = `?structure=${formInitialValues.current.offererId}`
+          if (queryFormValuesRef.current.offererId !== undefined) {
+            queryString = `?structure=${queryFormValuesRef.current.offererId}`
           }
 
-          if (formInitialValues.current.venueId !== undefined) {
-            queryString += `&lieu=${formInitialValues.current.venueId}`
+          if (queryFormValuesRef.current.venueId !== undefined) {
+            queryString += `&lieu=${queryFormValuesRef.current.venueId}`
           }
 
           history.push(`/offres/${createdOfferId}/stocks${queryString}`)
@@ -185,10 +185,10 @@ const OfferDetails = ({
           ) : (
             <OfferCreation
               formValues={formValues}
-              initialValues={formInitialValues.current}
               isSubmitLoading={isSubmitLoading}
               isUserAdmin={isUserAdmin}
               onSubmit={handleSubmitOffer}
+              queryFormValues={queryFormValuesRef.current}
               setFormValues={setFormValues}
               setPreviewOfferCategory={setOfferSubCategory}
               setShowThumbnailForm={setShowThumbnailForm}

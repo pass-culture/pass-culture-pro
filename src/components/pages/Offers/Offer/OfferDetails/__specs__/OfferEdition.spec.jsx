@@ -92,6 +92,10 @@ describe('offerDetails - Edition', () => {
       offererName: 'La structure',
       bookingEmail: 'venue@example.com',
       withdrawalDetails: null,
+      audioDisabilityCompliant: null,
+      mentalDisabilityCompliant: null,
+      motorDisabilityCompliant: null,
+      visualDisabilityCompliant: null,
     }
 
     editedOffer = {
@@ -106,6 +110,10 @@ describe('offerDetails - Edition', () => {
       extraData: {
         isbn: '1234567890123',
       },
+      audioDisabilityCompliant: null,
+      mentalDisabilityCompliant: null,
+      motorDisabilityCompliant: null,
+      visualDisabilityCompliant: null,
     }
 
     categories = {
@@ -1644,7 +1652,6 @@ describe('offerDetails - Edition', () => {
         mentalDisabilityCompliant: null,
         motorDisabilityCompliant: null,
         visualDisabilityCompliant: null,
-        noDisabilityCompliant: null,
       }
 
       editedOffer = {

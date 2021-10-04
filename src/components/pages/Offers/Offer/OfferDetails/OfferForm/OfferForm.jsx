@@ -38,7 +38,7 @@ import { SubmitButton } from 'ui-kit'
 import { CGU_URL } from 'utils/config'
 import { doesUserPreferReducedMotion } from 'utils/windowMatchMedia'
 
-import AccessibilityCheckboxList from './AccessibilityCheckboxList'
+import AccessibilityCheckboxList, { getAccessibilityValues } from './AccessibilityCheckboxList'
 import OfferCategories from './OfferCategories/OfferCategories'
 
 // JOCONDE React:component "Ce composant est vraiment le plus beau et le plus lisible que nous ayons côté pro. Prenez en de la graine !"
@@ -118,7 +118,6 @@ const OfferForm = ({
   )
 
   let mandatoryFields = useMemo(() => [...MANDATORY_FIELDS], [])
-
   const handleFormUpdate = useCallback(
     newFormValues =>
       setFormValues(oldFormValues => {
@@ -130,6 +129,31 @@ const OfferForm = ({
 
   const offererOptions = buildSelectOptions('id', 'name', offerersNames)
 
+  const updateAccessibilityFromVenue = useCallback(
+    venue => {
+      if (venue) {
+        const venueAccessibilities = getAccessibilityValues(venue)
+        const haveUnsetAccessibility = Object.values(venueAccessibilities).includes(null)
+        const updatedValues = {
+          ...Object.keys(venueAccessibilities).reduce((acc, field) => ({ ...acc, [field]: !!venueAccessibilities[field] }), {}),
+          noDisabilityCompliant: haveUnsetAccessibility ? false : !Object.values(venueAccessibilities).includes(true),
+        }
+        handleFormUpdate(updatedValues)
+      }
+    },
+    [handleFormUpdate]
+  )
+
+  const handleChangeVenue = useCallback(
+    event => {
+      const venueId = event.target.value
+      handleFormUpdate({ venueId: event.target.value })
+
+      const venue = venues.find(venue => venue.id === venueId)
+      venue && updateAccessibilityFromVenue(venue)
+    },
+    [handleFormUpdate, updateAccessibilityFromVenue, venues]
+  )
 
   useEffect(() => {
     if (isIsbnRequiredInLivreEditionEnabled) {
@@ -211,7 +235,7 @@ const OfferForm = ({
   )
 
   useEffect(
-    function filterVenueOptionsForSelectedType() {
+    function filterVenueOptionsForSelectedCategory() {
       let venuesToShow = venues
 
       if (offerSubCategory?.onlineOfflinePlatform === PLATFORM.ONLINE) {
@@ -236,11 +260,16 @@ const OfferForm = ({
         })
       }
 
-      if (venuesToShow.length === 1) {
+      if (
+        venuesToShow.length === 1 
+        && formValues.venueId
+        && venuesToShow[0].id !== formValues.venueId
+      ) {
         handleFormUpdate({ venueId: venuesToShow[0].id })
+        updateAccessibilityFromVenue(venuesToShow[0])
       }
     },
-    [offerSubCategory, handleFormUpdate, venues]
+    [formValues.venueId, handleFormUpdate, offerSubCategory, updateAccessibilityFromVenue, venues]
   )
 
   useEffect(
@@ -320,7 +349,6 @@ const OfferForm = ({
   const isValid = useCallback(() => {
     let newFormErrors = {}
     const formFields = [...offerFormFields, 'offererId']
-
     mandatoryFields.forEach(fieldName => {
       if (
         formFields.includes(fieldName) &&
@@ -394,31 +422,6 @@ const OfferForm = ({
       receiveNotificationEmails,
       showErrorNotification,
     ]
-  )
-
-  const handleChangeVenue = useCallback(
-    event => {
-      let updatedValues = {
-        venueId: event.target.value
-      }
-      const venue = venues.find(venue => venue.id === updatedValues.venueId)
-      if (venue) {
-        const venueAccessibilities = {
-          audioDisabilityCompliant: venue.audioDisabilityCompliant,
-          mentalDisabilityCompliant: venue.mentalDisabilityCompliant,
-          motorDisabilityCompliant: venue.motorDisabilityCompliant,
-          visualDisabilityCompliant: venue.visualDisabilityCompliant,
-        }
-        const haveUnsetAccessibility = Object.values(venueAccessibilities).includes(null || undefined)
-        updatedValues = {
-          ...updatedValues,
-          ...Object.keys(venueAccessibilities).reduce((acc, field) => ({ ...acc, [field]: !!venueAccessibilities[field] }), {}),
-          noDisabilityCompliant: haveUnsetAccessibility ? false : !Object.values(venueAccessibilities).includes(true),
-        }
-      }
-      handleFormUpdate(updatedValues)
-    },
-    [handleFormUpdate, venues]
   )
 
   const handleSingleFormUpdate = useCallback(

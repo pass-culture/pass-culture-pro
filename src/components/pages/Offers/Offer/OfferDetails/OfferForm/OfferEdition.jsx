@@ -16,28 +16,11 @@ import {
   DEFAULT_FORM_VALUES,
   EDITED_OFFER_READ_ONLY_FIELDS,
 } from 'components/pages/Offers/Offer/OfferDetails/OfferForm/_constants'
-import { getDisabilityComplianceValues } from 'components/pages/Offers/Offer/OfferDetails/OfferForm/AccessibilityCheckboxList'
+import { getAccessibilityInitialValues } from 'components/pages/Offers/Offer/OfferDetails/OfferForm/AccessibilityCheckboxList'
 import { computeOffersUrl } from 'components/pages/Offers/utils/computeOffersUrl'
 
 import OfferForm from './OfferForm'
 
-
-const computeNoDisabilityComplianceValue = offer => {
-  const disabilityCompliantValues = [
-    offer.audioDisabilityCompliant,
-    offer.mentalDisabilityCompliant,
-    offer.motorDisabilityCompliant,
-    offer.visualDisabilityCompliant,
-  ]
-
-  const unknownDisabilityCompliance = disabilityCompliantValues.includes(null)
-  const hasDisabilityCompliance = disabilityCompliantValues.includes(true)
-  if (hasDisabilityCompliance || unknownDisabilityCompliance) {
-    return false
-  }
-
-  return true
-}
 
 const OfferEdition = ({
   formValues,
@@ -71,23 +54,15 @@ const OfferEdition = ({
         return { ...acc, [field]: DEFAULT_FORM_VALUES[field] }
       }, {})
       
-      const offerAccessibility = getDisabilityComplianceValues(offer)
-      const venueAccessibility = getDisabilityComplianceValues(offer.venue)
-      if (
-        Object.values(offerAccessibility).includes(null) 
-        && !Object.values(venueAccessibility).includes(null)
-      ) {
-        initialValues = { ...initialValues, ...venueAccessibility }
-      }
-
+      const accessibilityInitialValues = getAccessibilityInitialValues({ offer, venue: offer.venue })
+      initialValues = { ...initialValues, ...accessibilityInitialValues }
       initialValues.categoryId = subCategories.find(
         subCategory => subCategory.id === offer.subcategoryId
       ).categoryId
 
       initialValues.subcategoryId = offer.subcategoryId
       initialValues.offererId = offer.venue.managingOffererId
-      initialValues.noDisabilityCompliant = computeNoDisabilityComplianceValue(offer)
-
+      
       return initialValues
     }
 

@@ -8,14 +8,17 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 
 import Spinner from 'components/layout/Spinner'
+import { getAccessibilityInitialValues } from 'components/pages/Offers/Offer/OfferDetails/OfferForm/AccessibilityCheckboxList'
 import { computeOffersUrl } from 'components/pages/Offers/utils/computeOffersUrl'
 import * as pcapi from 'repository/pcapi/pcapi'
 
+import { DEFAULT_FORM_VALUES } from './_constants'
 import OfferForm from './OfferForm'
+
 
 const OfferCreation = ({
   formValues,
-  initialValues,
+  queryFormValues,
   isSubmitLoading,
   isUserAdmin,
   userEmail,
@@ -30,11 +33,15 @@ const OfferCreation = ({
   const offerersNames = useRef([])
   const [isLoading, setIsLoading] = useState(true)
   const [displayedVenues, setDisplayedVenues] = useState([])
-  const [selectedOfferer, setSelectedOfferer] = useState(initialValues.offererId)
+  const [selectedOfferer, setSelectedOfferer] = useState(queryFormValues.offererId)
+  const [initialValues, setInitialValues] = useState({
+    offererId: queryFormValues.offererId || DEFAULT_FORM_VALUES['offererId'],
+    venueId: queryFormValues.venueId || DEFAULT_FORM_VALUES['venueId'],
+  })
 
   const { categories } = useSelector(state => state.offers.categories)
 
-  useEffect(() => setSelectedOfferer(initialValues.offererId), [initialValues.offererId])
+  useEffect(() => setSelectedOfferer(queryFormValues.offererId), [queryFormValues.offererId])
 
   useEffect(() => {
     (async () => {
@@ -45,7 +52,7 @@ const OfferCreation = ({
       }
 
       if (isUserAdmin) {
-        const offererResponse = await pcapi.getOfferer(initialValues.offererId)
+        const offererResponse = await pcapi.getOfferer(queryFormValues.offererId)
 
         offerersNames.current = [
           {
@@ -62,16 +69,22 @@ const OfferCreation = ({
         const venuesResponse = await pcapi.getVenuesForOfferer({ activeOfferersOnly: true })
         venues.current = venuesResponse
 
-        const venuesToDisplay = initialValues.offererId
-          ? venuesResponse.filter(venue => venue.managingOffererId === initialValues.offererId)
+        const venuesToDisplay = queryFormValues.offererId
+          ? venuesResponse.filter(venue => venue.managingOffererId === queryFormValues.offererId)
           : venuesResponse
 
         setDisplayedVenues(venuesToDisplay)
       }
 
+      if (queryFormValues.venueId) {
+        const selectedVenue = venues.current.find((venue) => venue.id === queryFormValues.venueId)
+        const venueAccessibility = getAccessibilityInitialValues({ venue: selectedVenue })
+        setInitialValues((currentInitialValues) => ({ ...currentInitialValues, ...venueAccessibility }))
+      }
+
       setIsLoading(false)
     })()
-  }, [initialValues.offererId, isUserAdmin, initialValues, categories])
+  }, [categories, isUserAdmin, setInitialValues, queryFormValues.offererId, queryFormValues.venueId])
 
   const filterVenuesForPro = useCallback(() => {
     const venuesToDisplay = selectedOfferer
@@ -86,10 +99,10 @@ const OfferCreation = ({
     }
   }, [filterVenuesForPro, isUserAdmin])
 
-  const isComingFromOffererPage = initialValues.offererId !== undefined
+  const isComingFromOffererPage = queryFormValues.offererId !== undefined
 
   const areAllVenuesVirtual =
-    isComingFromOffererPage && selectedOfferer === initialValues.offererId
+    isComingFromOffererPage && selectedOfferer === queryFormValues.offererId
       ? venues.current
         .filter(venue => venue.managingOffererId === selectedOfferer)
         .every(venue => venue.isVirtual)
@@ -124,16 +137,16 @@ const OfferCreation = ({
 }
 
 OfferCreation.defaultProps = {
-  initialValues: {},
   isUserAdmin: false,
+  queryFormValues: {},
 }
 
 OfferCreation.propTypes = {
   formValues: PropTypes.shape().isRequired,
-  initialValues: PropTypes.shape(),
   isSubmitLoading: PropTypes.bool.isRequired,
   isUserAdmin: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
+  queryFormValues: PropTypes.shape(),
   setFormValues: PropTypes.func.isRequired,
   setPreviewOfferCategory: PropTypes.func.isRequired,
   setShowThumbnailForm: PropTypes.func.isRequired,
