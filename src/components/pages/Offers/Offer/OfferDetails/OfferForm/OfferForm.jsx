@@ -119,8 +119,11 @@ const OfferForm = ({
   const isIsbnRequiredInLivreEditionEnabled = useActiveFeature(
     'ENABLE_ISBN_REQUIRED_IN_LIVRE_EDITION_OFFER_CREATION'
   )
-
-  let mandatoryFields = useMemo(() => [...MANDATORY_FIELDS], [])
+  const mandatoryFields = useMemo(() => {
+    let computedMandatoryFields = [...MANDATORY_FIELDS]
+    isIsbnRequiredInLivreEditionEnabled && computedMandatoryFields.push('isbn')
+    return computedMandatoryFields
+  }, [isIsbnRequiredInLivreEditionEnabled])
 
   const handleFormUpdate = useCallback(
     newFormValues =>
@@ -132,12 +135,6 @@ const OfferForm = ({
   )
 
   const offererOptions = buildSelectOptions('id', 'name', offerersNames)
-
-  useEffect(() => {
-    if (isIsbnRequiredInLivreEditionEnabled) {
-      mandatoryFields.push('isbn')
-    }
-  }, [isIsbnRequiredInLivreEditionEnabled, mandatoryFields])
 
   useEffect(() => {
     setFormErrors(submitErrors)
