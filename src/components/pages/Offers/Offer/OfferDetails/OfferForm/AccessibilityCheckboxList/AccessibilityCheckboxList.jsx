@@ -8,27 +8,56 @@ import { ReactComponent as MentalDisabilitySvg } from 'icons/mental-disability.s
 import { ReactComponent as MotorDisabilitySvg } from 'icons/motor-disability.svg'
 import { ReactComponent as VisualDisabilitySvg } from 'icons/visual-disability.svg'
 
+export const getAccessibilityValues = values => {
+  const accessibility = {
+    audioDisabilityCompliant: values.audioDisabilityCompliant,
+    mentalDisabilityCompliant: values.mentalDisabilityCompliant,
+    motorDisabilityCompliant: values.motorDisabilityCompliant,
+    visualDisabilityCompliant: values.visualDisabilityCompliant,
+  }
+  return Object.keys(accessibility).reduce((acc, fieldName) => {
+    let fieldValue = accessibility[fieldName]
+    if (fieldValue === undefined) {
+      fieldValue = null
+    }
+    return { ...acc, [fieldName]: fieldValue }
+  }, {})
+}
 
-export const getDisabilityComplianceValues = values => ({
-  audioDisabilityCompliant: values.audioDisabilityCompliant,
-  mentalDisabilityCompliant: values.mentalDisabilityCompliant,
-  motorDisabilityCompliant: values.motorDisabilityCompliant,
-  visualDisabilityCompliant: values.visualDisabilityCompliant,
-})
-
-const checkHasNoDisabilityCompliance = disabilityComplianceValues => {
-  const hasNull = Object.values(disabilityComplianceValues).includes(null)
-  const hasUndefined = Object.values(disabilityComplianceValues).includes(undefined)
-  if (hasNull || hasUndefined) {
-    return null
+const checkHasNoDisabilityCompliance = values => {
+  const disabilityCompliantValues = Object.values(getAccessibilityValues(values))
+  const unknownDisabilityCompliance = disabilityCompliantValues.includes(null)
+  const hasDisabilityCompliance = disabilityCompliantValues.includes(true)
+  if (hasDisabilityCompliance || unknownDisabilityCompliance) {
+    return false
   }
 
-  return !Object.values(disabilityComplianceValues).includes(true)
+  return true
+}
+
+export const getAccessibilityInitialValues = ({ offer = null, venue = null }) => {
+  const emptyAccessibility = {
+    audioDisabilityCompliant: null,
+    mentalDisabilityCompliant: null,
+    motorDisabilityCompliant: null,
+    visualDisabilityCompliant: null,
+  }
+
+  let accessibility = offer ? getAccessibilityValues(offer) : { ...emptyAccessibility }
+  if (Object.values(accessibility).includes(null)) {
+    accessibility = venue ? getAccessibilityValues(venue) : { ...emptyAccessibility }
+  }
+  accessibility.noDisabilityCompliant = checkHasNoDisabilityCompliance(accessibility)
+  accessibility = Object.keys(accessibility).reduce(
+    (acc, fieldName) => ({ ...acc, [fieldName]: !!accessibility[fieldName] }),
+    {}
+  )
+  return accessibility
 }
 
 const autoFillValues = function (formValues, field, value) {
   let noDisabilityCompliant = formValues.noDisabilityCompliant
-  let disabilityCompliantValues = getDisabilityComplianceValues(formValues)
+  let disabilityCompliantValues = getAccessibilityValues(formValues)
   // normalize null value as false
   disabilityCompliantValues = Object.keys(disabilityCompliantValues).reduce(
     (acc, field) => ({ ...acc, [field]: !!disabilityCompliantValues[field] }),

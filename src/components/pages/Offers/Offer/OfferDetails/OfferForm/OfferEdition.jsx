@@ -15,7 +15,7 @@ import {
   DEFAULT_FORM_VALUES,
   EDITED_OFFER_READ_ONLY_FIELDS,
 } from 'components/pages/Offers/Offer/OfferDetails/OfferForm/_constants'
-import { getDisabilityComplianceValues } from 'components/pages/Offers/Offer/OfferDetails/OfferForm/AccessibilityCheckboxList'
+import { getAccessibilityValues } from 'components/pages/Offers/Offer/OfferDetails/OfferForm/AccessibilityCheckboxList'
 import { computeOffersUrl } from 'components/pages/Offers/utils/computeOffersUrl'
 
 import OfferForm from './OfferForm'
@@ -66,8 +66,8 @@ const OfferEdition = ({
         return { ...acc, [field]: DEFAULT_FORM_VALUES[field] }
       }, {})
 
-      const offerAccessibility = getDisabilityComplianceValues(offer)
-      const venueAccessibility = getDisabilityComplianceValues(offer.venue)
+      const offerAccessibility = getAccessibilityValues(offer)
+      const venueAccessibility = getAccessibilityValues(offer.venue)
       if (
         Object.values(offerAccessibility).includes(null) &&
         !Object.values(venueAccessibility).includes(null)
