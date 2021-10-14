@@ -7,34 +7,40 @@ import PropTypes from 'prop-types'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 
 import Spinner from 'components/layout/Spinner'
+import { getAccessibilityInitialValues } from 'components/pages/Offers/Offer/OfferDetails/OfferForm/AccessibilityCheckboxList'
 import { computeOffersUrl } from 'components/pages/Offers/utils/computeOffersUrl'
 import * as pcapi from 'repository/pcapi/pcapi'
 
+import { DEFAULT_FORM_VALUES } from './_constants'
 import OfferForm from './OfferForm'
 
 const OfferCreation = ({
   categories,
-  initialValues,
   isUserAdmin,
-  setOfferPreviewData,
-  userEmail,
   onSubmit,
+  queryParams,
+  setOfferPreviewData,
   showErrorNotification,
   subCategories,
   submitErrors,
+  userEmail,
 }) => {
   const venues = useRef([])
   const offerersNames = useRef([])
   const [isLoading, setIsLoading] = useState(true)
   const [displayedVenues, setDisplayedVenues] = useState([])
-  const [selectedOfferer, setSelectedOfferer] = useState(initialValues.offererId)
+  const [selectedOfferer, setSelectedOfferer] = useState(queryParams.offererId || DEFAULT_FORM_VALUES['offererId'])
+  const [initialValues, setInitialValues] = useState({
+    offererId: queryParams.offererId || DEFAULT_FORM_VALUES['offererId'],
+    venueId: queryParams.venueId || DEFAULT_FORM_VALUES['venueId'],
+  })
 
-  useEffect(() => setSelectedOfferer(initialValues.offererId), [initialValues.offererId])
+  useEffect(() => setSelectedOfferer(queryParams.offererId), [queryParams.offererId])
 
   useEffect(() => {
     (async () => {
       if (isUserAdmin) {
-        const offererResponse = await pcapi.getOfferer(initialValues.offererId)
+        const offererResponse = await pcapi.getOfferer(queryParams.offererId)
 
         offerersNames.current = [
           {
@@ -51,16 +57,22 @@ const OfferCreation = ({
         const venuesResponse = await pcapi.getVenuesForOfferer({ activeOfferersOnly: true })
         venues.current = venuesResponse
 
-        const venuesToDisplay = initialValues.offererId
-          ? venuesResponse.filter(venue => venue.managingOffererId === initialValues.offererId)
+        const venuesToDisplay = queryParams.offererId
+          ? venuesResponse.filter(venue => venue.managingOffererId === queryParams.offererId)
           : venuesResponse
 
         setDisplayedVenues(venuesToDisplay)
       }
 
+      if (queryParams.venueId) {
+        const selectedVenue = venues.current.find((venue) => venue.id === queryParams.venueId)
+        const venueAccessibility = getAccessibilityInitialValues({ venue: selectedVenue })
+        setInitialValues((currentInitialValues) => ({ ...currentInitialValues, ...venueAccessibility }))
+      }
+
       setIsLoading(false)
     })()
-  }, [initialValues.offererId, isUserAdmin, initialValues])
+  }, [isUserAdmin, queryParams.offererId, queryParams.venueId])
 
   const filterVenuesForPro = useCallback(() => {
     const venuesToDisplay = selectedOfferer
@@ -75,10 +87,10 @@ const OfferCreation = ({
     }
   }, [filterVenuesForPro, isUserAdmin])
 
-  const isComingFromOffererPage = initialValues.offererId !== undefined
+  const isComingFromOffererPage = queryParams.offererId !== undefined
 
   const areAllVenuesVirtual =
-    isComingFromOffererPage && selectedOfferer === initialValues.offererId
+    isComingFromOffererPage && selectedOfferer === queryParams.offererId
       ? venues.current
         .filter(venue => venue.managingOffererId === selectedOfferer)
         .every(venue => venue.isVirtual)
@@ -111,15 +123,15 @@ const OfferCreation = ({
 }
 
 OfferCreation.defaultProps = {
-  initialValues: {},
   isUserAdmin: false,
+  queryParams: {},
 }
 
 OfferCreation.propTypes = {
   categories: PropTypes.arrayOf(PropTypes.shape()).isRequired,
-  initialValues: PropTypes.shape(),
   isUserAdmin: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
+  queryParams: PropTypes.shape(),
   setOfferPreviewData: PropTypes.func.isRequired,
   showErrorNotification: PropTypes.func.isRequired,
   subCategories: PropTypes.arrayOf(PropTypes.shape()).isRequired,

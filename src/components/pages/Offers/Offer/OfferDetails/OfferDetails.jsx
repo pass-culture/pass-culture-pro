@@ -4,7 +4,7 @@
 */
 
 import PropTypes from 'prop-types'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import useNotification from 'components/hooks/useNotification'
@@ -23,6 +23,19 @@ import { loadCategories } from 'store/offers/thunks'
 
 import { queryParamsFromOfferer } from '../../utils/queryParamsFromOfferer'
 
+const getQueryParams = (location) => {
+  const translatedQueryParams = queryParamsFromOfferer(location)
+  let queryParams = {}
+  if (translatedQueryParams.structure === '') {
+    queryParams.offererId = translatedQueryParams.structure
+  }
+
+  if (translatedQueryParams.lieu !== '') {
+    queryParams.venueId = translatedQueryParams.lieu
+  }
+
+  return queryParams
+}
 
 const OfferDetails = ({
   history,
@@ -35,18 +48,7 @@ const OfferDetails = ({
   userEmail,
 }) => {
   const dispatch = useDispatch()
-  const initialValues = {}
-  const queryParams = queryParamsFromOfferer(location)
-
-  if (queryParams.structure !== '') {
-    initialValues.offererId = queryParams.structure
-  }
-
-  if (queryParams.lieu !== '') {
-    initialValues.venueId = queryParams.lieu
-  }
-
-  const formInitialValues = useRef(initialValues)
+  const queryParams = getQueryParams(location)
 
   const [formErrors, setFormErrors] = useState({})
   const [offerPreviewData, setOfferPreviewData] = useState({})
@@ -123,12 +125,12 @@ const OfferDetails = ({
 
           let queryString = ''
 
-          if (formInitialValues.current.offererId !== undefined) {
-            queryString = `?structure=${formInitialValues.current.offererId}`
+          if (queryParams.offererId) {
+            queryString = `?structure=${queryParams.offererId}`
           }
 
-          if (formInitialValues.current.venueId !== undefined) {
-            queryString += `&lieu=${formInitialValues.current.venueId}`
+          if (queryParams.venueId) {
+            queryString += `&lieu=${queryParams.venueId}`
           }
 
           history.push(`/offres/${createdOfferId}/stocks${queryString}`)
@@ -160,6 +162,8 @@ const OfferDetails = ({
       postThumbnail,
       reloadOffer,
       notification,
+      queryParams.offererId,
+      queryParams.venueId,
       showErrorNotification,
       thumbnailInfo,
       trackEditOffer,
@@ -204,9 +208,9 @@ const OfferDetails = ({
           ) : (
             <OfferCreation
               categories={categories}
-              initialValues={formInitialValues.current}
               isUserAdmin={isUserAdmin}
               onSubmit={handleSubmitOffer}
+              queryParams={queryParams}
               setOfferPreviewData={setOfferPreviewData}
               showErrorNotification={showErrorNotification}
               subCategories={subCategories}
