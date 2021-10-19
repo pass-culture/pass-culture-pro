@@ -399,6 +399,8 @@ const OfferForm = ({
               [fieldName]: formValues[fieldName],
             }
           }
+          // front should check categoryId but do not send to backend
+          delete submittedValues.categoryId
 
           return submittedValues
         }, submittedValuesAccumulator)
@@ -579,6 +581,7 @@ const OfferForm = ({
               showType: formValues.showType,
               showSubType: formValues.showSubType,
             }}
+            getErrorMessage={getErrorMessage}
             isTypeOfflineButOnlyVirtualVenues={isTypeOfflineButOnlyVirtualVenues}
             readOnlyFields={readOnlyFields}
             subCategories={subCategories}
