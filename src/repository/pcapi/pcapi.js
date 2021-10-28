@@ -2,8 +2,8 @@
 * @debt complexity "Gaël: the file contains eslint error(s) based on our new config"
 */
 
-import { DEFAULT_PRE_FILTERS } from 'components/pages/Bookings/PreFilters/_constants'
 import { ALL_OFFERERS, DEFAULT_SEARCH_FILTERS } from 'components/pages/Offers/Offers/_constants'
+import { DEFAULT_FILTERS } from 'constants/booking'
 import { client } from 'repository/pcapi/pcapiClient'
 import { FORMAT_ISO_DATE_ONLY, formatBrowserTimezonedDateAsUTC } from 'utils/date'
 import { stringify } from 'utils/query-string'
@@ -263,17 +263,17 @@ export const loadVenueProviders = async venueId => {
 // BookingsRecap
 //
 export const loadFilteredBookingsRecap = async ({
-  venueId = DEFAULT_PRE_FILTERS.offerVenueId,
-  eventDate = DEFAULT_PRE_FILTERS.offerEventDate,
-  bookingPeriodBeginningDate = DEFAULT_PRE_FILTERS.bookingBeginningDate,
-  bookingPeriodEndingDate = DEFAULT_PRE_FILTERS.bookingEndingDate,
+  venueId = DEFAULT_FILTERS.offerVenueId,
+  eventDate = DEFAULT_FILTERS.offerEventDate,
+  bookingPeriodBeginningDate = DEFAULT_FILTERS.bookingBeginningDate,
+  bookingPeriodEndingDate = DEFAULT_FILTERS.bookingEndingDate,
   page,
 }) => {
   const params = { page }
-  if (venueId !== DEFAULT_PRE_FILTERS.offerVenueId) {
+  if (venueId !== DEFAULT_FILTERS.offerVenueId) {
     params.venueId = venueId
   }
-  if (eventDate !== DEFAULT_PRE_FILTERS.offerEventDate) {
+  if (eventDate !== DEFAULT_FILTERS.offerEventDate) {
     params.eventDate = formatBrowserTimezonedDateAsUTC(eventDate)
   }
   params.bookingPeriodBeginningDate = formatBrowserTimezonedDateAsUTC(
