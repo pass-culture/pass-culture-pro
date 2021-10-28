@@ -2,9 +2,13 @@
 * @debt directory "Gaël: SCSS file should be co-located and imported within a component"
 */
 
+
+/* @debt directory:bookingV2 "Gaël: delete the following lines when V2 is ready" */
 @import 'CellsFormatter';
 @import 'NoFilteredBookings';
 @import 'Header';
-@import 'Table';
 @import 'Filters';
+@import 'Table';
+
+/* @debt directory:bookingV2 "Gaël: keep the following lines for V2" */
 @import 'PreFilters';
