@@ -63,6 +63,16 @@ describe('components | BookingsRecap | Pro user', () => {
       },
     }
     store = configureTestStore({
+      features: {
+        initialized: true,
+        list: [
+          {
+            isActive: false,
+            name: 'ENABLE_PRO_BOOKINGS_V2',
+            nameKey: 'ENABLE_PRO_BOOKINGS_V2',
+          },
+        ],
+      },
       data: {
         users: [{ publicName: 'René', isAdmin: false, email: 'rené@example.com' }],
       },
