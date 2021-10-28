@@ -1,0 +1,167 @@
+.cell {
+  &-offer-name {
+    width: rem(160px);
+  }
+
+  &-booking-duo {
+    padding: rem(10px) 0;
+    vertical-align: center;
+    width: rem(35px);
+  }
+
+  &-beneficiary {
+    width: rem(225px);
+    word-break: break-word;
+  }
+
+  &-booking-date {
+    width: rem(135px);
+  }
+
+  &-booking-token {
+    width: rem(120px);
+    word-break: break-word;
+  }
+
+  &-booking-status {
+    padding-left: 0;
+    padding-right: rem(5px);
+    text-align: right;
+    vertical-align: middle;
+  }
+}
+
+.beneficiary-subtitle {
+  color: $grey-dark;
+}
+
+.booking-date-subtitle {
+  color: $grey-dark;
+}
+
+.bookings-duo-icon {
+  height: rem(24px);
+  width: rem(24px);
+}
+
+.booking-offer-name {
+  @include button();
+
+  max-width: rem(130px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.booking-offer-additional-info {
+  color: $grey-dark;
+}
+
+.booking-status {
+  &-label {
+    @include caption();
+
+    border-radius: rem(5px);
+    color: $white;
+    display: inline-block;
+    padding: rem(5px) rem(7px);
+    white-space: nowrap;
+  }
+
+  &-wrapper {
+    line-height: 1.1875em;
+    position: relative;
+
+    img {
+      padding-right: rem(4px);
+      vertical-align: middle;
+    }
+  }
+
+  &-tooltip {
+    background-color: $white;
+    border-radius: rem(4px);
+    box-shadow: 0 rem(2px) rem(10px) 0 $black-shadow;
+    color: $black;
+    display: none;
+    padding: rem(16px) rem(24px) rem(16px) rem(24px);
+    position: absolute;
+    right: 0;
+    text-align: left;
+    top: rem(30px);
+    width: rem(340px);
+    z-index: 1;
+
+    :hover > &,
+    :focus > & {
+      display: block;
+    }
+  }
+}
+
+.status-bg {
+  &-booked {
+    background-color: $secondary;
+  }
+
+  &-validated {
+    background-color: $accent;
+  }
+
+  &-cancelled {
+    background-color: $grey-dark;
+  }
+
+  &-reimbursed {
+    background-color: $green-valid;
+  }
+
+  &-confirmed {
+    background-color: $black;
+  }
+}
+
+.status-history {
+  &-title {
+    @include body();
+
+    margin-top: rem(16px);
+  }
+
+  &-offer-title {
+    @include button();
+
+    display: block;
+  }
+
+  &-offer-amount {
+    @include caption();
+
+    display: block;
+    margin-top: rem(7px);
+  }
+
+  &-label {
+    @include body();
+
+    margin-top: rem(12px);
+  }
+
+  &-datetime {
+    margin: rem(6px);
+  }
+
+  &-item {
+    align-items: center;
+    display: flex;
+    list-style-type: none;
+    margin-top: rem(16px);
+  }
+
+  &-disc {
+    border-radius: rem(9px);
+    height: rem(14px);
+    margin-right: rem(16px);
+    width: rem(14px);
+  }
+}

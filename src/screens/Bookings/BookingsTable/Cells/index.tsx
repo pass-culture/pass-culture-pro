@@ -1,0 +1,7 @@
+export { default as BeneficiaryCell } from './BookingBeneficiaryCell'
+export { default as DateCell } from './BookingDateCell'
+export { default as DuoCell } from './BookingIsDuoCell'
+export { default as OfferCell } from './BookingOfferCell'
+export { default as StatusCell } from './BookingStatusCell'
+export { default as TokenCell } from './BookingTokenCell'
+export { default as BookingStatusCellHistory } from './BookingStatusCellHistory'
