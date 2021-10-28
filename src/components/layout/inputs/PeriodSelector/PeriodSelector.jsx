@@ -20,12 +20,16 @@ const PeriodSelector = ({
   periodBeginningDate,
   periodEndingDate,
   todayDate,
+  globalTestId,
 }) => {
   const endDateInput = useRef(null)
-  const focusEndDate = () => endDateInput.current && endDateInput.current.setOpen(true)
+  const focusEndDate = () => endDateInput.current?.setOpen(true)
 
   return (
-    <div className="period-filter">
+    <div
+      className="period-filter"
+      data-testid={globalTestId}
+    >
       <div className="period-filter-label">
         {label}
         <div className={`period-filter-inputs ${isDisabled ? 'disabled' : ''}`}>
@@ -87,6 +91,7 @@ const PeriodSelector = ({
 }
 
 PeriodSelector.defaultProps = {
+  globalTestId: 'period-selector',
   isDisabled: false,
   maxDateEnding: undefined,
   minDateBeginning: undefined,
@@ -97,6 +102,7 @@ PeriodSelector.defaultProps = {
 PeriodSelector.propTypes = {
   changePeriodBeginningDateValue: PropTypes.func.isRequired,
   changePeriodEndingDateValue: PropTypes.func.isRequired,
+  globalTestId: PropTypes.string,
   isDisabled: PropTypes.bool,
   label: PropTypes.string.isRequired,
   maxDateEnding: PropTypes.instanceOf(Date),

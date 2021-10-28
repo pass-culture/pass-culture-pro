@@ -1,6 +1,6 @@
 /*
-* @debt directory "Gaël: this file should be migrated within the new directory structure"
-*/
+ * @debt directory "Gaël: this file should be migrated within the new directory structure"
+ */
 
 import * as PropTypes from 'prop-types'
 import React, { Fragment } from 'react'
@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom'
 
 import useActiveFeature from 'components/hooks/useActiveFeature'
 import Icon from 'components/layout/Icon'
-import { BOOKING_STATUS } from 'components/pages/Bookings/BookingsRecapTable/CellsFormatter/utils/bookingStatusConverter'
+import { BOOKING_STATUS } from 'constants/booking'
 import { ReactComponent as IcoPlus } from 'icons/ico-plus.svg'
 
 import VenueStat from './VenueStat'
