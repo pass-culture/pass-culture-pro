@@ -14,7 +14,7 @@ import FilterByBookingPeriod from './FilterByBookingPeriod'
 import FilterByEventDate from './FilterByEventDate.jsx'
 import FilterByVenue from './FilterByVenue'
 
-const PreFilters = ({ appliedPreFilters, applyPreFilters, hasResult, isLoading, wereBookingsRequested }) => {
+const PreFilters = ({ appliedPreFilters, applyPreFilters, downloadBookingsCSV, hasResult, isLoading, wereBookingsRequested }) => {
   const [selectedPreFilters, setSelectedPreFilters] = useState({ ...appliedPreFilters })
   const [venues, setVenues] = useState([])
 
@@ -41,6 +41,13 @@ const PreFilters = ({ appliedPreFilters, applyPreFilters, hasResult, isLoading, 
   )
 
   const isRefreshRequired = !isEqual(selectedPreFilters, appliedPreFilters) && wereBookingsRequested
+  const bookingsQueryParams = {
+    page: 1,
+    venueId: selectedPreFilters.offerVenueId,
+    eventDate: selectedPreFilters.offerEventDate,
+    bookingPeriodBeginningDate: selectedPreFilters.bookingBeginningDate,
+    bookingPeriodEndingDate: selectedPreFilters.bookingEndingDate,
+  }
 
   return (
     <>
@@ -67,16 +74,25 @@ const PreFilters = ({ appliedPreFilters, applyPreFilters, hasResult, isLoading, 
             updateFilters={updateSelectedFilters}
           />
         </div>
-        <div className="search-separator">
-          <div className="separator" />
-          <button
-            className="primary-button"
-            disabled={isLoading}
-            type="submit"
-          >
-            Afficher
-          </button>
-          <div className="separator" />
+        <div className="button-group">
+          <span className="button-group-separator" />
+          <div className="button-group-buttons">
+            <button
+              className="primary-button"
+              disabled={isLoading}
+              onClick={() => downloadBookingsCSV(bookingsQueryParams)}
+              type="button"
+            >
+              Télécharger
+            </button>
+            <button
+              className="secondary-button"
+              disabled={isLoading}
+              type="submit"
+            >
+              Afficher
+            </button>
+          </div>
         </div>
       </form>
       {isRefreshRequired && (
@@ -96,6 +112,7 @@ PreFilters.propTypes = {
     offerVenueId: PropTypes.string.isRequired,
   }).isRequired,
   applyPreFilters: PropTypes.func.isRequired,
+  downloadBookingsCSV: PropTypes.func.isRequired,
   hasResult: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
   wereBookingsRequested: PropTypes.bool.isRequired,

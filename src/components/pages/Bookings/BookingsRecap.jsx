@@ -9,6 +9,7 @@ import PageTitle from 'components/layout/PageTitle/PageTitle'
 import Spinner from 'components/layout/Spinner'
 import Titles from 'components/layout/Titles/Titles'
 import * as pcapi from 'repository/pcapi/pcapi'
+import { API_URL } from 'utils/config'
 
 import BookingsRecapTable from './BookingsRecapTable/BookingsRecapTable'
 import ChoosePreFiltersMessage from './ChoosePreFiltersMessage/ChoosePreFiltersMessage'
@@ -45,7 +46,7 @@ const BookingsRecap = ({ location, showInformationNotification }) => {
       }
 
       const { pages, bookings_recap: bookingsRecap } = await pcapi
-        .loadFilteredBookingsRecap({ ...bookingsFilters })
+        .loadFilteredBookingsRecap(bookingsFilters)
         .then(response => response)
         .catch(() => ({
           page: 0,
@@ -58,7 +59,7 @@ const BookingsRecap = ({ location, showInformationNotification }) => {
       while (bookingsFilters.page < Math.min(pages, MAX_LOADED_PAGES)) {
         bookingsFilters.page += 1
         await pcapi
-          .loadFilteredBookingsRecap({ ...bookingsFilters })
+          .loadFilteredBookingsRecap(bookingsFilters)
           .then(({ bookings_recap }) =>
             setBookingsRecap(currentBookingsRecap =>
               [...currentBookingsRecap].concat(bookings_recap)
@@ -73,6 +74,26 @@ const BookingsRecap = ({ location, showInformationNotification }) => {
     },
     [showInformationNotification]
   )
+
+  const downloadBookingsCSV = useCallback(async queryParams => {
+    const url = new URL(`${API_URL}/bookings/csv`)
+    const params = pcapi.buildFetchParams(queryParams)
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+
+    const result = await fetch(url, { credentials: 'include' })
+
+    if (result.status === 200) {
+      const text = await result.text()
+      const fakeLink = document.createElement('a')
+      const blob = new Blob([text], { type: "text/csv" })
+      const date = new Date().toISOString()
+      fakeLink.href = URL.createObjectURL(blob)
+      fakeLink.setAttribute('download', `reservations_pass_culture-${date}.csv`)
+      document.body.appendChild(fakeLink)
+      fakeLink.click()
+      document.body.removeChild(fakeLink)
+    }
+  }, [])
 
   useEffect(() => {
     if (location.state?.statuses.length > 0) {
@@ -123,6 +144,7 @@ const BookingsRecap = ({ location, showInformationNotification }) => {
       <PreFilters
         appliedPreFilters={appliedPreFilters}
         applyPreFilters={loadBookingsRecap}
+        downloadBookingsCSV={downloadBookingsCSV}
         hasResult={bookingsRecap.length > 0}
         isLoading={isLoading}
         wereBookingsRequested={wereBookingsRequested}

@@ -262,7 +262,7 @@ export const loadVenueProviders = async venueId => {
 //
 // BookingsRecap
 //
-export const loadFilteredBookingsRecap = async ({
+export const buildFetchParams = ({
   venueId = DEFAULT_PRE_FILTERS.offerVenueId,
   eventDate = DEFAULT_PRE_FILTERS.offerEventDate,
   bookingPeriodBeginningDate = DEFAULT_PRE_FILTERS.bookingBeginningDate,
@@ -270,6 +270,7 @@ export const loadFilteredBookingsRecap = async ({
   page,
 }) => {
   const params = { page }
+
   if (venueId !== DEFAULT_PRE_FILTERS.offerVenueId) {
     params.venueId = venueId
   }
@@ -284,6 +285,13 @@ export const loadFilteredBookingsRecap = async ({
     bookingPeriodEndingDate,
     FORMAT_ISO_DATE_ONLY
   )
+
+  return params
+}
+
+
+export const loadFilteredBookingsRecap = async (bookingsRecap) => {
+  const params = buildFetchParams({ ...bookingsRecap })
 
   const queryParams = stringify(params)
   return client.get(`/bookings/pro?${queryParams}`)
