@@ -5,10 +5,12 @@
 import * as PropTypes from 'prop-types'
 import React, { useCallback, useEffect, useState, useMemo } from 'react'
 
+import useActiveFeature from 'components/hooks/useActiveFeature'
 import PageTitle from 'components/layout/PageTitle/PageTitle'
 import Spinner from 'components/layout/Spinner'
 import Titles from 'components/layout/Titles/Titles'
 import * as pcapi from 'repository/pcapi/pcapi'
+import Bookings from 'routes/Bookings'
 
 import BookingsRecapTable from './BookingsRecapTable/BookingsRecapTable'
 import ChoosePreFiltersMessage from './ChoosePreFiltersMessage/ChoosePreFiltersMessage'
@@ -19,6 +21,11 @@ import PreFilters from './PreFilters/PreFilters'
 const MAX_LOADED_PAGES = 5
 
 const BookingsRecap = ({ location, showInformationNotification }) => {
+
+  if (useActiveFeature('ENABLE_PRO_BOOKINGS_V2')) {
+    return <Bookings />
+  }
+
   const [appliedPreFilters, setAppliedPreFilters] = useState({
     bookingBeginningDate: DEFAULT_PRE_FILTERS.bookingBeginningDate,
     bookingEndingDate: DEFAULT_PRE_FILTERS.bookingEndingDate,

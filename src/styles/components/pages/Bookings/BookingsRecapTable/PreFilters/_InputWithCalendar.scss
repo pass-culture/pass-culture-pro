@@ -3,19 +3,27 @@
 * @debt directory "Gaël: SCSS file should be co-located and imported within a component"
 */
 
-.bookings-page {
-  .field-date-only {
-    @extend .field-input;
-    @extend .field-date;
 
-    &.disabled {
-      background-color: $grey-light;
-      border-color: $grey-light;
-      opacity: 1;
-    }
+/* @debt directory:bookingV2 "Gaël: keep the following lines for V2" */
+/* @debt directory:periodSelector "Gaël: remove those lines when styles are colocated with period selector" */
 
-    &.error:not(:focus-within) {
-      border: 2px solid $red-error;
-    }
+.field-date-only {
+  @extend .field-input;
+  @extend .field-date;
+
+  &.disabled {
+    background-color: $grey-light;
+    border-color: $grey-light;
+    opacity: 1;
   }
+
+  &.error:not(:focus-within) {
+    border: 2px solid $red-error;
+  }
+}
+
+.period-filter-inputs .vertical-bar {
+  background-color: $grey-medium;
+  height: rem(40px);
+  width: rem(1px);
 }

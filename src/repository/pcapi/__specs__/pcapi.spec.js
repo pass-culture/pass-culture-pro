@@ -3,8 +3,8 @@
 * @debt complexity "Gaël: the file contains eslint error(s) based on our new config"
 */
 
-import { DEFAULT_PRE_FILTERS } from 'components/pages/Bookings/PreFilters/_constants'
 import { ALL_OFFERERS, DEFAULT_SEARCH_FILTERS } from 'components/pages/Offers/Offers/_constants'
+import { DEFAULT_FILTERS } from 'constants/booking'
 import {
   getBooking,
   generateOffererApiKey,
@@ -374,8 +374,8 @@ describe('pcapi', () => {
       // Given
       const filters = {
         page: 1,
-        venueId: DEFAULT_PRE_FILTERS.offerVenueId,
-        eventDate: DEFAULT_PRE_FILTERS.offerEventDate,
+        venueId: DEFAULT_FILTERS.offerVenueId,
+        eventDate: DEFAULT_FILTERS.offerEventDate,
       }
 
       // When

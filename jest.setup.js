@@ -26,7 +26,6 @@ const getComputedStyle = (...args) => {
   cssStyleDeclaration.setProperty('border-right-width', 0)
   cssStyleDeclaration.setProperty('border-top-width', 0)
   cssStyleDeclaration.setProperty('border-bottom-width', 0)
-
   return cssStyleDeclaration
 }
 

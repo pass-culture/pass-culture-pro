@@ -1,6 +1,6 @@
 /*
-* @debt directory "Gaël: this file should be migrated within the new directory structure"
-*/
+ * @debt directory "Gaël: this file should be migrated within the new directory structure"
+ */
 
 import PropTypes from 'prop-types'
 import React from 'react'
@@ -30,6 +30,7 @@ export const buildSelectOptionsWithOptionalFields = (idField, valueFields, data)
 }
 
 const Select = ({
+  customClass,
   defaultOption,
   error,
   isDisabled,
@@ -41,7 +42,7 @@ const Select = ({
   selectedValue,
   subLabel,
 }) => (
-  <div className="input-select">
+  <div className={`input-select ${customClass}`}>
     <label
       className="labels"
       htmlFor={name}
@@ -86,6 +87,7 @@ const Select = ({
 )
 
 Select.defaultProps = {
+  customClass: null,
   defaultOption: null,
   error: null,
   isDisabled: false,
@@ -94,6 +96,7 @@ Select.defaultProps = {
 }
 
 Select.propTypes = {
+  customClass: PropTypes.string,
   defaultOption: PropTypes.shape({
     displayName: PropTypes.string.isRequired,
     id: PropTypes.string.isRequired,

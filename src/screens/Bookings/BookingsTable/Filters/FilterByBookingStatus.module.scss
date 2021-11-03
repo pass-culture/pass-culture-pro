@@ -1,0 +1,42 @@
+.status-filter {
+  position: relative;
+
+  &-tooltip {
+    background-color: $white;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.3);
+    left: rem(-90px);
+    margin-top: rem(8px);
+    padding: rem(16px);
+    position: absolute;
+    z-index: 1;
+
+    &-title {
+      @include caption();
+
+      color: $grey-dark;
+      padding-bottom: rem(8px);
+      white-space: nowrap;
+    }
+  }
+
+  &-button {
+    background-color: transparent;
+    border: none;
+    line-height: rem(20px);
+    vertical-align: middle;
+
+    img {
+      height: rem(20px);
+      vertical-align: middle;
+      width: rem(20px);
+    }
+  }
+
+  &-status-label {
+    display: flex;
+    padding-bottom: rem(8px);
+    padding-top: rem(8px);
+    text-transform: capitalize;
+  }
+}

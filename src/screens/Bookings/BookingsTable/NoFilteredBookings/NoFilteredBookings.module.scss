@@ -1,0 +1,30 @@
+.no-bookings {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: rem(36px);
+  min-height: rem(256px);
+
+  &-icon {
+    margin-bottom: rem(12px);
+  }
+
+  &-paragraph {
+    @include body();
+
+    color: $grey-dark;
+
+    &:first-of-type {
+      margin-bottom: rem(16px);
+    }
+  }
+
+  &-button {
+    @include button();
+
+    background: none;
+    border: none;
+    color: $primary;
+  }
+}

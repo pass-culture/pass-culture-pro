@@ -3,4 +3,7 @@
 * @debt directory "Gaël: SCSS file should be co-located and imported within a component"
 */
 
+/* @debt directory:bookingV2 "Gaël: keep the following lines for V2" */
+/* @debt directory:periodSelector "Gaël: remove those lines when styles are colocated with period selector" */
+
 @import 'InputWithCalendar';

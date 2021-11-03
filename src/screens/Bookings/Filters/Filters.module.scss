@@ -1,0 +1,113 @@
+.filters {
+  &-header {
+    display: flex;
+    justify-content: center;
+    margin-bottom: rem(24px);
+
+    &-title {
+      /* @debt implementation "Gaël : create common components for typography " */
+      @include title3();
+
+      flex: 1;
+    }
+
+    /* @debt implementation "Gaël : create common components reset buttons " */
+    &-reset {
+      @include body-important();
+
+      color: $primary;
+    }
+  }
+
+
+  &-form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: rem(30px);
+  }
+
+  &-footer {
+    flex: 0 0 100%;
+    margin-bottom: rem(48px);
+    margin-top: rem(32px);
+    position: relative;
+
+    &::before {
+      border-bottom: solid 1px $grey-medium;
+      content: "";
+      display: block;
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 50%;
+    }
+  }
+
+  &-submit {
+    display: block;
+    margin: 0 auto;
+    position: relative;
+    width: 25%;
+  }
+
+  &-update-message {
+    @include body();
+
+    color: $red-error;
+    line-height: rem(16px);
+    padding-top: rem(16px);
+    position: absolute;
+    text-align: center;
+    top: 100%;
+    width: 100%;
+  }
+}
+
+.select-venue {
+  width: rem(233px);
+
+  select {
+    /* @debt implementation "Gaël : should be the same as everywhere why an override is required" */
+    margin-top: rem(16px) !important;
+  }
+}
+
+
+/* @debt implementation "Gaël : most of it should be within a dedicated date field" */
+.event-date {
+  width: rem(233px);
+
+  /* @debt implementation "Gaël : should be within a dedicated date field" */
+  &-picker {
+    @include body();
+
+    background: none;
+    border: 0;
+    outline: none;
+    padding-left: rem(10px);
+    width: 100%;
+  }
+
+  &-input {
+    align-items: center;
+    background-image: url(/icons/ico-calendar.svg);
+    background-position-x: 90%;
+    background-position-y: center;
+    background-repeat: no-repeat;
+    border: 1px solid $grey-medium;
+    border-radius: rem(20px);
+    display: flex;
+    height: rem(40px);
+    margin-top: rem(16px);
+    padding: 0 1px;
+
+
+    &:focus-within,
+    .event-date:focus-within & {
+      border-color: $primary;
+      border-width: rem(2px);
+      padding: 0;
+    }
+  }
+}
