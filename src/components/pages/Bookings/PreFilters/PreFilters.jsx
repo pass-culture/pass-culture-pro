@@ -14,7 +14,7 @@ import FilterByBookingPeriod from './FilterByBookingPeriod'
 import FilterByEventDate from './FilterByEventDate.jsx'
 import FilterByVenue from './FilterByVenue'
 
-const PreFilters = ({ appliedPreFilters, applyPreFilters, downloadBookingsCSV, hasResult, isLoading, wereBookingsRequested }) => {
+const PreFilters = ({ appliedPreFilters, applyPreFilters, downloadBookingsCSV, hasResult, isTableLoading, isDownloadingCSV, wereBookingsRequested }) => {
   const [selectedPreFilters, setSelectedPreFilters] = useState({ ...appliedPreFilters })
   const [venues, setVenues] = useState([])
 
@@ -79,7 +79,7 @@ const PreFilters = ({ appliedPreFilters, applyPreFilters, downloadBookingsCSV, h
           <div className="button-group-buttons">
             <button
               className="primary-button"
-              disabled={isLoading}
+              disabled={isDownloadingCSV}
               onClick={() => downloadBookingsCSV(bookingsQueryParams)}
               type="button"
             >
@@ -87,7 +87,7 @@ const PreFilters = ({ appliedPreFilters, applyPreFilters, downloadBookingsCSV, h
             </button>
             <button
               className="secondary-button"
-              disabled={isLoading}
+              disabled={isTableLoading}
               type="submit"
             >
               Afficher
@@ -114,7 +114,8 @@ PreFilters.propTypes = {
   applyPreFilters: PropTypes.func.isRequired,
   downloadBookingsCSV: PropTypes.func.isRequired,
   hasResult: PropTypes.bool.isRequired,
-  isLoading: PropTypes.bool.isRequired,
+  isDownloadingCSV: PropTypes.bool.isRequired,
+  isTableLoading: PropTypes.bool.isRequired,
   wereBookingsRequested: PropTypes.bool.isRequired,
 }
 

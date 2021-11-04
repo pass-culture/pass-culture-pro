@@ -290,8 +290,8 @@ export const buildFetchParams = ({
 }
 
 
-export const loadFilteredBookingsRecap = async (bookingsRecap) => {
-  const params = buildFetchParams({ ...bookingsRecap })
+export const loadFilteredBookingsRecap = async (bookingsParams) => {
+  const params = buildFetchParams(bookingsParams)
 
   const queryParams = stringify(params)
   return client.get(`/bookings/pro?${queryParams}`)

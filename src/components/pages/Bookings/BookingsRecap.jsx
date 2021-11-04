@@ -9,17 +9,17 @@ import PageTitle from 'components/layout/PageTitle/PageTitle'
 import Spinner from 'components/layout/Spinner'
 import Titles from 'components/layout/Titles/Titles'
 import * as pcapi from 'repository/pcapi/pcapi'
-import { API_URL } from 'utils/config'
 
 import BookingsRecapTable from './BookingsRecapTable/BookingsRecapTable'
 import ChoosePreFiltersMessage from './ChoosePreFiltersMessage/ChoosePreFiltersMessage'
+import { downLoadCSVFile } from './downloadCSVBookings'
 import NoBookingsForPreFiltersMessage from './NoBookingsForPreFiltersMessage/NoBookingsForPreFiltersMessage'
 import { DEFAULT_PRE_FILTERS } from './PreFilters/_constants'
 import PreFilters from './PreFilters/PreFilters'
 
 const MAX_LOADED_PAGES = 5
 
-const BookingsRecap = ({ location, showInformationNotification }) => {
+const BookingsRecap = ({ location, showNotification }) => {
   const [appliedPreFilters, setAppliedPreFilters] = useState({
     bookingBeginningDate: DEFAULT_PRE_FILTERS.bookingBeginningDate,
     bookingEndingDate: DEFAULT_PRE_FILTERS.bookingEndingDate,
@@ -27,12 +27,13 @@ const BookingsRecap = ({ location, showInformationNotification }) => {
     offerVenueId: location.state?.venueId || DEFAULT_PRE_FILTERS.offerVenueId,
   })
   const [bookingsRecap, setBookingsRecap] = useState([])
-  const [isLoading, setIsLoading] = useState(false)
+  const [isDownloadingCSV, setIsDownloadingCSV] = useState(false)
+  const [isTableLoading, setIsTableLoading] = useState(false)
   const [wereBookingsRequested, setWereBookingsRequested] = useState(false)
 
   const loadBookingsRecap = useCallback(
     async preFilters => {
-      setIsLoading(true)
+      setIsTableLoading(true)
       setBookingsRecap([])
       setWereBookingsRequested(true)
       setAppliedPreFilters({ ...preFilters })
@@ -46,7 +47,7 @@ const BookingsRecap = ({ location, showInformationNotification }) => {
       }
 
       const { pages, bookings_recap: bookingsRecap } = await pcapi
-        .loadFilteredBookingsRecap(bookingsFilters)
+        .loadFilteredBookingsRecap({ ...bookingsFilters })
         .then(response => response)
         .catch(() => ({
           page: 0,
@@ -59,7 +60,7 @@ const BookingsRecap = ({ location, showInformationNotification }) => {
       while (bookingsFilters.page < Math.min(pages, MAX_LOADED_PAGES)) {
         bookingsFilters.page += 1
         await pcapi
-          .loadFilteredBookingsRecap(bookingsFilters)
+          .loadFilteredBookingsRecap({ ...bookingsFilters })
           .then(({ bookings_recap }) =>
             setBookingsRecap(currentBookingsRecap =>
               [...currentBookingsRecap].concat(bookings_recap)
@@ -67,33 +68,24 @@ const BookingsRecap = ({ location, showInformationNotification }) => {
           )
       }
 
-      setIsLoading(false)
+      setIsTableLoading(false)
       if (bookingsFilters.page === MAX_LOADED_PAGES && bookingsFilters.page < pages) {
-        showInformationNotification()
+        showNotification('information', 'L’affichage des réservations a été limité à 5 000 réservations. Vous pouvez modifier les filtres pour affiner votre recherche.')
       }
     },
-    [showInformationNotification]
+    [showNotification]
   )
 
   const downloadBookingsCSV = useCallback(async queryParams => {
-    const url = new URL(`${API_URL}/bookings/csv`)
-    const params = pcapi.buildFetchParams(queryParams)
-    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
+    setIsDownloadingCSV(true)
 
-    const result = await fetch(url, { credentials: 'include' })
-
-    if (result.status === 200) {
-      const text = await result.text()
-      const fakeLink = document.createElement('a')
-      const blob = new Blob([text], { type: "text/csv" })
-      const date = new Date().toISOString()
-      fakeLink.href = URL.createObjectURL(blob)
-      fakeLink.setAttribute('download', `reservations_pass_culture-${date}.csv`)
-      document.body.appendChild(fakeLink)
-      fakeLink.click()
-      document.body.removeChild(fakeLink)
+    const requestStatus  = await downLoadCSVFile(queryParams)
+    if (requestStatus === 'error') {
+      showNotification('error', 'Une erreur s\'est produite. Veuillez réessayer ultérieurement.')
     }
-  }, [])
+
+    setIsDownloadingCSV(false)
+  }, [showNotification])
 
   useEffect(() => {
     if (location.state?.statuses.length > 0) {
@@ -146,17 +138,18 @@ const BookingsRecap = ({ location, showInformationNotification }) => {
         applyPreFilters={loadBookingsRecap}
         downloadBookingsCSV={downloadBookingsCSV}
         hasResult={bookingsRecap.length > 0}
-        isLoading={isLoading}
+        isDownloadingCSV={isDownloadingCSV}
+        isTableLoading={isTableLoading}
         wereBookingsRequested={wereBookingsRequested}
       />
       {wereBookingsRequested ? (
         bookingsRecap.length > 0 ? (
           <BookingsRecapTable
             bookingsRecap={bookingsRecap}
-            isLoading={isLoading}
+            isTableLoading={isTableLoading}
             locationState={location.state}
           />
-        ) : isLoading ? (
+        ) : isTableLoading ? (
           <Spinner />
         ) : (
           <NoBookingsForPreFiltersMessage resetPreFilters={resetPreFilters} />
@@ -175,7 +168,7 @@ BookingsRecap.propTypes = {
       statuses: PropTypes.arrayOf(PropTypes.string),
     }),
   }).isRequired,
-  showInformationNotification: PropTypes.func.isRequired,
+  showNotification: PropTypes.func.isRequired,
 }
 
 export default BookingsRecap
